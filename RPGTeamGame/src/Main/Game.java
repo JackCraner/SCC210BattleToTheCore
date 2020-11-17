@@ -1,11 +1,8 @@
 package Main;
 
-import Main.MapGen.Chunk;
-import Main.MapGen.ChunkHandler;
 import Main.Sprites.Player;
-import org.jsfml.graphics.RenderWindow;
-import org.jsfml.graphics.Texture;
-import org.jsfml.graphics.View;
+import org.jsfml.graphics.*;
+import org.jsfml.system.Clock;
 import org.jsfml.system.Vector2f;
 import org.jsfml.window.Keyboard;
 import org.jsfml.window.VideoMode;
@@ -15,102 +12,114 @@ import java.nio.file.Paths;
 
 public class Game
 {
-    //GameObjects
-    private RenderWindow window;
-    private Player playerObject;
-    private Texture playerTexture;
-    private ChunkHandler cH;
-    private View playerView;
-    //MapGenerationParameters
-    private int chunkSizeBlocks = 100;
-    private int chunkSizePixels = 1600;
+    ChunkLoader cH;
+    Player playerObject;
+    Texture playerTexture = new Texture();
+    View playerView;
+    View miniMapView;
+    Text fpsCounter;
+    Font textFont = new Font();
+    Clock systemClock = new Clock();
+    Map mapObject;
 
-    private int renderArea = 3;                //3x3 chunks
-    private int initalGeneration = 3;      //3x3 chunks
-    private int zoomOutRate = 3;
-    private int playerSpeed = 15;
+    RenderWindow window;
+
+    int windowSize = 1000;
+    int viewSize = 1600;
+    int minimapViewSize = 4800;
+    int chunkSizeBlocks = 100;
+    int chunkSizePixels = 1600;
+
+    int numberOfChunksX = 5;
+    int numberOfChunksY = 5;
     public Game()
     {
-        this.window = new RenderWindow(new VideoMode(1000,1000), "Minecraft");
-        playerTexture = new Texture();
+
+
+
         try
         {
-            playerTexture.loadFromFile(Paths.get("D:\\University\\Year2\\TerrariaGame\\Assets\\Submarine.png"));
+            playerTexture.loadFromFile(Paths.get("Assets\\Submarine.png"));
+            textFont.loadFromFile(Paths.get("Assets\\LEMONMILK-Regular.otf"));
         }
         catch(Exception E){}
 
-        Vector2f playerPosition = new Vector2f(chunkSizePixels/2,chunkSizePixels/2);
-        playerView = new View(playerPosition, new Vector2f(chunkSizePixels*zoomOutRate,chunkSizePixels*zoomOutRate));
-        playerObject = new Player(playerTexture,playerView, playerSpeed,playerPosition);
-
-
-        cH = new ChunkHandler(chunkSizeBlocks,chunkSizePixels,renderArea,initalGeneration);
+        fpsCounter = new Text("HI", textFont, 100);
+        playerView = new View(new Vector2f(viewSize/2,viewSize/2), new Vector2f(viewSize,viewSize));
+        miniMapView = new View(new Vector2f(viewSize/2,viewSize/2), new Vector2f(minimapViewSize,minimapViewSize));
+        playerObject = new Player(playerTexture, playerView,miniMapView,fpsCounter,3,new Vector2f(((numberOfChunksX/2) * chunkSizePixels) + (viewSize/2),viewSize/2));
+        mapObject = new Map(chunkSizeBlocks,chunkSizePixels,numberOfChunksX,numberOfChunksY);
+        cH = new ChunkLoader(chunkSizeBlocks,chunkSizePixels,mapObject,playerObject);
 
         runGame();
-
-
     }
 
     public void runGame()
     {
+
+
+
+
+        RenderWindow window = new RenderWindow(new VideoMode(windowSize,windowSize),"Mine");
+        window.setFramerateLimit(60);
+        int counter = 0;
         while(window.isOpen())
         {
-            for (Event event: window.pollEvents())
+
+            if(systemClock.getElapsedTime().asSeconds() >= 1.f)
             {
+                fpsCounter.setString(String.valueOf(counter));
+                counter = 0;
+                systemClock.restart();
+            }
+            counter++;
+            for (Event event : window.pollEvents()) {
 
             }
-            if(Keyboard.isKeyPressed(Keyboard.Key.ESCAPE))
-            {
+            if (Keyboard.isKeyPressed(Keyboard.Key.ESCAPE)) {
                 window.close();
             }
-
             if(Keyboard.isKeyPressed(Keyboard.Key.D))
             {
-               updatePlayer(1,0);
+                updateScene(1,0);
 
             }
             if(Keyboard.isKeyPressed(Keyboard.Key.A))
             {
-                updatePlayer(-1,0);
+                updateScene(-1,0);
+
             }
             if(Keyboard.isKeyPressed(Keyboard.Key.W))
             {
-                updatePlayer(0,-1);
+                updateScene(0,-1);
             }
             if(Keyboard.isKeyPressed(Keyboard.Key.S))
             {
-                updatePlayer(0,1);
-            }
+                updateScene(0,1);
 
+            }
 
             window.clear();
             window.setView(playerView);
-
-            for (Chunk c: cH.getVisibleChunks())
-            {
-                c.drawScreen(window);
-            }
+            window.draw(cH);
+            window.draw(fpsCounter);
             window.draw(playerObject);
-
             window.display();
         }
     }
 
-    public void updatePlayer(int x, int y)
+    public void updateScene(int x, int y)
     {
         Vector2f currentPositionPlayer = playerObject.inChunk(chunkSizePixels);
         playerObject.movePlayer(x,y);
+
         if (currentPositionPlayer.x != playerObject.inChunk(chunkSizePixels).x || currentPositionPlayer.y != playerObject.inChunk(chunkSizePixels).y)
         {
-            System.out.println("Player: " + playerObject.inChunk(chunkSizePixels));
-            cH.updateVisibleChunks(playerObject.inChunk(chunkSizePixels));
+            cH.generateBlockArray();
+
         }
 
     }
-
-
-
-
 
 
 }

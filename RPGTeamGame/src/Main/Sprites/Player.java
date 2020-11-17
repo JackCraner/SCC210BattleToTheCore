@@ -1,32 +1,34 @@
 package Main.Sprites;
 
-import org.jsfml.graphics.ConstTexture;
-import org.jsfml.graphics.FloatRect;
-import org.jsfml.graphics.Sprite;
-import org.jsfml.graphics.View;
+import org.jsfml.graphics.*;
 import org.jsfml.system.Vector2f;
 
 public class Player extends Sprite
 {
     View pView;
+    View pMiniMap;
+    Text fpsC;
     float pSpeed;
 
-    public Player(ConstTexture pTexture, View pView, float pSpeed, Vector2f pPosition)
+    public Player(ConstTexture pTexture, View pView, View pMiniMap, Text fpsC, float pSpeed, Vector2f pPosition)
     {
         super(pTexture);
-        this.pView = pView;
         this.pSpeed = pSpeed;
         this.setPosition(pPosition);
-
+        this.pView = pView;
+        pView.setCenter(pPosition);
+        this.fpsC = fpsC;
+        this.pMiniMap = pMiniMap;
+        fpsC.setPosition(new Vector2f((pPosition.x + (pView.getSize().x)/2) - fpsC.getLocalBounds().width*2,0));
+        pMiniMap.setCenter(new Vector2f((pPosition.x + (pView.getSize().x)/2) - fpsC.getLocalBounds().width*2,0));
     }
 
 
     public void movePlayer(float x, float y)
     {
-
-
         move(x *pSpeed, y* pSpeed);
         pView.move(x*pSpeed, y*pSpeed);
+        fpsC.move(x*pSpeed, y*pSpeed);
 
 
     }
@@ -40,4 +42,3 @@ public class Player extends Sprite
 
 
 }
-
