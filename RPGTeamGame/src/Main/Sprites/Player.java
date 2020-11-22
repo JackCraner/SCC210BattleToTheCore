@@ -39,6 +39,12 @@ public class Player extends Sprite
         //System.out.println("CHUNK " + (float)Math.floor(chunkX) + ", " + (float)Math.floor(chunkY));
         return new Vector2f((float)Math.floor(chunkX), (float)Math.floor(chunkY));
     }
+    public Vector2f inBlock(int chunkSize, int blockSize)
+    {
+        Vector2f chunkPos = inChunk(chunkSize);
+        Vector2f charPos = this.getPosition();
+        return new Vector2f((float)Math.floor((charPos.x - chunkPos.x * chunkSize)/blockSize), (float)Math.floor((charPos.y - chunkPos.y * chunkSize)/blockSize));
+    }
 
 
 }

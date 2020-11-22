@@ -1,6 +1,8 @@
-package Main;
+package Main.MapGen;
 
-import Main.MapGen.CellularAutomata;
+import Main.Main;
+import Main.MapGen.CellularA.CellularAutomata;
+import Main.MapGen.Chunk;
 import org.jsfml.system.Vector2f;
 
 public class Map

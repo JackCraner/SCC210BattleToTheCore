@@ -1,6 +1,7 @@
-package Main;
+package Main.MapGen;
 
 
+import Main.Main;
 import Main.Sprites.Player;
 import org.jsfml.graphics.*;
 import org.jsfml.system.Vector2f;
@@ -39,6 +40,7 @@ public class ChunkLoader implements Drawable
 
     public void generateBlockArray()
     {
+
         blockArray.clear();
         int renderLoop = ((renderRange - 1)/2);
         for (int i = -renderLoop; i<= renderLoop; i++)
@@ -70,23 +72,7 @@ public class ChunkLoader implements Drawable
 
             }
         }
-        /*
-        int[][] blockArrayInt = mapPlane.getChunkAtPosition(playerObject.inChunk(chunkSizePixels)).getChunkMapping();
-        for (int a = 0; a < chunkSizeBlocks; a++)
-        {
-            for (int b = 0; b< chunkSizeBlocks;b++)
-            {
 
-                blockArray.add(new Vertex( new Vector2f(a*blockSizePixels,b*blockSizePixels),new Vector2f(16*blockArrayInt[a][b],0)));
-                blockArray.add(new Vertex( new Vector2f(a*blockSizePixels,b*blockSizePixels + blockSizePixels),new Vector2f(16*blockArrayInt[a][b] + 16,0)));
-                blockArray.add(new Vertex( new Vector2f(a*blockSizePixels + blockSizePixels,b*blockSizePixels + blockSizePixels),new Vector2f(16*blockArrayInt[a][b] + 16,16)));
-                blockArray.add(new Vertex( new Vector2f(a*blockSizePixels + blockSizePixels,b*blockSizePixels),new Vector2f(16*blockArrayInt[a][b],16)));
-
-
-            }
-        }
-
-         */
 
 
     }

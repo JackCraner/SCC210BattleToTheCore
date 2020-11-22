@@ -1,35 +1,37 @@
-package Main.MapGen.CellularAutomata;
+package Main.MapGen.CellularA;
 
-import Main.MapGen.Generator;
-import org.jsfml.system.Vector2f;
-
-import java.nio.file.Paths;
 import java.util.ArrayList;
 
-public class CellularAutomata extends Generator
+public class CellularAutomata
 {
 
 
     //parameters of creation;
-    private float initalEmptyFaceRate = 0.53f;    //0.52
+    private float initalEmptyFaceRate = 0.54f;    //0.52
     private int recursionDepth = 3;
 
     private int wallID = 0;
     private int EmptyID = 1;
 
+    int chunkSizeBlocks;
+    int chunkSizePixels;
 
-    public CellularAutomata(int chunkSizeBlocks, int chunkSizePixels, Vector2f cPosition)
+    int[][] chunkBinaryMapping;
+    Cave cMap;
+
+    public CellularAutomata(int chunkSizeBlocks, int chunkSizePixels)
     {
-        super(chunkSizeBlocks, chunkSizePixels, cPosition);
-        int[][] binaryMapping = getChunkBinaryMapping();
-        setBinaryMapping(generateBinaryMapping(binaryMapping));
+        this.chunkSizeBlocks = chunkSizeBlocks;
+        this.chunkSizePixels = chunkSizePixels;
+        chunkBinaryMapping = new int[chunkSizeBlocks][chunkSizeBlocks];
+        cMap = new Cave(chunkSizeBlocks, chunkSizeBlocks);
     }
 
     public int[][] startMap(int[][] binaryMapping)
     {
-        for (int a = 0; a <getChunkSizeBlocks(); a++)
+        for (int a = 0; a <chunkSizeBlocks; a++)
         {
-            for (int b = 0; b<getChunkSizeBlocks(); b++)
+            for (int b = 0; b<chunkSizeBlocks; b++)
             {
                 if ((Math.random()) > initalEmptyFaceRate)
                 {
@@ -54,10 +56,10 @@ public class CellularAutomata extends Generator
         int spaceCount = 0;
 
         int xStart = Math.max(x-1, 0);
-        int xEnd = Math.min(x+1, getChunkSizeBlocks()-1);
+        int xEnd = Math.min(x+1, chunkSizeBlocks-1);
 
         int yStart = Math.max(y-1, 0);
-        int yEnd = Math.min(y+1,getChunkSizeBlocks()-1);
+        int yEnd = Math.min(y+1,chunkSizeBlocks-1);
 
 
         for (int a = xStart; a <= xEnd; a++)
@@ -77,9 +79,9 @@ public class CellularAutomata extends Generator
     {
 
         int[][] newMap = tempMap;
-        for (int a = 0; a < getChunkSizeBlocks(); a++)
+        for (int a = 0; a < chunkSizeBlocks; a++)
         {
-            for (int b = 0; b< getChunkSizeBlocks(); b++)
+            for (int b = 0; b< chunkSizeBlocks; b++)
             {
                 if (checkNeighbours(tempMap, a, b) >= 5)
                 {
@@ -106,10 +108,10 @@ public class CellularAutomata extends Generator
     public ArrayList<Cave> findCaves(int[][] mapping)
     {
         ArrayList<Cave> foundCaves = new ArrayList<>();
-        for (int a = 0; a < getChunkSizeBlocks(); a++) {
-            for (int b = 0; b < getChunkSizeBlocks(); b++) {
+        for (int a = 0; a < chunkSizeBlocks; a++) {
+            for (int b = 0; b < chunkSizeBlocks; b++) {
                 if (checkNeighbours(mapping, a, b) == 9) {
-                    Cave locatedCave = new Cave(getChunkSizeBlocks(), getChunkSizePixels());
+                    Cave locatedCave = new Cave(chunkSizePixels, chunkSizePixels);
                     foundCaves.add(caveRecursion(mapping,a, b, locatedCave));
                 }
             }
@@ -120,7 +122,7 @@ public class CellularAutomata extends Generator
     public Cave caveRecursion(int[][] mapping, int x, int y, Cave newCave)
     {
 
-        if (!(x < 0 || x > getChunkSizeBlocks() -1 || y < 0 || y > getChunkSizeBlocks() - 1))
+        if (!(x < 0 || x > chunkSizeBlocks -1 || y < 0 || y > chunkSizeBlocks - 1))
         {
             int spaceCount = checkNeighbours(mapping, x, y);
             if (spaceCount >= 1)
@@ -141,11 +143,10 @@ public class CellularAutomata extends Generator
 
     }
 
-    public int[][] generateBinaryMapping(int[][] binaryMapping)
+    public int[][] generateBinaryMapping()
     {
-        ArrayList<Cave> chunkCaves = findCaves(updateMap(startMap(binaryMapping),recursionDepth));
+        ArrayList<Cave> chunkCaves = findCaves(updateMap(startMap(chunkBinaryMapping),recursionDepth));
         int caveSize = 0;
-        Cave cMap = new Cave(getChunkSizeBlocks(), getChunkSizePixels());
         for (Cave c: chunkCaves)
         {
             if (c.caveSize() > caveSize)
@@ -155,9 +156,13 @@ public class CellularAutomata extends Generator
 
             }
         }
-
         return cMap.getArray();
+    }
+    public Cave getcMap()
+    {
+        return cMap;
     }
 
 
 }
+

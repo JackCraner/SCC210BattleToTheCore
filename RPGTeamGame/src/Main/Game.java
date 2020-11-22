@@ -1,5 +1,7 @@
 package Main;
 
+import Main.MapGen.ChunkLoader;
+import Main.MapGen.Map;
 import Main.Sprites.Player;
 import org.jsfml.graphics.*;
 import org.jsfml.system.Clock;
@@ -25,7 +27,7 @@ public class Game
     RenderWindow window;
 
     int windowSize = 1000;
-    int viewSize = 1600;
+    int viewSize = 1600*3;
     int minimapViewSize = 4800;
     int chunkSizeBlocks = 100;
     int chunkSizePixels = 1600;
@@ -61,7 +63,7 @@ public class Game
 
 
         RenderWindow window = new RenderWindow(new VideoMode(windowSize,windowSize),"Mine");
-        window.setFramerateLimit(60);
+        //window.setFramerateLimit(60);
         int counter = 0;
         while(window.isOpen())
         {
@@ -110,9 +112,9 @@ public class Game
 
     public void updateScene(int x, int y)
     {
+
         Vector2f currentPositionPlayer = playerObject.inChunk(chunkSizePixels);
         playerObject.movePlayer(x,y);
-
         if (currentPositionPlayer.x != playerObject.inChunk(chunkSizePixels).x || currentPositionPlayer.y != playerObject.inChunk(chunkSizePixels).y)
         {
             cH.generateBlockArray();

@@ -1,4 +1,4 @@
-package Main.MapGen.CellularAutomata;
+package Main.MapGen.CellularA;
 
 public class Cave
 {
