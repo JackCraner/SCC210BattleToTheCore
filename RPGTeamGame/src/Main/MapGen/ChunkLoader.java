@@ -19,7 +19,8 @@ public class ChunkLoader implements Drawable
     Map mapPlane;
     Player playerObject;
 
-    int renderRange = 3;
+    int viewRange;
+    int [][][][] blockArrayChunkInt = new int[3][3][][];
 
     public ChunkLoader(int chunkSizeBlocks, int chunkSizePixels, Map mapPlane, Player playerObject)
     {
@@ -35,49 +36,104 @@ public class ChunkLoader implements Drawable
 
         blockArray = new VertexArray(PrimitiveType.QUADS);
         blockSizePixels = (int)(chunkSizePixels/chunkSizeBlocks);
+        viewRange = (chunkSizeBlocks/2) + 10;
+        generateMetaData();
         generateBlockArray();
     }
+    public void generateMetaData()
+    {
 
+
+        for (int a = 0; a < 3; a++)
+        {
+            for (int b = 0; b< 3; b++)
+            {
+                try{
+                    blockArrayChunkInt[b][a] = mapPlane.getChunkAtPosition(new Vector2f(playerObject.inChunk(chunkSizePixels).x + (b-1), playerObject.inChunk(chunkSizePixels).y + (a-1))).getChunkMapping();
+                }
+                catch (Exception e)
+                {
+                    blockArrayChunkInt[b][a] = null;
+                }
+
+
+            }
+        }
+    }
     public void generateBlockArray()
     {
 
         blockArray.clear();
-        int renderLoop = ((renderRange - 1)/2);
-        for (int i = -renderLoop; i<= renderLoop; i++)
+        int i = 0, j = 0;
+
+        try
         {
-            for (int j =- renderLoop; j<= renderLoop; j++)
+
+           // System.out.println("Blocks: " + playerObject.inBlock(chunkSizePixels,blockSizePixels) + " Chunk: " + playerObject.inChunk(chunkSizePixels));
+            for (int a = (int)playerObject.inBlock(chunkSizePixels,blockSizePixels).x - viewRange; a <(int)playerObject.inBlock(chunkSizePixels,blockSizePixels).x + viewRange; a++)
             {
-                try
+                for (int b = (int)playerObject.inBlock(chunkSizePixels,blockSizePixels).y - viewRange; b < (int)playerObject.inBlock(chunkSizePixels,blockSizePixels).y + viewRange; b++)
                 {
-                    int[][] blockArrayInt = mapPlane.getChunkAtPosition(new Vector2f(playerObject.inChunk(chunkSizePixels).x + i, playerObject.inChunk(chunkSizePixels).y + j)).getChunkMapping();
-                    for (int a = 0; a < chunkSizeBlocks; a++)
+                    try
                     {
-                        for (int b = 0; b< chunkSizeBlocks;b++)
-                        {
+                        int blockID = whichChunk(blockArrayChunkInt, a,b);
+                        blockArray.add(new Vertex( new Vector2f((a*blockSizePixels) + (chunkSizePixels * i),(b*blockSizePixels) + (chunkSizePixels*j)),new Vector2f(16*blockID,0)));
+                        blockArray.add(new Vertex( new Vector2f((a*blockSizePixels) + (chunkSizePixels * i),(b*blockSizePixels) + (chunkSizePixels*j) +  blockSizePixels),new Vector2f(16*blockID + 16,0)));
+                        blockArray.add(new Vertex( new Vector2f((a*blockSizePixels) + (chunkSizePixels * i) + blockSizePixels,(b*blockSizePixels) + (chunkSizePixels*j) + blockSizePixels),new Vector2f(16*blockID + 16,16)));
+                        blockArray.add(new Vertex( new Vector2f((a*blockSizePixels) + (chunkSizePixels * i) + blockSizePixels,(b*blockSizePixels) + (chunkSizePixels*j)),new Vector2f(16*blockID,16)));
+                    }
+                    catch (Exception e)
+                    {
 
-                            blockArray.add(new Vertex( new Vector2f((a*blockSizePixels) + (chunkSizePixels * i),(b*blockSizePixels) + (chunkSizePixels*j)),new Vector2f(16*blockArrayInt[a][b],0)));
-                            blockArray.add(new Vertex( new Vector2f((a*blockSizePixels) + (chunkSizePixels * i),(b*blockSizePixels) + (chunkSizePixels*j) +  blockSizePixels),new Vector2f(16*blockArrayInt[a][b] + 16,0)));
-                            blockArray.add(new Vertex( new Vector2f((a*blockSizePixels) + (chunkSizePixels * i) + blockSizePixels,(b*blockSizePixels) + (chunkSizePixels*j) + blockSizePixels),new Vector2f(16*blockArrayInt[a][b] + 16,16)));
-                            blockArray.add(new Vertex( new Vector2f((a*blockSizePixels) + (chunkSizePixels * i) + blockSizePixels,(b*blockSizePixels) + (chunkSizePixels*j)),new Vector2f(16*blockArrayInt[a][b],16)));
-
-
-                        }
                     }
 
-                }
-                catch (Exception e)
-                {
-                    //System.out.println("Chunk " + i + ", " + j);
-                }
 
+
+
+
+                }
             }
         }
+        catch (Exception e)
+        {
 
+        }
 
 
     }
 
+    private int whichChunk(int[][][][] cbArray, int x, int y)
+    {
+        Vector2f c = new Vector2f(1,1);
+        int xChange = 0;
+        int yChange = 0;
+        int xpos = x;
+        int ypos = y;
 
+        if (x < 0)
+        {
+            xChange = -1;
+            xpos = chunkSizeBlocks + x;
+        }
+        else if (x>= chunkSizeBlocks)
+        {
+            xChange = 1;
+            xpos = x- chunkSizeBlocks;
+        }
+
+        if (y < 0)
+        {
+            yChange = -1;
+            ypos = chunkSizeBlocks + y;
+        }
+        else if (y>= chunkSizeBlocks)
+        {
+            yChange = 1;
+            ypos = y- chunkSizeBlocks;
+        }
+        return cbArray[(int)(c.x + xChange)][(int)(c.y + yChange)][xpos][ypos];
+
+    }
     @Override
     public void draw(RenderTarget renderTarget, RenderStates renderStates)
     {

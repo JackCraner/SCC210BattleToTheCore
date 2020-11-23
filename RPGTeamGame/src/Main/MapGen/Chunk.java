@@ -54,7 +54,7 @@ public class Chunk
                 try {
                     chunkBinaryMapping[a][(int) (gradient * a + c) + thick] = 1;
                 } catch (Exception e) {
-                    System.out.println("A: " + a + " G: " + gradient + " C: " + c + " Y: " + (int) (gradient * a + c));
+
                 }
             }
         }
@@ -67,7 +67,7 @@ public class Chunk
                 try {
                     chunkBinaryMapping[(int) ((a - c) / gradient + thick)][a] = 1;
                 } catch (Exception e) {
-                    System.out.println("A: " + a + " G: " + gradient + " C: " + c + " Y: " + (int) (gradient * a + c));
+
                 }
             }
 

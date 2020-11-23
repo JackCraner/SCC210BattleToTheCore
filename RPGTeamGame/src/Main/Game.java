@@ -27,13 +27,13 @@ public class Game
     RenderWindow window;
 
     int windowSize = 1000;
-    int viewSize = 1600*3;
+    int viewSize = 1600;
     int minimapViewSize = 4800;
     int chunkSizeBlocks = 100;
     int chunkSizePixels = 1600;
 
-    int numberOfChunksX = 5;
-    int numberOfChunksY = 5;
+    int numberOfChunksX = 50;
+    int numberOfChunksY = 4;
     public Game()
     {
 
@@ -117,9 +117,12 @@ public class Game
         playerObject.movePlayer(x,y);
         if (currentPositionPlayer.x != playerObject.inChunk(chunkSizePixels).x || currentPositionPlayer.y != playerObject.inChunk(chunkSizePixels).y)
         {
-            cH.generateBlockArray();
+            System.out.println(playerObject.inChunk(chunkSizePixels));
+            cH.generateMetaData();
 
         }
+        cH.generateBlockArray();
+
 
     }
 

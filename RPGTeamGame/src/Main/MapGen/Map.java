@@ -36,12 +36,28 @@ public class Map
     }
     public void generateTunnels()
     {
-        for (int a = 0; a< chunkX-1; a++)
+        for (int a = 0; a< chunkX; a++)
         {
-            for (int b = 0; b< chunkY-1;b++)
+            for (int b = 0; b< chunkY;b++)
             {
-                generateTunnelsBetweenChunks(chunkArray[a][b],chunkArray[a+1][b]);
-                generateTunnelsBetweenChunks(chunkArray[a][b],chunkArray[a][b+1]);
+                try {
+                    generateTunnelsBetweenChunks(chunkArray[a][b], chunkArray[a + 1][b]);
+                }
+                catch (Exception e)
+                {
+
+                }
+                try {
+                    generateTunnelsBetweenChunks(chunkArray[a][b],chunkArray[a][b+1]);
+                }
+                catch (Exception e)
+                {
+
+                }
+
+
+
+
             }
         }
     }
