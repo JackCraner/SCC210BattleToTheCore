@@ -1,7 +1,7 @@
 package Main;
 
 import Main.Background.Background;
-import Main.Background.Sprites.Player;
+import Main.Sprites.Player;
 import org.jsfml.graphics.*;
 import org.jsfml.system.Clock;
 import org.jsfml.system.Vector2f;
@@ -72,19 +72,23 @@ public class Game
             }
             if(Keyboard.isKeyPressed(Keyboard.Key.D))
             {
+                playerObject.movePlayer(1,0);
                 bGround.updateBackGroundOnMove(playerObject,1,0);
             }
             if(Keyboard.isKeyPressed(Keyboard.Key.A))
             {
+                playerObject.movePlayer(-1,0);
                 bGround.updateBackGroundOnMove(playerObject,-1,0);
 
             }
             if(Keyboard.isKeyPressed(Keyboard.Key.W))
             {
+                playerObject.movePlayer(0,-1);
                 bGround.updateBackGroundOnMove(playerObject,0,-1);
             }
             if(Keyboard.isKeyPressed(Keyboard.Key.S))
             {
+                playerObject.movePlayer(0,1);
                 bGround.updateBackGroundOnMove(playerObject,0,1);
 
             }

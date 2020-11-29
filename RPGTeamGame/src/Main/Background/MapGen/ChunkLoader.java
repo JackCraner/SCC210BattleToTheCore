@@ -1,7 +1,7 @@
 package Main.Background.MapGen;
 
 
-import Main.Background.Sprites.Player;
+import Main.Sprites.Player;
 import org.jsfml.graphics.*;
 import org.jsfml.system.Vector2f;
 

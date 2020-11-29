@@ -2,7 +2,7 @@ package Main.Background;
 
 import Main.Background.MapGen.ChunkLoader;
 import Main.Background.MapGen.Map;
-import Main.Background.Sprites.Player;
+import Main.Sprites.Player;
 import org.jsfml.graphics.*;
 import org.jsfml.system.Vector2f;
 
@@ -48,7 +48,6 @@ public class Background implements Drawable
     public void updateBackGroundOnMove(Player p, int x, int y)
     {
         Vector2f currentPositionPlayer = p.inChunk(chunkSizePixels);
-        p.movePlayer(x,y);
         fpsCounter.setPosition(new Vector2f((p.getPosition().x + (p.getpView().getSize().x)/2) - fpsCounter.getLocalBounds().width - 20,(p.getPosition().y - (p.getpView().getSize().y)/2) + fpsCounter.getLocalBounds().height));
 
         if (currentPositionPlayer.x != p.inChunk(chunkSizePixels).x || currentPositionPlayer.y != p.inChunk(chunkSizePixels).y)

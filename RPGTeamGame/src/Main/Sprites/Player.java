@@ -1,4 +1,4 @@
-package Main.Background.Sprites;
+package Main.Sprites;
 
 import org.jsfml.graphics.*;
 import org.jsfml.system.Vector2f;
