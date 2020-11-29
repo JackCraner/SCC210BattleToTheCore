@@ -2,6 +2,7 @@ package Main.Background.MapGen;
 
 
 import org.jsfml.system.Vector2f;
+import org.jsfml.system.Vector2i;
 
 public class Chunk
 {
@@ -22,9 +23,9 @@ public class Chunk
     {
         return chunkBlockMapping;
     }
-    public Block getBlockAtVector(Vector2f v)
+    public Block getBlockAtVector(Vector2i v)
     {
-        return chunkBlockMapping[(int)v.x][(int)v.y];
+        return chunkBlockMapping[v.x][v.y];
     }
     public Vector2f genRandomPoint(int a, int b) // between a and b which is empty
     {

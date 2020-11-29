@@ -2,7 +2,7 @@ package Main.Background;
 
 import Main.Background.MapGen.ChunkLoader;
 import Main.Background.MapGen.Map;
-import Main.Sprites.Player;
+import Main.ForeGround.Entities.Player;
 import org.jsfml.graphics.*;
 import org.jsfml.system.Vector2f;
 
