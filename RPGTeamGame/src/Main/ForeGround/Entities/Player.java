@@ -34,10 +34,11 @@ public class Player extends MovingEntity
     }
 
     @Override
-    public void moveEntity(Vector2f v)
+    public void moveEntity()
     {
-        move(v);
-        playerCamera.move(v);
+        move(getVelocity());
+        friction();
+        playerCamera.setCenter(this.getPosition());
     }
 
 }

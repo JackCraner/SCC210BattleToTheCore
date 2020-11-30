@@ -139,8 +139,16 @@ public class ChunkLoader implements Drawable
     }
     public RenderStates getTransform(RenderStates renderStates)
     {
-        Transform t = new Transform(1,0,chunkSizePixels * chunkArray[1][1].getcPosition().x,0,1,chunkSizePixels * chunkArray[1][1].getcPosition().y,0,0,1);
-        renderStates = new RenderStates(renderStates,t);
+        try
+        {
+            Transform t = new Transform(1,0,chunkSizePixels * chunkArray[1][1].getcPosition().x,0,1,chunkSizePixels * chunkArray[1][1].getcPosition().y,0,0,1);
+            renderStates = new RenderStates(renderStates,t);
+        }
+        catch (Exception e)
+        {
+
+        }
+
         renderStates = new RenderStates(renderStates,blockTexture);
         return renderStates;
     }

@@ -19,12 +19,12 @@ public class Game
     Background bGround;
 
     int windowSize = 1000;
-    int viewSize = 1600 * 3;
+    int viewSize = 1600;
     int chunkSizeBlocks = 100;
     int chunkSizePixels = 1600;
 
-    int numberOfChunksX = 50;
-    int numberOfChunksY = 4;
+    int numberOfChunksX = 3;
+    int numberOfChunksY = 3;
     public Game()
     {
 
@@ -41,7 +41,7 @@ public class Game
 
 
         RenderWindow window = new RenderWindow(new VideoMode(windowSize,windowSize),"Mine");
-        //window.setFramerateLimit(60);
+        window.setFramerateLimit(200);
         int counter = 0;
         bGround.initialiseBackGround(playerObject);
         while(window.isOpen())
@@ -62,28 +62,32 @@ public class Game
             }
             if(Keyboard.isKeyPressed(Keyboard.Key.D))
             {
-                playerObject.moveEntity(new Vector2f(1,0));
-                bGround.updateBackGroundOnMove(playerObject,1,0);
+                playerObject.addVelocity(new Vector2f(1,0));
             }
             if(Keyboard.isKeyPressed(Keyboard.Key.A))
             {
-                playerObject.moveEntity(new Vector2f(-1,0));
-                bGround.updateBackGroundOnMove(playerObject,-1,0);
+                playerObject.addVelocity(new Vector2f(-1,0));
 
             }
             if(Keyboard.isKeyPressed(Keyboard.Key.W))
             {
-                playerObject.moveEntity(new Vector2f(0,-1));
-                bGround.updateBackGroundOnMove(playerObject,0,-1);
+                playerObject.addVelocity(new Vector2f(0,-1));
             }
             if(Keyboard.isKeyPressed(Keyboard.Key.S))
             {
-                playerObject.moveEntity(new Vector2f(0,1));
-                bGround.updateBackGroundOnMove(playerObject,0,1);
+                playerObject.addVelocity(new Vector2f(0,1));
+
+
 
             }
 
             window.clear();
+            playerObject.moveEntity();
+            if (playerObject.checkVelocityGreater())
+            {
+                bGround.updateBackGroundOnMove(playerObject);
+            }
+
             window.setView(playerObject.getpView());
             window.draw(bGround);
             window.draw(playerObject);
