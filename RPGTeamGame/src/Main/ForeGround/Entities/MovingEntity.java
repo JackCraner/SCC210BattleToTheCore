@@ -11,7 +11,7 @@ public class MovingEntity extends Entity
     Vector2f velocity = new Vector2f(0,0);
     Vector2f gravity = new Vector2f(0.1f,0.1f);
     //stats
-    float maxSpeed = 100;
+    float maxSpeed = 50;
 
     public MovingEntity(int ID, Vector2f position)
     {
@@ -28,10 +28,15 @@ public class MovingEntity extends Entity
 
     public void addVelocity(Vector2f v)
     {
-        if (checkVelocityLess())
+        if (checkVelocityLess(velocity.x))
         {
-            velocity = new Vector2f(velocity.x + v.x, velocity.y + v.y);
+            velocity = new Vector2f(velocity.x + v.x , velocity.y);
         }
+        if (checkVelocityLess(velocity.y))
+        {
+            velocity = new Vector2f(velocity.x , velocity.y+v.y);
+        }
+        System.out.println(velocity);
 
 
     }
@@ -71,9 +76,9 @@ public class MovingEntity extends Entity
     {
         return (((velocity.x)*(velocity.x)) + (velocity.y * velocity.y) > 0);
     }
-    public boolean checkVelocityLess()
+    public boolean checkVelocityLess(float x)
     {
-        return (((velocity.x)*(velocity.x)) + (velocity.y * velocity.y) < maxSpeed);
+        return (x*x < maxSpeed);
     }
 
 }
