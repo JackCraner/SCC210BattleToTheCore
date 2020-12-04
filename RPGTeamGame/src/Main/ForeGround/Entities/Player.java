@@ -3,7 +3,7 @@ package Main.ForeGround.Entities;
 import org.jsfml.graphics.View;
 import org.jsfml.system.Vector2f;
 
-public class Player extends MovingEntity
+public class Player extends MEntity
 {
     View playerCamera;
     public Player(int ID, Vector2f position, int viewSize)

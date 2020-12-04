@@ -1,7 +1,6 @@
 package Main;
 
 import Main.Background.Background;
-import Main.ForeGround.Entities.MovingEntity;
 import Main.ForeGround.Entities.Player;
 import org.jsfml.graphics.*;
 import org.jsfml.system.Clock;
@@ -18,7 +17,7 @@ public class Game
     Clock systemClock = new Clock();
     Background bGround;
 
-    int windowSize = 1000;
+    int windowSize = 1600;
     int viewSize = 1600;
     int chunkSizeBlocks = 100;
     int chunkSizePixels = 1600;

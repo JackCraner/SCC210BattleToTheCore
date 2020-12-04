@@ -1,84 +1,135 @@
 package Main.ForeGround.Entities;
 
-import org.jsfml.graphics.Texture;
 import org.jsfml.system.Vector2f;
 
-import java.nio.file.Paths;
+/**
+ * This is the super class for all moving entities within the game [enter game title here]
+ */
+public class MovingEntity{
 
-public class MovingEntity extends Entity
-{
-    Texture entityTexture;
-    Vector2f velocity = new Vector2f(0,0);
-    Vector2f gravity = new Vector2f(0.1f,0.1f);
-    //stats
-    float maxSpeed = 50;
+    private final float [] position, velocity;
 
-    public MovingEntity(int ID, Vector2f position)
+    public static float GRAVITATIONAL_PULL = (float) 0.25;
+
+    /**
+     * The constructor for the moving entity that takes in the starting coordinate of the entity
+     * @param x the coordinates x value with the increasing positive numbers being to the right
+     * @param y the coordinates y value with the increasing positive numbers being to the bottom
+     */
+    public MovingEntity (float x, float y)
     {
-        super(ID);
-        setPosition(position);
-        setTexture(getEntityTexture());
+        this.position = new float[] {x, y};
+        this.velocity = new float[] {(float) 0.0, (float) 0.0};
     }
 
-    public void moveEntity()
+    /**
+     * Moves the internal position of the entity based on the velocity inputted.<br>
+     * Then resets the X and Y velocities back to zero so fof continues movement the velocity must be added each time.<br>
+     * This should be done with setVelocity().<br>
+     * Intern this will give the feeling of friction on the ground.
+     *
+     * @see setVelocity
+     * @return the position array of the entity in the form [x, y]
+     */
+    public float[] move()
     {
-        move(velocity);
-        friction();
+        this.position[0] += this.velocity[0];
+        this.position[1] += this.velocity[1];
+
+        this.velocity[0] = (float) 0.0;
+        this.velocity[1] = (float) 0.0;
+
+        return this.velocity;
     }
 
-    public void addVelocity(Vector2f v)
+    /**
+     * Moves the internal position of the entity based on the velocity inputted.<br>
+     * This does NOT reset the velocity of the entity after call. The Y velocity will increase till a maximum of 2 and the x velocity will stay the same.<br>
+     * If X velocity is wished to be changed then use setVelocityWithGravity() for that purpose.<br>
+     * Intern this will give the feeling of moving downwards without friction/air-resistance
+     *
+     * @see setVelocityWithGravity
+     * @return the position array of the entity in the form [x, y]
+     */
+    public float[] moveWithGravity()
     {
-        if (checkVelocityLess(velocity.x))
-        {
-            velocity = new Vector2f(velocity.x + v.x , velocity.y);
-        }
-        if (checkVelocityLess(velocity.y))
-        {
-            velocity = new Vector2f(velocity.x , velocity.y+v.y);
-        }
-        System.out.println(velocity);
+        this.velocity[1] += GRAVITATIONAL_PULL;
 
-
-    }
-    public Vector2f getVelocity()
-    {
-        return velocity;
-    }
-    public void friction()
-    {
-        float vX = 0;
-        float vY = 0;
-
-
-        if (velocity.x > 0)
+        if (this.velocity[1] > 2 )
         {
-            vX = (velocity.x - gravity.x) > 0 ? (velocity.x - gravity.x) :  0;
-        }
-        else if (velocity.x<0)
-        {
-            vX = (velocity.x + gravity.x) < 0 ? (velocity.x + gravity.x) :  0;
-        }
-
-        if (velocity.y> 0)
-        {
-            vY = (velocity.y - gravity.y) > 0 ? (velocity.y - gravity.y) :  0;
-        }
-        else if (velocity.y <0)
-        {
-            vY = (velocity.y +gravity.y) < 0 ? (velocity.y + gravity.y) :  0;
+            this.velocity[1] = (float) 2.0;
         }
 
+        this.position[0] += this.velocity[0];
+        this.position[1] += this.velocity[1];
 
-
-        velocity = new Vector2f(vX,vY);
+        return this.position;
     }
-    public boolean checkVelocityGreater()
+
+    /**
+     * sets the entity to a new position based on the coordinates inputted
+     *
+     * @param x the coordinates x value with the increasing positive numbers being to the right
+     * @param y the coordinates y value with the increasing positive numbers being to the bottom
+     */
+    public void setPosition(float x, float y)
     {
-        return (((velocity.x)*(velocity.x)) + (velocity.y * velocity.y) > 0);
-    }
-    public boolean checkVelocityLess(float x)
-    {
-        return (x*x < maxSpeed);
+        this.position[0] = x;
+        this.position[1] = y;
     }
 
+    /**
+     * Sets the velocity of the entity based on the inputted values.<br>
+     * NOTE : MAXIMUM LIMIT SHOULD BE +/- 1 FOR EACH VALUE!
+     *
+     * @param x the x value with the increasing positive numbers being to the right
+     * @param y the y value with the increasing positive numbers being to the bottom
+     */
+    public void setVelocity(float x, float y)
+    {
+        this.velocity[0] = x;
+        this.velocity[1] = y;
+    }
+
+    /**
+     * Sets the velocity of the entity when the entity is effected by gravity.<br>
+     * NOTE : MAXIMUM LIMIT SHOULD BE +/- 1 FOR EACH VALUE!
+     *
+     * @param x the x value with the increasing positive numbers being to the right
+     */
+    public void setVelocityWithGravity(float x)
+    {
+        this.velocity[0] = x;
+    }
+
+    /**
+     * Gets the position of the entity and outputs it in the form of a float[] with the structure of [x, y]
+     *
+     * @return the position coordinates
+     */
+    public float[] getPosition()
+    {
+        return this.position;
+    }
+
+    /**
+     * Gets the velocity of the entity and outputs it in the form of a float[] with the structure of [x, y]
+     *
+     * @return the velocity values
+     */
+    public float[] getVelocity()
+    {
+        return this.velocity;
+    }
+
+    /**
+     * This is a static function that will take a float input of length 2 and return a Vector2f variable based on it
+     *
+     * @param input the float[] of length 2
+     * @return Vector2f based on the input
+     */
+    public static Vector2f floatArrayToVector2F(float[] input)
+    {
+        return new Vector2f(input[0],input[1]);
+    }
 }
