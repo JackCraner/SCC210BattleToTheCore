@@ -1,9 +1,10 @@
 package Main.Background.MapGen;
 
 
-import Main.Sprites.Player;
+import Main.ForeGround.Entities.Player;
 import org.jsfml.graphics.*;
 import org.jsfml.system.Vector2f;
+import org.jsfml.system.Vector2i;
 
 import java.nio.file.Paths;
 
@@ -101,7 +102,7 @@ public class ChunkLoader implements Drawable
 
     private Block whichChunk(Chunk[][] cbArray, int x, int y)
     {
-        Vector2f c = new Vector2f(1,1);
+        Vector2i c = new Vector2i(1,1);
         int xChange = 0;
         int yChange = 0;
         int xpos = x;
@@ -128,7 +129,7 @@ public class ChunkLoader implements Drawable
             yChange = 1;
             ypos = y- chunkSizeBlocks;
         }
-        return cbArray[(int)(c.x + xChange)][(int)(c.y + yChange)].getBlockAtVector(new Vector2f(xpos,ypos));
+        return cbArray[(c.x + xChange)][(c.y + yChange)].getBlockAtVector(new Vector2i(xpos,ypos));
 
 
     }
@@ -138,8 +139,16 @@ public class ChunkLoader implements Drawable
     }
     public RenderStates getTransform(RenderStates renderStates)
     {
-        Transform t = new Transform(1,0,chunkSizePixels * chunkArray[1][1].getcPosition().x,0,1,chunkSizePixels * chunkArray[1][1].getcPosition().y,0,0,1);
-        renderStates = new RenderStates(renderStates,t);
+        try
+        {
+            Transform t = new Transform(1,0,chunkSizePixels * chunkArray[1][1].getcPosition().x,0,1,chunkSizePixels * chunkArray[1][1].getcPosition().y,0,0,1);
+            renderStates = new RenderStates(renderStates,t);
+        }
+        catch (Exception e)
+        {
+
+        }
+
         renderStates = new RenderStates(renderStates,blockTexture);
         return renderStates;
     }

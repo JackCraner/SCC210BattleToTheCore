@@ -1,32 +1,18 @@
-package Main.Sprites;
+package Main.ForeGround.Entities;
 
-import org.jsfml.graphics.*;
+import org.jsfml.graphics.View;
 import org.jsfml.system.Vector2f;
 
-public class Player extends Sprite
+public class Player extends MEntity
 {
-    View pView;
-    float pSpeed;
-
-    public Player(ConstTexture pTexture, View pView, float pSpeed, Vector2f pPosition)
+    View playerCamera;
+    public Player(int ID, Vector2f position, int viewSize)
     {
-        super(pTexture);
-        this.pSpeed = pSpeed;
-        this.setPosition(pPosition);
-        this.pView = pView;
-        pView.setCenter(pPosition);
-
-
+        super(ID, position);
+        playerCamera = new View(new Vector2f(viewSize/2,viewSize/2), new Vector2f(viewSize,viewSize));
+        playerCamera.setCenter(this.getPosition());
     }
 
-
-    public void movePlayer(float x, float y)
-    {
-        move(x *pSpeed, y* pSpeed);
-        pView.move(x*pSpeed, y*pSpeed);
-
-
-    }
     public Vector2f inChunk(int chunkSize)
     {
         double chunkX =this.getPosition().x/chunkSize;
@@ -34,16 +20,25 @@ public class Player extends Sprite
         //System.out.println("CHUNK " + (float)Math.floor(chunkX) + ", " + (float)Math.floor(chunkY));
         return new Vector2f((float)Math.floor(chunkX), (float)Math.floor(chunkY));
     }
+
     public Vector2f inBlock(int chunkSize, int blockSize)
     {
         Vector2f chunkPos = inChunk(chunkSize);
         Vector2f charPos = this.getPosition();
         return new Vector2f((float)Math.floor((charPos.x - chunkPos.x * chunkSize)/blockSize), (float)Math.floor((charPos.y - chunkPos.y * chunkSize)/blockSize));
     }
+
     public View getpView()
     {
-        return pView;
+        return playerCamera;
     }
 
+    @Override
+    public void moveEntity()
+    {
+        move(getVelocity());
+        friction();
+        playerCamera.setCenter(this.getPosition());
+    }
 
 }

@@ -2,7 +2,7 @@ package Main.Background;
 
 import Main.Background.MapGen.ChunkLoader;
 import Main.Background.MapGen.Map;
-import Main.Sprites.Player;
+import Main.ForeGround.Entities.Player;
 import org.jsfml.graphics.*;
 import org.jsfml.system.Vector2f;
 
@@ -20,6 +20,7 @@ public class Background implements Drawable
     Text fpsCounter;
     Font textFont = new Font();
 
+    Vector2f currentPlayerChunk;
     public Background(int chunkSizeBlocks, int chunkSizePixels, int numberChunkX, int numberChunkY)
     {
         this.chunkSizeBlocks = chunkSizeBlocks;
@@ -32,6 +33,7 @@ public class Background implements Drawable
     }
     public void initialiseBackGround(Player p)
     {
+        currentPlayerChunk = p.inChunk(chunkSizePixels);
         cH.generateMetaData(p);
         cH.generateBlockArray(p);
         try
@@ -45,14 +47,14 @@ public class Background implements Drawable
         fpsCounter = new Text("HI", textFont, 100);
         fpsCounter.setPosition(new Vector2f((p.getPosition().x + (p.getpView().getSize().x)/2) - fpsCounter.getLocalBounds().width - 20,(p.getPosition().y - (p.getpView().getSize().y)/2) + fpsCounter.getLocalBounds().height));
     }
-    public void updateBackGroundOnMove(Player p, int x, int y)
+    public void updateBackGroundOnMove(Player p)
     {
-        Vector2f currentPositionPlayer = p.inChunk(chunkSizePixels);
+
         fpsCounter.setPosition(new Vector2f((p.getPosition().x + (p.getpView().getSize().x)/2) - fpsCounter.getLocalBounds().width - 20,(p.getPosition().y - (p.getpView().getSize().y)/2) + fpsCounter.getLocalBounds().height));
 
-        if (currentPositionPlayer.x != p.inChunk(chunkSizePixels).x || currentPositionPlayer.y != p.inChunk(chunkSizePixels).y)
+        if (currentPlayerChunk.x != p.inChunk(chunkSizePixels).x || currentPlayerChunk.y != p.inChunk(chunkSizePixels).y)
         {
-            System.out.println(p.inChunk(chunkSizePixels));
+            currentPlayerChunk = p.inChunk(chunkSizePixels);
             cH.generateMetaData(p);
 
         }
@@ -65,7 +67,8 @@ public class Background implements Drawable
     @Override
     public void draw(RenderTarget renderTarget, RenderStates renderStates)
     {
-        renderTarget.draw(fpsCounter);
+
         cH.draw(renderTarget,cH.getTransform(renderStates));
+        renderTarget.draw(fpsCounter);
     }
 }
