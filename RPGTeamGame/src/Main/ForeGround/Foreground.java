@@ -2,5 +2,10 @@ package Main.ForeGround;
 
 import Main.Main;
 
-public class Foreground {
+public class Foreground
+{
+
+
+
+
 }

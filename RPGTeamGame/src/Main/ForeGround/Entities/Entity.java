@@ -10,6 +10,8 @@ import java.nio.file.Paths;
 
 public class Entity extends Sprite {
     int ID;
+    int Health;
+    int Damage;
     Texture entityTexture = new Texture();
     public Entity(int ID)
     {
