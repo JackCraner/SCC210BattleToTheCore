@@ -3,6 +3,7 @@ package Main;
 import Main.Background.Background;
 import Main.DataTypes.PositionVector;
 import Main.ForeGround.Entities.Player;
+import Main.ForeGround.Foreground;
 import Main.GUI.GUIController;
 import org.jsfml.graphics.*;
 import org.jsfml.system.Clock;
@@ -18,8 +19,12 @@ public class Game
 
     Clock systemClock = new Clock();
     Background bGround;
+    Foreground fGround;
     GUIController GUI;
     PositionVector currentPos;
+
+
+    RenderTexture gameRender = new RenderTexture();
 
     int windowSize = 1000;
     int viewSize = 1600;
@@ -35,6 +40,7 @@ public class Game
         playerObject = new Player(1,new Vector2f(((numberOfChunksX/2) * chunkSizePixels) + (viewSize/2),viewSize/2), viewSize);
         currentPos = new PositionVector(playerObject.getPosition());
         bGround = new Background(chunkSizeBlocks, chunkSizePixels, numberOfChunksX, numberOfChunksY);
+        fGround = new Foreground();
         GUI = new GUIController();
         runGame();
     }
@@ -46,10 +52,12 @@ public class Game
 
 
         RenderWindow window = new RenderWindow(new VideoMode(windowSize,windowSize),"Mine");
-        window.setFramerateLimit(200);
+        window.setFramerateLimit(100);
+        window.setVerticalSyncEnabled(true);    //??
         int counter = 0;
         bGround.initialiseBackGround(playerObject);
         GUI.initializeGUI(playerObject);
+        System.out.println(playerObject.getPosition());
         while(window.isOpen())
         {
 
@@ -88,9 +96,10 @@ public class Game
             }
 
             window.clear();
-            playerObject.moveEntity();
+
             if (playerObject.checkVelocityGreater())
             {
+                playerObject.moveEntity();
                 bGround.updateBackGroundOnMove(playerObject);
                 GUI.updateGUI(playerObject);
                 currentPos = new PositionVector(playerObject.getPosition());
@@ -98,6 +107,7 @@ public class Game
 
             window.setView(playerObject.getpView());
             window.draw(bGround);
+            window.draw(fGround);
             window.draw(playerObject);
             window.draw(GUI);
             window.display();

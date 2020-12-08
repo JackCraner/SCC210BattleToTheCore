@@ -35,6 +35,10 @@ public class Entity extends Sprite {
             {
                 entityTexture.loadFromFile(Paths.get("Assets\\Submarine.png"));
             }
+            if (ID == 2)
+            {
+                entityTexture.loadFromFile(Paths.get("Assets\\Torch.png"));
+            }
         }
         catch (Exception e)
         {

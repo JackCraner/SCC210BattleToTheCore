@@ -17,7 +17,7 @@ public class ChunkLoader implements Drawable
 
     Texture blockTexture = new Texture();
     Map mapPlane;
-
+    Shader mapShader = new Shader();
     int viewRange;
     //Block[][][][] blockArrayChunkInt = new Block[3][3][][];
     Chunk[][] chunkArray = new Chunk[3][3];
@@ -29,9 +29,18 @@ public class ChunkLoader implements Drawable
         try
         {
             blockTexture.loadFromFile(Paths.get("Assets\\Tilemap.png"));
+            mapShader.loadFromFile(Paths.get("C:\\Personal Files\\University\\Game2.0\\SCC210BattleToTheCore\\RPGTeamGame\\src\\Main\\Shader\\Vert2.vert"), Paths.get("C:\\Personal Files\\University\\Game2.0\\SCC210BattleToTheCore\\RPGTeamGame\\src\\Main\\Shader\\Frag2.frag"));
         }
-        catch(Exception E){}
+        catch(Exception E){
+            System.out.println(E);
+        }
 
+        mapShader.setParameter("texture", blockTexture);
+        mapShader.setParameter("resolution", 1000, 1000);
+        mapShader.setParameter("ambientData", 0.3f, 0.3f, 0.8f, 0.3f);
+        mapShader.setParameter("lightData", 1.0f, 0.8f, 0.2f, 2);
+        mapShader.setParameter("lightSize", 0.4f, 0f);
+        mapShader.setParameter("position",0.5f, 0.5f);
         blockArray = new VertexArray(PrimitiveType.QUADS);
         blockSizePixels = (int)(chunkSizePixels/chunkSizeBlocks);
         viewRange = (chunkSizeBlocks/2) + 10;
@@ -143,6 +152,7 @@ public class ChunkLoader implements Drawable
         {
             Transform t = new Transform(1,0,chunkSizePixels * chunkArray[1][1].getcPosition().x,0,1,chunkSizePixels * chunkArray[1][1].getcPosition().y,0,0,1);
             renderStates = new RenderStates(renderStates,t);
+            renderStates = new RenderStates(renderStates,mapShader);
         }
         catch (Exception e)
         {
