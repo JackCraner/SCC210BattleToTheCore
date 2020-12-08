@@ -1,6 +1,7 @@
 package Main.GUI;
 
 import Main.ForeGround.Entities.Player;
+import Main.Game;
 import org.jsfml.graphics.*;
 import org.jsfml.system.Vector2f;
 
@@ -16,17 +17,17 @@ public class HealthBar
     public HealthBar(Player p)
     {
         this.p = p;
-        healthBarSize = new Vector2f(p.getpView().getSize().x - 300, 50);
+        healthBarSize = new Vector2f((float)(Game.windowSize-200), 50);
         front = new RectangleShape(healthBarSize);
         back = new RectangleShape(healthBarSize);
         front.setFillColor(Color.RED);
-        back.setFillColor(Color.BLACK);
+        back.setFillColor(Color.WHITE);
     }
     public void updateHealthBarPosition()
     {
-        Vector2f curP = p.getPosition();
-        front.setPosition(curP.x - (healthBarSize.x*(currentHealth/100)/2), curP.y + (p.getpView().getSize().y/2) - healthBarSize.y - 30);
-        back.setPosition(curP.x - (healthBarSize.x/2), curP.y + (p.getpView().getSize().y/2) - healthBarSize.y - 30);
+
+        front.setPosition(100, Game.windowSize - healthBarSize.y - 30);
+        back.setPosition(100, Game.windowSize - healthBarSize.y - 30);
     }
     public RectangleShape getHealthBarFront()
     {

@@ -1,6 +1,7 @@
 package Main.GUI;
 
 import Main.ForeGround.Entities.Player;
+import Main.Game;
 import org.jsfml.graphics.*;
 import org.jsfml.system.Vector2f;
 
@@ -29,13 +30,14 @@ public class GUIController implements Drawable
         hB.takeDamage(40);
         hB.updateHealthBarPosition();
         fpsCounter = new Text("HI", textFont, 100);
-        fpsCounter.setPosition(new Vector2f((p.getPosition().x + (p.getpView().getSize().x)/2) - fpsCounter.getLocalBounds().width - 20,(p.getPosition().y - (p.getpView().getSize().y)/2)));
+        fpsCounter.setPosition(new Vector2f(Game.windowSize-fpsCounter.getGlobalBounds().width,0));
     }
 
-    public void updateGUI(Player p)
+    public void updateGUI()
     {
         hB.updateHealthBarPosition();
-        fpsCounter.setPosition(new Vector2f((p.getPosition().x + (p.getpView().getSize().x)/2) - fpsCounter.getLocalBounds().width - 20,(p.getPosition().y - (p.getpView().getSize().y)/2)));
+        fpsCounter.setPosition(new Vector2f(Game.windowSize-fpsCounter.getGlobalBounds().width,0));
+        System.out.println("counter: " + fpsCounter.getPosition());
     }
 
     public void setFPS(int x)
