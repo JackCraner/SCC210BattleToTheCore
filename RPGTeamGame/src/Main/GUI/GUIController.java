@@ -37,7 +37,6 @@ public class GUIController implements Drawable
     {
         hB.updateHealthBarPosition();
         fpsCounter.setPosition(new Vector2f(Game.windowSize-fpsCounter.getGlobalBounds().width,0));
-        System.out.println("counter: " + fpsCounter.getPosition());
     }
 
     public void setFPS(int x)

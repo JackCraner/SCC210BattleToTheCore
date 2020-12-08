@@ -13,7 +13,7 @@ public class ShaderController
     {
         try
         {
-            mapShader.loadFromFile(Paths.get("C:\\Personal Files\\University\\Game2.0\\SCC210BattleToTheCore\\RPGTeamGame\\src\\Main\\Shader\\Vert2.vert"), Paths.get("C:\\Personal Files\\University\\Game2.0\\SCC210BattleToTheCore\\RPGTeamGame\\src\\Main\\Shader\\Frag2.frag"));
+            mapShader.loadFromFile(Paths.get("Assets\\Vert2.vert"), Paths.get("Assets\\Frag2.frag"));
         }
         catch(Exception E){
             System.out.println(E);

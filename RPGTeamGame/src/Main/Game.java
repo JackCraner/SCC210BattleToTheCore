@@ -116,7 +116,7 @@ public class Game
                 bGround.updateBackGroundOnMove(playerObject);
                 GUI.updateGUI();
                 currentPos = new PositionVector(playerObject.getPosition());
-                System.out.println("Player: " + playerObject.getPosition());
+
             }
 
 
