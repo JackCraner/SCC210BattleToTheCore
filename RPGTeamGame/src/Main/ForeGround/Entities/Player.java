@@ -1,11 +1,13 @@
 package Main.ForeGround.Entities;
 
+import Main.DataTypes.PositionVector;
 import org.jsfml.graphics.View;
 import org.jsfml.system.Vector2f;
 
 public class Player extends MEntity
 {
     View playerCamera;
+    PositionVector pos;
     public Player(int ID, Vector2f position, int viewSize)
     {
         super(ID, position);
@@ -17,7 +19,6 @@ public class Player extends MEntity
     {
         double chunkX =this.getPosition().x/chunkSize;
         double chunkY = this.getPosition().y/chunkSize;
-        //System.out.println("CHUNK " + (float)Math.floor(chunkX) + ", " + (float)Math.floor(chunkY));
         return new Vector2f((float)Math.floor(chunkX), (float)Math.floor(chunkY));
     }
 

@@ -10,6 +10,8 @@ import java.nio.file.Paths;
 
 public class Entity extends Sprite {
     int ID;
+    int Health;
+    int Damage;
     Texture entityTexture = new Texture();
     public Entity(int ID)
     {
@@ -32,6 +34,10 @@ public class Entity extends Sprite {
             if (ID == 1)
             {
                 entityTexture.loadFromFile(Paths.get("Assets\\Submarine.png"));
+            }
+            if (ID == 2)
+            {
+                entityTexture.loadFromFile(Paths.get("Assets\\Torch.png"));
             }
         }
         catch (Exception e)
