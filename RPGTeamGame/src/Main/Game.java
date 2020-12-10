@@ -41,10 +41,6 @@ public class Game
 
     public void runGame()
     {
-
-
-
-
         RenderWindow window = new RenderWindow(new VideoMode(windowSize,windowSize),"Mine");
         window.setFramerateLimit(200);
         int counter = 0;
@@ -63,33 +59,44 @@ public class Game
             for (Event event : window.pollEvents()) {
 
             }
+            window.clear();
             if (Keyboard.isKeyPressed(Keyboard.Key.ESCAPE)) {
                 window.close();
             }
-            if(Keyboard.isKeyPressed(Keyboard.Key.D))
+
+            if (false)//touching block
             {
-                playerObject.addVelocity(new Vector2f(1,0));
+                if(Keyboard.isKeyPressed(Keyboard.Key.D))
+                {
+                    playerObject.setVelocity(new Vector2f(1,0));
+                }
+                if(Keyboard.isKeyPressed(Keyboard.Key.A))
+                {
+                    playerObject.setVelocity(new Vector2f(-1,0));
+
+                }
+                if(Keyboard.isKeyPressed(Keyboard.Key.SPACE))
+                {
+                    playerObject.setVelocity(new Vector2f(0,-1));
+                }
+                playerObject.moveEntity();
+                playerObject.move();
             }
-            if(Keyboard.isKeyPressed(Keyboard.Key.A))
+            else if (true) // not touching block
             {
-                playerObject.addVelocity(new Vector2f(-1,0));
-
-            }
-            if(Keyboard.isKeyPressed(Keyboard.Key.W))
-            {
-                playerObject.addVelocity(new Vector2f(0,-1));
-            }
-            if(Keyboard.isKeyPressed(Keyboard.Key.S))
-            {
-                playerObject.addVelocity(new Vector2f(0,1));
-
-
-
+                if(Keyboard.isKeyPressed(Keyboard.Key.D))
+                {
+                    playerObject.setVelocityWithGravity(new Vector2f(1,0));
+                }
+                if(Keyboard.isKeyPressed(Keyboard.Key.A))
+                {
+                    playerObject.setVelocityWithGravity(new Vector2f(-1,0));
+                }
+                playerObject.moveEntity();
+                playerObject.moveWithGravity();
             }
 
-            window.clear();
-            playerObject.moveEntity();
-            if (playerObject.checkVelocityGreater())
+            if (true)
             {
                 bGround.updateBackGroundOnMove(playerObject);
                 GUI.updateGUI(playerObject);

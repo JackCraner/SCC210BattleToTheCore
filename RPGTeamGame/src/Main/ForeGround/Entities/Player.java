@@ -4,7 +4,7 @@ import Main.DataTypes.PositionVector;
 import org.jsfml.graphics.View;
 import org.jsfml.system.Vector2f;
 
-public class Player extends MEntity
+public class Player extends MovingEntity
 {
     View playerCamera;
     PositionVector pos;
@@ -34,11 +34,9 @@ public class Player extends MEntity
         return playerCamera;
     }
 
-    @Override
     public void moveEntity()
     {
         move(getVelocity());
-        friction();
         playerCamera.setCenter(this.getPosition());
     }
 
