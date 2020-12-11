@@ -114,8 +114,7 @@ public class Game
             {
                 playerObject.moveEntity();
                 bGround.updateBackGroundOnMove(playerObject);
-                GUI.updateGUI();
-                currentPos = new PositionVector(playerObject.getPosition());
+
 
             }
 
