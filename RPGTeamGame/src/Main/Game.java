@@ -59,7 +59,7 @@ public class Game
             for (Event event : window.pollEvents()) {
 
             }
-            window.clear();
+
             if (Keyboard.isKeyPressed(Keyboard.Key.ESCAPE)) {
                 window.close();
             }
@@ -102,7 +102,7 @@ public class Game
                 GUI.updateGUI(playerObject);
                 currentPos = new PositionVector(playerObject.getPosition());
             }
-
+            window.clear();
             window.setView(playerObject.getpView());
             window.draw(bGround);
             window.draw(playerObject);
