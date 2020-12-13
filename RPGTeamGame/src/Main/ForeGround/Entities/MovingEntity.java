@@ -90,6 +90,7 @@ public class MovingEntity extends Entity{
      */
     public float[] move()
     {
+        move(getVelocity());
         this.position[0] += this.velocity[0];
         this.position[1] += this.velocity[1];
 
@@ -110,6 +111,7 @@ public class MovingEntity extends Entity{
      */
     public float[] moveWithGravity()
     {
+        move(getVelocity());
         this.velocity[1] += GRAVITATIONAL_PULL;
 
         if (this.velocity[1] > 2 )
@@ -123,5 +125,8 @@ public class MovingEntity extends Entity{
         return this.position;
     }
 
-
+    public boolean hasMoved(Vector2f position)
+    {
+        return (position.x == this.position[0] && position.y == this.position[1]);
+    }
 }

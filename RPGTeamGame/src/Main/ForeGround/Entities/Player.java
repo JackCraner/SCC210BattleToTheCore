@@ -38,7 +38,6 @@ public class Player extends MovingEntity
 
     public void moveEntity()
     {
-        move(getVelocity());
         playerCamera.setCenter(this.getPosition());
     }
 

@@ -36,7 +36,6 @@ public class MEntity extends Entity
         {
             velocity = new Vector2f(velocity.x , velocity.y+v.y);
         }
-        System.out.println(velocity);
 
 
     }

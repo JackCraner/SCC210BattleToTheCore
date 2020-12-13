@@ -50,23 +50,17 @@ public class CollisionBox {
 
     /**
      * this function will move the box by the specified amount
-     * @param movement the amount of movement that the object being tracked takes with right bing positive x and
-     *                 down being positive y
+     * @param xMovement the amount of movement along the x direction with positive numbers being to the right
+     * @param yMovement the amount of movement along the y direction with positive numbers being to the bottom
      */
-    public void moveBox(Vector2f movement)
+    public void moveBox(float xMovement, float yMovement)
     {
-        this.TLPoint[0] += movement.x;
-        this.TLPoint[1] += movement.y;
-        this.BRPoint[0] += movement.x;
-        this.BRPoint[1] += movement.y;
+        this.TLPoint[0] += xMovement;
+        this.TLPoint[1] += yMovement;
+        this.BRPoint[0] += xMovement;
+        this.BRPoint[1] += yMovement;
     }
 
-    /**
-     * Sets the poition of the collistion box and allows the movement of the box along with rescaling
-     *
-     * @param TLPoint the top left coordinate of the box
-     * @param BRPoint the bottom right coordinate of the box
-     */
     public void setPosition(Vector2f TLPoint, Vector2f BRPoint)
     {
         this.TLPoint = new float[]{TLPoint.x, TLPoint.y};

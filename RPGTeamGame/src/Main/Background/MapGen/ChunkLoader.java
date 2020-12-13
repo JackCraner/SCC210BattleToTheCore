@@ -17,7 +17,6 @@ public class ChunkLoader implements Drawable
 
     Texture blockTexture = new Texture();
     Map mapPlane;
-
     int viewRange;
     //Block[][][][] blockArrayChunkInt = new Block[3][3][][];
     Chunk[][] chunkArray = new Chunk[3][3];
@@ -29,8 +28,12 @@ public class ChunkLoader implements Drawable
         try
         {
             blockTexture.loadFromFile(Paths.get("Assets\\Tilemap.png"));
+
         }
-        catch(Exception E){}
+        catch(Exception E){
+            System.out.println(E);
+        }
+
 
         blockArray = new VertexArray(PrimitiveType.QUADS);
         blockSizePixels = (int)(chunkSizePixels/chunkSizeBlocks);
@@ -143,6 +146,7 @@ public class ChunkLoader implements Drawable
         {
             Transform t = new Transform(1,0,chunkSizePixels * chunkArray[1][1].getcPosition().x,0,1,chunkSizePixels * chunkArray[1][1].getcPosition().y,0,0,1);
             renderStates = new RenderStates(renderStates,t);
+
         }
         catch (Exception e)
         {
