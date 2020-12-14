@@ -44,7 +44,7 @@ public class CollisionBox {
     public boolean checkCollistion(CollisionBox box)
     {
         if (this.TLPoint[0] > box.getBRPoint()[0] || box.getTLPoint()[0] > this.BRPoint[0]) return false;
-        if (this.TLPoint[1] < box.getBRPoint()[1] || box.getTLPoint()[1] < this.BRPoint[1]) return false;
+        if (this.TLPoint[1] > box.getBRPoint()[1] || box.getTLPoint()[1] > this.BRPoint[1]) return false;
         return true;
     }
 

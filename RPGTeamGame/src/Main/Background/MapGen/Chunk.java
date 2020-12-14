@@ -27,6 +27,10 @@ public class Chunk
     {
         return chunkBlockMapping[v.x][v.y];
     }
+    public Block getBlockAtVector(Vector2f v)
+    {
+        return chunkBlockMapping[(int)v.x][(int)v.y];
+    }
     public Vector2f genRandomPoint(int a, int b) // between a and b which is empty
     {
         int pointX = (int)(Math.random() * (b - a));
@@ -75,6 +79,11 @@ public class Chunk
 
 
 
+    }
+
+    public Vector2f getPosition()
+    {
+        return cPosition;
     }
 
 }

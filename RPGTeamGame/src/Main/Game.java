@@ -1,10 +1,13 @@
 package Main;
 
 import Main.Background.Background;
+import Main.Background.MapGen.Block;
 import Main.DataTypes.PositionVector;
 import Main.ForeGround.Entities.Player;
 import Main.ForeGround.Foreground;
 import Main.GUI.GUIController;
+import Main.Physics.CEntity;
+import Main.Physics.Cblock;
 import Main.Shader.ShaderController;
 import org.jsfml.graphics.*;
 import org.jsfml.system.Clock;
@@ -87,9 +90,10 @@ public class Game
             if (Keyboard.isKeyPressed(Keyboard.Key.ESCAPE)) {
                 window.close();
             }
+
             Vector2f currentPos = playerObject.getPosition();
 
-            if (false)//touching block
+            if (checkOnLand())// touching block
             {
                 if(Keyboard.isKeyPressed(Keyboard.Key.D))
                 {
@@ -98,11 +102,14 @@ public class Game
                 if(Keyboard.isKeyPressed(Keyboard.Key.A))
                 {
                     playerObject.setVelocity(new Vector2f(-1,0));
-
                 }
                 if(Keyboard.isKeyPressed(Keyboard.Key.SPACE))
                 {
                     playerObject.setVelocity(new Vector2f(0,-1));
+                }
+                if(Keyboard.isKeyPressed(Keyboard.Key.S))
+                {
+                    playerObject.setVelocity(new Vector2f(0,1));
                 }
                 playerObject.move();
             }
@@ -145,7 +152,18 @@ public class Game
         }
     }
 
+    public boolean checkOnLand()
+    {
+        Vector2f playerLocation = playerObject.inBlock(Game.chunkSizePixels,Game.chunkSizeBlocks);
+        Vector2f underPlayerBlockLocation = new Vector2f(playerLocation.x, playerLocation.y + 1);
+        int underPlayerBlockId = bGround.getMapObject().getChunkAtPosition(playerObject.inChunk(Game.chunkSizePixels)).getBlockAtVector(underPlayerBlockLocation).getID();
 
+        if (underPlayerBlockId == 0 && new CEntity(playerLocation, 16,16).getcBox().checkCollistion(new Cblock(underPlayerBlockLocation).getcBox()))
+        {
+            return true;
+        }
 
+        return false;
+    }
 
 }

@@ -58,4 +58,8 @@ public class Background implements Drawable
         cH.draw(renderTarget,cH.getTransform(renderStates));
 
     }
+
+    public Map getMapObject() {
+        return mapObject;
+    }
 }
