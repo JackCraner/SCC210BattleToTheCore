@@ -1,10 +1,13 @@
 package Main;
 
 import Main.Background.Background;
+import Main.Background.MapGen.Block;
 import Main.DataTypes.PositionVector;
 import Main.ForeGround.Entities.Player;
 import Main.ForeGround.Foreground;
 import Main.GUI.GUIController;
+import Main.Physics.CEntity;
+import Main.Physics.Cblock;
 import Main.Shader.ShaderController;
 import org.jsfml.graphics.*;
 import org.jsfml.system.Clock;
@@ -34,6 +37,7 @@ public class Game
     public static int viewSize = 1600;
     public static int chunkSizeBlocks = 100;
     public static int chunkSizePixels = 1600;
+    public static int blockSize = 16;
 
     int numberOfChunksX = 3;
     int numberOfChunksY = 3;
@@ -87,38 +91,50 @@ public class Game
             if (Keyboard.isKeyPressed(Keyboard.Key.ESCAPE)) {
                 window.close();
             }
-            if(Keyboard.isKeyPressed(Keyboard.Key.D))
+
+            Vector2f currentPos = playerObject.getPosition();
+
+            if (checkOnLand())// touching block
             {
-                playerObject.addVelocity(new Vector2f(1,0));
+                if(Keyboard.isKeyPressed(Keyboard.Key.D))
+                {
+                    playerObject.setVelocity(new Vector2f(1,0));
+                }
+                if(Keyboard.isKeyPressed(Keyboard.Key.A))
+                {
+                    playerObject.setVelocity(new Vector2f(-1,0));
+                }
+                if(Keyboard.isKeyPressed(Keyboard.Key.SPACE))
+                {
+                    playerObject.setVelocity(new Vector2f(0,-1));
+                }
+                if(Keyboard.isKeyPressed(Keyboard.Key.S))
+                {
+                    playerObject.setVelocity(new Vector2f(0,1));
+                }
+                playerObject.move();
             }
-            if(Keyboard.isKeyPressed(Keyboard.Key.A))
+            else // not touching block
             {
-                playerObject.addVelocity(new Vector2f(-1,0));
-
+                if(Keyboard.isKeyPressed(Keyboard.Key.D))
+                {
+                    playerObject.setVelocityWithGravity(new Vector2f(1,0));
+                }
+                if(Keyboard.isKeyPressed(Keyboard.Key.A))
+                {
+                    playerObject.setVelocityWithGravity(new Vector2f(-1,0));
+                }
+                playerObject.moveWithGravity();
             }
-            if(Keyboard.isKeyPressed(Keyboard.Key.W))
+
+            playerObject.moveEntity();
+            if (!playerObject.hasMoved(currentPos))
             {
-                playerObject.addVelocity(new Vector2f(0,-1));
-            }
-            if(Keyboard.isKeyPressed(Keyboard.Key.S))
-            {
-                playerObject.addVelocity(new Vector2f(0,1));
 
-
-
+                bGround.updateBackGroundOnMove(playerObject);
             }
 
             window.clear();
-
-            if (playerObject.checkVelocityGreater())
-            {
-                playerObject.moveEntity();
-                bGround.updateBackGroundOnMove(playerObject);
-
-
-            }
-
-
             gameRender.clear(Color.BLACK);
             gameRender.setView(playerObject.getpView());
             gameRender.draw(bGround);
@@ -137,7 +153,19 @@ public class Game
         }
     }
 
+    public boolean checkOnLand()
+    {
+        Vector2f playerLocation = playerObject.inBlock();
+        Vector2f underPlayerBlockLocation = new Vector2f(playerLocation.x, playerLocation.y + 1);
 
+        int underPlayerBlockId = bGround.getMapObject().getChunkAtPosition(playerObject.inChunk()).getBlockAtVector(underPlayerBlockLocation).getID();
 
+        if (underPlayerBlockId == 0 && new CEntity(playerLocation, blockSize,blockSize).getcBox().checkCollistion(new Cblock(underPlayerBlockLocation).getcBox()))
+        {
+            return true;
+        }
+
+        return false;
+    }
 
 }

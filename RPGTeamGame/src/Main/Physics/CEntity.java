@@ -28,4 +28,8 @@ public class CEntity
         Vector2f bottomRCorner = new Vector2f(centerPosition.x + width/2, centerPosition.y+height/2);
         cBox.setPosition(topLCorner,bottomRCorner);
     }
+
+    public CollisionBox getcBox() {
+        return cBox;
+    }
 }
