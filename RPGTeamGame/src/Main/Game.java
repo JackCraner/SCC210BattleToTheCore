@@ -32,15 +32,15 @@ public class Game
 
     RenderTexture gameRender = new RenderTexture();
     Sprite gameWindow = new Sprite();
-
+    Sprite miniMap = new Sprite();
     public static int windowSize = 1000;
     public static int viewSize = 1600;
     public static int chunkSizeBlocks = 100;
-    public static int chunkSizePixels = 1600;
-    public static int blockSize = 16;
+    public static int chunkSizePixels = 3200;
+    public static int blockSize = 32;
 
-    int numberOfChunksX = 3;
-    int numberOfChunksY = 3;
+    public static int numberOfChunksX = 3;
+    public static int numberOfChunksY = 3;
 
     public Game()
     {
@@ -136,10 +136,11 @@ public class Game
 
             window.clear();
             gameRender.clear(Color.BLACK);
-            gameRender.setView(playerObject.getpView());
             gameRender.draw(bGround);
             gameRender.draw(fGround);
             gameRender.draw(playerObject);
+            GUI.getMap().updateMiniMapGraphic(gameRender.getTexture());
+            gameRender.setView(playerObject.getpView());
             gameRender.display();
 
             gameWindow.setTexture(gameRender.getTexture());
@@ -156,7 +157,7 @@ public class Game
     public boolean checkOnLand()
     {
         Vector2f playerLocation = playerObject.inBlock();
-        Vector2f underPlayerBlockLocation = new Vector2f(playerLocation.x, playerLocation.y + 1);
+        Vector2f underPlayerBlockLocation = new Vector2f(playerLocation.x, playerLocation.y + 1);       //bug with +1
 
         int underPlayerBlockId = bGround.getMapObject().getChunkAtPosition(playerObject.inChunk()).getBlockAtVector(underPlayerBlockLocation).getID();
 
@@ -167,5 +168,4 @@ public class Game
 
         return false;
     }
-
 }

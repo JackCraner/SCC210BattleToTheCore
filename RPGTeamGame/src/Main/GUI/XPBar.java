@@ -2,40 +2,56 @@ package Main.GUI;
 
 import Main.ForeGround.Entities.Player;
 import Main.Game;
-import org.jsfml.graphics.Color;
-import org.jsfml.graphics.RectangleShape;
+import org.jsfml.graphics.*;
 import org.jsfml.system.Vector2f;
+import org.w3c.dom.css.Rect;
 
 public class XPBar
 {
     //spacing and items should scale with viewSize
     //Static Colors = BLACK, BLUE, CYAN, GREEN, MAGENTA, RED, WHITE, YELLOW
-    Color XP = new Color(82, 220, 47);         //The colour of the XP gained
-    Color XPEmpty = new Color(74, 185, 46);    //The colour of the empty XP bar
-    RectangleShape front;                               //The front element of the XP bar
-    RectangleShape back;                                //The back element of the Xp bar
-    Vector2f XPBarFrontSize;                            //The vector2f of the XP gained
-    Vector2f XPBarBackSize;                             //The vector2f of the total XP
-    float totalXP = 100;                                //The value of the total XP the player needs to level up
-    float currentXP = 10;                               //The current XP value of the player
-    Player p;                                           //Object reference of player class
+    Color XPColour = new Color(12, 254, 12);   //The colour of the XP gained
+    Color XPEmpty1 = new Color(12, 187, 12);   //The colour of the empty XP Slot 1
+    Color XPEmpty2 = new Color(15, 145, 15);     //The colour of the empty XP Slot 2
+    RectangleShape[] XPSlot;                             //The front element of the XP bar
+    RectangleShape back;                                 //The back element of the XP bar
+    Vector2f XPSlotSize;                                 //The vector2f of the XP gained
+    Vector2f XPBarBackSize;                              //The vector2f of the total XP
+    float totalXP = 100;                                 //The value of the total XP the player needs to level up
+    float currentXP = 10;                                //The current XP value of the player
+    float XPSlotLength;                                  //The length of each slot
+    int TotalXPSlots;                                    //The number of slots in the XP bar
+    Player p;                                            //Object reference of player class
 
     /**
      * XPBar() constructor
      * This constructs the XPBar element with the current length and size of the window
      * The front and back element are set a size according to the window size
      * Both elements are set a color as well
+     * Each XPSlot is half the length of the inventory slot
      * @param p The player
+     * @param numOfSlots The number of slots the inventory has
      */
-    public XPBar(Player p)
+    public XPBar(Player p, int numOfSlots)
     {
         this.p = p;
-        XPBarFrontSize = new Vector2f((float)(Game.windowSize-980), 50);    //length, width of bar
-        XPBarBackSize = new Vector2f((float)(Game.windowSize-200), 50);     //length, width of bar
-        front = new RectangleShape(XPBarFrontSize);
+        this.TotalXPSlots = numOfSlots*2;
+        this.XPSlot = new RectangleShape[TotalXPSlots];
+        XPSlotLength = (float)(Game.windowSize-950);
+        XPSlotSize = new Vector2f(XPSlotLength, 25);   //length, width of bar
+        XPBarBackSize = new Vector2f((float)(Game.windowSize-400), 25);     //length, width of bar
         back = new RectangleShape(XPBarBackSize);
-        front.setFillColor(XP);
-        back.setFillColor(XPEmpty);
+        back.setFillColor(XPEmpty2);
+        for (int i = 0; i < XPSlot.length; i++){
+            XPSlot[i] = new RectangleShape(XPSlotSize);
+            if (i % 2 == 0){
+                XPSlot[i].setFillColor(XPEmpty1);
+            }
+            else {
+                XPSlot[i].setFillColor(XPEmpty2);
+            }
+        }
+
     }
 
     /**
@@ -44,8 +60,19 @@ public class XPBar
      */
     public void updateXPBarPosition()
     {
-        front.setPosition(100, Game.windowSize - XPBarFrontSize.y - 135);
-        back.setPosition(100, Game.windowSize - XPBarBackSize.y - 135);
+        for (int i = 0; i < XPSlot.length; i++){
+            XPSlot[i].setPosition(200+((int)XPSlotLength*i), Game.windowSize - XPSlotSize.y - 135);
+        }
+        back.setPosition(200, Game.windowSize - XPBarBackSize.y - 135);
+    }
+
+    /**
+     * getTotalXPSlots()
+     * This method returns the number of slots in the XP Bar
+     * @return The number of slots
+     */
+    public int getTotalXPSlots(){
+        return TotalXPSlots;
     }
 
     /**
@@ -53,9 +80,9 @@ public class XPBar
      * This method returns the front of the XPBar element
      * @return The front element
      */
-    public RectangleShape getXPBarFront()
+    public RectangleShape getXPBarSlot(int i)
     {
-        return front;
+        return XPSlot[i];
     }
 
     /**
@@ -79,6 +106,8 @@ public class XPBar
         if (front.getSize() >= back.getSize()){
         } */
         currentXP +=x;
-        front.setSize(new Vector2f(XPBarFrontSize.x * (currentXP/100), XPBarFrontSize.y));
+        for (int i = 0; i < x; i++){
+            XPSlot[i].setFillColor(XPColour);
+        }
     }
 }

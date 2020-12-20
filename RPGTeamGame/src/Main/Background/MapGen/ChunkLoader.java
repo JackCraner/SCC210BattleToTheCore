@@ -27,7 +27,7 @@ public class ChunkLoader implements Drawable
         this.mapPlane= mapPlane;
         try
         {
-            blockTexture.loadFromFile(Paths.get("Assets\\Tilemap.png"));
+            blockTexture.loadFromFile(Paths.get("Assets\\TileMapBig.png"));
 
         }
         catch(Exception E){
@@ -65,8 +65,6 @@ public class ChunkLoader implements Drawable
     {
 
         blockArray.clear();
-        int i = 0, j = 0;
-
         try
         {
 
@@ -78,10 +76,10 @@ public class ChunkLoader implements Drawable
                     try
                     {
                         int blockID = whichChunk(chunkArray, a,b).getID();
-                        blockArray.add(new Vertex( new Vector2f((a*blockSizePixels) + (chunkSizePixels * i),(b*blockSizePixels) + (chunkSizePixels*j)),new Vector2f(16*blockID,0)));
-                        blockArray.add(new Vertex( new Vector2f((a*blockSizePixels) + (chunkSizePixels * i),(b*blockSizePixels) + (chunkSizePixels*j) +  blockSizePixels),new Vector2f(16*blockID + 16,0)));
-                        blockArray.add(new Vertex( new Vector2f((a*blockSizePixels) + (chunkSizePixels * i) + blockSizePixels,(b*blockSizePixels) + (chunkSizePixels*j) + blockSizePixels),new Vector2f(16*blockID + 16,16)));
-                        blockArray.add(new Vertex( new Vector2f((a*blockSizePixels) + (chunkSizePixels * i) + blockSizePixels,(b*blockSizePixels) + (chunkSizePixels*j)),new Vector2f(16*blockID,16)));
+                        blockArray.add(new Vertex( new Vector2f((a*blockSizePixels),(b*blockSizePixels)),new Vector2f(32*blockID,0)));
+                        blockArray.add(new Vertex( new Vector2f((a*blockSizePixels),(b*blockSizePixels) +  blockSizePixels),new Vector2f(32*blockID + 32,0)));
+                        blockArray.add(new Vertex( new Vector2f((a*blockSizePixels)  + blockSizePixels,(b*blockSizePixels) + blockSizePixels),new Vector2f(32*blockID + 32,32)));
+                        blockArray.add(new Vertex( new Vector2f((a*blockSizePixels) + blockSizePixels,(b*blockSizePixels) ),new Vector2f(32*blockID,32)));
                     }
                     catch (Exception e)
                     {

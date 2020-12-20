@@ -11,9 +11,10 @@ public class GUIController implements Drawable
 {
     Text fpsCounter;                //Displays the number of frames per second
     Font textFont = new Font();     //The font for Displaying text
-    HealthBar hB;                   //Heath bar
+    HealthOrb hO;                   //Heath bar
     Inventory iB;                   //Inventory
     XPBar xpB;                      //XP bar
+    MagicOrb mO;
     MiniMap map;                    //Mini Map
     public GUIController()
     {
@@ -34,12 +35,15 @@ public class GUIController implements Drawable
         {
             System.out.println("Font not found");
         }
-        hB = new HealthBar(p);
-        iB = new Inventory(p);
-        xpB = new XPBar(p);
+        hO = new HealthOrb(p);
+        mO = new MagicOrb(p);
+        iB = new Inventory(p,6);
+        xpB = new XPBar(p, iB.getTotalSlots());
         map = new MiniMap(p);
-        hB.takeDamage(40);
-        hB.updateHealthBarPosition();
+        hO.takeDamage(40);
+        xpB.AddXP(2);
+        hO.updateHealthOrbPosition();
+        mO.updateMagicOrbPosition();
         iB.updateInventoryPosition();
         xpB.updateXPBarPosition();
         map.updateMiniMapPosition();
@@ -53,7 +57,8 @@ public class GUIController implements Drawable
      */
     public void updateGUI()
     {
-        hB.updateHealthBarPosition();
+        hO.updateHealthOrbPosition();
+        mO.updateMagicOrbPosition();
         iB.updateInventoryPosition();
         xpB.updateXPBarPosition();
         map.updateMiniMapPosition();
@@ -70,6 +75,10 @@ public class GUIController implements Drawable
         fpsCounter.setString(String.valueOf(x));
     }
 
+    public MiniMap getMap()
+    {
+        return map;
+    }
     /**
      * draw()
      * This method overrides the draw method to draw each element in the UI overlay
@@ -79,12 +88,20 @@ public class GUIController implements Drawable
     @Override
     public void draw(RenderTarget renderTarget, RenderStates renderStates)
     {
-        renderTarget.draw(hB.getHealthBarBack());
-        renderTarget.draw(hB.getHealthBarFront());
+        renderTarget.draw(hO.getHealthOrbBack());
+        renderTarget.draw(hO.getHealthOrbFront());
+
         renderTarget.draw(iB.getInventoryBack());
-        renderTarget.draw(iB.getInventoryFront());
+        for (int i = 0; i < iB.getTotalSlots(); i++) {
+            renderTarget.draw(iB.getInventorySlots(i));
+        }
+
         renderTarget.draw(xpB.getXPBarBack());
-        renderTarget.draw(xpB.getXPBarFront());
+        for (int i = 0; i < xpB.getTotalXPSlots(); i++) {
+            renderTarget.draw(xpB.getXPBarSlot(i));
+        }
+        renderTarget.draw(mO.getMagicOrbBack());
+        renderTarget.draw(mO.getMagicOrbFront());
         renderTarget.draw(map.getMiniMapFront());
         renderTarget.draw(map.getMiniMapBack());
         renderTarget.draw(fpsCounter);

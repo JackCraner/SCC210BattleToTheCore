@@ -2,8 +2,7 @@ package Main.GUI;
 
 import Main.ForeGround.Entities.Player;
 import Main.Game;
-import org.jsfml.graphics.Color;
-import org.jsfml.graphics.RectangleShape;
+import org.jsfml.graphics.*;
 import org.jsfml.system.Vector2f;
 
 public class MiniMap {
@@ -15,6 +14,7 @@ public class MiniMap {
     Vector2f MapSize;                                                   //The vector2f of the MiniMap
     Player p;                                                           //Object reference of player class
 
+    Sprite mapSprite;
     /**
      * MiniMap() constructor
      * This constructs the XPBar element with the current length and size of the window
@@ -30,6 +30,7 @@ public class MiniMap {
         back = new RectangleShape(MapSize);
         front.setFillColor(backgroundColour);
         back.setFillColor(backgroundColour);
+        mapSprite = new Sprite();
     }
 
     /**
@@ -39,6 +40,13 @@ public class MiniMap {
     public void updateMiniMapPosition() {
         front.setPosition(735, Game.windowSize - MapSize.y - 735);
         back.setPosition(735, Game.windowSize - MapSize.y - 735);
+        mapSprite.setPosition(735, Game.windowSize - MapSize.y - 735);
+        mapSprite.setScale(0.25f,0.25f);
+    }
+
+    public void updateMiniMapGraphic(ConstTexture t)
+    {
+        mapSprite.setTexture(t);
     }
 
     /**
@@ -58,5 +66,11 @@ public class MiniMap {
      */
     public RectangleShape getMiniMapBack() {
         return back;
+    }
+
+
+    public Sprite getMiniMapSprite()
+    {
+        return mapSprite;
     }
 }

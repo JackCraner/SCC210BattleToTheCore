@@ -1,6 +1,8 @@
 package Main.Background.MapGen;
 
-import Main.Background.MapGen.CellularA.CellularAutomata;
+import Main.Background.MapGen.MapCreation.CellularA.CellularAutomata;
+import Main.Background.MapGen.MapCreation.CreationOutput;
+import Main.Game;
 import org.jsfml.system.Vector2f;
 
 public class Map
@@ -9,16 +11,17 @@ public class Map
     int chunkY;
     int chunkBlockSize;
     Chunk[][] chunkArray;
-    CellularAutomata cA;
+    CellularAutomata cA = new CellularAutomata(Game.chunkSizeBlocks,Game.chunkSizePixels);
+    CreationOutput cO = new CreationOutput();
     public Map(int chunkSizeBlocks, int chunkSizePixels,int chunkX, int chunkY)
     {
         this.chunkX = chunkX;
         this.chunkY = chunkY;
         this.chunkBlockSize = chunkSizeBlocks;
         chunkArray = new Chunk[chunkX][chunkY];
-        cA = new CellularAutomata(chunkSizeBlocks,chunkSizePixels);
         generateMap();
         generateTunnels();
+        generateDeco();
     }
 
     public void generateMap()
@@ -82,6 +85,11 @@ public class Map
         }
 
     }
+    public void generateDeco()
+    {
+        chunkArray = cO.generateOutput(chunkArray);
+    }
+
     public Chunk getChunkAtPosition(Vector2f position)
     {
         return chunkArray[(int)position.x][(int)position.y];

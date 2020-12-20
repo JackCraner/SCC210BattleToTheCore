@@ -23,6 +23,10 @@ public class Chunk
     {
         return chunkBlockMapping;
     }
+    public void setChunkMapping(Block[][] b)
+    {
+        chunkBlockMapping = b;
+    }
     public Block getBlockAtVector(Vector2i v)
     {
         return chunkBlockMapping[v.x][v.y];

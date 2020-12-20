@@ -2,45 +2,54 @@ package Main.GUI;
 
 import Main.ForeGround.Entities.Player;
 import Main.Game;
-import org.jsfml.graphics.Color;
-import org.jsfml.graphics.RectangleShape;
+import org.jsfml.graphics.*;
 import org.jsfml.system.Vector2f;
+import org.w3c.dom.css.Rect;
 
 public class Inventory
 {
     //spacing and items should scale with viewSize
     //Static Colors = BLACK, BLUE, CYAN, GREEN, MAGENTA, RED, WHITE, YELLOW
     Color background = new Color(128, 128, 128);   //The colour of the Inventory
-    Color SlotColour = new Color(168, 168, 168);   //The colour of the Slots
-    RectangleShape front;                                   //The front element
+    Color SlotColour1 = new Color(168, 168, 168);  //The colour of the Slots
+    Color SlotColour2 = new Color(195, 195, 195);  //The colour of the Slots
     RectangleShape back;                                    //The back element
-    //RectangleShape[] Slot = new RectangleShape[6];        //6 slots for player items (sprites)
+    int numSlots;                                           //The number of slots in the inventory
+    RectangleShape[] Slot;                                  //Slots for player items (sprites)
     Vector2f InventorySize;                                 //The vector2f of the Inventory
     Vector2f SlotSize;                                      //The vector2f of the Inventory
-    float SlotsEmpty = 6;                                   //The number of lots free
+    float SlotsEmpty;                                       //The number of lots free
+    float SlotLength;                                       //The length of each slot
     Player p;                                               //Object reference of player class
-
     /**
      * InventoryBar() constructor
      * This constructs the InventoryBar element with the current length and size of the window
      * The front and back element are set a size according to the window size
      * Both elements are set a color as well
+     * Also the Inventory can have any number of slots
      * @param p The player
+     * @param numOfSlots The amount of slots the inventory is going to have
      */
-    public Inventory(Player p)
+    public Inventory(Player p, int numOfSlots)
     {
         this.p = p;
-        InventorySize = new Vector2f((float)(Game.windowSize - 200), 90);   //length, width of bar
-        SlotSize = new Vector2f((float)(Game.windowSize - 900), 90);   //length, width of bar
-        /*
-        for (int i = 0; i < InventorySlots.length; i++){
-            InventorySlots[i] = new Vector2f((float)(Game.windowSize-980), 50);
-            Slot[i] = new RectangleShape(InventorySlots[i]);
-        } */
-        front = new RectangleShape(SlotSize);
+        this.SlotsEmpty = numOfSlots;
+        this.numSlots = numOfSlots;
+        this.Slot = new RectangleShape[numOfSlots];
+        SlotLength = (float)(Game.windowSize - 900);
+        InventorySize = new Vector2f((float)(Game.windowSize - 400), 90);   //length, width of bar
+        SlotSize = new Vector2f(SlotLength, 90);   //length, width of bar
         back = new RectangleShape(InventorySize);
-        front.setFillColor(SlotColour);
         back.setFillColor(background);
+        for (int i = 0; i < Slot.length; i++){
+            Slot[i] = new RectangleShape(SlotSize);
+            if (i % 2 == 0){
+                Slot[i].setFillColor(SlotColour1);
+            }
+            else {
+                Slot[i].setFillColor(SlotColour2);
+            }
+        }
     }
 
     /**
@@ -49,12 +58,20 @@ public class Inventory
      */
     public void updateInventoryPosition()
     {
-        /*
         for (int i = 0; i < Slot.length; i++) {
-            Slot[i].setPosition(100, Game.windowSize - InventorySlots[i].y - 30);
-        } */
-        front.setPosition(100, Game.windowSize - InventorySize.y - 30);
-        back.setPosition(100, Game.windowSize - InventorySize.y - 30);
+            int temp = 200+((int)SlotLength*i);
+            Slot[i].setPosition(temp, Game.windowSize - InventorySize.y - 30);
+        }
+        back.setPosition(200, Game.windowSize - InventorySize.y - 30);
+    }
+
+    /**
+     * getTotalSlots()
+     * This method returns the number of slots in the inventory
+     * @return The number of slots
+     */
+    public int getTotalSlots(){
+        return numSlots;
     }
 
     /**
@@ -62,9 +79,9 @@ public class Inventory
      * This method returns the front of the Inventory element
      * @return The front element
      */
-    public RectangleShape getInventoryFront()
+    public RectangleShape getInventorySlots(int i)
     {
-        return front;
+        return Slot[i];
     }
 
     /**
@@ -84,7 +101,7 @@ public class Inventory
      */
     public void AddItem(int x)
     {
-        SlotsEmpty -=x;
-        front.setSize(new Vector2f(InventorySize.x * (SlotsEmpty/100), InventorySize.y));
+        SlotsEmpty -= SlotsEmpty;
+        Slot[x].setFillColor(background);
     }
 }
