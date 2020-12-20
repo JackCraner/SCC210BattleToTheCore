@@ -125,16 +125,16 @@ public class Game
             gameRender.clear(Color.BLACK);
             gameRender.draw(bGround);
             gameRender.draw(fGround);
-            gameRender.draw(playerObject);
+            gameRender.draw(playerObject);                          //adds all the game textures into one texture
             gameRender.setView(playerObject.getpView());
             gameRender.display();
 
             gameWindow.setTexture(gameRender.getTexture());
-            rS = new RenderStates(sC.createShader(gameWindow.getTexture()));
+            rS = new RenderStates(sC.createShader(gameWindow.getTexture()));    // Gives this big texture to the shaderController (sC) to create the shader
 
             window.clear();
-            window.draw(gameWindow,rS);
-            window.draw(GUI);
+            window.draw(gameWindow,rS);         //The shader acts as a post processing effect, sort of layering ontop of the main game
+            window.draw(GUI);                   //draws the GUI as the next layer ontop (uneffected by the shader)
 
             window.display();
         }
