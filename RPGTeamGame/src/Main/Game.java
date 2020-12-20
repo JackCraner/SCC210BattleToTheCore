@@ -34,12 +34,12 @@ public class Game
     Sprite gameWindow = new Sprite();
     Sprite miniMap = new Sprite();
     public static int windowSize = 1000;
-    public static int viewSize = 1000;
+    public static int viewSize = 1000;          //change to zoom in and out
     public static int chunkSizeBlocks = 100;
     public static int chunkSizePixels = 3200;
     public static int blockSize = 32;
 
-    public static int numberOfChunksX = 3;
+    public static int numberOfChunksX = 3;      //change to make map bigger or smaller
     public static int numberOfChunksY = 3;
 
     public Game()
