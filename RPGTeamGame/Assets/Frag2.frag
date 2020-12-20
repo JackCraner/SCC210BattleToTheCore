@@ -1,23 +1,19 @@
 uniform sampler2D texture;
 uniform vec2 resolution;
-uniform vec2 mouse;
+
 uniform vec2 time;
 
-// The RGB values are the ambient light color
-// and the alpha is the ambient intensity
+
 uniform vec4 ambientData;
-// The RGB values are the light color
-// and the alpha is the light intensity
+
 uniform vec4 lightData;
-// Maximum radius of the light
+
 uniform vec2 lightSize;
 
 uniform vec2 position;
 
 void main() {
-    // Light's position
 
-    //vec2 position = mouse+(resolution/2)/resolution.xx;
 
     // Makes the light change its size slightly to make a fire effect
     float maxDistance = lightSize + 0.015*sin(time.x);

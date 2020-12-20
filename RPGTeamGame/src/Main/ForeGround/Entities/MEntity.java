@@ -20,13 +20,13 @@ public class MEntity extends Entity
         setTexture(getEntityTexture());
     }
 
-    public void moveEntity()
+    public void move()
     {
         move(velocity);
         friction();
     }
 
-    public void addVelocity(Vector2f v)
+    public void setVelocity(Vector2f v)
     {
         if (checkVelocityLess(velocity.x))
         {
@@ -71,9 +71,9 @@ public class MEntity extends Entity
 
         velocity = new Vector2f(vX,vY);
     }
-    public boolean checkVelocityGreater()
+    public boolean hasMoved(Vector2f nothing)
     {
-        return (((velocity.x)*(velocity.x)) + (velocity.y * velocity.y) > 0);
+        return !(((velocity.x)*(velocity.x)) + (velocity.y * velocity.y) > 0);
     }
     public boolean checkVelocityLess(float x)
     {

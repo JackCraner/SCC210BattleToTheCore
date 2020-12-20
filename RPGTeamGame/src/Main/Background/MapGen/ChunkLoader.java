@@ -2,6 +2,7 @@ package Main.Background.MapGen;
 
 
 import Main.ForeGround.Entities.Player;
+import Main.Game;
 import org.jsfml.graphics.*;
 import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
@@ -27,7 +28,7 @@ public class ChunkLoader implements Drawable
         this.mapPlane= mapPlane;
         try
         {
-            blockTexture.loadFromFile(Paths.get("Assets\\TileMapBig.png"));
+            blockTexture.loadFromFile(Paths.get("Assets\\TileMapBig2.png"));
 
         }
         catch(Exception E){
@@ -37,7 +38,7 @@ public class ChunkLoader implements Drawable
 
         blockArray = new VertexArray(PrimitiveType.QUADS);
         blockSizePixels = (int)(chunkSizePixels/chunkSizeBlocks);
-        viewRange = (chunkSizeBlocks/2) + 10;
+        viewRange = (int)Math.ceil((Game.viewSize/Game.blockSize)/2) +1;
 
     }
     public void generateMetaData(Player p)

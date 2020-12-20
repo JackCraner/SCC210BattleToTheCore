@@ -34,7 +34,7 @@ public class Game
     Sprite gameWindow = new Sprite();
     Sprite miniMap = new Sprite();
     public static int windowSize = 1000;
-    public static int viewSize = 1600;
+    public static int viewSize = 1000;
     public static int chunkSizeBlocks = 100;
     public static int chunkSizePixels = 3200;
     public static int blockSize = 32;
@@ -69,7 +69,7 @@ public class Game
 
         }
         RenderWindow window = new RenderWindow(new VideoMode(windowSize,windowSize),"Mine");
-        window.setFramerateLimit(100);
+        //window.setFramerateLimit(100);
         window.setVerticalSyncEnabled(true);    //??
         int counter = 0;
         bGround.initialiseBackGround(playerObject);
@@ -94,43 +94,30 @@ public class Game
 
             Vector2f currentPos = playerObject.getPosition();
 
-            if (checkOnLand())// touching block
+
+            if(Keyboard.isKeyPressed(Keyboard.Key.D))
             {
-                if(Keyboard.isKeyPressed(Keyboard.Key.D))
-                {
-                    playerObject.setVelocity(new Vector2f(1,0));
-                }
-                if(Keyboard.isKeyPressed(Keyboard.Key.A))
-                {
-                    playerObject.setVelocity(new Vector2f(-1,0));
-                }
-                if(Keyboard.isKeyPressed(Keyboard.Key.SPACE))
-                {
-                    playerObject.setVelocity(new Vector2f(0,-1));
-                }
-                if(Keyboard.isKeyPressed(Keyboard.Key.S))
-                {
-                    playerObject.setVelocity(new Vector2f(0,1));
-                }
-                playerObject.move();
+                playerObject.setVelocity(new Vector2f(1,0));
             }
-            else // not touching block
+            if(Keyboard.isKeyPressed(Keyboard.Key.A))
             {
-                if(Keyboard.isKeyPressed(Keyboard.Key.D))
-                {
-                    playerObject.setVelocityWithGravity(new Vector2f(1,0));
-                }
-                if(Keyboard.isKeyPressed(Keyboard.Key.A))
-                {
-                    playerObject.setVelocityWithGravity(new Vector2f(-1,0));
-                }
-                playerObject.moveWithGravity();
+                playerObject.setVelocity(new Vector2f(-1,0));
             }
+            if(Keyboard.isKeyPressed(Keyboard.Key.W))
+            {
+                playerObject.setVelocity(new Vector2f(0,-1));
+            }
+            if(Keyboard.isKeyPressed(Keyboard.Key.S))
+            {
+                playerObject.setVelocity(new Vector2f(0,1));
+            }
+            playerObject.move();
+
 
             playerObject.moveEntity();
             if (!playerObject.hasMoved(currentPos))
             {
-
+                System.out.println(playerObject.inChunk() + " " +  playerObject.inBlock());
                 bGround.updateBackGroundOnMove(playerObject);
             }
 
@@ -139,7 +126,6 @@ public class Game
             gameRender.draw(bGround);
             gameRender.draw(fGround);
             gameRender.draw(playerObject);
-            GUI.getMap().updateMiniMapGraphic(gameRender.getTexture());
             gameRender.setView(playerObject.getpView());
             gameRender.display();
 

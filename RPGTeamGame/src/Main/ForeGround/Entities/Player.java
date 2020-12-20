@@ -5,7 +5,7 @@ import Main.Game;
 import org.jsfml.graphics.View;
 import org.jsfml.system.Vector2f;
 
-public class Player extends MovingEntity
+public class Player extends MEntity
 {
     View playerCamera;
     PositionVector pos;
@@ -29,7 +29,6 @@ public class Player extends MovingEntity
     {
         Vector2f chunkPos = inChunk();
         Vector2f charPos = this.getPosition();
-        //System.out.println(blockSize);
         return new Vector2f((float)Math.floor((charPos.x - chunkPos.x * Game.chunkSizePixels)/Game.blockSize), (float)Math.floor((charPos.y - chunkPos.y * Game.chunkSizePixels)/Game.blockSize));
     }
 

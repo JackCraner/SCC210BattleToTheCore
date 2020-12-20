@@ -20,7 +20,7 @@ public class CreationAddBlocks
             {
                 if (newBlock[a][b].getID() == 1)
                 {
-                    newBlock[a][b].setID(1);
+                    newBlock[a][b].setID(31);
                 }
                 else if (newBlock[a][b].getID() == 0)
                 {
