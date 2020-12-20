@@ -51,4 +51,5 @@ Program Structure
 
 Current Bug List:
 
+    -Program has to be open from the Folder "RPGTeamGame" NOT the git Folder because of file paths
     
