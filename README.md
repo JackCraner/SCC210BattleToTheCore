@@ -6,6 +6,7 @@ Program Structure
 
 - Game is the spine of the program
     The Game is split into 5 key graphical sections: Background, Foreground, Player, Shaders and GUI (in draw layer order, so GUI is ontop of everything else)
+    
         -Background is the map, walls etc (outputted as a vertexArray)
         -Foreground is entities so enemies and objects
         -Player is basically a spicy entity, user controls, Camera  (Player is currently just sitting Game class)
