@@ -53,7 +53,7 @@ public class Physics {
         Vector2f position = new Vector2f(entity.getPosition().x / Game.blockSize, entity.getPosition().y / Game.blockSize);
         Vector2f underPosition = new Vector2f((int)position.x, (int)position.y + 1);
 
-        if (position.y + 1 == cBlockArray[0].length)
+        if (underPosition.y >= cBlockArray[0].length)
         {
             return true;
         }

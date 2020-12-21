@@ -102,13 +102,6 @@ public class Game
 
             Vector2f currentPos = playerObject.getPosition();
 
-            System.out.println(playerObject.getPosition().x / Game.blockSize);
-            System.out.println(playerObject.getPosition().y / Game.blockSize);
-
-            System.out.println("===========");
-
-            System.out.println(pGround.checkEntityOnGround(playerObject));
-
             if (pGround.checkEntityOnGround(playerObject))// touching block
             {
                 if(Keyboard.isKeyPressed(Keyboard.Key.D))
