@@ -32,7 +32,7 @@ public class Background implements Drawable
     }
     public void initialiseBackGround(Player p)
     {
-        currentPlayerChunk = p.inChunk(chunkSizePixels);
+        currentPlayerChunk = p.inChunk();
         cH.generateMetaData(p);
         cH.generateBlockArray(p);
 
@@ -42,9 +42,9 @@ public class Background implements Drawable
 
 
 
-        if (currentPlayerChunk.x != p.inChunk(chunkSizePixels).x || currentPlayerChunk.y != p.inChunk(chunkSizePixels).y)
+        if (currentPlayerChunk.x != p.inChunk().x || currentPlayerChunk.y != p.inChunk().y)
         {
-            currentPlayerChunk = p.inChunk(chunkSizePixels);
+            currentPlayerChunk = p.inChunk();
             cH.generateMetaData(p);
 
         }

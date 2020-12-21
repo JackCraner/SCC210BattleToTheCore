@@ -50,7 +50,7 @@ public class ChunkLoader implements Drawable
             {
                 try{
 
-                    chunkArray[b][a] = mapPlane.getChunkAtPosition(new Vector2f(p.inChunk(chunkSizePixels).x + (b-1), p.inChunk(chunkSizePixels).y + (a-1)));
+                    chunkArray[b][a] = mapPlane.getChunkAtPosition(new Vector2f(p.inChunk().x + (b-1), p.inChunk().y + (a-1)));
                 }
                 catch (Exception e)
                 {
@@ -71,9 +71,9 @@ public class ChunkLoader implements Drawable
         {
 
            // System.out.println("Blocks: " + playerObject.inBlock(chunkSizePixels,blockSizePixels) + " Chunk: " + playerObject.inChunk(chunkSizePixels));
-            for (int a = (int)p.inBlock(chunkSizePixels,blockSizePixels).x - viewRange; a <(int)p.inBlock(chunkSizePixels,blockSizePixels).x + viewRange; a++)
+            for (int a = (int)p.inBlock().x - viewRange; a <(int)p.inBlock().x + viewRange; a++)
             {
-                for (int b = (int)p.inBlock(chunkSizePixels,blockSizePixels).y - viewRange; b < (int)p.inBlock(chunkSizePixels,blockSizePixels).y + viewRange; b++)
+                for (int b = (int)p.inBlock().y - viewRange; b < (int)p.inBlock().y + viewRange; b++)
                 {
                     try
                     {

@@ -8,6 +8,7 @@ import Main.ForeGround.Foreground;
 import Main.GUI.GUIController;
 import Main.Physics.CEntity;
 import Main.Physics.Cblock;
+import Main.Physics.Physics;
 import Main.Shader.ShaderController;
 import org.jsfml.graphics.*;
 import org.jsfml.system.Clock;
@@ -24,6 +25,7 @@ public class Game
     Clock systemClock = new Clock();
     Background bGround;
     Foreground fGround;
+    Physics pGround;
     GUIController GUI;
     ShaderController sC;
     RenderStates rS;
@@ -37,6 +39,7 @@ public class Game
     public static int viewSize = 1600;
     public static int chunkSizeBlocks = 100;
     public static int chunkSizePixels = 1600;
+    public static int blockSize = 16;
 
     int numberOfChunksX = 3;
     int numberOfChunksY = 3;
@@ -46,8 +49,14 @@ public class Game
 
         playerObject = new Player(1,new Vector2f(((numberOfChunksX/2) * chunkSizePixels) + (viewSize/2),viewSize/2), viewSize);
         currentPos = new PositionVector(playerObject.getPosition());
+
+
         bGround = new Background(chunkSizeBlocks, chunkSizePixels, numberOfChunksX, numberOfChunksY);
         fGround = new Foreground();
+
+        pGround = Physics.getInstance();
+        pGround.setBlockArray(bGround.getMapObject());
+
         GUI = new GUIController();
         sC = new ShaderController();
 
@@ -93,23 +102,26 @@ public class Game
 
             Vector2f currentPos = playerObject.getPosition();
 
-            if (checkOnLand())// touching block
+            System.out.println(playerObject.getPosition().x / Game.blockSize);
+            System.out.println(playerObject.getPosition().y / Game.blockSize);
+
+            System.out.println("===========");
+
+            System.out.println(pGround.checkEntityOnGround(playerObject));
+
+            if (pGround.checkEntityOnGround(playerObject))// touching block
             {
                 if(Keyboard.isKeyPressed(Keyboard.Key.D))
                 {
-                    playerObject.setVelocity(new Vector2f(1,0));
+                    playerObject.setVelocity(new Vector2f(2,0));
                 }
                 if(Keyboard.isKeyPressed(Keyboard.Key.A))
                 {
-                    playerObject.setVelocity(new Vector2f(-1,0));
+                    playerObject.setVelocity(new Vector2f(-2,0));
                 }
                 if(Keyboard.isKeyPressed(Keyboard.Key.SPACE))
                 {
-                    playerObject.setVelocity(new Vector2f(0,-1));
-                }
-                if(Keyboard.isKeyPressed(Keyboard.Key.S))
-                {
-                    playerObject.setVelocity(new Vector2f(0,1));
+                    playerObject.setVelocity(new Vector2f(0,-2));
                 }
                 playerObject.move();
             }
@@ -117,11 +129,11 @@ public class Game
             {
                 if(Keyboard.isKeyPressed(Keyboard.Key.D))
                 {
-                    playerObject.setVelocityWithGravity(new Vector2f(1,0));
+                    playerObject.setVelocityWithGravity(new Vector2f(2,0));
                 }
                 if(Keyboard.isKeyPressed(Keyboard.Key.A))
                 {
-                    playerObject.setVelocityWithGravity(new Vector2f(-1,0));
+                    playerObject.setVelocityWithGravity(new Vector2f(-2,0));
                 }
                 playerObject.moveWithGravity();
             }
@@ -151,19 +163,4 @@ public class Game
             window.display();
         }
     }
-
-    public boolean checkOnLand()
-    {
-        Vector2f playerLocation = playerObject.inBlock(Game.chunkSizePixels,Game.chunkSizeBlocks);
-        Vector2f underPlayerBlockLocation = new Vector2f(playerLocation.x, playerLocation.y + 1);
-        int underPlayerBlockId = bGround.getMapObject().getChunkAtPosition(playerObject.inChunk(Game.chunkSizePixels)).getBlockAtVector(underPlayerBlockLocation).getID();
-
-        if (underPlayerBlockId == 0 && new CEntity(playerLocation, 16,16).getcBox().checkCollistion(new Cblock(underPlayerBlockLocation).getcBox()))
-        {
-            return true;
-        }
-
-        return false;
-    }
-
 }

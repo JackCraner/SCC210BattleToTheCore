@@ -87,4 +87,7 @@ public class Map
         return chunkArray[(int)position.x][(int)position.y];
     }
 
+    public Chunk[][] getChunkArray() {
+        return chunkArray;
+    }
 }

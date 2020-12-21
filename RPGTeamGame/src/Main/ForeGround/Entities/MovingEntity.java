@@ -1,5 +1,6 @@
 package Main.ForeGround.Entities;
 
+import Main.Game;
 import org.jsfml.system.Vector2f;
 
 /**
@@ -9,7 +10,7 @@ public class MovingEntity extends Entity{
 
     private final float [] position, velocity;
 
-    public static float GRAVITATIONAL_PULL = (float) 0.25;
+    public static float GRAVITATIONAL_PULL = (float) 0.020;
 
     /**
      * The constructor for the moving entity that takes in the starting coordinate of the entity
@@ -102,7 +103,7 @@ public class MovingEntity extends Entity{
 
     /**
      * Moves the internal position of the entity based on the velocity inputted.<br>
-     * This does NOT reset the velocity of the entity after call. The Y velocity will increase till a maximum of 2 and the x velocity will stay the same.<br>
+     * This does NOT reset the velocity of the entity after call. The Y velocity will increase till a maximum of 8 and the x velocity will stay the same.<br>
      * If X velocity is wished to be changed then use setVelocityWithGravity() for that purpose.<br>
      * Intern this will give the feeling of moving downwards without friction/air-resistance
      *
@@ -114,9 +115,9 @@ public class MovingEntity extends Entity{
         move(getVelocity());
         this.velocity[1] += GRAVITATIONAL_PULL;
 
-        if (this.velocity[1] > 2 )
+        if (this.velocity[1] > 4 )
         {
-            this.velocity[1] = (float) 2.0;
+            this.velocity[1] = (float) 4.0;
         }
 
         this.position[0] += this.velocity[0];
@@ -128,5 +129,19 @@ public class MovingEntity extends Entity{
     public boolean hasMoved(Vector2f position)
     {
         return (position.x == this.position[0] && position.y == this.position[1]);
+    }
+
+    public Vector2f inChunk()
+    {
+        double chunkX = this.getPosition().x/ Game.chunkSizePixels;
+        double chunkY = this.getPosition().y/Game.chunkSizePixels;
+        return new Vector2f((float)Math.floor(chunkX), (float)Math.floor(chunkY));
+    }
+
+    public Vector2f inBlock()
+    {
+        Vector2f chunkPos = inChunk();
+        Vector2f charPos = this.getPosition();
+        return new Vector2f((float)Math.floor((charPos.x - chunkPos.x * Game.chunkSizePixels)/Game.blockSize), (float)Math.floor((charPos.y - chunkPos.y * Game.chunkSizePixels)/Game.blockSize));
     }
 }
