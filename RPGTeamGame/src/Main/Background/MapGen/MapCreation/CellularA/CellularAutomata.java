@@ -1,6 +1,7 @@
 package Main.Background.MapGen.MapCreation.CellularA;
 
 import Main.Background.MapGen.Block;
+import Main.Game;
 
 import java.util.ArrayList;
 
@@ -14,26 +15,23 @@ public class CellularAutomata
 
     private int wallID = 0;
     private int EmptyID = 1;
-
-    int chunkSizeBlocks;
-    int chunkSizePixels;
+    
 
     int[][] chunkBinaryMapping;
     Cave cMap;
 
-    public CellularAutomata(int chunkSizeBlocks, int chunkSizePixels)
+    public CellularAutomata()
     {
-        this.chunkSizeBlocks = chunkSizeBlocks;
-        this.chunkSizePixels = chunkSizePixels;
-        chunkBinaryMapping = new int[chunkSizeBlocks][chunkSizeBlocks];
-        cMap = new Cave(chunkSizeBlocks, chunkSizeBlocks);
+       
+        chunkBinaryMapping = new int[Game.chunkSizeBlocks][Game.chunkSizeBlocks];
+        cMap = new Cave(Game.chunkSizeBlocks, Game.chunkSizeBlocks);
     }
 
     public int[][] startMap(int[][] binaryMapping)
     {
-        for (int a = 0; a <chunkSizeBlocks; a++)
+        for (int a = 0; a <Game.chunkSizeBlocks; a++)
         {
-            for (int b = 0; b<chunkSizeBlocks; b++)
+            for (int b = 0; b<Game.chunkSizeBlocks; b++)
             {
                 if ((Math.random()) > initalEmptyFaceRate)
                 {
@@ -58,10 +56,10 @@ public class CellularAutomata
         int spaceCount = 0;
 
         int xStart = Math.max(x-1, 0);
-        int xEnd = Math.min(x+1, chunkSizeBlocks-1);
+        int xEnd = Math.min(x+1, Game.chunkSizeBlocks-1);
 
         int yStart = Math.max(y-1, 0);
-        int yEnd = Math.min(y+1,chunkSizeBlocks-1);
+        int yEnd = Math.min(y+1,Game.chunkSizeBlocks-1);
 
 
         for (int a = xStart; a <= xEnd; a++)
@@ -81,9 +79,9 @@ public class CellularAutomata
     {
 
         int[][] newMap = tempMap;
-        for (int a = 0; a < chunkSizeBlocks; a++)
+        for (int a = 0; a < Game.chunkSizeBlocks; a++)
         {
-            for (int b = 0; b< chunkSizeBlocks; b++)
+            for (int b = 0; b< Game.chunkSizeBlocks; b++)
             {
                 if (checkNeighbours(tempMap, a, b) >= 5)
                 {
@@ -110,10 +108,10 @@ public class CellularAutomata
     public ArrayList<Cave> findCaves(int[][] mapping)
     {
         ArrayList<Cave> foundCaves = new ArrayList<>();
-        for (int a = 0; a < chunkSizeBlocks; a++) {
-            for (int b = 0; b < chunkSizeBlocks; b++) {
+        for (int a = 0; a < Game.chunkSizeBlocks; a++) {
+            for (int b = 0; b < Game.chunkSizeBlocks; b++) {
                 if (checkNeighbours(mapping, a, b) == 9) {
-                    Cave locatedCave = new Cave(chunkSizePixels, chunkSizePixels);
+                    Cave locatedCave = new Cave(Game.chunkSizePixels, Game.chunkSizePixels);
                     foundCaves.add(caveRecursion(mapping,a, b, locatedCave));
                 }
             }
@@ -124,7 +122,7 @@ public class CellularAutomata
     public Cave caveRecursion(int[][] mapping, int x, int y, Cave newCave)
     {
 
-        if (!(x < 0 || x > chunkSizeBlocks -1 || y < 0 || y > chunkSizeBlocks - 1))
+        if (!(x < 0 || x > Game.chunkSizeBlocks -1 || y < 0 || y > Game.chunkSizeBlocks - 1))
         {
             int spaceCount = checkNeighbours(mapping, x, y);
             if (spaceCount >= 1)
@@ -163,10 +161,10 @@ public class CellularAutomata
 
     public Block[][] blockify(int[][] mapping)
     {
-        Block[][] blockMapping = new Block[chunkSizeBlocks][chunkSizeBlocks];
-        for (int a = 0; a < chunkSizeBlocks;a++)
+        Block[][] blockMapping = new Block[Game.chunkSizeBlocks][Game.chunkSizeBlocks];
+        for (int a = 0; a < Game.chunkSizeBlocks;a++)
         {
-            for (int b = 0; b< chunkSizeBlocks; b++)
+            for (int b = 0; b< Game.chunkSizeBlocks; b++)
             {
                 blockMapping[a][b] = new Block(mapping[a][b], a, b);
             }

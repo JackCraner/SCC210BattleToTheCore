@@ -11,23 +11,17 @@ import java.nio.file.Paths;
 
 public class Background implements Drawable
 {
-    int chunkSizeBlocks, chunkSizePixels;
-    int numberChunkX;
-    int numberChunkY;
+
 
     Map mapObject;
     ChunkLoader cH;
 
 
     Vector2f currentPlayerChunk;
-    public Background(int chunkSizeBlocks, int chunkSizePixels, int numberChunkX, int numberChunkY)
+    public Background()
     {
-        this.chunkSizeBlocks = chunkSizeBlocks;
-        this.chunkSizePixels = chunkSizePixels;
-        this.numberChunkX = numberChunkX;
-        this.numberChunkY = numberChunkY;
-        mapObject = new Map(chunkSizeBlocks,chunkSizePixels,numberChunkX,numberChunkY);
-        cH = new ChunkLoader(chunkSizeBlocks,chunkSizePixels,mapObject);
+        mapObject = new Map();
+        cH = new ChunkLoader(mapObject);
 
     }
     public void initialiseBackGround(Player p)

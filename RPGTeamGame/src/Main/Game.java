@@ -47,7 +47,7 @@ public class Game
 
         playerObject = new Player(1,new Vector2f(((numberOfChunksX/2) * chunkSizePixels) + (viewSize/2),viewSize/2), viewSize);
         currentPos = new PositionVector(playerObject.getPosition());
-        bGround = new Background(chunkSizeBlocks, chunkSizePixels, numberOfChunksX, numberOfChunksY);
+        bGround = new Background();
         fGround = new Foreground();
         GUI = new GUIController();
         sC = new ShaderController();

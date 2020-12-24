@@ -2,12 +2,11 @@ package Main.Background.MapGen.MapCreation;
 
 import Main.Background.MapGen.Block;
 import Main.Background.MapGen.Chunk;
-import Main.Background.MapGen.MapCreation.CellularA.CellularAutomata;
 import Main.Game;
 
 public class CreationOutput
 {
-    CellularAutomata cA = new CellularAutomata(Game.chunkSizeBlocks, Game.chunkSizePixels);
+
     CreationAddBlocks cB = new CreationAddBlocks();
     public CreationOutput()
     {
