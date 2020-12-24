@@ -117,7 +117,7 @@ public class Game
             playerObject.moveEntity();
             if (!playerObject.hasMoved(currentPos))
             {
-                System.out.println(playerObject.inChunk() + " " +  playerObject.inBlock());
+                //System.out.println(playerObject.inChunk() + " " +  playerObject.inBlock());
                 bGround.updateBackGroundOnMove(playerObject);
             }
 

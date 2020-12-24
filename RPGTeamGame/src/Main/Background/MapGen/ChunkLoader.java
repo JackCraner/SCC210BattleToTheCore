@@ -38,7 +38,7 @@ public class ChunkLoader implements Drawable
 
         blockArray = new VertexArray(PrimitiveType.QUADS);
         blockSizePixels = (int)(chunkSizePixels/chunkSizeBlocks);
-        viewRange = (int)Math.ceil((Game.viewSize/Game.blockSize)/2) +1;
+        viewRange = (int)Math.ceil((Game.viewSize/Game.blockSize)/2) +3;
 
     }
     public void generateMetaData(Player p)
