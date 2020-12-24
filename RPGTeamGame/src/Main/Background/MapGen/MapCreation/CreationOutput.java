@@ -1,7 +1,7 @@
 package Main.Background.MapGen.MapCreation;
 
 import Main.Background.MapGen.Block;
-import Main.Background.MapGen.Chunk;
+import Main.Background.MapGen.Chunks.FormationChunk;
 import Main.Game;
 
 public class CreationOutput
@@ -13,15 +13,15 @@ public class CreationOutput
 
 
     }
-    public Chunk[][] generateOutput(Chunk[][] c)
+    public FormationChunk[][] generateOutput(FormationChunk[][] c)
     {
         for (int a = 0; a<Game.numberOfChunksX; a++)
         {
             for (int b = 0; b< Game.numberOfChunksY;b++)
             {
-                Block[][] blockMapping = c[a][b].getChunkMapping();
+                Block[][] blockMapping = c[a][b].getbMapping();
                 blockMapping = cB.addBlocks(blockMapping);
-                c[a][b].setChunkMapping(blockMapping);
+                c[a][b].setbMapping(blockMapping);
             }
         }
 

@@ -27,21 +27,11 @@ public class Background implements Drawable
     public void initialiseBackGround(Player p)
     {
         currentPlayerChunk = p.inChunk();
-        cH.generateMetaData(p);
         cH.generateBlockArray(p);
 
     }
     public void updateBackGroundOnMove(Player p)
     {
-
-
-
-        if (currentPlayerChunk.x != p.inChunk().x || currentPlayerChunk.y != p.inChunk().y)
-        {
-            currentPlayerChunk = p.inChunk();
-            cH.generateMetaData(p);
-
-        }
         cH.generateBlockArray(p);
     }
 

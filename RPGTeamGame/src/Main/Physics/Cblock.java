@@ -1,13 +1,14 @@
 package Main.Physics;
 
 import org.jsfml.system.Vector2f;
+import org.jsfml.system.Vector2i;
 
 public class Cblock implements Collidable
 {
     CollisionBox cBox;
-    Vector2f centerPosition;
+    Vector2i centerPosition;
     float size;
-    public Cblock(Vector2f position)
+    public Cblock(Vector2i position)
     {
         this.centerPosition = position;
         this.size = 16;

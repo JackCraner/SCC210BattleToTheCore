@@ -11,7 +11,7 @@ public class MEntity extends Entity
     Vector2f velocity = new Vector2f(0,0);
     Vector2f gravity = new Vector2f(0.1f,0.1f);
     //stats
-    float maxSpeed = 50;
+    float maxSpeed = 20;
 
     public MEntity(int ID, Vector2f position)
     {

@@ -1,11 +1,13 @@
 package Main.Shader;
 
+import Main.ForeGround.Entities.Player;
+import Main.ForeGround.Interfaces.Illuminator;
 import org.jsfml.graphics.ConstTexture;
 import org.jsfml.graphics.Shader;
 import org.jsfml.graphics.Texture;
 
 import java.nio.file.Paths;
-
+import java.util.ArrayList;
 public class ShaderController
 {
     Shader mapShader = new Shader();
@@ -23,23 +25,23 @@ public class ShaderController
 
     }
 
-    public Shader createShader(ConstTexture t)
+    public Shader createShader(ConstTexture t, ArrayList<Illuminator> lightList, Player p)
     {
         mapShader.setParameter("texture", t);   //gives main texture to shader
         mapShader.setParameter("resolution", 1000, 1000);
         mapShader.setParameter("ambientData", 0.3f, 0.3f, 1f, 0f);
-        mapShader.setParameter("lights[0].position", 0.5f, 0.5f);
-        mapShader.setParameter("lights[0].size", 0.4f);
-        mapShader.setParameter("lights[0].intensity", 2f);
-        mapShader.setParameter("lights[0].rgbData", 0.3f, 0.3f, 0.8f);
-        mapShader.setParameter("lights[1].position", 0.2f, 0.2f);
-        mapShader.setParameter("lights[1].size", 0.4f);
-        mapShader.setParameter("lights[1].intensity", 3f);
-        mapShader.setParameter("lights[1].rgbData", 1.0f, 0.8f, 0.2f);
-        mapShader.setParameter("lights[2].position", 0.4f, 0.4f);
-        mapShader.setParameter("lights[2].size", 0f);
-        mapShader.setParameter("lights[2].intensity", 50f);
-        mapShader.setParameter("lights[2].rgbData", 1.0f, 0.8f, 0.2f);
+        int counter = 0;
+        for (Illuminator i: lightList)
+        {
+            if (i.getLight().getOnScreen(p)) {
+                mapShader.setParameter("lights[" + counter + "].position", i.getLight().convertPositionToScreen(p));
+                mapShader.setParameter("lights[" + counter + "].size", i.getLight().getSize());
+                mapShader.setParameter("lights[" + counter + "].intensity", i.getLight().getIntensity());
+                mapShader.setParameter("lights[" + counter + "].rgbData", i.getLight().getRgbData());
+            }
+            counter++;
+        }
+
         //mapShader.setParameter("lightSize", 0.4f, 0f);
         //mapShader.setParameter("position",0.5f, 0.5f);      //puts the lights position at the center of the screen)
         /**

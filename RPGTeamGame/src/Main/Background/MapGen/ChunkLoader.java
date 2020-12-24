@@ -1,6 +1,7 @@
 package Main.Background.MapGen;
 
 
+import Main.Background.MapGen.Chunks.Chunk;
 import Main.ForeGround.Entities.Player;
 import Main.Game;
 import org.jsfml.graphics.*;
@@ -18,8 +19,7 @@ public class ChunkLoader implements Drawable
     Texture blockTexture = new Texture();
     Map mapPlane;
     int viewRange;
-    //Block[][][][] blockArrayChunkInt = new Block[3][3][][];
-    Chunk[][] chunkArray = new Chunk[3][3];
+    Chunk c;
     public ChunkLoader(Map mapPlane)
     {
         this.mapPlane= mapPlane;
@@ -34,45 +34,28 @@ public class ChunkLoader implements Drawable
 
 
         blockArray = new VertexArray(PrimitiveType.QUADS);
-        viewRange = (int)Math.ceil((Game.viewSize/Game.blockSize)/2) +3;
+        viewRange = (int)Math.ceil((Game.viewSize/Game.blockSize)) +4;
 
     }
-    public void generateMetaData(Player p)
-    {
 
-
-        for (int a = 0; a < 3; a++)
-        {
-            for (int b = 0; b< 3; b++)
-            {
-                try{
-
-                    chunkArray[b][a] = mapPlane.getChunkAtPosition(new Vector2f(p.inChunk().x + (b-1), p.inChunk().y + (a-1)));
-                }
-                catch (Exception e)
-                {
-                    chunkArray[b][a]  = null;
-                }
-
-
-            }
-        }
-    }
     public void generateBlockArray(Player p)
     {
 
         blockArray.clear();
+        float transformF = (Game.viewSize / Game.blockSize) /2;
+        Vector2f transformV = new Vector2f(p.inBlock().x - transformF -2, p.inBlock().y -transformF-2);
+        c = new Chunk(mapPlane.getBlockMapArray(p.getPosition(), viewRange), transformV);
         try
         {
-
            // System.out.println("Blocks: " + playerObject.inBlock(Game.chunkSizePixels,Game.blockSize) + " Chunk: " + playerObject.inChunk(Game.chunkSizePixels));
-            for (int a = (int)p.inBlock().x - viewRange; a <(int)p.inBlock().x + viewRange; a++)
+            for (int a =0; a <viewRange; a++)
             {
-                for (int b = (int)p.inBlock().y - viewRange; b < (int)p.inBlock().y + viewRange; b++)
+
+                for (int b = 0; b < viewRange; b++)
                 {
                     try
                     {
-                        int blockID = whichChunk(chunkArray, a,b).getID();
+                        int blockID = c.getBlockAt(new Vector2i(a,b)).getID();
                         blockArray.add(new Vertex( new Vector2f((a*Game.blockSize),(b*Game.blockSize)),new Vector2f(32*blockID,0)));
                         blockArray.add(new Vertex( new Vector2f((a*Game.blockSize),(b*Game.blockSize) +  Game.blockSize),new Vector2f(32*blockID + 32,0)));
                         blockArray.add(new Vertex( new Vector2f((a*Game.blockSize)  + Game.blockSize,(b*Game.blockSize) + Game.blockSize),new Vector2f(32*blockID + 32,32)));
@@ -98,48 +81,19 @@ public class ChunkLoader implements Drawable
 
     }
 
-    private Block whichChunk(Chunk[][] cbArray, int x, int y)
-    {
-        Vector2i c = new Vector2i(1,1);
-        int xChange = 0;
-        int yChange = 0;
-        int xpos = x;
-        int ypos = y;
-
-        if (x < 0)
-        {
-            xChange = -1;
-            xpos = Game.chunkSizeBlocks + x;
-        }
-        else if (x>= Game.chunkSizeBlocks)
-        {
-            xChange = 1;
-            xpos = x- Game.chunkSizeBlocks;
-        }
-
-        if (y < 0)
-        {
-            yChange = -1;
-            ypos = Game.chunkSizeBlocks + y;
-        }
-        else if (y>= Game.chunkSizeBlocks)
-        {
-            yChange = 1;
-            ypos = y- Game.chunkSizeBlocks;
-        }
-        return cbArray[(c.x + xChange)][(c.y + yChange)].getBlockAtVector(new Vector2i(xpos,ypos));
-
-
-    }
     public VertexArray getArray()
     {
         return blockArray;
+    }
+    public Chunk getChunk()
+    {
+        return c;
     }
     public RenderStates getTransform(RenderStates renderStates)
     {
         try
         {
-            Transform t = new Transform(1,0,Game.chunkSizePixels * chunkArray[1][1].getcPosition().x,0,1,Game.chunkSizePixels * chunkArray[1][1].getcPosition().y,0,0,1);
+            Transform t = new Transform(1,0,Game.blockSize * c.getPosition().x,0,1,Game.blockSize * c.getPosition().y,0,0,1);
             renderStates = new RenderStates(renderStates,t);
 
         }

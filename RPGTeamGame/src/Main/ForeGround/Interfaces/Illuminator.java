@@ -1,4 +1,9 @@
 package Main.ForeGround.Interfaces;
 
-public interface Illuminator {
+import Main.Shader.Light;
+
+public interface Illuminator
+{
+    public Light getLight();
+
 }

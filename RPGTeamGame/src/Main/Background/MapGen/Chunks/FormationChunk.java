@@ -1,40 +1,21 @@
-package Main.Background.MapGen;
+package Main.Background.MapGen.Chunks;
 
 
+import Main.Background.MapGen.Block;
 import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 
-public class Chunk
+public class FormationChunk extends Chunk
 {
 
     private Block[][] chunkBlockMapping;
     private Vector2f cPosition;
 
-    public Chunk(Block[][] mapping, Vector2f cPosition)
+    public FormationChunk(Block[][] mapping, Vector2f cPosition)
     {
-        chunkBlockMapping = mapping;
-        this.cPosition = cPosition;
+        super(mapping,cPosition);
     }
-    public Vector2f getcPosition()
-    {
-        return cPosition;
-    }
-    public Block[][] getChunkMapping()
-    {
-        return chunkBlockMapping;
-    }
-    public void setChunkMapping(Block[][] b)
-    {
-        chunkBlockMapping = b;
-    }
-    public Block getBlockAtVector(Vector2i v)
-    {
-        return chunkBlockMapping[v.x][v.y];
-    }
-    public Block getBlockAtVector(Vector2f v)
-    {
-        return chunkBlockMapping[(int)v.x][(int)v.y];
-    }
+
     public Vector2f genRandomPoint(int a, int b) // between a and b which is empty
     {
         int pointX = (int)(Math.random() * (b - a));

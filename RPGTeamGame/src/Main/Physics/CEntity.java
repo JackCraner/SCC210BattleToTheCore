@@ -1,13 +1,14 @@
 package Main.Physics;
 
 import org.jsfml.system.Vector2f;
+import org.jsfml.system.Vector2i;
 
 public class CEntity
 {
     CollisionBox cBox;
-    Vector2f centerPosition;
+    Vector2i centerPosition;
     float width, height;
-    public CEntity(Vector2f position, float width, float height)
+    public CEntity(Vector2i position, float width, float height)
     {
         this.centerPosition = position;
         this.width = width;
@@ -21,7 +22,7 @@ public class CEntity
         return new CollisionBox(topLCorner,bottomRCorner);
     }
 
-    public void updateMesh(Vector2f position)
+    public void updateMesh(Vector2i position)
     {
         centerPosition = position;
         Vector2f topLCorner = new Vector2f(centerPosition.x - width/2, centerPosition.y-height/2);

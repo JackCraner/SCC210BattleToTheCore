@@ -1,23 +1,29 @@
 package Main.Background.MapGen;
 
+import Main.Background.MapGen.Chunks.Chunk;
+import Main.Background.MapGen.Chunks.FormationChunk;
 import Main.Background.MapGen.MapCreation.CellularA.CellularAutomata;
 import Main.Background.MapGen.MapCreation.CreationOutput;
 import Main.Game;
 import org.jsfml.system.Vector2f;
+import org.jsfml.system.Vector2i;
 
 public class Map
 {
 
-    Chunk[][] chunkArray;
+    FormationChunk[][] chunkArray;
+    Chunk mapChunk;
     CellularAutomata cA = new CellularAutomata();
     CreationOutput cO = new CreationOutput();
     public Map()
     {
 
-        chunkArray = new Chunk[Game.numberOfChunksX][Game.numberOfChunksY];
+        chunkArray = new FormationChunk[Game.numberOfChunksX][Game.numberOfChunksY];
+
         generateMap();
         generateTunnels();
         generateDeco();
+        combineMap();
     }
 
     public void generateMap()
@@ -26,7 +32,7 @@ public class Map
         {
             for (int b = 0; b< Game.numberOfChunksY;b++)
             {
-                chunkArray[a][b] = new Chunk(cA.generateBinaryMapping(), new Vector2f(a,b));
+                chunkArray[a][b] = new FormationChunk(cA.generateBinaryMapping(), new Vector2f(a,b));
 
             }
         }
@@ -58,10 +64,10 @@ public class Map
             }
         }
     }
-    public void generateTunnelsBetweenChunks(Chunk c1, Chunk c2)
+    public void generateTunnelsBetweenChunks(FormationChunk c1, FormationChunk c2)
     {
         int tunnelWidth = 5;
-        Vector2f dif = new Vector2f(c2.getcPosition().x - c1.getcPosition().x, c2.getcPosition().y - c1.getcPosition().y);
+        Vector2f dif = new Vector2f(c2.getPosition().x - c1.getPosition().x, c2.getPosition().y - c1.getPosition().y);
         Vector2f point1 = c1.genRandomPoint(0,Game.chunkSizeBlocks-tunnelWidth-1);
         Vector2f point2 = c2.genRandomPoint(0,Game.chunkSizeBlocks-tunnelWidth-1);
         float split = 0;
@@ -86,9 +92,56 @@ public class Map
         chunkArray = cO.generateOutput(chunkArray);
     }
 
-    public Chunk getChunkAtPosition(Vector2f position)
+    public void combineMap()
     {
-        return chunkArray[(int)position.x][(int)position.y];
+        Block[][] mapArray = new Block[Game.numberOfChunksX*Game.chunkSizeBlocks][Game.numberOfChunksY*Game.chunkSizeBlocks];
+        for (int a = 0; a<Game.numberOfChunksX;a++)
+        {
+            for (int b = 0; b<Game.numberOfChunksY;b++)
+            {
+                for (int a1 = 0; a1<Game.chunkSizeBlocks;a1++)
+                {
+                    for (int b1 =0; b1<Game.chunkSizeBlocks;b1++)
+                    {
+                        mapArray[a1 + (a*Game.chunkSizeBlocks)][b1 + (b*Game.chunkSizeBlocks)] = chunkArray[a][b].getBlockAt(new Vector2i(a1,b1));
+                    }
+                }
+            }
+        }
+        mapChunk = new Chunk(mapArray);
+
     }
+
+    public Block[][] getBlockMapArray(Vector2f position, int size)
+    {
+        position = new Vector2f(position.x / Game.blockSize, position.y / Game.blockSize);
+        Block[][] bMapping = new Block[size+2][size+2];
+        int stepping = (int)(size/2);
+        int countA = 0, countB = 0;
+        for(int a = (int)position.x - stepping ; a < position.x + stepping; a++)
+        {
+            countB = 0;
+            for(int b = (int)position.y - stepping ; b < position.y + stepping; b++)
+            {
+                try
+                {
+                    bMapping[countA][countB] = mapChunk.getBlockAt(a,b);
+                }
+                catch (Exception e)
+                {
+                    bMapping[countA][countB] = new Block(1,0,0);
+                }
+                countB++;
+            }
+            countA ++;
+        }
+        return bMapping;
+    }
+
+    public Block getBlockAt(int a, int b)
+    {
+        return mapChunk.getBlockAt(new Vector2i(a,b));
+    }
+
 
 }
