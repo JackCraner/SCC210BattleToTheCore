@@ -6,6 +6,7 @@ import Main.Shader.ShaderController;
 import org.jsfml.graphics.*;
 import org.jsfml.system.Vector2f;
 
+import java.io.File;
 import java.nio.file.Paths;
 
 public class HealthOrb
@@ -38,7 +39,7 @@ public class HealthOrb
         back = new CircleShape(healthOrbSize,100);
         try
         {
-            frontT.loadFromFile(Paths.get("Assets\\HealthOrb.png"));
+            frontT.loadFromFile(Paths.get("Assets" + File.separator +"HealthOrb.png"));
         }
         catch (Exception e)
         {

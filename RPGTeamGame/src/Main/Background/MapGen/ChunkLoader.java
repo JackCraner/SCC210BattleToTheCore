@@ -8,6 +8,7 @@ import org.jsfml.graphics.*;
 import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 
+import java.io.File;
 import java.nio.file.Paths;
 
 public class ChunkLoader implements Drawable
@@ -25,7 +26,7 @@ public class ChunkLoader implements Drawable
         this.mapPlane= mapPlane;
         try
         {
-            blockTexture.loadFromFile(Paths.get("Assets\\TileMapBig2.png"));
+            blockTexture.loadFromFile(Paths.get("Assets" + File.separator +"TileMapBig2.png"));
 
         }
         catch(Exception E){

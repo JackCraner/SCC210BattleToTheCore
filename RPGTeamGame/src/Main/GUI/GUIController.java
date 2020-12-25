@@ -5,6 +5,7 @@ import Main.Game;
 import org.jsfml.graphics.*;
 import org.jsfml.system.Vector2f;
 
+import java.io.File;
 import java.nio.file.Paths;
 
 public class GUIController implements Drawable
@@ -29,7 +30,7 @@ public class GUIController implements Drawable
     {
         try
         {
-            textFont.loadFromFile(Paths.get("Assets\\LEMONMILK-Regular.otf"));
+            textFont.loadFromFile(Paths.get("Assets" + File.separator +"LEMONMILK-Regular.otf"));
         }
         catch (Exception e)
         {

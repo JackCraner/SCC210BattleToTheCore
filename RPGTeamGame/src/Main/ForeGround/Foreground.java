@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class Foreground implements Drawable
 {
-    Torch test = new Torch(new Vector2i(100,100));
+    Torch test = new Torch(new Vector2f(100,100));
     ArrayList<Illuminator> lightList = new ArrayList<>();
 
 

@@ -37,9 +37,11 @@ public class Block
         return collidable;
     }
 
-    public Vector2i getPosition() {
-        return new Vector2i(xPosition, yPosition);
+    public Vector2f getPosition() {
+        return new Vector2f(xPosition, yPosition);
     }
+
+
 
     public Vector2i inBlock()
     {

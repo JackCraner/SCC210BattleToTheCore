@@ -6,6 +6,7 @@ import org.jsfml.graphics.ConstTexture;
 import org.jsfml.graphics.Shader;
 import org.jsfml.graphics.Texture;
 
+import java.io.File;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 public class ShaderController
@@ -15,7 +16,7 @@ public class ShaderController
     {
         try
         {
-            mapShader.loadFromFile(Paths.get("Assets\\Vert2.vert"), Paths.get("Assets\\Frag2.frag"));
+            mapShader.loadFromFile(Paths.get("Assets" + File.separator + "Vert2.vert"), Paths.get("Assets" + File.separator + "Frag2.frag"));
         }
         catch(Exception E){
             System.out.println(E);
@@ -31,6 +32,7 @@ public class ShaderController
         mapShader.setParameter("texture", t);   //gives main texture to shader
         mapShader.setParameter("resolution", 1000, 1000);
         mapShader.setParameter("ambientData", 0.3f, 0.3f, 1f, 0f);
+        //mapShader.setParameter("lights[]", 0);
         int counter = 0;
         int counter2= 0;
         for (Illuminator i: lightList)
@@ -44,6 +46,18 @@ public class ShaderController
             }
             counter2 ++;
         }
+        //Bug that makes lights act super wierd because the lights array isnt cleared between frames
+        //super shit way of clearing lights array below, needs update
+
+        for (int i = counter; i < maxNumLights; i++)
+        {
+            mapShader.setParameter("lights[" + counter + "].position", 0,0);
+            mapShader.setParameter("lights[" + counter + "].size", 0);
+            mapShader.setParameter("lights[" + counter + "].intensity",0);
+            mapShader.setParameter("lights[" + counter + "].rgbData", 0,0,0);
+        }
+
+
         //System.out.println(counter2 + "     onScreen  " + counter);
         //mapShader.setParameter("lightSize", 0.4f, 0f);
         //mapShader.setParameter("position",0.5f, 0.5f);      //puts the lights position at the center of the screen)

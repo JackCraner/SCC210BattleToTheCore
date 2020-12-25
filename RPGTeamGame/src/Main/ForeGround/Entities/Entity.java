@@ -7,6 +7,7 @@ import org.jsfml.graphics.Text;
 import org.jsfml.graphics.Texture;
 import org.jsfml.system.Vector2i;
 
+import java.io.File;
 import java.nio.file.Paths;
 
 
@@ -34,11 +35,11 @@ public class Entity extends Sprite {
         {
             if (ID == 1)
             {
-                entityTexture.loadFromFile(Paths.get("Assets\\Submarine.png"));
+                entityTexture.loadFromFile(Paths.get("Assets"+ File.separator +"Submarine.png"));
             }
             if (ID == 2)
             {
-                entityTexture.loadFromFile(Paths.get("Assets\\Chest_1.png"));
+                entityTexture.loadFromFile(Paths.get("Assets"+ File.separator +"Chest_1.png"));
             }
         }
         catch (Exception e)

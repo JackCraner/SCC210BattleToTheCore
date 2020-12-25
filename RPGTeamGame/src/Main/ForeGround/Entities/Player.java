@@ -48,7 +48,7 @@ public class Player extends MEntity implements Illuminator
     public void moveEntity()
     {
         playerCamera.setCenter(this.getPosition());
-        l.setPosition(inBlock());
+        l.setPosition(this.getPosition());
     }
 
 
