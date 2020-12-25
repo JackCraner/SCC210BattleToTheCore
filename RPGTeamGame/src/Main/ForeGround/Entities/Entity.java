@@ -12,14 +12,13 @@ import java.nio.file.Paths;
 
 public class Entity extends Sprite {
     int ID;
-    int Health;
-    int Damage;
     Texture entityTexture = new Texture();
     public Entity(int ID)
     {
         super();
         this.ID = ID;
         findEntityTexture();
+        this.setTexture(entityTexture);
     }
 
     public int getID() {
@@ -39,7 +38,7 @@ public class Entity extends Sprite {
             }
             if (ID == 2)
             {
-                entityTexture.loadFromFile(Paths.get("Assets\\Torch.png"));
+                entityTexture.loadFromFile(Paths.get("Assets\\Chest_1.png"));
             }
         }
         catch (Exception e)

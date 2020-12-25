@@ -4,9 +4,13 @@ import Main.Background.MapGen.Chunks.Chunk;
 import Main.Background.MapGen.Chunks.FormationChunk;
 import Main.Background.MapGen.MapCreation.CellularA.CellularAutomata;
 import Main.Background.MapGen.MapCreation.CreationOutput;
+import Main.ForeGround.Entities.Torch;
+import Main.ForeGround.Interfaces.Illuminator;
 import Main.Game;
 import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
+
+import java.util.ArrayList;
 
 public class Map
 {
@@ -15,15 +19,22 @@ public class Map
     Chunk mapChunk;
     CellularAutomata cA = new CellularAutomata();
     CreationOutput cO = new CreationOutput();
+    int mapSizeBlocksX, mapSizeBlocksY;
+    ArrayList<Illuminator> mapTorchList = new ArrayList<>();
     public Map()
     {
 
         chunkArray = new FormationChunk[Game.numberOfChunksX][Game.numberOfChunksY];
-
+        mapSizeBlocksX = Game.numberOfChunksX * Game.chunkSizeBlocks;
+        mapSizeBlocksY = Game.numberOfChunksY * Game.chunkSizeBlocks;
         generateMap();
         generateTunnels();
         generateDeco();
         combineMap();
+        addTorches();   //add torches
+        //add chests
+        //add saves shrines
+
     }
 
     public void generateMap()
@@ -94,7 +105,7 @@ public class Map
 
     public void combineMap()
     {
-        Block[][] mapArray = new Block[Game.numberOfChunksX*Game.chunkSizeBlocks][Game.numberOfChunksY*Game.chunkSizeBlocks];
+        Block[][] mapArray = new Block[mapSizeBlocksX][mapSizeBlocksY];
         for (int a = 0; a<Game.numberOfChunksX;a++)
         {
             for (int b = 0; b<Game.numberOfChunksY;b++)
@@ -103,7 +114,8 @@ public class Map
                 {
                     for (int b1 =0; b1<Game.chunkSizeBlocks;b1++)
                     {
-                        mapArray[a1 + (a*Game.chunkSizeBlocks)][b1 + (b*Game.chunkSizeBlocks)] = chunkArray[a][b].getBlockAt(new Vector2i(a1,b1));
+                        mapArray[a1 + (a*Game.chunkSizeBlocks)][b1 + (b*Game.chunkSizeBlocks)] = new Block(chunkArray[a][b].getBlockAt(new Vector2i(a1,b1)).getID(),a*Game.chunkSizePixels + a1*Game.blockSize, b1*Game.blockSize + b*Game.chunkSizePixels);
+
                     }
                 }
             }
@@ -136,6 +148,28 @@ public class Map
             countA ++;
         }
         return bMapping;
+    }
+
+    public void addTorches()
+    {
+        for (int a = 0; a<mapSizeBlocksX;a++)
+        {
+            for (int b = 0; b<mapSizeBlocksY;b++)
+            {
+                if ((Math.random() < 0.001))
+                {
+                    Torch t = new Torch(mapChunk.getBlockAt(a,b).getPosition());
+                    mapTorchList.add(t);
+                }
+
+
+            }
+
+        }
+    }
+
+    public ArrayList<Illuminator> getMapTorchList() {
+        return mapTorchList;
     }
 
     public Block getBlockAt(int a, int b)

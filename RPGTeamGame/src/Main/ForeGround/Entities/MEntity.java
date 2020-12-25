@@ -17,7 +17,6 @@ public class MEntity extends Entity
     {
         super(ID);
         setPosition(position);
-        setTexture(getEntityTexture());
     }
 
     public void move()

@@ -25,8 +25,9 @@ public class Light
     public Light(Vector2i position)
     {
         this.position = position;
+        System.out.println(position);
         this.size = 0.3f;
-        this.intensity = 2f;
+        this.intensity = 3f;
         this.rgbData = new Vector3f(1f,0.8f,0.2f);
 
 
@@ -37,9 +38,9 @@ public class Light
     {
         //Player Light
         this.position = p.inBlock();
-        this.size = 0.7f;
-        this.intensity = 1f;
-        this.rgbData = new Vector3f(0.3f,0.3f,0.8f);
+        this.size = 0.5f;
+        this.intensity = 4f;
+        this.rgbData = new Vector3f(0.3f,0.3f,0.5f);
     }
     public Light(Vector2i position, float size, float intensity, Vector3f rgbData)
     {
@@ -94,11 +95,12 @@ public class Light
         if ((position.x > topLeft.x - extra && position.x < bottomRight.x + extra) && (position.y > topLeft.y - extra && position.y < bottomRight.y + extra))
         {
             onScreen = true;
-            lightPosY = (bottomRight.y - position.y) / (bottomRight.y- topLeft.y);
-            lightPosX = (topLeft.x - position.x) / (topLeft.x - bottomRight.x);
+            lightPosY = ((bottomRight.y - position.y) / (bottomRight.y- topLeft.y));
+            lightPosX = ((topLeft.x - position.x) / (topLeft.x - bottomRight.x));
         }
+        //lightPosX = (float)Math.round(lightPosX * 10) / 10;
+        //lightPosY = (float)Math.round(lightPosY * 10) / 10;
 
-        System.out.println(lightPosX + " " + lightPosY);
         return new Vector2f(lightPosX,lightPosY);
     }
 

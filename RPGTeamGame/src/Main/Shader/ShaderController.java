@@ -27,21 +27,24 @@ public class ShaderController
 
     public Shader createShader(ConstTexture t, ArrayList<Illuminator> lightList, Player p)
     {
+        int maxNumLights = 28;
         mapShader.setParameter("texture", t);   //gives main texture to shader
         mapShader.setParameter("resolution", 1000, 1000);
         mapShader.setParameter("ambientData", 0.3f, 0.3f, 1f, 0f);
         int counter = 0;
+        int counter2= 0;
         for (Illuminator i: lightList)
         {
-            if (i.getLight().getOnScreen(p)) {
+            if (i.getLight().getOnScreen(p) && counter < maxNumLights) {
                 mapShader.setParameter("lights[" + counter + "].position", i.getLight().convertPositionToScreen(p));
                 mapShader.setParameter("lights[" + counter + "].size", i.getLight().getSize());
                 mapShader.setParameter("lights[" + counter + "].intensity", i.getLight().getIntensity());
                 mapShader.setParameter("lights[" + counter + "].rgbData", i.getLight().getRgbData());
+                counter++;
             }
-            counter++;
+            counter2 ++;
         }
-
+        //System.out.println(counter2 + "     onScreen  " + counter);
         //mapShader.setParameter("lightSize", 0.4f, 0f);
         //mapShader.setParameter("position",0.5f, 0.5f);      //puts the lights position at the center of the screen)
         /**

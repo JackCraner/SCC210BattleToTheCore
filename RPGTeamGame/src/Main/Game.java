@@ -34,6 +34,9 @@ public class Game
     RenderTexture gameRender = new RenderTexture();
     Sprite gameWindow = new Sprite();
     Sprite miniMap = new Sprite();
+
+
+
     public static int windowSize = 1000;
     public static int viewSize = 1000;          //change to zoom in and out (100x100 blocks)
     public static int metaSize = 100;           //max zoom out blocks
@@ -50,7 +53,7 @@ public class Game
         playerObject = new Player(1,new Vector2f(((numberOfChunksX/2) * chunkSizePixels) + (viewSize/2),viewSize/2), viewSize);
         currentPos = new PositionVector(playerObject.getPosition());
         bGround = new Background();
-        fGround = new Foreground(playerObject);
+        fGround = new Foreground(playerObject, bGround.getMapObject());
         GUI = new GUIController();
         sC = new ShaderController();
 
@@ -130,7 +133,6 @@ public class Game
                 bGround.updateBackGroundOnMove(playerObject);
                 //System.out.println(bGround.getMapObject().getBlockAt(playerObject.inBlockTest().x,playerObject.inBlockTest().y).getID());
             }
-
             window.clear();
             gameRender.clear(Color.BLACK);
             gameRender.draw(bGround);
@@ -144,9 +146,7 @@ public class Game
 
             window.clear();
             window.draw(gameWindow,rS);         //The shader acts as a post processing effect, sort of layering ontop of the main game
-
             window.draw(GUI);                   //draws the GUI as the next layer ontop (uneffected by the shader)
-
             window.display();
         }
     }

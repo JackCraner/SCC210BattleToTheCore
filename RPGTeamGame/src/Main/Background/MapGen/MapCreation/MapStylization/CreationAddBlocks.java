@@ -1,4 +1,4 @@
-package Main.Background.MapGen.MapCreation;
+package Main.Background.MapGen.MapCreation.MapStylization;
 
 import Main.Background.MapGen.Block;
 import Main.Background.MapGen.MapCreation.CellularA.CellularAutomata;

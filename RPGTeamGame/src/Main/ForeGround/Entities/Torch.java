@@ -8,10 +8,9 @@ import org.jsfml.system.Vector2i;
 public class Torch extends Entity implements Illuminator
 {
     Light l;
-    public Torch(int ID, Vector2i pos) {
-        super(ID);
+    public Torch(Vector2i pos) {
+        super(2);
         this.setPosition(new Vector2f(pos));
-        this.setTexture(getEntityTexture());
         l = new Light(inBlock());
     }
 

@@ -68,14 +68,14 @@ struct LightSource
     float intensity;
     vec3 rgbData; //Red, green and blue data (color of the light)
 };
-uniform LightSource lights[10];
+uniform LightSource lights[30];
 
 void main() {
 
     vec3 final;
 
 
-    for (int i = 0; i < 10; i++)
+    for (int i = 0; i < 30; i++)
     {
         if(lights[i].size == 0)
         {

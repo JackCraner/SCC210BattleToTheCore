@@ -2,6 +2,7 @@ package Main.Background.MapGen.MapCreation;
 
 import Main.Background.MapGen.Block;
 import Main.Background.MapGen.Chunks.FormationChunk;
+import Main.Background.MapGen.MapCreation.MapStylization.CreationAddBlocks;
 import Main.Game;
 
 public class CreationOutput

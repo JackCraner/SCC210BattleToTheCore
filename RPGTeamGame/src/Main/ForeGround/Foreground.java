@@ -1,5 +1,6 @@
 package Main.ForeGround;
 
+import Main.Background.MapGen.Map;
 import Main.ForeGround.Entities.Player;
 import Main.ForeGround.Entities.Torch;
 import Main.ForeGround.Interfaces.Illuminator;
@@ -12,16 +13,19 @@ import org.jsfml.system.Vector2i;
 
 import java.util.ArrayList;
 
+
 public class Foreground implements Drawable
 {
-    Torch test = new Torch(2,new Vector2i(100,100));
+    Torch test = new Torch(new Vector2i(100,100));
     ArrayList<Illuminator> lightList = new ArrayList<>();
 
 
-    public Foreground(Player p)
+    public Foreground(Player p, Map m)
     {
         lightList.add(p);
         lightList.add(test);
+        lightList.addAll(m.getMapTorchList());
+
     }
 
     public ArrayList<Illuminator> getLightList() {
