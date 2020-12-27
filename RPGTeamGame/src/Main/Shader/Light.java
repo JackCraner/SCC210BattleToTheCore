@@ -1,11 +1,10 @@
 package Main.Shader;
 
-import Main.ForeGround.Entities.Player;
+import Main.Player.Player;
 import Main.Game;
 import org.jsfml.system.Vector2f;
-import org.jsfml.system.Vector2i;
 import org.jsfml.system.Vector3f;
-
+//the exact position of the light should be the exact position of the sprite as the position.
 public class Light
 {
     private float size;     //as a percentage of the screen
@@ -25,7 +24,6 @@ public class Light
     public Light(Vector2f position)
     {
         this.position = position;
-        System.out.println(position);
         this.size = 0.3f;
         this.intensity = 3f;
         this.rgbData = new Vector3f(1f,0.8f,0.2f);
@@ -39,6 +37,7 @@ public class Light
         //Player Light
         this.position = p.getPosition();
         this.size = 0.5f;
+        //playing with size = 0.3f is fun
         this.intensity = 4f;
         this.rgbData = new Vector3f(0.3f,0.3f,0.5f);
     }
@@ -73,7 +72,7 @@ public class Light
     public Boolean getOnScreen(Player p)
     {
         float transform = ((Game.viewSize/2));
-        float extra = 200;
+        float extra = 250;
         Vector2f topLeft = new Vector2f(p.getPosition().x - transform, p.getPosition().y - transform);
         Vector2f bottomRight = new Vector2f(p.getPosition().x + transform, p.getPosition().y + transform);
         if ((position.x > topLeft.x - extra && position.x < bottomRight.x + extra) && (position.y > topLeft.y - extra && position.y < bottomRight.y + extra))
@@ -87,7 +86,7 @@ public class Light
     {
 
         float transform = ((Game.viewSize/2));
-        float extra = 200;
+        float extra = 250;
         Vector2f topLeft = new Vector2f(p.getPosition().x - transform, p.getPosition().y - transform);
         Vector2f bottomRight = new Vector2f(p.getPosition().x + transform, p.getPosition().y + transform);
         float lightPosY = 0 , lightPosX = 0;

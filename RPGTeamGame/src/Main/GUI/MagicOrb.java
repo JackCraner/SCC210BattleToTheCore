@@ -1,6 +1,6 @@
 package Main.GUI;
 
-import Main.ForeGround.Entities.Player;
+import Main.Player.Player;
 import Main.Game;
 import org.jsfml.graphics.*;
 import org.jsfml.system.Vector2f;

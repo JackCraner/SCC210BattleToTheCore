@@ -7,21 +7,19 @@ import org.jsfml.system.Vector2i;
 
 public class Block
 {
-    private int blockID, xPosition, yPosition;
-    private Boolean collidable;
+    private int blockID, textureID, xPosition, yPosition;
     public Block(int blockID, int x, int y)
     {
         this.blockID = blockID;
         xPosition = x;
         yPosition = y;
-        collidable = false;
     }
-    public Block(int blockID, int x, int y, Boolean collidable)
+    public Block(int blockID, int textureID, int x, int y)
     {
         this.blockID = blockID;
+        this.textureID = textureID;
         xPosition = x;
         yPosition = y;
-        this.collidable = collidable;
     }
 
     public int getID()
@@ -33,8 +31,12 @@ public class Block
         blockID = x;
     }
 
-    public Boolean getCollidable() {
-        return collidable;
+    public int getTextureID() {
+        return textureID;
+    }
+
+    public void setTextureID(int textureID) {
+        this.textureID = textureID;
     }
 
     public Vector2f getPosition() {

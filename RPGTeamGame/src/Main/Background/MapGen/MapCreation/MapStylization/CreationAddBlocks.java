@@ -20,11 +20,11 @@ public class CreationAddBlocks
             {
                 if (newBlock[a][b].getID() == 1)
                 {
-                    newBlock[a][b].setID(31);
+                    newBlock[a][b].setTextureID(31);
                 }
                 else if (newBlock[a][b].getID() == 0)
                 {
-                    newBlock[a][b].setID(25);
+                    newBlock[a][b].setTextureID(25);
                 }
             }
         }

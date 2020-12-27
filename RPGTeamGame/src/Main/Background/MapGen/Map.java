@@ -4,6 +4,9 @@ import Main.Background.MapGen.Chunks.Chunk;
 import Main.Background.MapGen.Chunks.FormationChunk;
 import Main.Background.MapGen.MapCreation.CellularA.CellularAutomata;
 import Main.Background.MapGen.MapCreation.CreationOutput;
+import Main.Background.MapGen.MapCreation.MapStylization.CreationAddTorches;
+import Main.Background.MapGen.MapCreation.MapStylization.CreationOfChests;
+import Main.ForeGround.Entities.Chest;
 import Main.ForeGround.Entities.Torch;
 import Main.ForeGround.Interfaces.Illuminator;
 import Main.Game;
@@ -20,7 +23,8 @@ public class Map
     CellularAutomata cA = new CellularAutomata();
     CreationOutput cO = new CreationOutput();
     int mapSizeBlocksX, mapSizeBlocksY;
-    ArrayList<Illuminator> mapTorchList = new ArrayList<>();
+    ArrayList<Torch> mapTorchList = new ArrayList<>();
+    ArrayList<Chest> mapChestList = new ArrayList<>();
     public Map()
     {
 
@@ -32,7 +36,7 @@ public class Map
         generateDeco();
         combineMap();
         addTorches();   //add torches
-        //add chests
+        addChests();    //add chests
         //add saves shrines
 
     }
@@ -114,7 +118,7 @@ public class Map
                 {
                     for (int b1 =0; b1<Game.chunkSizeBlocks;b1++)
                     {
-                        mapArray[a1 + (a*Game.chunkSizeBlocks)][b1 + (b*Game.chunkSizeBlocks)] = new Block(chunkArray[a][b].getBlockAt(new Vector2i(a1,b1)).getID(),a*Game.chunkSizePixels + a1*Game.blockSize, b1*Game.blockSize + b*Game.chunkSizePixels);
+                        mapArray[a1 + (a*Game.chunkSizeBlocks)][b1 + (b*Game.chunkSizeBlocks)] = new Block(chunkArray[a][b].getBlockAt(new Vector2i(a1,b1)).getID(),chunkArray[a][b].getBlockAt(new Vector2i(a1,b1)).getTextureID(),a*Game.chunkSizePixels + a1*Game.blockSize, b1*Game.blockSize + b*Game.chunkSizePixels);
 
                     }
                 }
@@ -152,24 +156,22 @@ public class Map
 
     public void addTorches()
     {
-        for (int a = 0; a<mapSizeBlocksX;a++)
-        {
-            for (int b = 0; b<mapSizeBlocksY;b++)
-            {
-                if ((Math.random() < 0.001))
-                {
-                    Torch t = new Torch(mapChunk.getBlockAt(a,b).getPosition());
-                    mapTorchList.add(t);
-                }
+        CreationAddTorches cAT = new CreationAddTorches(mapChunk);
+        mapTorchList = cAT.getTorchList();
 
+    }
+    public void addChests()
+    {
+        CreationOfChests cOC = new CreationOfChests(mapChunk);
+        mapChestList = cOC.getChestList();
 
-            }
-
-        }
+    }
+    public ArrayList<Torch> getMapTorchList() {
+        return mapTorchList;
     }
 
-    public ArrayList<Illuminator> getMapTorchList() {
-        return mapTorchList;
+    public ArrayList<Chest> getMapChestList() {
+        return mapChestList;
     }
 
     public Block getBlockAt(int a, int b)

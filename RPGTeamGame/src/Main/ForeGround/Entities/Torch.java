@@ -11,7 +11,8 @@ public class Torch extends Entity implements Illuminator
     public Torch(Vector2f pos) {
         super(2);
         this.setPosition(pos);
-        l = new Light(pos);
+        //l = new Light(pos);
+        l = new Light(this.getCenter());
     }
 
     @Override

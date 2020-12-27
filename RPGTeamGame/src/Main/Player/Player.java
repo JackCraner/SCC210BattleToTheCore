@@ -1,6 +1,7 @@
-package Main.ForeGround.Entities;
+package Main.Player;
 
 import Main.DataTypes.PositionVector;
+import Main.ForeGround.Entities.MEntity;
 import Main.ForeGround.Interfaces.Illuminator;
 import Main.Game;
 import Main.Shader.Light;
@@ -22,20 +23,6 @@ public class Player extends MEntity implements Illuminator
         playerCamera.setCenter(this.getPosition());
         l = new Light(this);
     }
-
-    public Vector2f inChunk()
-    {
-        double chunkX =this.getPosition().x/ Game.chunkSizePixels;
-        double chunkY = this.getPosition().y/Game.chunkSizePixels;
-        return new Vector2f((float)Math.floor(chunkX), (float)Math.floor(chunkY));
-    }
-
-
-    public Vector2i inBlock()
-    {
-        return new Vector2i((int)(this.getPosition().x/Game.blockSize), (int)(this.getPosition().y/Game.blockSize));
-    }
-
     public View getpView()
     {
         return playerCamera;

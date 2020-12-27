@@ -1,18 +1,14 @@
 package Main;
 
 import Main.Background.Background;
-import Main.Background.MapGen.Block;
 import Main.DataTypes.PositionVector;
-import Main.ForeGround.Entities.Player;
+import Main.Player.Player;
 import Main.ForeGround.Foreground;
 import Main.GUI.GUIController;
-import Main.Physics.CEntity;
-import Main.Physics.Cblock;
 import Main.Shader.ShaderController;
 import org.jsfml.graphics.*;
 import org.jsfml.system.Clock;
 import org.jsfml.system.Vector2f;
-import org.jsfml.system.Vector2i;
 import org.jsfml.window.Keyboard;
 import org.jsfml.window.VideoMode;
 import org.jsfml.window.event.Event;
@@ -78,6 +74,7 @@ public class Game
         window.setVerticalSyncEnabled(true);    //??
         int counter = 0;
         bGround.initialiseBackGround(playerObject);
+        fGround.initaliseForeground(playerObject);
         GUI.initializeGUI(playerObject);
         System.out.println(playerObject.getPosition());
         while(window.isOpen())
@@ -131,6 +128,7 @@ public class Game
             if (!playerObject.hasMoved(currentPos))
             {
                 bGround.updateBackGroundOnMove(playerObject);
+                fGround.updateForeground(playerObject);
                 //System.out.println(bGround.getMapObject().getBlockAt(playerObject.inBlockTest().x,playerObject.inBlockTest().y).getID());
             }
             window.clear();

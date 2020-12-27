@@ -1,10 +1,9 @@
 package Main.Shader;
 
-import Main.ForeGround.Entities.Player;
+import Main.Player.Player;
 import Main.ForeGround.Interfaces.Illuminator;
 import org.jsfml.graphics.ConstTexture;
 import org.jsfml.graphics.Shader;
-import org.jsfml.graphics.Texture;
 
 import java.io.File;
 import java.nio.file.Paths;

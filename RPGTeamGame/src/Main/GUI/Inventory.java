@@ -1,10 +1,9 @@
 package Main.GUI;
 
-import Main.ForeGround.Entities.Player;
+import Main.Player.Player;
 import Main.Game;
 import org.jsfml.graphics.*;
 import org.jsfml.system.Vector2f;
-import org.w3c.dom.css.Rect;
 
 public class Inventory
 {

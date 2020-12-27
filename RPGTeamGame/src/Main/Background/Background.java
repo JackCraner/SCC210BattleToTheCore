@@ -2,11 +2,9 @@ package Main.Background;
 
 import Main.Background.MapGen.ChunkLoader;
 import Main.Background.MapGen.Map;
-import Main.ForeGround.Entities.Player;
+import Main.Player.Player;
 import org.jsfml.graphics.*;
 import org.jsfml.system.Vector2f;
-
-import java.nio.file.Paths;
 
 
 public class Background implements Drawable
@@ -17,7 +15,6 @@ public class Background implements Drawable
     ChunkLoader cH;
 
 
-    Vector2f currentPlayerChunk;
     public Background()
     {
         mapObject = new Map();
@@ -26,7 +23,6 @@ public class Background implements Drawable
     }
     public void initialiseBackGround(Player p)
     {
-        currentPlayerChunk = p.inChunk();
         cH.generateBlockArray(p);
 
     }

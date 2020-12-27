@@ -2,7 +2,7 @@ package Main.Background.MapGen;
 
 
 import Main.Background.MapGen.Chunks.Chunk;
-import Main.ForeGround.Entities.Player;
+import Main.Player.Player;
 import Main.Game;
 import org.jsfml.graphics.*;
 import org.jsfml.system.Vector2f;
@@ -56,7 +56,7 @@ public class ChunkLoader implements Drawable
                 {
                     try
                     {
-                        int blockID = c.getBlockAt(new Vector2i(a,b)).getID();
+                        int blockID = c.getBlockAt(new Vector2i(a,b)).getTextureID();
                         blockArray.add(new Vertex( new Vector2f((a*Game.blockSize),(b*Game.blockSize)),new Vector2f(32*blockID,0)));
                         blockArray.add(new Vertex( new Vector2f((a*Game.blockSize),(b*Game.blockSize) +  Game.blockSize),new Vector2f(32*blockID + 32,0)));
                         blockArray.add(new Vertex( new Vector2f((a*Game.blockSize)  + Game.blockSize,(b*Game.blockSize) + Game.blockSize),new Vector2f(32*blockID + 32,32)));
