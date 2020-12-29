@@ -1,7 +1,6 @@
 package Main.Game.ForeGround;
 
 import Main.Game.Background.MapGen.Map;
-import Main.Game.ForeGround.Entities.Chest;
 import Main.Game.ForeGround.Entities.Entity;
 import Main.Game.Game;
 import Main.Game.Player.Player;
@@ -12,7 +11,6 @@ import org.jsfml.graphics.RenderStates;
 import org.jsfml.graphics.RenderTarget;
 import org.jsfml.system.Vector2f;
 
-import java.sql.Array;
 import java.util.ArrayList;
 
 
@@ -37,7 +35,6 @@ public class Foreground implements Drawable {
     public void initaliseForeground()
     {
         lightList.add(p);
-        entityList.add(test);
         entityList.addAll(map.getMapEntityList());
 
         for (Entity e : entityList) {
@@ -74,7 +71,7 @@ public class Foreground implements Drawable {
     public void generateForegroundBox (ArrayList<Entity> totalEntityList, Player p)
     {
         activeEntityList = new ArrayList<>();
-        float transform = ((Game.viewSize / 2));
+        float transform = ((Game.VIEWSIZE / 2));
         topLeft = new Vector2f(p.getPosition().x - transform, p.getPosition().y - transform);
         bottomRight = new Vector2f(p.getPosition().x + transform, p.getPosition().y + transform);
         for (Entity e : totalEntityList) {

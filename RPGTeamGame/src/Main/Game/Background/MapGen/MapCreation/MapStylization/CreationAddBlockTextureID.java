@@ -18,9 +18,9 @@ public class CreationAddBlockTextureID
             for (int b = 0; b< Game.numberOfChunksY;b++)
             {
                 Block[][] blockMapping = c[a][b].getbMapping();
-                for (int a1 = 0; a1 < Game.chunkSizeBlocks; a1++)
+                for (int a1 = 0; a1 < Game.CHUNKSIZEBLOCKS; a1++)
                 {
-                    for (int b1 = 0; b1< Game.chunkSizeBlocks; b1++)
+                    for (int b1 = 0; b1< Game.CHUNKSIZEBLOCKS; b1++)
                     {
                         if (blockMapping[a1][b1].getID() == 1)
                         {

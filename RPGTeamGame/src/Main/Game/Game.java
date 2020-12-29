@@ -10,7 +10,6 @@ import org.jsfml.graphics.*;
 import org.jsfml.system.Clock;
 import org.jsfml.system.Vector2f;
 import org.jsfml.window.Keyboard;
-import org.jsfml.window.VideoMode;
 import org.jsfml.window.event.Event;
 
 
@@ -33,11 +32,11 @@ public class Game
 
     RenderWindow window;
 
-    public static int windowSize = 1000;
-    public static int viewSize = 1000;          //change to zoom in and out (100x100 blocks)
+    public static int WINDOWSIZE = 1000;
+    public static int VIEWSIZE = 1000;          //change to zoom in and out (100x100 blocks)
     public static int metaSize = 100;           //max zoom out blocks
-    public static int chunkSizeBlocks = 100;
-    public static int chunkSizePixels = 3200;
+    public static int CHUNKSIZEBLOCKS = 100;
+    public static int CHUNKSIZEPIXELS = 3200;
     public static int blockSize = 32;
 
     public static int numberOfChunksX = 3;      //change to make map bigger or smaller
@@ -47,7 +46,7 @@ public class Game
     {
         this.window = window;
 
-        playerObject = new Player(1,new Vector2f(((numberOfChunksX/2) * chunkSizePixels) + (viewSize/2),viewSize/2), viewSize);
+        playerObject = new Player(1,new Vector2f(500,500), VIEWSIZE);
         currentPos = new PositionVector(playerObject.getPosition());
         bGround = new Background();
         fGround = new Foreground(playerObject, bGround.getMapObject());
@@ -71,12 +70,14 @@ public class Game
 
         }
 
-        //window.setFramerateLimit(100);
-        window.setVerticalSyncEnabled(true);    //??
+        window.setFramerateLimit(100);
+
         int counter = 0;
+        playerObject.setPosition(bGround.getMapObject().getPlayerStart());
         bGround.initialiseBackGround(playerObject);
         fGround.initaliseForeground();
         GUI.initializeGUI(playerObject);
+
         System.out.println(playerObject.getPosition());
         while(window.isOpen())
         {

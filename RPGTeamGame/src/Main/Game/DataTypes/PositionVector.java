@@ -24,12 +24,12 @@ public class PositionVector
     public Vector2f inBlock()
     {
         Vector2f chunkPos = inChunk();
-        return new Vector2f((float)Math.floor((x - chunkPos.x * Game.chunkSizePixels)/Game.chunkSizeBlocks), (float)Math.floor((y - chunkPos.y * Game.chunkSizePixels)/Game.chunkSizeBlocks));
+        return new Vector2f((float)Math.floor((x - chunkPos.x * Game.CHUNKSIZEPIXELS)/Game.CHUNKSIZEBLOCKS), (float)Math.floor((y - chunkPos.y * Game.CHUNKSIZEPIXELS)/Game.CHUNKSIZEBLOCKS));
     }
     public Vector2f inChunk()
     {
-        double chunkX =x/ Game.chunkSizePixels;
-        double chunkY = y/Game.chunkSizePixels;
+        double chunkX =x/ Game.CHUNKSIZEPIXELS;
+        double chunkY = y/Game.CHUNKSIZEPIXELS;
         //System.out.println("CHUNK " + (float)Math.floor(chunkX) + ", " + (float)Math.floor(chunkY));
         return new Vector2f((float)Math.floor(chunkX), (float)Math.floor(chunkY));
     }

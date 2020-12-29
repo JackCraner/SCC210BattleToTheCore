@@ -25,7 +25,7 @@ public class MiniMap {
      */
     public MiniMap(Player p) {
         this.p = p;
-        MapSize = new Vector2f((float) (Game.windowSize - 780), 220);    //length, width of Map
+        MapSize = new Vector2f((float) (Game.WINDOWSIZE - 780), 220);    //length, width of Map
         front = new RectangleShape(MapSize);
         back = new RectangleShape(MapSize);
         front.setFillColor(backgroundColour);
@@ -38,9 +38,9 @@ public class MiniMap {
      * This method updates the XPBar according to the current window size
      */
     public void updateMiniMapPosition() {
-        front.setPosition(735, Game.windowSize - MapSize.y - 735);
-        back.setPosition(735, Game.windowSize - MapSize.y - 735);
-        mapSprite.setPosition(735, Game.windowSize - MapSize.y - 735);
+        front.setPosition(735, Game.WINDOWSIZE - MapSize.y - 735);
+        back.setPosition(735, Game.WINDOWSIZE - MapSize.y - 735);
+        mapSprite.setPosition(735, Game.WINDOWSIZE - MapSize.y - 735);
         mapSprite.setScale(0.25f,0.25f);
     }
 

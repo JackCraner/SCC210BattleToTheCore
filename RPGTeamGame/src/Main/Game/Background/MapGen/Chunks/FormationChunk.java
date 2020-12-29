@@ -68,7 +68,7 @@ public class FormationChunk extends Chunk
 
     public void generateBossRoom()
     {
-        int sector = (Game.chunkSizeBlocks/4);
+        int sector = (Game.CHUNKSIZEBLOCKS /4);
         int ranXinChunk = (int)((Math.random() * ((sector*3 - sector)+1)) + sector);
         int ranYinChunk = (int)((Math.random() * ((sector*3 - sector)+1)) + sector);
 

@@ -5,10 +5,7 @@ import Main.Game.Background.MapGen.Chunks.FormationChunk;
 import Main.Game.Background.MapGen.MapCreation.CellularA.CellularAutomata;
 import Main.Game.Background.MapGen.MapCreation.MapStylization.CreationAddBlockTextureID;
 import Main.Game.Background.MapGen.MapCreation.MapStylization.CreationFixtures;
-import Main.Game.ForeGround.Entities.Chest;
 import Main.Game.ForeGround.Entities.Entity;
-import Main.Game.ForeGround.Entities.SaveShrine;
-import Main.Game.ForeGround.Entities.Torch;
 import Main.Game.Game;
 import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
@@ -24,13 +21,16 @@ public class Map
     int mapSizeBlocksX, mapSizeBlocksY;
     ArrayList<Entity> mapEntityList = new ArrayList<>();
 
+
+    Vector2f playerStart;
     public Map()
     {
 
         chunkArray = new FormationChunk[Game.numberOfChunksX][Game.numberOfChunksY];
-        mapSizeBlocksX = Game.numberOfChunksX * Game.chunkSizeBlocks;
-        mapSizeBlocksY = Game.numberOfChunksY * Game.chunkSizeBlocks;
+        mapSizeBlocksX = Game.numberOfChunksX * Game.CHUNKSIZEBLOCKS;
+        mapSizeBlocksY = Game.numberOfChunksY * Game.CHUNKSIZEBLOCKS;
         generateMap();
+        playerStart = generatePlayerStart();
         generateTunnels();
         generateBossRoom();
         generateDeco();
@@ -51,6 +51,22 @@ public class Map
 
             }
         }
+    }
+    public Vector2f generatePlayerStart()
+    {
+        for (int a = 5; a< Game.CHUNKSIZEBLOCKS; a++)
+        {
+            for (int b = 0; b< Game.CHUNKSIZEBLOCKS-1; b++)
+            {
+                if (chunkArray[0][0].getBlockAt(a,b).getID() == Block.EMPTY && chunkArray[0][0].getBlockAt(a,b+1).getID() == Block.WALL)
+                {
+                    Vector2f bPos = chunkArray[0][0].getBlockAt(a,b).getPosition();
+                    return new Vector2f(bPos.x * Game.blockSize,bPos.y * Game.blockSize);
+                }
+
+            }
+        }
+        return new Vector2f(0,0);
     }
     public void generateTunnels()
     {
@@ -83,20 +99,20 @@ public class Map
     {
         int tunnelWidth = 5;
         Vector2f dif = new Vector2f(c2.getPosition().x - c1.getPosition().x, c2.getPosition().y - c1.getPosition().y);
-        Vector2f point1 = c1.genRandomPoint(0,Game.chunkSizeBlocks-tunnelWidth-1);
-        Vector2f point2 = c2.genRandomPoint(0,Game.chunkSizeBlocks-tunnelWidth-1);
+        Vector2f point1 = c1.genRandomPoint(0,Game.CHUNKSIZEBLOCKS -tunnelWidth-1);
+        Vector2f point2 = c2.genRandomPoint(0,Game.CHUNKSIZEBLOCKS -tunnelWidth-1);
         float split = 0;
         if (dif.x == 1)
         {
-            split = (Game.chunkSizeBlocks - point1.x) / ((Game.chunkSizeBlocks - point1.x) + point2.x);
-            c1.drawLine(tunnelWidth,point1, new Vector2f(Game.chunkSizeBlocks, point1.y + ((point2.y - point1.y) * split)));
+            split = (Game.CHUNKSIZEBLOCKS - point1.x) / ((Game.CHUNKSIZEBLOCKS - point1.x) + point2.x);
+            c1.drawLine(tunnelWidth,point1, new Vector2f(Game.CHUNKSIZEBLOCKS, point1.y + ((point2.y - point1.y) * split)));
             c2.drawLine(tunnelWidth,point2, new Vector2f(0, point1.y + ((point2.y - point1.y) * split)));
 
         }
         else if (dif.y == 1)
         {
-            split = (Game.chunkSizeBlocks - point1.y) / ((Game.chunkSizeBlocks - point1.y) + point2.y);
-            c1.drawLine(tunnelWidth,point1, new Vector2f(point1.x + ((point2.x - point1.x) * split), Game.chunkSizeBlocks));
+            split = (Game.CHUNKSIZEBLOCKS - point1.y) / ((Game.CHUNKSIZEBLOCKS - point1.y) + point2.y);
+            c1.drawLine(tunnelWidth,point1, new Vector2f(point1.x + ((point2.x - point1.x) * split), Game.CHUNKSIZEBLOCKS));
             c2.drawLine(tunnelWidth,point2, new Vector2f(point1.x + ((point2.x - point1.x) * split), 0));
 
         }
@@ -121,11 +137,11 @@ public class Map
         {
             for (int b = 0; b<Game.numberOfChunksY;b++)
             {
-                for (int a1 = 0; a1<Game.chunkSizeBlocks;a1++)
+                for (int a1 = 0; a1<Game.CHUNKSIZEBLOCKS; a1++)
                 {
-                    for (int b1 =0; b1<Game.chunkSizeBlocks;b1++)
+                    for (int b1 = 0; b1<Game.CHUNKSIZEBLOCKS; b1++)
                     {
-                        mapArray[a1 + (a*Game.chunkSizeBlocks)][b1 + (b*Game.chunkSizeBlocks)] = new Block(chunkArray[a][b].getBlockAt(new Vector2i(a1,b1)).getID(),chunkArray[a][b].getBlockAt(new Vector2i(a1,b1)).getTextureID(),a*Game.chunkSizePixels + a1*Game.blockSize, b1*Game.blockSize + b*Game.chunkSizePixels);
+                        mapArray[a1 + (a*Game.CHUNKSIZEBLOCKS)][b1 + (b*Game.CHUNKSIZEBLOCKS)] = new Block(chunkArray[a][b].getBlockAt(new Vector2i(a1,b1)).getID(),chunkArray[a][b].getBlockAt(new Vector2i(a1,b1)).getTextureID(),a*Game.CHUNKSIZEPIXELS + a1*Game.blockSize, b1*Game.blockSize + b*Game.CHUNKSIZEPIXELS);
 
                     }
                 }
@@ -172,10 +188,16 @@ public class Map
         return mapEntityList;
     }
 
+    public Vector2f getPlayerStart() {
+        return playerStart;
+    }
+
     public Block getBlockAt(int a, int b)
     {
         return mapChunk.getBlockAt(new Vector2i(a,b));
     }
 
-
+    public Chunk getMapChunk() {
+        return mapChunk;
+    }
 }

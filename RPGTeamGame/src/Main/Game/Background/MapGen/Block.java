@@ -6,6 +6,8 @@ import org.jsfml.system.Vector2i;
 
 public class Block
 {
+    public static int WALL = 0;
+    public static int EMPTY = 1;
     private int blockID, textureID, xPosition, yPosition;
     public Block(int blockID, int x, int y)
     {
@@ -43,10 +45,5 @@ public class Block
     }
 
 
-
-    public Vector2i inBlock()
-    {
-        return new Vector2i((int)(this.getPosition().x/ Game.blockSize), (int)(this.getPosition().y/Game.blockSize));
-    }
 
 }

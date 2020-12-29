@@ -33,7 +33,7 @@ public class HealthOrb
     public HealthOrb(Player p)
     {
         this.p = p;
-        healthOrbLoc = new Vector2f((float)(Game.windowSize-870), 130); //length, width of bar
+        healthOrbLoc = new Vector2f((float)(Game.WINDOWSIZE -870), 130); //length, width of bar
         front = new CircleShape(healthOrbSize,100);
         back = new CircleShape(healthOrbSize,100);
         try
@@ -56,8 +56,8 @@ public class HealthOrb
      */
     public void updateHealthOrbPosition()
     {
-        front.setPosition(50, Game.windowSize - healthOrbLoc.y - 30);
-        back.setPosition(50, Game.windowSize - healthOrbLoc.y - 30);
+        front.setPosition(50, Game.WINDOWSIZE - healthOrbLoc.y - 30);
+        back.setPosition(50, Game.WINDOWSIZE - healthOrbLoc.y - 30);
     }
     
     public RenderStates getHealthShader()

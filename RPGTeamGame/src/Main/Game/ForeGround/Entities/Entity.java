@@ -52,7 +52,7 @@ public class Entity extends Sprite {
         {
             if (textureID == 1)
             {
-                entityTexture.loadFromFile(Paths.get("Assets"+ File.separator +"Submarine.png"));
+                entityTexture.loadFromFile(Paths.get("Assets"+ File.separator +"Girl_1.png"));
             }
             if (textureID == 2)
             {

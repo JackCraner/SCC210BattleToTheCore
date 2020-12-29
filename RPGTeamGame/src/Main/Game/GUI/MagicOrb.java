@@ -28,7 +28,7 @@ public class MagicOrb
     public MagicOrb(Player p)
     {
         this.p = p;
-        MagicOrbSize = new Vector2f((float)(Game.windowSize-870), 130); //length, width of bar
+        MagicOrbSize = new Vector2f((float)(Game.WINDOWSIZE -870), 130); //length, width of bar
         front = new RectangleShape(MagicOrbSize);
         back = new RectangleShape(MagicOrbSize);
         front.setFillColor(MP);
@@ -41,8 +41,8 @@ public class MagicOrb
      */
     public void updateMagicOrbPosition()
     {
-        front.setPosition(820, Game.windowSize - MagicOrbSize.y - 30);
-        back.setPosition(820, Game.windowSize - MagicOrbSize.y - 30);
+        front.setPosition(820, Game.WINDOWSIZE - MagicOrbSize.y - 30);
+        back.setPosition(820, Game.WINDOWSIZE - MagicOrbSize.y - 30);
     }
 
     /**

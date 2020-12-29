@@ -10,15 +10,12 @@ import org.jsfml.system.Vector2f;
 public class Player extends MEntity implements Illuminator
 {
     View playerCamera;
-    PositionVector pos;
     Light l;
     public Player(int ID, Vector2f position, int viewSize)
     {
         super(ID, position);
-        setPosition(position);
         setTexture(getEntityTexture());
         playerCamera = new View(new Vector2f(viewSize/2,viewSize/2), new Vector2f(viewSize,viewSize));
-        playerCamera.setCenter(this.getPosition());
         l = new Light(this);
     }
     public View getpView()
@@ -35,6 +32,7 @@ public class Player extends MEntity implements Illuminator
         playerCamera.setCenter(this.getPosition());
         l.setPosition(this.getPosition());
     }
+
 
 
     public Light getLight() {

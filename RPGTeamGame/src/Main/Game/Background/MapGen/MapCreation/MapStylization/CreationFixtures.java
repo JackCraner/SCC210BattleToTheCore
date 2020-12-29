@@ -1,13 +1,11 @@
 package Main.Game.Background.MapGen.MapCreation.MapStylization;
 
 import Main.Game.Background.MapGen.Chunks.Chunk;
-import Main.Game.Background.MapGen.Map;
 import Main.Game.ForeGround.Entities.Chest;
 import Main.Game.ForeGround.Entities.Entity;
 import Main.Game.ForeGround.Entities.SaveShrine;
 import Main.Game.ForeGround.Entities.Torch;
 import Main.Game.Game;
-import com.sun.source.tree.CatchTree;
 import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 
@@ -36,8 +34,8 @@ public class CreationFixtures
         entitySpawnConditions.put(Chest.class, new ArrayList<>(Arrays.asList(1f,0.00000003f)));    //size of entity, spawnRate
         entitySpawnConditions.put(Torch.class, new ArrayList<>(Arrays.asList(0f,0.00000001f)));
         entitySpawnConditions.put(SaveShrine.class, new ArrayList<>(Arrays.asList(2f,0.0000000005f)));
-        int mapSizeBlocksX = Game.numberOfChunksX * Game.chunkSizeBlocks;
-        int mapSizeBlocksY = Game.numberOfChunksY * Game.chunkSizeBlocks;
+        int mapSizeBlocksX = Game.numberOfChunksX * Game.CHUNKSIZEBLOCKS;
+        int mapSizeBlocksY = Game.numberOfChunksY * Game.CHUNKSIZEBLOCKS;
 
 
 

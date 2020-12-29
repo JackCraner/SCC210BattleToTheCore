@@ -35,7 +35,7 @@ public class ChunkLoader implements Drawable
 
 
         blockArray = new VertexArray(PrimitiveType.QUADS);
-        viewRange = (int)Math.ceil((Game.viewSize/Game.blockSize)) +4;
+        viewRange = (int)Math.ceil((Game.VIEWSIZE /Game.blockSize)) +4;
 
     }
 
@@ -43,7 +43,7 @@ public class ChunkLoader implements Drawable
     {
 
         blockArray.clear();
-        float transformF = (Game.viewSize / Game.blockSize) /2;
+        float transformF = (Game.VIEWSIZE / Game.blockSize) /2;
         Vector2f transformV = new Vector2f(p.inBlock().x - transformF -2, p.inBlock().y -transformF-2);
         c = new Chunk(mapPlane.getBlockMapArray(p.getPosition(), viewRange), transformV);
         try

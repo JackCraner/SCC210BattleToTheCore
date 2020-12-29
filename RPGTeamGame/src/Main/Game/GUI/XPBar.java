@@ -36,9 +36,9 @@ public class XPBar
         this.p = p;
         this.TotalXPSlots = numOfSlots*2;
         this.XPSlot = new RectangleShape[TotalXPSlots];
-        XPSlotLength = (float)(Game.windowSize-950);
+        XPSlotLength = (float)(Game.WINDOWSIZE -950);
         XPSlotSize = new Vector2f(XPSlotLength, 25);   //length, width of bar
-        XPBarBackSize = new Vector2f((float)(Game.windowSize-400), 25);     //length, width of bar
+        XPBarBackSize = new Vector2f((float)(Game.WINDOWSIZE -400), 25);     //length, width of bar
         back = new RectangleShape(XPBarBackSize);
         back.setFillColor(XPEmpty2);
         for (int i = 0; i < XPSlot.length; i++){
@@ -60,9 +60,9 @@ public class XPBar
     public void updateXPBarPosition()
     {
         for (int i = 0; i < XPSlot.length; i++){
-            XPSlot[i].setPosition(200+((int)XPSlotLength*i), Game.windowSize - XPSlotSize.y - 135);
+            XPSlot[i].setPosition(200+((int)XPSlotLength*i), Game.WINDOWSIZE - XPSlotSize.y - 135);
         }
-        back.setPosition(200, Game.windowSize - XPBarBackSize.y - 135);
+        back.setPosition(200, Game.WINDOWSIZE - XPBarBackSize.y - 135);
     }
 
     /**

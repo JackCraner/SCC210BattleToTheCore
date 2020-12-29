@@ -71,7 +71,7 @@ public class Light
     }
     public Boolean getOnScreen(Player p)
     {
-        float transform = ((Game.viewSize/2));
+        float transform = ((Game.VIEWSIZE /2));
         float extra = 250;
         Vector2f topLeft = new Vector2f(p.getPosition().x - transform, p.getPosition().y - transform);
         Vector2f bottomRight = new Vector2f(p.getPosition().x + transform, p.getPosition().y + transform);
@@ -85,7 +85,7 @@ public class Light
     public Vector2f convertPositionToScreen(Player p)
     {
 
-        float transform = ((Game.viewSize/2));
+        float transform = ((Game.VIEWSIZE /2));
         float extra = 250;
         Vector2f topLeft = new Vector2f(p.getPosition().x - transform, p.getPosition().y - transform);
         Vector2f bottomRight = new Vector2f(p.getPosition().x + transform, p.getPosition().y + transform);

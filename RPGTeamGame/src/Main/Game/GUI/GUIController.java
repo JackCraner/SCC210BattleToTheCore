@@ -49,7 +49,7 @@ public class GUIController implements Drawable
         xpB.updateXPBarPosition();
         map.updateMiniMapPosition();
         fpsCounter = new Text("HI", textFont, 100);     //Fps font and size
-        fpsCounter.setPosition(new Vector2f(Game.windowSize-970,30));
+        fpsCounter.setPosition(new Vector2f(Game.WINDOWSIZE -970,30));
     }
 
     /**
@@ -63,7 +63,7 @@ public class GUIController implements Drawable
         iB.updateInventoryPosition();
         xpB.updateXPBarPosition();
         map.updateMiniMapPosition();
-        fpsCounter.setPosition(new Vector2f(Game.windowSize-970,30));
+        fpsCounter.setPosition(new Vector2f(Game.WINDOWSIZE -970,30));
     }
 
     /**

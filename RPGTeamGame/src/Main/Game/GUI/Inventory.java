@@ -35,8 +35,8 @@ public class Inventory
         this.SlotsEmpty = numOfSlots;
         this.numSlots = numOfSlots;
         this.Slot = new RectangleShape[numOfSlots];
-        SlotLength = (float)(Game.windowSize - 900);
-        InventorySize = new Vector2f((float)(Game.windowSize - 400), 90);   //length, width of bar
+        SlotLength = (float)(Game.WINDOWSIZE - 900);
+        InventorySize = new Vector2f((float)(Game.WINDOWSIZE - 400), 90);   //length, width of bar
         SlotSize = new Vector2f(SlotLength, 90);   //length, width of bar
         back = new RectangleShape(InventorySize);
         back.setFillColor(background);
@@ -59,9 +59,9 @@ public class Inventory
     {
         for (int i = 0; i < Slot.length; i++) {
             int temp = 200+((int)SlotLength*i);
-            Slot[i].setPosition(temp, Game.windowSize - InventorySize.y - 30);
+            Slot[i].setPosition(temp, Game.WINDOWSIZE - InventorySize.y - 30);
         }
-        back.setPosition(200, Game.windowSize - InventorySize.y - 30);
+        back.setPosition(200, Game.WINDOWSIZE - InventorySize.y - 30);
     }
 
     /**
