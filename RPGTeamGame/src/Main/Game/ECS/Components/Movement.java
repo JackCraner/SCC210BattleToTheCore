@@ -1,7 +1,6 @@
-package Main.Game.Entity.Components;
+package Main.Game.ECS.Components;
 
-import Main.Game.Entity.Component;
-import org.jsfml.system.Vector2f;
+import Main.Game.ECS.Entity.Component;
 
 public class Movement extends Component
 {

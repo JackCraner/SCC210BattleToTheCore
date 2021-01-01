@@ -1,9 +1,8 @@
-package Main.Game.Entity;
+package Main.Game.ECS.Entity;
 
 import org.jsfml.graphics.Drawable;
 import org.jsfml.graphics.RenderStates;
 import org.jsfml.graphics.RenderTarget;
-import org.jsfml.system.Vector2f;
 
 import java.util.ArrayList;
 

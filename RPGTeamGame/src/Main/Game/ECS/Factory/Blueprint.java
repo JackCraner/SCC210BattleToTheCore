@@ -1,9 +1,9 @@
-package Main.Game.Factory;
+package Main.Game.ECS.Factory;
 
-import Main.Game.Entity.Component;
-import Main.Game.Entity.Components.*;
-import Main.Game.Entity.GameObject;
-import Main.Game.Systems.GameSystem;
+import Main.Game.ECS.Entity.Component;
+import Main.Game.ECS.Components.*;
+import Main.Game.ECS.Entity.GameObject;
+import Main.Game.ECS.Systems.GameSystem;
 import org.jsfml.system.Vector2f;
 
 import java.util.ArrayList;

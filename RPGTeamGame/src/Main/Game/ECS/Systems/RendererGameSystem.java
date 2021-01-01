@@ -1,10 +1,8 @@
-package Main.Game.Systems;
+package Main.Game.ECS.Systems;
 
-import Main.Game.Communication.GameEvent;
-import Main.Game.Entity.Component;
-import Main.Game.Entity.Components.NearPlayerFlag;
-import Main.Game.Entity.Components.Position;
-import Main.Game.Entity.Components.SpriteController;
+import Main.Game.ECS.Entity.Component;
+import Main.Game.ECS.Components.Position;
+import Main.Game.ECS.Components.SpriteController;
 import Main.Game.Level;
 import org.jsfml.window.event.Event;
 

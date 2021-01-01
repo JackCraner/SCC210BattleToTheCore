@@ -1,12 +1,9 @@
-package Main.Game.Systems;
+package Main.Game.ECS.Systems;
 
-import Main.Game.Communication.GameEvent;
-import Main.Game.Entity.Component;
-import Main.Game.Entity.GameObject;
+import Main.Game.ECS.Entity.Component;
 import org.jsfml.window.event.Event;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public abstract class GameSystem
 {

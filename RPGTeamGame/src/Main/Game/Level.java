@@ -1,16 +1,16 @@
 package Main.Game;
 
-import Main.Game.Entity.Component;
-import Main.Game.Entity.Components.BoxCollider;
-import Main.Game.Entity.Components.Position;
-import Main.Game.Entity.Components.SpriteController;
-import Main.Game.Entity.GameObject;
-import Main.Game.Factory.Blueprint;
-import Main.Game.Factory.EntityID;
-import Main.Game.Systems.GameSystem;
-import Main.Game.Systems.MovementGameSystem;
-import Main.Game.Systems.PositionGameSystem;
-import Main.Game.Systems.RendererGameSystem;
+import Main.Game.ECS.Entity.Component;
+import Main.Game.ECS.Components.BoxCollider;
+import Main.Game.ECS.Components.Position;
+import Main.Game.ECS.Components.SpriteController;
+import Main.Game.ECS.Entity.GameObject;
+import Main.Game.ECS.Factory.Blueprint;
+import Main.Game.ECS.Factory.EntityID;
+import Main.Game.ECS.Systems.GameSystem;
+import Main.Game.ECS.Systems.MovementGameSystem;
+import Main.Game.ECS.Systems.PositionGameSystem;
+import Main.Game.ECS.Systems.RendererGameSystem;
 import org.jsfml.graphics.Color;
 import org.jsfml.graphics.RenderWindow;
 import org.jsfml.system.Clock;

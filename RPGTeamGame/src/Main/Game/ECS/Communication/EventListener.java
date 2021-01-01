@@ -1,6 +1,6 @@
-package Main.Game.Communication;
+package Main.Game.ECS.Communication;
 
-import Main.Game.Systems.GameSystem;
+import Main.Game.ECS.Systems.GameSystem;
 
 import java.util.Hashtable;
 import java.util.List;

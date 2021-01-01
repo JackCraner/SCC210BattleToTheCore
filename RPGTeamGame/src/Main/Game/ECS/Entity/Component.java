@@ -1,6 +1,4 @@
-package Main.Game.Entity;
-
-import Main.Game.Entity.GameObject;
+package Main.Game.ECS.Entity;
 
 public abstract class  Component
 {

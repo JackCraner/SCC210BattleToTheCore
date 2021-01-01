@@ -1,8 +1,7 @@
-package Main.Game.Systems;
+package Main.Game.ECS.Systems;
 
-import Main.Game.Communication.GameEvent;
-import Main.Game.Entity.Component;
-import Main.Game.Entity.Components.Movement;
+import Main.Game.ECS.Entity.Component;
+import Main.Game.ECS.Components.Movement;
 import org.jsfml.window.event.Event;
 
 import java.util.ArrayList;

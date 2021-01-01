@@ -1,4 +1,4 @@
-package Main.Game.Factory;
+package Main.Game.ECS.Factory;
 
 import org.jsfml.graphics.Texture;
 

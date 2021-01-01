@@ -1,6 +1,6 @@
-package Main.Game.Entity.Components;
+package Main.Game.ECS.Components;
 
-import Main.Game.Entity.Component;
+import Main.Game.ECS.Entity.Component;
 import org.jsfml.graphics.FloatRect;
 
 public class BoxCollider extends Component
