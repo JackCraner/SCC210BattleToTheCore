@@ -3,6 +3,7 @@ package Main.Game.Systems;
 import Main.Game.Communication.GameEvent;
 import Main.Game.Entity.Component;
 import Main.Game.Entity.Components.Movement;
+import org.jsfml.window.event.Event;
 
 import java.util.ArrayList;
 
@@ -26,7 +27,7 @@ public class PositionGameSystem extends GameSystem
     }
 
     @Override
-    public void update(GameEvent event) {
+    public void update(Event event) {
 
     }
 

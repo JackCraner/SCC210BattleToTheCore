@@ -6,6 +6,7 @@ import Main.Game.Entity.Components.NearPlayerFlag;
 import Main.Game.Entity.Components.Position;
 import Main.Game.Entity.Components.SpriteController;
 import Main.Game.Level;
+import org.jsfml.window.event.Event;
 
 import java.util.ArrayList;
 
@@ -38,7 +39,7 @@ public class RendererGameSystem  extends GameSystem
     }
 
     @Override
-    public void update(GameEvent event) {
+    public void update(Event event) {
 
     }
 

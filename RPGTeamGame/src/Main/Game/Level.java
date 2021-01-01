@@ -13,6 +13,7 @@ import Main.Game.Systems.PositionGameSystem;
 import Main.Game.Systems.RendererGameSystem;
 import org.jsfml.graphics.Color;
 import org.jsfml.graphics.RenderWindow;
+import org.jsfml.system.Clock;
 import org.jsfml.system.Vector2f;
 import org.jsfml.window.Keyboard;
 import org.jsfml.window.VideoMode;
@@ -30,6 +31,9 @@ public class Level
 
     private RenderWindow window;
 
+
+    FPSCounter testPerformance;
+    Clock systemClock = new Clock();
 
     public static Level getLevel()
     {
@@ -58,6 +62,12 @@ public class Level
         gameObjectList.add(wall);
         gameObjectList.add(chest);
 
+
+        for (int a = 0; a < 10; a++)
+        {
+            GameObject playerTest = Blueprint.createGameObject(EntityID.PLAYER, new Vector2f(10 * a,10 * a));
+            gameObjectList.add(playerTest);
+        }
         systemList.add(PositionGameSystem.getSystemInstance());
         systemList.add(RendererGameSystem.getSystemInstance());
         systemList.add(MovementGameSystem.getSystemInstance());
@@ -83,56 +93,74 @@ public class Level
         }
 
 
-        window.setFramerateLimit(60);
+
+        //TESTING
+        testPerformance = new FPSCounter();
+
         isRunning = true;
         runGame();
     }
 
     public void runGame()
     {
-        while (isRunning)
+        int counter =0;
+        while(window.isOpen())
         {
-
-            while(window.isOpen())
+            if(systemClock.getElapsedTime().asSeconds() >= 1.f)
             {
-                for (Event event : window.pollEvents()) {
+                testPerformance.setFPS(counter);
+                counter = 0;
+                systemClock.restart();
+            }
+            counter++;
 
-                }
-                if (Keyboard.isKeyPressed(Keyboard.Key.ESCAPE)) {
-                    window.close();
-                }
-                if (Keyboard.isKeyPressed(Keyboard.Key.D)) {
-
-                }
-                if (Keyboard.isKeyPressed(Keyboard.Key.A)) {
-
-                }
-                if (Keyboard.isKeyPressed(Keyboard.Key.W)) {
-
-                }
-                if (Keyboard.isKeyPressed(Keyboard.Key.S)) {
-
-                }
-
-
-                window.clear();
-
+            for (Event event : window.pollEvents())
+            {
 
                 for (GameSystem s: systemList)
                 {
-                    s.update();
+
+                    s.update(event);
 
 
 
                 }
-
-
-
-                window.display();
             }
-        }
+            if (Keyboard.isKeyPressed(Keyboard.Key.ESCAPE)) {
+                window.close();
+            }
+            if (Keyboard.isKeyPressed(Keyboard.Key.D)) {
 
+            }
+            if (Keyboard.isKeyPressed(Keyboard.Key.A)) {
+
+            }
+            if (Keyboard.isKeyPressed(Keyboard.Key.W)) {
+
+            }
+            if (Keyboard.isKeyPressed(Keyboard.Key.S)) {
+
+            }
+
+
+            window.clear();
+
+
+            for (GameSystem s: systemList)
+            {
+                s.update();
+
+
+
+            }
+
+            window.draw(testPerformance.getFpsCounter());
+
+            window.display();
+        }
     }
+
+
 
     public RenderWindow getWindow() {
         return window;

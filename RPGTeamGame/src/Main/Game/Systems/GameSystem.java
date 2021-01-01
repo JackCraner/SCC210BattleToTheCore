@@ -3,6 +3,7 @@ package Main.Game.Systems;
 import Main.Game.Communication.GameEvent;
 import Main.Game.Entity.Component;
 import Main.Game.Entity.GameObject;
+import org.jsfml.window.event.Event;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +43,7 @@ public abstract class GameSystem
 
     public abstract void update();
 
-    public abstract void update(GameEvent event);
+    public abstract void update(Event event);
 
 
 }
