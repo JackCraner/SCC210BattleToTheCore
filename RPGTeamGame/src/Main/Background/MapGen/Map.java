@@ -179,5 +179,7 @@ public class Map
         return mapChunk.getBlockAt(new Vector2i(a,b));
     }
 
-
+    public Chunk getMapChunk() {
+        return mapChunk;
+    }
 }

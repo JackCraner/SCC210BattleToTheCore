@@ -1,5 +1,6 @@
 package Main.ForeGround.Entities;
 
+import Main.Physics.RigidBody.RigidBody;
 import org.jsfml.graphics.Texture;
 import org.jsfml.system.Vector2f;
 
@@ -13,15 +14,22 @@ public class MEntity extends Entity
     //stats
     float maxSpeed = 20;
 
+    RigidBody body = null;
+
     public MEntity(int ID, Vector2f position)
     {
         super(ID);
         setPosition(position);
+
+        body = new RigidBody();
+        body.setTransform(position);
+        body.setMass(1.0f);
     }
 
     public void move()
     {
         move(velocity);
+        body.setTransform(getPosition());
         friction();
     }
 
@@ -79,4 +87,12 @@ public class MEntity extends Entity
         return (x*x < maxSpeed);
     }
 
+    public void updatePosition()
+    {
+        setPosition(body.getPosition());
+    }
+
+    public RigidBody getBody() {
+        return body;
+    }
 }

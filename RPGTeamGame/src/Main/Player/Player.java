@@ -38,6 +38,13 @@ public class Player extends MEntity implements Illuminator
         l.setPosition(this.getPosition());
     }
 
+    @Override
+    public void updatePosition()
+    {
+        setPosition(this.getBody().getPosition());
+        moveEntity();
+    }
+
 
     public Light getLight() {
         return l;

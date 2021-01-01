@@ -19,24 +19,43 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8fde5648-2b46-450b-91f0-22f80413b65d" name="Default Changelist" comment="">
+    <list default="true" id="52a36d93-7ff9-41bf-8cd1-9cc7456235c9" name="Default Changelist" comment="">
       <change afterPath="$PROJECT_DIR$/src/Main/Physics/Forces/ForceGenerator.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/Main/Physics/Forces/ForceRegistration.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/Main/Physics/Forces/ForceRegistry.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/Main/Physics/Forces/Gravity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Main/Physics/PhysicsSystem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Main/Physics/PhyMath.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Main/Physics/Physics.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Main/Physics/Primitives/AABB.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Main/Physics/Primitives/Box.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Main/Physics/Primitives/Circle.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Main/Physics/Primitives/Collider.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/Main/Physics/Primitives/Line.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/Main/Physics/Primitives/Ray.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/Main/Physics/Primitives/RaycastResult.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Main/Physics/RigidBody/CollisionManifold.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Main/Physics/RigidBody/Collisions.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/Main/Physics/RigidBody/IntersectionDetector.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main/Physics/PhyMath.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/Physics/PhyMath.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main/Physics/Primitives/AABB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/Physics/Primitives/AABB.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main/Physics/Primitives/Box.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/Physics/Primitives/Box.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main/Physics/Primitives/Circle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/Physics/Primitives/Circle.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main/Physics/RigidBody/IntersectionDetecter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Main/Physics/RigidBody/RigidBody.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/Physics/RigidBody/RigidBody.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Main/Physics/RigidBody/RigidBody.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/RPGTeamGame/Main/Background/MapGen/Block.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/RPGTeamGame/Main/Background/MapGen/Block.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/RPGTeamGame/Main/Background/MapGen/Map.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/RPGTeamGame/Main/Background/MapGen/Map.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/RPGTeamGame/Main/ForeGround/Entities/MEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/RPGTeamGame/Main/ForeGround/Entities/MEntity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/RPGTeamGame/Main/Game.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/RPGTeamGame/Main/Game.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/RPGTeamGame/Main/Physics/CEntity.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/RPGTeamGame/Main/Physics/Cblock.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/RPGTeamGame/Main/Physics/Collidable.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/RPGTeamGame/Main/Physics/CollisionBox.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/RPGTeamGame/Main/Physics/MeshCreator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/RPGTeamGame/Main/Player/Player.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/RPGTeamGame/Main/Player/Player.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main/Background/MapGen/Block.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/Background/MapGen/Block.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main/Background/MapGen/Map.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/Background/MapGen/Map.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main/ForeGround/Entities/MEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/ForeGround/Entities/MEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/Game.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main/Physics/CEntity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main/Physics/Cblock.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main/Physics/Collidable.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main/Physics/CollisionBox.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main/Physics/MeshCreator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main/Player/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main/Player/Player.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,7 +65,6 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -54,7 +72,15 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="ProjectId" id="1lW1p1HeEy0hfxuGOkQSpKmBzK5" />
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="D:\IntelliJ IDEA Community Edition 2020.2.3\plugins\maven\lib\maven3" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="1mInroVXE9rg1yjM9izaGYTYyiI" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -64,8 +90,9 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="project.structure.last.edited" value="Project" />
-    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="terminal" />
   </component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -90,11 +117,11 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="8fde5648-2b46-450b-91f0-22f80413b65d" name="Default Changelist" comment="" />
-      <created>1607698227648</created>
+      <changelist id="52a36d93-7ff9-41bf-8cd1-9cc7456235c9" name="Default Changelist" comment="" />
+      <created>1609190190519</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1607698227648</updated>
+      <updated>1609190190519</updated>
     </task>
     <servers />
   </component>
@@ -111,75 +138,54 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="249" y="7" key="#Project_Structure" timestamp="1607700024144">
+    <state x="249" y="10" key="#Project_Structure" timestamp="1609190221884">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state x="249" y="7" key="#Project_Structure/0.0.1536.864/1920.0.1920.1080@0.0.1536.864" timestamp="1607700024144" />
-    <state x="599" y="287" key="#com.intellij.debugger.actions.ViewTextAction" timestamp="1608542771588">
+    <state x="249" y="10" key="#Project_Structure/0.0.1536.864@0.0.1536.864" timestamp="1609190221884" />
+    <state width="1493" height="222" key="GridCell.Tab.0.bottom" timestamp="1609540803370">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state x="599" y="287" key="#com.intellij.debugger.actions.ViewTextAction/0.0.1536.864@0.0.1536.864" timestamp="1608542771588" />
-    <state x="574" y="139" key="#com.intellij.ide.util.MemberChooser" timestamp="1608563850176">
+    <state width="1493" height="222" key="GridCell.Tab.0.bottom/0.0.1536.864@0.0.1536.864" timestamp="1609540803370" />
+    <state width="1493" height="222" key="GridCell.Tab.0.center" timestamp="1609540803370">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state x="574" y="139" key="#com.intellij.ide.util.MemberChooser/0.0.1536.864/1920.0.1920.1080@0.0.1536.864" timestamp="1607905128926" />
-    <state x="574" y="139" key="#com.intellij.ide.util.MemberChooser/0.0.1536.864@0.0.1536.864" timestamp="1608563850176" />
-    <state x="449" y="168" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1608460359016">
+    <state width="1493" height="222" key="GridCell.Tab.0.center/0.0.1536.864@0.0.1536.864" timestamp="1609540803370" />
+    <state width="1493" height="222" key="GridCell.Tab.0.left" timestamp="1609540803370">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state x="449" y="168" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1536.864@0.0.1536.864" timestamp="1608460359016" />
-    <state x="490" y="185" key="#xdebugger.XInspectDialog" timestamp="1608503649891">
+    <state width="1493" height="222" key="GridCell.Tab.0.left/0.0.1536.864@0.0.1536.864" timestamp="1609540803370" />
+    <state width="1493" height="222" key="GridCell.Tab.0.right" timestamp="1609540803370">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state x="490" y="185" key="#xdebugger.XInspectDialog/0.0.1536.864@0.0.1536.864" timestamp="1608503649891" />
-    <state x="816" y="128" key="#xdebugger.evaluate" timestamp="1608503670670">
+    <state width="1493" height="222" key="GridCell.Tab.0.right/0.0.1536.864@0.0.1536.864" timestamp="1609540803370" />
+    <state width="1478" height="269" key="GridCell.Tab.1.bottom" timestamp="1609540803366">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state x="816" y="128" key="#xdebugger.evaluate/0.0.1536.864@0.0.1536.864" timestamp="1608503670670" />
-    <state width="1493" height="277" key="GridCell.Tab.0.bottom" timestamp="1608590105352">
+    <state width="1478" height="269" key="GridCell.Tab.1.bottom/0.0.1536.864@0.0.1536.864" timestamp="1609540803366" />
+    <state width="1478" height="269" key="GridCell.Tab.1.center" timestamp="1609540803366">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1493" height="226" key="GridCell.Tab.0.bottom/0.0.1536.864/1920.0.1920.1080@0.0.1536.864" timestamp="1608545149935" />
-    <state width="1493" height="277" key="GridCell.Tab.0.bottom/0.0.1536.864@0.0.1536.864" timestamp="1608590105352" />
-    <state width="1493" height="277" key="GridCell.Tab.0.center" timestamp="1608590105352">
+    <state width="1478" height="269" key="GridCell.Tab.1.center/0.0.1536.864@0.0.1536.864" timestamp="1609540803366" />
+    <state width="1478" height="269" key="GridCell.Tab.1.left" timestamp="1609540803366">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1493" height="226" key="GridCell.Tab.0.center/0.0.1536.864/1920.0.1920.1080@0.0.1536.864" timestamp="1608545149934" />
-    <state width="1493" height="277" key="GridCell.Tab.0.center/0.0.1536.864@0.0.1536.864" timestamp="1608590105352" />
-    <state width="1493" height="277" key="GridCell.Tab.0.left" timestamp="1608590105352">
+    <state width="1478" height="269" key="GridCell.Tab.1.left/0.0.1536.864@0.0.1536.864" timestamp="1609540803366" />
+    <state width="1478" height="269" key="GridCell.Tab.1.right" timestamp="1609540803366">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1493" height="226" key="GridCell.Tab.0.left/0.0.1536.864/1920.0.1920.1080@0.0.1536.864" timestamp="1608545149934" />
-    <state width="1493" height="277" key="GridCell.Tab.0.left/0.0.1536.864@0.0.1536.864" timestamp="1608590105352" />
-    <state width="1493" height="277" key="GridCell.Tab.0.right" timestamp="1608590105352">
+    <state width="1478" height="269" key="GridCell.Tab.1.right/0.0.1536.864@0.0.1536.864" timestamp="1609540803366" />
+    <state x="335" y="163" width="865" height="628" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2" timestamp="1609538173249">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1493" height="226" key="GridCell.Tab.0.right/0.0.1536.864/1920.0.1920.1080@0.0.1536.864" timestamp="1608545149935" />
-    <state width="1493" height="277" key="GridCell.Tab.0.right/0.0.1536.864@0.0.1536.864" timestamp="1608590105352" />
-    <state width="1493" height="277" key="GridCell.Tab.1.bottom" timestamp="1608590105352">
+    <state x="335" y="163" width="865" height="628" key="com.intellij.xdebugger.impl.breakpoints.ui.BreakpointsDialogFactory$2/0.0.1536.864@0.0.1536.864" timestamp="1609538173249" />
+    <state x="499" y="195" key="extract.method.dialog" timestamp="1609537846330">
       <screen x="0" y="0" width="1536" height="864" />
     </state>
-    <state width="1493" height="277" key="GridCell.Tab.1.bottom/0.0.1536.864/1920.0.1920.1080@0.0.1536.864" timestamp="1608544339371" />
-    <state width="1493" height="277" key="GridCell.Tab.1.bottom/0.0.1536.864@0.0.1536.864" timestamp="1608590105352" />
-    <state width="1493" height="277" key="GridCell.Tab.1.center" timestamp="1608590105352">
-      <screen x="0" y="0" width="1536" height="864" />
-    </state>
-    <state width="1493" height="277" key="GridCell.Tab.1.center/0.0.1536.864/1920.0.1920.1080@0.0.1536.864" timestamp="1608544339371" />
-    <state width="1493" height="277" key="GridCell.Tab.1.center/0.0.1536.864@0.0.1536.864" timestamp="1608590105352" />
-    <state width="1493" height="277" key="GridCell.Tab.1.left" timestamp="1608590105352">
-      <screen x="0" y="0" width="1536" height="864" />
-    </state>
-    <state width="1493" height="277" key="GridCell.Tab.1.left/0.0.1536.864/1920.0.1920.1080@0.0.1536.864" timestamp="1608544339371" />
-    <state width="1493" height="277" key="GridCell.Tab.1.left/0.0.1536.864@0.0.1536.864" timestamp="1608590105352" />
-    <state width="1493" height="277" key="GridCell.Tab.1.right" timestamp="1608590105352">
-      <screen x="0" y="0" width="1536" height="864" />
-    </state>
-    <state width="1493" height="277" key="GridCell.Tab.1.right/0.0.1536.864/1920.0.1920.1080@0.0.1536.864" timestamp="1608544339371" />
-    <state width="1493" height="277" key="GridCell.Tab.1.right/0.0.1536.864@0.0.1536.864" timestamp="1608590105352" />
-    <state x="586" y="346" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1609022180010">
-      <screen x="0" y="0" width="1536" height="864" />
-    </state>
-    <state x="586" y="346" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.864/1920.0.1920.1080@0.0.1536.864" timestamp="1607906213177" />
-    <state x="586" y="346" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.864@0.0.1536.864" timestamp="1609022180010" />
+    <state x="499" y="195" key="extract.method.dialog/0.0.1536.864@0.0.1536.864" timestamp="1609537846330" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/RPGTeamGame$Main.ic" NAME="Main Coverage Results" MODIFIED="1609537966901" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>Main.*</FILTER>
+    </SUITE>
   </component>
 </project>

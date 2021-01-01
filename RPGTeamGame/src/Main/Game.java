@@ -2,6 +2,7 @@ package Main;
 
 import Main.Background.Background;
 import Main.DataTypes.PositionVector;
+import Main.Physics.Physics;
 import Main.Player.Player;
 import Main.ForeGround.Foreground;
 import Main.GUI.GUIController;
@@ -21,6 +22,7 @@ public class Game
     Clock systemClock = new Clock();
     Background bGround;
     Foreground fGround;
+    Physics phyGround;
     GUIController GUI;
     ShaderController sC;
     RenderStates rS;
@@ -50,17 +52,18 @@ public class Game
         currentPos = new PositionVector(playerObject.getPosition());
         bGround = new Background();
         fGround = new Foreground(playerObject, bGround.getMapObject());
+        phyGround = new Physics(1.0f / 60.0f);
         GUI = new GUIController();
         sC = new ShaderController();
+
+        phyGround.setBackground(bGround.getMapObject());
+        phyGround.addEntity(playerObject.getBody());
 
         runGame();
     }
 
     public void runGame()
     {
-
-
-
         try
         {
             gameRender.create(1000,1000);
@@ -71,7 +74,6 @@ public class Game
         }
         RenderWindow window = new RenderWindow(new VideoMode(windowSize,windowSize),"Mine");
         //window.setFramerateLimit(100);
-        window.setVerticalSyncEnabled(true);    //??
         int counter = 0;
         bGround.initialiseBackGround(playerObject);
         fGround.initaliseForeground(playerObject);
@@ -121,6 +123,8 @@ public class Game
             {
                 playerObject.zoom(30);
             }
+            phyGround.fixedUpdate();
+            playerObject.updatePosition();
             playerObject.move();
 
 
@@ -129,7 +133,6 @@ public class Game
             {
                 bGround.updateBackGroundOnMove(playerObject);
                 fGround.updateForeground(playerObject);
-                //System.out.println(bGround.getMapObject().getBlockAt(playerObject.inBlockTest().x,playerObject.inBlockTest().y).getID());
             }
             window.clear();
             gameRender.clear(Color.BLACK);
@@ -146,23 +149,8 @@ public class Game
             window.draw(gameWindow,rS);         //The shader acts as a post processing effect, sort of layering ontop of the main game
             window.draw(GUI);                   //draws the GUI as the next layer ontop (uneffected by the shader)
             window.display();
+
+            System.out.println(phyGround.checkCollision());
         }
     }
-/*
-    public boolean checkOnLand()
-    {
-        Vector2i playerLocation = playerObject.inBlock();
-        Vector2i underPlayerBlockLocation = new Vector2i(playerLocation.x, playerLocation.y + 1);       //bug with +1
-
-        int underPlayerBlockId = bGround.getMapObject().getChunkAtPosition(playerObject.inChunk()).getBlockAt(underPlayerBlockLocation).getID();
-
-        if (underPlayerBlockId == 0 && new CEntity(playerLocation, blockSize,blockSize).getcBox().checkCollistion(new Cblock(underPlayerBlockLocation).getcBox()))
-        {
-            return true;
-        }
-
-        return false;
-    }
-
- */
 }
