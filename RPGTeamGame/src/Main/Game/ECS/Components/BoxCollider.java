@@ -7,6 +7,10 @@ public class BoxCollider extends Component
 {
     FloatRect box;
 
+    public BoxCollider()
+    {
+
+    }
 
 
 }

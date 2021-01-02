@@ -1,9 +1,6 @@
 package Main.Game;
 
 import Main.Game.ECS.Entity.Component;
-import Main.Game.ECS.Components.BoxCollider;
-import Main.Game.ECS.Components.Position;
-import Main.Game.ECS.Components.SpriteController;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.Blueprint;
 import Main.Game.ECS.Factory.EntityID;
@@ -11,9 +8,11 @@ import Main.Game.ECS.Systems.GameSystem;
 import Main.Game.ECS.Systems.MovementGameSystem;
 import Main.Game.ECS.Systems.PositionGameSystem;
 import Main.Game.ECS.Systems.RendererGameSystem;
-import org.jsfml.graphics.Color;
+import Main.Game.MapGeneration.CellularA.CellularAutomata;
+import Main.Game.MapGeneration.MapManager;
 import org.jsfml.graphics.RenderWindow;
 import org.jsfml.system.Clock;
+import org.jsfml.system.Time;
 import org.jsfml.system.Vector2f;
 import org.jsfml.window.Keyboard;
 import org.jsfml.window.VideoMode;
@@ -48,30 +47,33 @@ public class Level
 
     public void startGame()
     {
+        long startTime;
+        long endTime;
         window = new RenderWindow(new VideoMode(1000,1000), "Test");
 
-
-        GameObject player = Blueprint.createGameObject(EntityID.PLAYER, new Vector2f(100,100));
-        GameObject chest = Blueprint.createGameObject(EntityID.CHEST, new Vector2f(200,200));
-        GameObject wall = new GameObject("Wall");
-        wall.addComponent(new Position(500,500));
-        wall.addComponent(new SpriteController(new Vector2f(100,100), Color.RED,new Vector2f(500,500)));
-        wall.addComponent(new BoxCollider());
-
-        gameObjectList.add(player);
-        gameObjectList.add(wall);
-        gameObjectList.add(chest);
+        System.out.println(CellularAutomata.getInstance().generateBinaryMapping());
 
 
-        for (int a = 0; a < 10; a++)
-        {
-            GameObject playerTest = Blueprint.createGameObject(EntityID.PLAYER, new Vector2f(10 * a,10 * a));
-            gameObjectList.add(playerTest);
-        }
+
+
+        gameObjectList.add(Blueprint.player(new Vector2f(100,100)));
+        startTime = System.nanoTime();
+        gameObjectList.addAll(MapManager.getInstance().generateMap());
+        endTime = System.nanoTime();
+        System.out.println("Building Map");
+        System.out.println("Time Taken: " + (endTime-startTime) + "\n");
+        gameObjectList.add(Blueprint.chest(new Vector2f(200,200)));
+
+
+
+
+
         systemList.add(PositionGameSystem.getSystemInstance());
         systemList.add(RendererGameSystem.getSystemInstance());
         systemList.add(MovementGameSystem.getSystemInstance());
 
+
+        startTime = System.nanoTime();
         for (GameObject g : gameObjectList) {
             for (GameSystem s: systemList)
             {
@@ -86,10 +88,13 @@ public class Level
             }
 
         }
+        endTime = System.nanoTime();
+        System.out.println("Adding Components to Systems");
+        System.out.println("Time Taken: " + (endTime-startTime));
 
         for (GameSystem s: systemList)
         {
-            System.out.println(s.toString());
+            //System.out.println(s.toString());
         }
 
 
