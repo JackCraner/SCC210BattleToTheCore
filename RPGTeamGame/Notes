@@ -1,0 +1,68 @@
+Things i need to consider
+
+REMEMBER WITH ECS
+- Purity
+- Components = only data
+- GameObjects = only array of Components
+- System = array of different components
+    - Systems should be completely independent
+    - no two systems should have the same subset of components required (optimization)
+    - the less systems the better
+
+- Consideration with ECS
+    - instead of passing in just array of components to systems, pass in whole Gameobjects that fit requirements (idk why tho)
+
+    -Also performance is shit with ECS
+
+
+
+-- Publisher Subscriber event system
+        -- is events needed
+
+
+-- Render Optimizations
+      -- Blocks only need to be updated on player movement
+      -- Sprites only need to be updated on that sprites movement
+            -- Simple optimization is ... if object with a movement component moves, update background
+                    -- Currently no way of splitting block objects and entities in the main game array
+
+                    MASSIVE THING -- Blocks probably shouldnt be GameObjects realistically
+                                    -- removing them would help performance a fuck ton
+                                    -- and make drawing them seperately in the render possible.
+
+-- Clean up GameObject creation
+      -- currently there is the factory, maybe add a GameObject manager which has the arraylist in it
+
+
+-- Need to make a lighting system which produces a shader
+      -- now the shader needs to be used in the renderSystem but systems shouldnt be able to communicate
+      -- this is a messenger issue
+
+-- Idea on Health, give some components a damage component. If an entity collides with a damage component collides with an entity with a health component
+      -- Health -= damage;
+
+
+
+-- To Do List
+    - Chunks to the map
+    - Torch, Chest and saveShrine spawning
+    - RenderDistance - only load needed nearby data
+        -- an activeGameObject List
+    - Lighting
+    - GUI (Connecting it to the player GameObjects corresponding components, so healthbar to a health component)
+
+
+
+
+
+
+
+--- Messenger System
+
+
+events
+-- Entity moves, something dies
+            --if something dies how do i remove it from systems 
+
+info between systems
+-- shaders

@@ -21,6 +21,8 @@ public class RendererGameSystem  extends GameSystem
     private static RendererGameSystem systemInstance = new RendererGameSystem();
 
     private HashMap<Byte,Texture> textureMap = new HashMap<>();
+    private RenderTexture screenTexture = new RenderTexture();
+    private Sprite screenSprite = new Sprite();
 
     private RendererGameSystem()
     {
@@ -30,6 +32,15 @@ public class RendererGameSystem  extends GameSystem
 
             textureMap.put(a, EntityID.getTexture(EntityID.ENTITYTextureStringLIST[a]));
         }
+        try
+        {
+            screenTexture.create(1000,1000);
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+        }
+
     }
 
 
@@ -47,6 +58,12 @@ public class RendererGameSystem  extends GameSystem
     @Override
     public void update()
     {
+
+        // currently we calculate and draw every frame
+        // need an event that something has moved (MovementSystem) to order this system to calculate the frame and draw
+        // otherwise we just draw (big performance boost)
+
+
         VertexArray backGround = new VertexArray(PrimitiveType.QUADS);
         Layer graphicalLayer[] = new Layer[] {new Layer(), new Layer(), new Layer()};
 
@@ -85,17 +102,25 @@ public class RendererGameSystem  extends GameSystem
 
         }
 
-        Level.getLevel().getWindow().draw(backGround,new RenderStates(textureMap.get((byte) 0)));
 
+
+        screenTexture.clear(Color.WHITE);
+        screenTexture.draw(backGround,new RenderStates(textureMap.get((byte) 0)));
         for (Layer l: graphicalLayer)
         {
-            Level.getLevel().getWindow().draw(l);
+            screenTexture.draw(l);
         }
+        Camera.cameraInstance().camerView.setCenter(Level.PLAYER.getComponent(Position.class).position);
+        screenTexture.setView(Camera.cameraInstance().camerView);
+        screenTexture.display();
+        screenSprite.setTexture(screenTexture.getTexture());
+        Level.getLevel().getWindow().draw(screenSprite);
 
+        //Level.getLevel().getWindow().draw(backGround,new RenderStates(textureMap.get((byte) 0)));
         //Player is always index 0 on the list of Objects
 
-        Camera.cameraInstance().camerView.setCenter(((Position)getComponentArrayList().get(0)[0]).position);
-        Level.getLevel().getWindow().setView(Camera.cameraInstance().camerView);
+
+
     }
 
     @Override

@@ -5,7 +5,7 @@ import org.jsfml.graphics.FloatRect;
 
 public class BoxCollider extends Component
 {
-    FloatRect box;
+    public Boolean isColliding = false;
 
     public BoxCollider()
     {

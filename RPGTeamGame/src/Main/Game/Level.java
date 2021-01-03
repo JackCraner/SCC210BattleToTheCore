@@ -4,10 +4,7 @@ import Main.Game.ECS.Entity.Component;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.Blueprint;
 import Main.Game.ECS.Factory.EntityID;
-import Main.Game.ECS.Systems.GameSystem;
-import Main.Game.ECS.Systems.MovementGameSystem;
-import Main.Game.ECS.Systems.PositionGameSystem;
-import Main.Game.ECS.Systems.RendererGameSystem;
+import Main.Game.ECS.Systems.*;
 import Main.Game.MapGeneration.CellularA.CellularAutomata;
 import Main.Game.MapGeneration.MapManager;
 import org.jsfml.graphics.RenderWindow;
@@ -19,15 +16,17 @@ import org.jsfml.window.VideoMode;
 import org.jsfml.window.event.Event;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Level
 {
+
+    public static GameObject PLAYER = Blueprint.player(new Vector2f(500,500));
+
     private static Level levelInstance = new Level();
-
     private boolean isRunning = false;
-    private ArrayList<GameObject> gameObjectList = new ArrayList<>();
+    private ArrayList<GameObject> gameObjectList = new ArrayList<>(Arrays.asList(PLAYER));
     private ArrayList<GameSystem> systemList = new ArrayList<>();
-
     private RenderWindow window;
 
 
@@ -51,12 +50,10 @@ public class Level
         long endTime;
         window = new RenderWindow(new VideoMode(1000,1000), "Test");
 
-        System.out.println(CellularAutomata.getInstance().generateBinaryMapping());
 
 
 
-
-        gameObjectList.add(Blueprint.player(new Vector2f(100,100)));
+        gameObjectList.add(Blueprint.player(new Vector2f(300,300)));
         startTime = System.nanoTime();
         gameObjectList.addAll(MapManager.getInstance().generateMap());
         endTime = System.nanoTime();
@@ -69,6 +66,7 @@ public class Level
 
 
         systemList.add(PositionGameSystem.getSystemInstance());
+        systemList.add(PhysicsSystem.getSystemInstance());
         systemList.add(RendererGameSystem.getSystemInstance());
         systemList.add(MovementGameSystem.getSystemInstance());
 

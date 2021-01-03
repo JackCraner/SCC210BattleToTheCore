@@ -12,6 +12,7 @@ import org.jsfml.system.Vector2f;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class MapManager
 {
@@ -25,7 +26,9 @@ public class MapManager
     private ArrayList<GameObject> generateBackground(byte[][] binaryMapping)
     {
         ArrayList<GameObject> backgroundList = new ArrayList<>();
-
+        HashMap<Byte,Byte> binaryToTextureID = new HashMap<>();
+        binaryToTextureID.put((byte)0,(byte)25);
+        binaryToTextureID.put((byte)1,(byte)31);
         for(int a = 0; a < CellularAutomata.CHUNKSIZEBLOCKS; a++)
         {
             for(int b =0; b< CellularAutomata.CHUNKSIZEBLOCKS; b++)
@@ -33,10 +36,11 @@ public class MapManager
 
                 Vector2f pos = new Vector2f(a * Blueprint.blockSize.x, b*Blueprint.blockSize.y);
 
-                GameObject g = Blueprint.block(pos,binaryMapping[a][b]);            //too expensive
+                GameObject g = Blueprint.block(pos,binaryToTextureID.get(binaryMapping[a][b]));            //too expensive
 
                 if (binaryMapping[a][b] == CellularAutomata.WALLID)
                 {
+                    g.addComponent(new BoxCollider());
 
                 }
                backgroundList.add(g);
