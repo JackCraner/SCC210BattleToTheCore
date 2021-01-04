@@ -21,13 +21,21 @@ public class Blueprint
     {
 
         GameObject g = new GameObject(EntityID.PLAYER.name);
+        g.addComponent(new Size(blockSize));
+        g.addComponent(new Position(position));
+
+        g.addComponent(new TextureComponent(EntityID.PLAYER.textureID));
+        g.addComponent(new Movement(10));
+        g.addComponent(new Collider());
+
+        return g;
+    }
+    public static GameObject test(Vector2f position)
+    {
+        GameObject g = new GameObject(EntityID.PLAYER.name);
         g.addComponent(new Position(position));
         g.addComponent(new Size(blockSize));
-        g.addComponent(new TextureComponent(EntityID.PLAYER.textureID));
-        g.addComponent(new PlayerController());
-        g.addComponent(new Movement(1));
-        g.addComponent(new BoxCollider());
-
+        g.addComponent(new Collider());
         return g;
     }
     public static GameObject chest(Vector2f position)

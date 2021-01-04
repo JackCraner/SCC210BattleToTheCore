@@ -19,7 +19,7 @@ public class FPSCounter
 
         try
         {
-            textFont.loadFromFile(Paths.get("Assets" + File.separator +"LEMONMILK-Regular.otf"));
+            textFont.loadFromFile(Paths.get("Assets" + File.separator + "Fonts" + File.separator +"LEMONMILK-Regular.otf"));
         }
         catch (Exception e)
         {

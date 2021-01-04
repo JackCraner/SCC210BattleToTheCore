@@ -33,6 +33,7 @@ public abstract class GameSystem
             }
             s += "\n";
         }
+        s += "Total Number of Objects: " + c.size() + "\n";
         return s;
     }
 

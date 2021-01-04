@@ -1,6 +1,6 @@
 package Main.Game.ECS.Systems;
 
-import Main.Game.ECS.Components.BoxCollider;
+import Main.Game.ECS.Components.Collider;
 import Main.Game.ECS.Components.Movement;
 import Main.Game.ECS.Components.Position;
 import Main.Game.ECS.Components.Size;
@@ -25,7 +25,8 @@ public class PhysicsSystem extends GameSystem
         ArrayList<Class<? extends Component>> c = new ArrayList<>();
         c.add(Position.class);
         c.add(Size.class);
-        c.add(BoxCollider.class);
+        c.add(Collider.class);
+        //c.add(Movement.class);
         return c;
     }
 
@@ -40,8 +41,9 @@ public class PhysicsSystem extends GameSystem
         {
             Vector2f pos = ((Position)cA[0]).position;
             Vector2f size = ((Size)cA[1]).size;
-
             FloatRect body = new FloatRect(pos.x, pos.y, size.x, size.y);
+
+
             rigidBodies.add(body);
             if (cA[0].getGameObject().getComponent(Movement.class) != null)
             {

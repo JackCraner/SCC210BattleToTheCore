@@ -62,7 +62,16 @@ REMEMBER WITH ECS
 
 events
 -- Entity moves, something dies
-            --if something dies how do i remove it from systems 
+            --if something dies how do i remove it from systems
 
 info between systems
 -- shaders
+
+
+
+
+BIG BRAIN
+-- have a centeralized list of every component type which is fed to systems as pointers
+-- so instead of each system having an arrayList of each component, have one arrayList for each component in SystemManager and give a pointer to required lists to individual systems
+
+-- make removing entities wayyyyyy faster

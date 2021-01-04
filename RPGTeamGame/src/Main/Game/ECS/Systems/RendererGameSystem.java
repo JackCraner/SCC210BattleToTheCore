@@ -7,14 +7,13 @@ import Main.Game.ECS.Components.Position;
 import Main.Game.ECS.Components.TextureComponent;
 import Main.Game.ECS.Factory.Blueprint;
 import Main.Game.ECS.Factory.EntityID;
-import Main.Game.Level;
+import Main.Game.Game;
 import org.jsfml.graphics.*;
 import org.jsfml.system.Vector2f;
 import org.jsfml.window.event.Event;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Hashtable;
 
 public class RendererGameSystem  extends GameSystem
 {
@@ -34,7 +33,7 @@ public class RendererGameSystem  extends GameSystem
         }
         try
         {
-            screenTexture.create(1000,1000);
+            screenTexture.create(Game.WINDOWSIZE,Game.WINDOWSIZE);
         }
         catch(Exception e)
         {
@@ -63,7 +62,7 @@ public class RendererGameSystem  extends GameSystem
         // need an event that something has moved (MovementSystem) to order this system to calculate the frame and draw
         // otherwise we just draw (big performance boost)
 
-
+        System.out.println("Num Objects: " + getComponentArrayList().size());
         VertexArray backGround = new VertexArray(PrimitiveType.QUADS);
         Layer graphicalLayer[] = new Layer[] {new Layer(), new Layer(), new Layer()};
 
@@ -75,29 +74,35 @@ public class RendererGameSystem  extends GameSystem
             Vector2f size = ((Size)cA[1]).size;
             TextureComponent b = ((TextureComponent)cA[2]);
 
-            if (b.layer - 1 < 0)
+            //float distanceBetween = (float)Math.pow( Math.pow(Game.PLAYER.getComponent(Position.class).position.x - curPos.x,2) + Math.pow(Game.PLAYER.getComponent(Position.class).position.y - curPos.y,2),0.5);
+            float distanceBetween = Math.max(Math.abs(Game.PLAYER.getComponent(Position.class).position.x - curPos.x), Math.abs(Game.PLAYER.getComponent(Position.class).position.y - curPos.y));
+            if (distanceBetween < (Game.WINDOWSIZE/2) + 100)
             {
-
-                backGround.add(new Vertex(curPos,new Vector2f(Blueprint.blockSize.x *b.tileMapLocation,0)));
-                backGround.add(new Vertex(new Vector2f(curPos.x, curPos.y + Blueprint.blockSize.y) ,new Vector2f(Blueprint.blockSize.x *b.tileMapLocation + Blueprint.blockSize.x,0)));
-                backGround.add(new Vertex(new Vector2f(curPos.x + Blueprint.blockSize.x, curPos.y + Blueprint.blockSize.y),new Vector2f(Blueprint.blockSize.x *b.tileMapLocation+ Blueprint.blockSize.x,+ Blueprint.blockSize.x)));
-                backGround.add(new Vertex(new Vector2f(curPos.x + Blueprint.blockSize.x, curPos.y),new Vector2f(Blueprint.blockSize.x *b.tileMapLocation,+ Blueprint.blockSize.x)));
-
-
-
-            }
-            else
-            {
-                RectangleShape s = new RectangleShape();
-                s.setPosition(curPos);
-                s.setSize(size);
-                s.setTexture(textureMap.get(b.textureID));
-                if (b.tileMapLocation >= 0)
+                if (b.layer - 1 < 0)
                 {
-                    s.setTextureRect(new IntRect(b.tileMapLocation * (int)size.x, 0,(int)size.x,(int)size.y));
+
+                    backGround.add(new Vertex(curPos,new Vector2f(Blueprint.blockSize.x *b.tileMapLocation,0)));
+                    backGround.add(new Vertex(new Vector2f(curPos.x, curPos.y + Blueprint.blockSize.y) ,new Vector2f(Blueprint.blockSize.x *b.tileMapLocation + Blueprint.blockSize.x,0)));
+                    backGround.add(new Vertex(new Vector2f(curPos.x + Blueprint.blockSize.x, curPos.y + Blueprint.blockSize.y),new Vector2f(Blueprint.blockSize.x *b.tileMapLocation+ Blueprint.blockSize.x,+ Blueprint.blockSize.x)));
+                    backGround.add(new Vertex(new Vector2f(curPos.x + Blueprint.blockSize.x, curPos.y),new Vector2f(Blueprint.blockSize.x *b.tileMapLocation,+ Blueprint.blockSize.x)));
+
+
+
+                }
+                else
+                {
+                    RectangleShape s = new RectangleShape();
+                    s.setPosition(curPos);
+                    s.setSize(size);
+                    s.setTexture(textureMap.get(b.textureID));
+                    if (b.tileMapLocation >= 0)
+                    {
+                        s.setTextureRect(new IntRect(b.tileMapLocation * (int)size.x, 0,(int)size.x,(int)size.y));
+                    }
+
+                    graphicalLayer[b.layer - 1].addDrawable(s);
                 }
 
-                graphicalLayer[b.layer - 1].addDrawable(s);
             }
 
         }
@@ -110,11 +115,11 @@ public class RendererGameSystem  extends GameSystem
         {
             screenTexture.draw(l);
         }
-        Camera.cameraInstance().camerView.setCenter(Level.PLAYER.getComponent(Position.class).position);
+        Camera.cameraInstance().camerView.setCenter(Game.PLAYER.getComponent(Position.class).position);
         screenTexture.setView(Camera.cameraInstance().camerView);
         screenTexture.display();
         screenSprite.setTexture(screenTexture.getTexture());
-        Level.getLevel().getWindow().draw(screenSprite);
+        Game.getGame().getWindow().draw(screenSprite);
 
         //Level.getLevel().getWindow().draw(backGround,new RenderStates(textureMap.get((byte) 0)));
         //Player is always index 0 on the list of Objects

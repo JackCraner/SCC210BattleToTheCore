@@ -1,5 +1,6 @@
 package Main.Game.ECS.Systems;
 
+import Main.Game.ECS.Components.Collider;
 import Main.Game.ECS.Entity.Component;
 import Main.Game.ECS.Components.Movement;
 import org.jsfml.window.event.Event;
@@ -17,11 +18,17 @@ public class PositionGameSystem extends GameSystem
     {
        ArrayList<Class<? extends Component>> c = new ArrayList<>();
        c.add(Movement.class);
+       c.add(Collider.class);
        return c;
     }
 
     @Override
-    public void update() {
+    public void update()
+    {
+
+
+
+
 
     }
 

@@ -1,6 +1,6 @@
 package Main;
 
-import Main.Game.Level;
+import Main.Game.Game;
 
 
 public class Main
@@ -9,7 +9,7 @@ public class Main
 
     public static void main(String[] args)
     {
-        Level game = Level.getLevel();
+        Game game = Game.getGame();
         game.startGame();
 
 

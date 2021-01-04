@@ -1,6 +1,5 @@
 package Main.Game.ECS.Systems;
 
-import Main.Game.ECS.Components.BoxCollider;
 import Main.Game.ECS.Entity.Component;
 import Main.Game.ECS.Components.Movement;
 import Main.Game.ECS.Components.Position;
@@ -8,7 +7,6 @@ import org.jsfml.system.Vector2f;
 import org.jsfml.window.Keyboard;
 import org.jsfml.window.event.Event;
 
-import javax.swing.*;
 import java.util.ArrayList;
 
 public class MovementGameSystem extends GameSystem
@@ -25,6 +23,7 @@ public class MovementGameSystem extends GameSystem
         ArrayList<Class<? extends Component>> c = new ArrayList<>();
         c.add(Position.class);
         c.add(Movement.class);
+        //c.add(BoxCollider.class);
         return c;
     }
 
