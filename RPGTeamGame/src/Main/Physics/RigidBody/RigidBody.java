@@ -3,6 +3,8 @@ package Main.Physics.RigidBody;
 import Main.Physics.PhyMath;
 import org.jsfml.system.Vector2f;
 
+import java.util.Objects;
+
 public class RigidBody {
     //private Transform rawTransform;
 
@@ -45,6 +47,10 @@ public class RigidBody {
         this.forceAccum = new Vector2f(0.0f, 0.0f);
     }
 
+    public void clearLinearVelocity() {
+        this.linearVelocity = new Vector2f(0.0f, 0.0f);
+    }
+
     public Vector2f getPosition() {
         return position;
     }
@@ -83,4 +89,26 @@ public class RigidBody {
         this.position = PhyMath.newVector2f(rawTransform.position);
     }
     */
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof RigidBody)) return false;
+        RigidBody rigidBody = (RigidBody) o;
+        return Float.compare(rigidBody.rotation, rotation) == 0 &&
+                Float.compare(rigidBody.mass, mass) == 0 &&
+                Float.compare(rigidBody.inverseMass, inverseMass) == 0 &&
+                Float.compare(rigidBody.angularVelocity, angularVelocity) == 0 &&
+                Float.compare(rigidBody.linearDamping, linearDamping) == 0 &&
+                Float.compare(rigidBody.angularDamping, angularDamping) == 0 &&
+                fixedRotation == rigidBody.fixedRotation &&
+                Objects.equals(position, rigidBody.position) &&
+                Objects.equals(forceAccum, rigidBody.forceAccum) &&
+                Objects.equals(linearVelocity, rigidBody.linearVelocity);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(position, rotation, mass, inverseMass, forceAccum, linearVelocity, angularVelocity, linearDamping, angularDamping, fixedRotation);
+    }
 }

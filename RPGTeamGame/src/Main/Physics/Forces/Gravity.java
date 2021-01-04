@@ -7,7 +7,7 @@ import org.jsfml.system.Vector2f;
 public class Gravity implements ForceGenerator{
     private Vector2f gravity;
 
-    public static Vector2f FORCE = new Vector2f(0.0f, 1.0f);
+    public static Vector2f FORCE = new Vector2f(0.0f, 10.0f);
 
     public Gravity() {
         this.gravity = PhyMath.newVector2f(Gravity.FORCE);

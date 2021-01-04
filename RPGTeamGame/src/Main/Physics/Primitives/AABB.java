@@ -4,6 +4,8 @@ import Main.Physics.PhyMath;
 import Main.Physics.RigidBody.RigidBody;
 import org.jsfml.system.Vector2f;
 
+import java.util.Objects;
+
 // Axis Aligned Bounding Box
 public class AABB {
     private Vector2f size = new Vector2f(0.0f,0.0f);
@@ -34,5 +36,20 @@ public class AABB {
     public void setSize(Vector2f size) {
         this.size = PhyMath.newVector2f(size);
         this.halfSize = new Vector2f(size.x / 2.0f, size.y / 2.0f);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof AABB)) return false;
+        AABB aabb = (AABB) o;
+        return Objects.equals(size, aabb.size) &&
+                Objects.equals(halfSize, aabb.halfSize) &&
+                Objects.equals(rigidBody, aabb.rigidBody);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(size, halfSize, rigidBody);
     }
 }

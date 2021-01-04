@@ -8,6 +8,7 @@ import Main.Physics.Forces.Gravity;
 import Main.Physics.Primitives.AABB;
 import Main.Physics.RigidBody.IntersectionDetector;
 import Main.Physics.RigidBody.RigidBody;
+import Main.Player.Player;
 import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 
@@ -44,7 +45,18 @@ public class Physics {
 
         // Update the velocities of all rigidbodies
         for (int i=0; i < rigidbodies.size(); i++) {
-            rigidbodies.get(i).physicsUpdate(fixedUpdate);
+
+            if (this.checkRigidBodyCollisionWithGround(this.rigidbodies.get(i))) {
+                this.forceRegistry.remove(rigidbodies.get(i), gravity);
+                this.rigidbodies.get(i).clearLinearVelocity();
+            }
+            else {
+                if (!this.forceRegistry.contains(rigidbodies.get(i), gravity)) {
+                    this.forceRegistry.add(rigidbodies.get(i), gravity);
+                }
+            }
+
+            this.rigidbodies.get(i).physicsUpdate(fixedUpdate);
         }
     }
 
@@ -79,6 +91,7 @@ public class Physics {
         }
     }
 
+    // TODO: FIX EDGE CASES
     public boolean checkBlockForAir(Block b, Block[][] map) {
         Vector2i bLocation = b.inBlock();
 
@@ -102,20 +115,59 @@ public class Physics {
 
         entitys.add(aabbEntity);
 
-
         this.addRigidbody(entity);
     }
 
-    public boolean checkCollision() {
+    public AABB convertEntityToAABB(RigidBody entity) {
+        AABB aabbEntity = new AABB();
+        aabbEntity.setSize(new Vector2f(Game.blockSize, Game.blockSize));
+        aabbEntity.setRigidBody(entity);
+
+        return aabbEntity;
+    }
+
+    public boolean checkPlayerCollisionWithGround(Player player) {
+        AABB aabbPlayer = this.convertEntityToAABB(player.getBody());
+
         for (AABB aabbEntity : entitys) {
-            for (AABB aabbBlock : backgroundColliable) {
-                if (IntersectionDetector.AABBAndAABB(aabbEntity, aabbBlock)) {
-                    return true;
+            if (aabbEntity.equals(aabbPlayer)) {
+                for (AABB aabbBlock : backgroundColliable) {
+                    if (IntersectionDetector.AABBAndAABB(aabbPlayer, aabbBlock)) {
+                        return true;
+                    }
                 }
             }
         }
 
         return false;
+    }
+
+    public boolean checkRigidBodyCollisionWithGround(RigidBody body) {
+        AABB aabbPlayer = this.findCorrespondingAABB(body);
+
+        for (AABB aabbEntity : entitys) {
+            if (aabbEntity.equals(aabbPlayer)) {
+                for (AABB aabbBlock : backgroundColliable) {
+                    if (IntersectionDetector.AABBAndAABB(aabbPlayer, aabbBlock)) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private AABB findCorrespondingAABB(RigidBody body) {
+        AABB aabbBody = this.convertEntityToAABB(body);
+
+        for (AABB aabbEntity : entitys) {
+            if (aabbEntity.equals(aabbBody)) {
+                return aabbBody;
+            }
+        }
+
+        return null;
     }
 }
 

@@ -32,6 +32,10 @@ public class ForceRegistry {
         }
     }
 
+    public boolean contains(RigidBody rb, ForceGenerator fg) {
+        return registry.contains(new ForceRegistration(fg, rb));
+    }
+
     public void zeroForces() {
         for (ForceRegistration fr : registry) {
             // TODO: IMPLEMENT ME

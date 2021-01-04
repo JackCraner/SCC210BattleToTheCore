@@ -96,25 +96,23 @@ public class Game
                 window.close();
             }
 
-            Vector2f currentPos = playerObject.getPosition();
-
-
             if(Keyboard.isKeyPressed(Keyboard.Key.D))
             {
-                playerObject.setVelocity(new Vector2f(1,0));
+                playerObject.setVelocity(new Vector2f(0.15f,0));
             }
             if(Keyboard.isKeyPressed(Keyboard.Key.A))
             {
-                playerObject.setVelocity(new Vector2f(-1,0));
+                playerObject.setVelocity(new Vector2f(-0.15f,0));
             }
-            if(Keyboard.isKeyPressed(Keyboard.Key.W))
+
+            if(phyGround.checkPlayerCollisionWithGround(playerObject))
             {
-                playerObject.setVelocity(new Vector2f(0,-1));
+                if(Keyboard.isKeyPressed(Keyboard.Key.SPACE))
+                {
+                    playerObject.setVelocity(new Vector2f(0,-4));
+                }
             }
-            if(Keyboard.isKeyPressed(Keyboard.Key.S))
-            {
-                playerObject.setVelocity(new Vector2f(0,1));
-            }
+
             if(Keyboard.isKeyPressed(Keyboard.Key.R))
             {
                 playerObject.zoom(-30);
@@ -123,17 +121,20 @@ public class Game
             {
                 playerObject.zoom(30);
             }
+
             phyGround.fixedUpdate();
             playerObject.updatePosition();
             playerObject.move();
 
 
             playerObject.moveEntity();
-            if (!playerObject.hasMoved(currentPos))
+            // HAD TO COMMENT OUT AS GRAVITY MOVEMENT ALONE MESSES WITH THE BOUNDARY RENDERING
+            //if (!playerObject.hasMoved(currentPos))
             {
                 bGround.updateBackGroundOnMove(playerObject);
                 fGround.updateForeground(playerObject);
             }
+
             window.clear();
             gameRender.clear(Color.BLACK);
             gameRender.draw(bGround);
@@ -150,7 +151,7 @@ public class Game
             window.draw(GUI);                   //draws the GUI as the next layer ontop (uneffected by the shader)
             window.display();
 
-            System.out.println(phyGround.checkCollision());
+            //System.out.println(phyGround.checkPlayerCollisionWithGround(playerObject));
         }
     }
 }
