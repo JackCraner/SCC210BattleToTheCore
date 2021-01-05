@@ -4,6 +4,7 @@ import Main.Game.ECS.Components.Collider;
 import Main.Game.ECS.Components.Movement;
 import Main.Game.ECS.Components.Position;
 import Main.Game.ECS.Components.Size;
+import Main.Game.ECS.Entity.Camera;
 import Main.Game.ECS.Entity.Component;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.Game;
@@ -45,7 +46,7 @@ public class PhysicsGameSystem extends GameSystem
         {
             Vector2f pos = ((Position)cA[0]).position;
             Vector2f size = ((Size)cA[1]).size;
-
+            float distanceBetween = (float)Math.pow( Math.pow(Game.PLAYER.getComponent(Position.class).position.x - pos.x,2) + Math.pow(Game.PLAYER.getComponent(Position.class).position.y - pos.y,2),0.5);
             FloatRect body = new FloatRect(pos.x, pos.y, size.x, size.y);
 
 
@@ -54,8 +55,13 @@ public class PhysicsGameSystem extends GameSystem
             {
                 movingRigidBodies.add(index);
             }
+
             index ++;
+
+
+
         }
+        System.out.println(rigidBodies.size());
         for(Integer i: movingRigidBodies)
         {
             for (int a = 0; a < rigidBodies.size();a++)
@@ -68,7 +74,7 @@ public class PhysicsGameSystem extends GameSystem
                         Vector2f delta = Vector2f.sub(getCenter(rigidBodies.get(a)), getCenter(rigidBodies.get(i)));
                         float intersectX = Math.abs(delta.x) - ((rigidBodies.get(a).width/2) + (rigidBodies.get(i).width/2));
                         float intersectY = Math.abs(delta.y) - ((rigidBodies.get(a).height/2) + (rigidBodies.get(i).height/2));
-                        System.out.println(intersectX + "   " + intersectY);
+
                         Vector2f collisionVector;
                         if (intersectX > intersectY)
                         {
@@ -92,7 +98,7 @@ public class PhysicsGameSystem extends GameSystem
                                 collisionVector = new Vector2f(0,-0.5f*intersectY );
                             }
                         }
-                        System.out.println(collisionVector);
+
                         Vector2f pos = ((Position)getComponentArrayList().get(i)[0]).position;
                         pos = new Vector2f(pos.x + collisionVector.x, pos.y + collisionVector.y);
                         ((Position)getComponentArrayList().get(i)[0]).position = pos;

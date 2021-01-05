@@ -10,6 +10,9 @@ public class GameObject implements Drawable
 {
     private String name;
     private ArrayList<Component> componentList = new ArrayList<>();
+
+
+
     private ArrayList<Class<? extends Component>> componentTypeList = new ArrayList<>();
 
     public GameObject(String name)

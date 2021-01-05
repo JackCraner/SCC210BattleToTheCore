@@ -29,7 +29,7 @@ public class Game
     private boolean isRunning = false;
 
     private ArrayList<GameObject> blockList = new ArrayList<>();
-    private ArrayList<GameObject> gameObjectList = new ArrayList<>(Arrays.asList(PLAYER));
+    private ArrayList<GameObject> gameObjectList = new ArrayList<>();
     private ArrayList<GameSystem> systemList = new ArrayList<>();
     private RenderWindow window;
 
@@ -66,7 +66,8 @@ public class Game
         System.out.println("Time Taken: " + (endTime-startTime) + "\n");
 
 
-
+        gameObjectList.add(PLAYER);
+        gameObjectList.add(Blueprint.player(new Vector2f(CellularAutomata.CHUNKSIZEPIXELSX/2+30,CellularAutomata.CHUNKSIZEPIXELSY/2+30)));
         gameObjectList.add(Blueprint.chest(new Vector2f(200,200)));
 
 
@@ -85,8 +86,6 @@ public class Game
                 {
                     s.addComponentArray(c);
                 }
-
-
 
             }
 
@@ -160,7 +159,7 @@ public class Game
                 start = System.nanoTime();
                 s.update();
                 end = System.nanoTime();
-                System.out.println("System: " + s.getClass() + " took " + (end - start));
+                //System.out.println("System: " + s.getClass() + " took " + (end - start));
 
 
             }

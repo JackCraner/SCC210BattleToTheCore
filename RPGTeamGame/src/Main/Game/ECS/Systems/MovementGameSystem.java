@@ -21,8 +21,14 @@ public class MovementGameSystem extends GameSystem
     @Override
     public ArrayList<Class<? extends Component>> systemComponentRequirements() {
         ArrayList<Class<? extends Component>> c = new ArrayList<>();
+
+
+
         c.add(Position.class);
         c.add(Movement.class);
+
+
+
         //c.add(BoxCollider.class);
         return c;
     }

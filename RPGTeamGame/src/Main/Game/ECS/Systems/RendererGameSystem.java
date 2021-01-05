@@ -24,9 +24,9 @@ public class RendererGameSystem  extends GameSystem
     private HashMap<Byte,Texture> textureMap = new HashMap<>();
     private RenderTexture screenTexture = new RenderTexture();
     private Sprite screenSprite = new Sprite();
-
+    private static int totalBlocks = CellularAutomata.CHUNKSIZEBLOCKSX * CellularAutomata.CHUNKSIZEBLOCKSY;
     private VertexArray backGround = new VertexArray(PrimitiveType.QUADS);
-    Vector2i renderDistanceinBlocks = new Vector2i((int)Math.ceil((Camera.cameraInstance().camerView.getSize().x/4)/Blueprint.BLOCKSIZE.x), (int)Math.ceil((Camera.cameraInstance().camerView.getSize().x/2)/Blueprint.BLOCKSIZE.x));
+    Vector2i renderDistanceinBlocks = new Vector2i((int)Math.ceil((Camera.cameraInstance().camerView.getSize().x/2)/Blueprint.BLOCKSIZE.x), (int)Math.ceil((Camera.cameraInstance().camerView.getSize().y/2)/Blueprint.BLOCKSIZE.y));
 
     private RendererGameSystem()
     {
@@ -71,25 +71,23 @@ public class RendererGameSystem  extends GameSystem
 
         Layer graphicalLayer[] = new Layer[] {new Layer(), new Layer(), new Layer()};
 
-        backGround.clear();
+       // backGround.clear();
 
-        for(Component[] cA: getComponentArrayList())
+        buildVertexArray();
+        for(int a = totalBlocks ; a < getComponentArrayList().size();a++)
         {
-            Vector2f curPos = ((Position)cA[0]).position;
-            Vector2f size = ((Size)cA[1]).size;
-            TextureComponent b = ((TextureComponent)cA[2]);
+            Vector2f curPos = ((Position)getComponentArrayList().get(a)[0]).position;
+            Vector2f size = ((Size)getComponentArrayList().get(a)[1]).size;
+            TextureComponent b = ((TextureComponent)getComponentArrayList().get(a)[2]);
 
-            //float distanceBetween = (float)Math.pow( Math.pow(Game.PLAYER.getComponent(Position.class).position.x - curPos.x,2) + Math.pow(Game.PLAYER.getComponent(Position.class).position.y - curPos.y,2),0.5);
+
+
             float distanceBetween = Math.max(Math.abs(Game.PLAYER.getComponent(Position.class).position.x - curPos.x), Math.abs(Game.PLAYER.getComponent(Position.class).position.y - curPos.y));
             if (distanceBetween < (Camera.cameraInstance().camerView.getSize().x/2) + 100)
             {
                 if (b.layer - 1 < 0)
                 {
 
-                    backGround.add(new Vertex(curPos,new Vector2f(Blueprint.TEXTURESIZE.x *b.tileMapLocation,0)));
-                    backGround.add(new Vertex(new Vector2f(curPos.x, curPos.y + size.y) ,new Vector2f(Blueprint.TEXTURESIZE.x *b.tileMapLocation + Blueprint.TEXTURESIZE.x,0)));
-                    backGround.add(new Vertex(new Vector2f(curPos.x + size.x, curPos.y +size.y),new Vector2f(Blueprint.TEXTURESIZE.x *b.tileMapLocation+ Blueprint.TEXTURESIZE.x,+ Blueprint.TEXTURESIZE.x)));
-                    backGround.add(new Vertex(new Vector2f(curPos.x + size.x, curPos.y),new Vector2f(Blueprint.TEXTURESIZE.x *b.tileMapLocation,+ Blueprint.TEXTURESIZE.x)));
 
 
 
@@ -134,14 +132,30 @@ public class RendererGameSystem  extends GameSystem
     }
     public void buildVertexArray()
     {
-        // items in the componentArray of index 1 to CellularAutomata.CHUNKBLOCKX * CellularAutomata.CHUNKBLOCKY are blocks
+        int rendersizeX = (int)(Camera.cameraInstance().camerView.getSize().x/Blueprint.BLOCKSIZE.x) + 3;
+        int rendersizeY =  (int)(Camera.cameraInstance().camerView.getSize().y/Blueprint.BLOCKSIZE.y) + 3;
+
+
+        // items in the componentArray of index 0 to CellularAutomata.CHUNKBLOCKX * CellularAutomata.CHUNKBLOCKY are blocks
         backGround.clear();
-
-        for (int a = 1; a< CellularAutomata.CHUNKSIZEBLOCKSX*CellularAutomata.CHUNKSIZEBLOCKSY; a++)
+        ArrayList<Component[]> tempList = getComponentArrayList();
+        Vector2i topLeftBlock = new Vector2i((int) (Game.PLAYER.getComponent(Position.class).position.x / Blueprint.BLOCKSIZE.x) - renderDistanceinBlocks.x, (int) (Game.PLAYER.getComponent(Position.class).position.y / Blueprint.BLOCKSIZE.y) - renderDistanceinBlocks.y);
+        int startPos = Math.max(topLeftBlock.x * CellularAutomata.CHUNKSIZEBLOCKSY + topLeftBlock.y, 0);
+        int endposX = Math.min(startPos + (rendersizeX * CellularAutomata.CHUNKSIZEBLOCKSY), CellularAutomata.CHUNKSIZEBLOCKSX * (CellularAutomata.CHUNKSIZEBLOCKSY-1) +1);
+        for (int a = startPos; a < endposX; a += CellularAutomata.CHUNKSIZEBLOCKSY)
         {
+            for (int b = a; b < a + rendersizeY; b++) {
+                Component[] curBlock = tempList.get(b);
+                Vector2f curPos = ((Position) curBlock[0]).position;
+                Vector2f size = ((Size) curBlock[1]).size;
+                TextureComponent t = ((TextureComponent) curBlock[2]);
+                backGround.add(new Vertex(curPos, new Vector2f(Blueprint.TEXTURESIZE.x * t.tileMapLocation, 0)));
+                backGround.add(new Vertex(new Vector2f(curPos.x, curPos.y + size.y), new Vector2f(Blueprint.TEXTURESIZE.x * t.tileMapLocation + Blueprint.TEXTURESIZE.x, 0)));
+                backGround.add(new Vertex(new Vector2f(curPos.x + size.x, curPos.y + size.y), new Vector2f(Blueprint.TEXTURESIZE.x * t.tileMapLocation + Blueprint.TEXTURESIZE.x, +Blueprint.TEXTURESIZE.x)));
+                backGround.add(new Vertex(new Vector2f(curPos.x + size.x, curPos.y), new Vector2f(Blueprint.TEXTURESIZE.x * t.tileMapLocation, +Blueprint.TEXTURESIZE.x)));
 
+            }
         }
-
 
     }
 
