@@ -2,26 +2,35 @@ package Main.Game.MapGeneration.CellularA;
 
 
 
-import java.util.ArrayList;
+import Main.Game.ECS.Entity.Camera;
+import Main.Game.ECS.Factory.Blueprint;
+import org.jsfml.system.Vector2f;
+import org.jsfml.system.Vector2i;
+
+import java.nio.channels.ScatteringByteChannel;
+import java.sql.SQLSyntaxErrorException;
+import java.util.*;
 
 public class CellularAutomata
 {
 
 
     //parameters of creation;
-    public static int CHUNKSIZEBLOCKS = 100;
-    public static int CHUNKSIZEPIXELS = 3200;
+    public static int CHUNKSIZEBLOCKSX = 100;
+    public static int CHUNKSIZEBLOCKSY = 100;
+    public static int CHUNKSIZEPIXELSX = CHUNKSIZEBLOCKSX * (int)Blueprint.BLOCKSIZE.x;
+    public static int CHUNKSIZEPIXELSY = CHUNKSIZEBLOCKSY * (int)Blueprint.BLOCKSIZE.y;
     public static byte WALLID = 0;
     public static byte EMPTYID = 1;
 
-    private float initalEmptyFaceRate = 0.54f;    //0.52
+    private float initalEmptyFaceRate = 0.53f;    //0.54
     private int recursionDepth = 3;
 
     
 
-    byte[][] chunkBinaryMapping =  new byte[CHUNKSIZEBLOCKS][CHUNKSIZEBLOCKS];
-    Cave cMap = new Cave(CHUNKSIZEBLOCKS, CHUNKSIZEBLOCKS);
 
+    int totalEmptySpace;
+    byte[][] binaryMapping = new byte[CHUNKSIZEBLOCKSX][CHUNKSIZEBLOCKSY];
     private static CellularAutomata caInstance = new CellularAutomata();
 
     public static CellularAutomata getInstance()
@@ -30,11 +39,12 @@ public class CellularAutomata
     }
 
 
-    public byte[][] startMap(byte[][] binaryMapping)
+    public byte[][] startMap()
     {
-        for (int a = 0; a <CHUNKSIZEBLOCKS; a++)
+        byte[][] binaryMapping = new byte[CHUNKSIZEBLOCKSX][CHUNKSIZEBLOCKSY];
+        for (int a = 0; a <CHUNKSIZEBLOCKSX; a++)
         {
-            for (int b = 0; b<CHUNKSIZEBLOCKS; b++)
+            for (int b = 0; b<CHUNKSIZEBLOCKSY; b++)
             {
                 if ((Math.random()) > initalEmptyFaceRate)
                 {
@@ -59,10 +69,10 @@ public class CellularAutomata
         int spaceCount = 0;
 
         int xStart = Math.max(x-1, 0);
-        int xEnd = Math.min(x+1,CHUNKSIZEBLOCKS -1);
+        int xEnd = Math.min(x+1,CHUNKSIZEBLOCKSX -1);
 
         int yStart = Math.max(y-1, 0);
-        int yEnd = Math.min(y+1,CHUNKSIZEBLOCKS -1);
+        int yEnd = Math.min(y+1,CHUNKSIZEBLOCKSY -1);
 
 
         for (int a = xStart; a <= xEnd; a++)
@@ -81,118 +91,121 @@ public class CellularAutomata
     public byte[][] updateMap(byte[][] tempMap, int depth)
     {
 
-        byte[][] newMap = tempMap;
-        for (byte a = 0; a < CHUNKSIZEBLOCKS; a++)
+
+        for (int a = 0; a < CHUNKSIZEBLOCKSX; a++)
         {
-            for (byte b = 0; b< CHUNKSIZEBLOCKS; b++)
+            for (int b = 0; b< CHUNKSIZEBLOCKSY; b++)
             {
                 if (checkNeighbours(tempMap, a, b) >= 5)
                 {
-                    newMap[a][b] = EMPTYID;
+                    tempMap[a][b] = EMPTYID;
                 }
                 else
                 {
-                    newMap[a][b] = WALLID;
+                    tempMap[a][b] = WALLID;
                 }
 
             }
         }
         if (depth == 0)
         {
-            return newMap;
+            return tempMap;
         }
         else
         {
-            return updateMap(newMap, depth-1);
+            return updateMap(tempMap, depth-1);
         }
 
     }
 
-    public ArrayList<Cave> findCaves(byte[][] mapping)
+    public void generateBinaryMapping()
     {
-        ArrayList<Cave> foundCaves = new ArrayList<>();
-        for (int a = 0; a < CHUNKSIZEBLOCKS; a++) {
-            for (int b = 0; b <CHUNKSIZEBLOCKS; b++) {
-                if (checkNeighbours(mapping, a, b) == 9) {
-                    Cave locatedCave = new Cave(CHUNKSIZEBLOCKS, CHUNKSIZEPIXELS);
-                    foundCaves.add(caveRecursion(mapping,a, b, locatedCave));
-                }
-            }
-        }
-        return foundCaves;
-    }
-
-    public Cave caveRecursion(byte[][] mapping, int x, int y, Cave newCave)
-    {
-
-        if (!(x < 0 || x > CHUNKSIZEBLOCKS -1 || y < 0 || y > CHUNKSIZEBLOCKS - 1))
+        binaryMapping = floorFillController(updateMap(startMap(), recursionDepth));
+        if (totalEmptySpace < CHUNKSIZEBLOCKSX * CHUNKSIZEBLOCKSY * initalEmptyFaceRate)
         {
-            int spaceCount = checkNeighbours(mapping, x, y);
-            if (spaceCount >= 1)
+            generateBinaryMapping();
+        }
+
+    }
+
+
+
+    public byte[][] floorFillController(byte[][] mappingCopy)
+    {
+
+        ArrayList<Integer> caveSizes = new ArrayList<>();
+        for(int a = 0; a <CHUNKSIZEBLOCKSX;a++)
+        {
+            for(int b =0; b< CHUNKSIZEBLOCKSY; b++)
             {
-                if (mapping[x][y]==EMPTYID)
+                Integer caveS = floodFll(a,b, (byte)(caveSizes.size() + 2),mappingCopy);
+                if (caveS > 0)
                 {
-                    mapping[x][y] = -1;
-                    newCave.addElement(x,y);
-                    caveRecursion(mapping,x+1, y,newCave);
-                    caveRecursion(mapping,x-1, y,newCave);
-                    caveRecursion(mapping, x, y-1,newCave);
-                    caveRecursion(mapping, x, y+1,newCave);
+                    caveSizes.add(caveS);
                 }
             }
         }
+        totalEmptySpace = Collections.max(caveSizes);
+        Integer caveIndex = caveSizes.indexOf(totalEmptySpace) + 2;
 
-        return newCave;
-
-    }
-
-    public byte[][] generateBinaryMapping()
-    {
-        ArrayList<Cave> chunkCaves = findCaves(updateMap(startMap(chunkBinaryMapping),recursionDepth));
-        int caveSize = 0;
-        for (Cave c: chunkCaves)
+        for (int a = 0; a<CHUNKSIZEBLOCKSX;a++)
         {
-            if (c.caveSize() > caveSize)
+            for(int b = 0; b<CHUNKSIZEBLOCKSY; b++)
             {
-                caveSize = c.caveSize();
-                cMap = c;
-
+                if (mappingCopy[a][b] == caveIndex)
+                {
+                    mappingCopy[a][b] = EMPTYID;
+                }
+                else
+                {
+                    mappingCopy[a][b] = WALLID;
+                }
             }
         }
+        return mappingCopy;
 
-        return cMap.getArray();
+    }
+    public int floodFll(int x, int y, byte fillID, byte[][] mapping)
+    {
+
+        Queue<Vector2i> nodeQueue = new ArrayDeque<>();
+        int size= 0;
+        if (mapping[x][y] == EMPTYID)
+        {
+            nodeQueue.add(new Vector2i(x,y));
+        }
+
+        while(!nodeQueue.isEmpty())
+        {
+            Vector2i currentNode = nodeQueue.poll();
+            try
+            {
+
+                if (mapping[currentNode.x][currentNode.y] == EMPTYID)
+                {
+
+
+                    size ++;
+                    mapping[currentNode.x][currentNode.y] = fillID;
+                    nodeQueue.add(new Vector2i(currentNode.x + 1, currentNode.y));
+                    nodeQueue.add(new Vector2i(currentNode.x - 1, currentNode.y));
+                    nodeQueue.add(new Vector2i(currentNode.x, currentNode.y + 1));
+                    nodeQueue.add(new Vector2i(currentNode.x, currentNode.y - 1));
+                }
+            }
+            catch (Exception e)
+            {
+
+            }
+
+
+        }
+
+        return size;
+
     }
 
-
-}
-
-class Cave
-{
-    byte[][] caveArray;
-    int caveSizeInt;
-    public Cave(int chuckSize, int chuckPixels)
-    {
-        caveArray = new byte[chuckSize][chuckSize];
-    }
-
-
-    public void addElement(int x, int y)
-    {
-        caveArray[x][y] = 1;
-        caveSizeInt ++;
-    }
-
-    public byte[][] getArray()
-    {
-        return caveArray;
-    }
-    public int caveSize()
-    {
-        return caveSizeInt;
-    }
-
-    public void showCaves()
-    {
-        System.out.println(caveSize());
+    public byte[][] getBinaryMapping() {
+        return binaryMapping;
     }
 }

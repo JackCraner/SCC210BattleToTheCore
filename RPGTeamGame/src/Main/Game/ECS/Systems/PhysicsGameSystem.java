@@ -5,18 +5,22 @@ import Main.Game.ECS.Components.Movement;
 import Main.Game.ECS.Components.Position;
 import Main.Game.ECS.Components.Size;
 import Main.Game.ECS.Entity.Component;
+import Main.Game.ECS.Entity.GameObject;
+import Main.Game.Game;
 import org.jsfml.graphics.FloatRect;
 import org.jsfml.system.Vector2f;
 import org.jsfml.window.event.Event;
 
 import java.util.ArrayList;
 
-public class PhysicsSystem extends GameSystem
+public class PhysicsGameSystem extends GameSystem
 {
 
-    private static PhysicsSystem systemInstance = new PhysicsSystem();
+    private static PhysicsGameSystem systemInstance = new PhysicsGameSystem();
+    private ArrayList<FloatRect> walls = new ArrayList<>();
 
-    public static PhysicsSystem getSystemInstance() {
+
+    public static PhysicsGameSystem getSystemInstance() {
         return systemInstance;
     }
 
@@ -41,6 +45,7 @@ public class PhysicsSystem extends GameSystem
         {
             Vector2f pos = ((Position)cA[0]).position;
             Vector2f size = ((Size)cA[1]).size;
+
             FloatRect body = new FloatRect(pos.x, pos.y, size.x, size.y);
 
 
@@ -60,10 +65,10 @@ public class PhysicsSystem extends GameSystem
                     FloatRect collision = rigidBodies.get(i).intersection(rigidBodies.get(a));
                     if (collision != null)
                     {
-                        Vector2f delta = Vector2f.sub(new Vector2f(rigidBodies.get(a).left,rigidBodies.get(a).top)  , new Vector2f(rigidBodies.get(i).left,rigidBodies.get(i).top ));
+                        Vector2f delta = Vector2f.sub(getCenter(rigidBodies.get(a)), getCenter(rigidBodies.get(i)));
                         float intersectX = Math.abs(delta.x) - ((rigidBodies.get(a).width/2) + (rigidBodies.get(i).width/2));
                         float intersectY = Math.abs(delta.y) - ((rigidBodies.get(a).height/2) + (rigidBodies.get(i).height/2));
-
+                        System.out.println(intersectX + "   " + intersectY);
                         Vector2f collisionVector;
                         if (intersectX > intersectY)
                         {
@@ -87,6 +92,7 @@ public class PhysicsSystem extends GameSystem
                                 collisionVector = new Vector2f(0,-0.5f*intersectY );
                             }
                         }
+                        System.out.println(collisionVector);
                         Vector2f pos = ((Position)getComponentArrayList().get(i)[0]).position;
                         pos = new Vector2f(pos.x + collisionVector.x, pos.y + collisionVector.y);
                         ((Position)getComponentArrayList().get(i)[0]).position = pos;
@@ -100,7 +106,15 @@ public class PhysicsSystem extends GameSystem
         }
 
     }
+    public Vector2f getCenter(FloatRect r)
+    {
+        return new Vector2f(r.left + (r.width/2), r.top + (r.height/2));
+    }
 
+    public void generateWalls(ArrayList<GameObject> blockList)
+    {
+
+    }
     @Override
     public void update(Event event) {
 

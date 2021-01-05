@@ -8,8 +8,10 @@ import Main.Game.ECS.Components.TextureComponent;
 import Main.Game.ECS.Factory.Blueprint;
 import Main.Game.ECS.Factory.EntityID;
 import Main.Game.Game;
+import Main.Game.MapGeneration.CellularA.CellularAutomata;
 import org.jsfml.graphics.*;
 import org.jsfml.system.Vector2f;
+import org.jsfml.system.Vector2i;
 import org.jsfml.window.event.Event;
 
 import java.util.ArrayList;
@@ -22,6 +24,9 @@ public class RendererGameSystem  extends GameSystem
     private HashMap<Byte,Texture> textureMap = new HashMap<>();
     private RenderTexture screenTexture = new RenderTexture();
     private Sprite screenSprite = new Sprite();
+
+    private VertexArray backGround = new VertexArray(PrimitiveType.QUADS);
+    Vector2i renderDistanceinBlocks = new Vector2i((int)Math.ceil((Camera.cameraInstance().camerView.getSize().x/4)/Blueprint.BLOCKSIZE.x), (int)Math.ceil((Camera.cameraInstance().camerView.getSize().x/2)/Blueprint.BLOCKSIZE.x));
 
     private RendererGameSystem()
     {
@@ -62,11 +67,11 @@ public class RendererGameSystem  extends GameSystem
         // need an event that something has moved (MovementSystem) to order this system to calculate the frame and draw
         // otherwise we just draw (big performance boost)
 
-        System.out.println("Num Objects: " + getComponentArrayList().size());
-        VertexArray backGround = new VertexArray(PrimitiveType.QUADS);
+       //System.out.println("Num Objects: " + getComponentArrayList().size());
+
         Layer graphicalLayer[] = new Layer[] {new Layer(), new Layer(), new Layer()};
 
-
+        backGround.clear();
 
         for(Component[] cA: getComponentArrayList())
         {
@@ -76,15 +81,15 @@ public class RendererGameSystem  extends GameSystem
 
             //float distanceBetween = (float)Math.pow( Math.pow(Game.PLAYER.getComponent(Position.class).position.x - curPos.x,2) + Math.pow(Game.PLAYER.getComponent(Position.class).position.y - curPos.y,2),0.5);
             float distanceBetween = Math.max(Math.abs(Game.PLAYER.getComponent(Position.class).position.x - curPos.x), Math.abs(Game.PLAYER.getComponent(Position.class).position.y - curPos.y));
-            if (distanceBetween < (Game.WINDOWSIZE/2) + 100)
+            if (distanceBetween < (Camera.cameraInstance().camerView.getSize().x/2) + 100)
             {
                 if (b.layer - 1 < 0)
                 {
 
-                    backGround.add(new Vertex(curPos,new Vector2f(Blueprint.blockSize.x *b.tileMapLocation,0)));
-                    backGround.add(new Vertex(new Vector2f(curPos.x, curPos.y + Blueprint.blockSize.y) ,new Vector2f(Blueprint.blockSize.x *b.tileMapLocation + Blueprint.blockSize.x,0)));
-                    backGround.add(new Vertex(new Vector2f(curPos.x + Blueprint.blockSize.x, curPos.y + Blueprint.blockSize.y),new Vector2f(Blueprint.blockSize.x *b.tileMapLocation+ Blueprint.blockSize.x,+ Blueprint.blockSize.x)));
-                    backGround.add(new Vertex(new Vector2f(curPos.x + Blueprint.blockSize.x, curPos.y),new Vector2f(Blueprint.blockSize.x *b.tileMapLocation,+ Blueprint.blockSize.x)));
+                    backGround.add(new Vertex(curPos,new Vector2f(Blueprint.TEXTURESIZE.x *b.tileMapLocation,0)));
+                    backGround.add(new Vertex(new Vector2f(curPos.x, curPos.y + size.y) ,new Vector2f(Blueprint.TEXTURESIZE.x *b.tileMapLocation + Blueprint.TEXTURESIZE.x,0)));
+                    backGround.add(new Vertex(new Vector2f(curPos.x + size.x, curPos.y +size.y),new Vector2f(Blueprint.TEXTURESIZE.x *b.tileMapLocation+ Blueprint.TEXTURESIZE.x,+ Blueprint.TEXTURESIZE.x)));
+                    backGround.add(new Vertex(new Vector2f(curPos.x + size.x, curPos.y),new Vector2f(Blueprint.TEXTURESIZE.x *b.tileMapLocation,+ Blueprint.TEXTURESIZE.x)));
 
 
 
@@ -124,6 +129,18 @@ public class RendererGameSystem  extends GameSystem
         //Level.getLevel().getWindow().draw(backGround,new RenderStates(textureMap.get((byte) 0)));
         //Player is always index 0 on the list of Objects
 
+
+
+    }
+    public void buildVertexArray()
+    {
+        // items in the componentArray of index 1 to CellularAutomata.CHUNKBLOCKX * CellularAutomata.CHUNKBLOCKY are blocks
+        backGround.clear();
+
+        for (int a = 1; a< CellularAutomata.CHUNKSIZEBLOCKSX*CellularAutomata.CHUNKSIZEBLOCKSY; a++)
+        {
+
+        }
 
 
     }

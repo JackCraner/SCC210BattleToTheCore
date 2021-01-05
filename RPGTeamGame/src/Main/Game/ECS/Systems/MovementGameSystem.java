@@ -55,7 +55,7 @@ public class MovementGameSystem extends GameSystem
                 curPos = new Vector2f(curPos.x,curPos.y - 10);
             }
 
-            curPos = new Vector2f(curPos.x , curPos.y + 1);
+            //curPos = new Vector2f(curPos.x , curPos.y + 1);
             ((Position) cA[0]).position = curPos;
 
 

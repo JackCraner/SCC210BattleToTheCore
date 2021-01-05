@@ -10,7 +10,7 @@ public class Camera
 
     public View camerView = new View();
 
-    private static Vector2f cameraSize = new Vector2f(1000,1000);
+    private static Vector2f cameraSize = new Vector2f(3200,3200);
     private static Camera cameraInstance = new Camera();
 
     private Camera()

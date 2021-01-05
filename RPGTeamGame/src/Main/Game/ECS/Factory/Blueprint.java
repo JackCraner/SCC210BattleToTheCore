@@ -10,7 +10,10 @@ import java.util.ArrayList;
 
 public class Blueprint
 {
-    public static Vector2f blockSize = new Vector2f(32,32);
+    public static Vector2f BLOCKSIZE = new Vector2f(32,32);
+    public static Vector2f TEXTURESIZE = new Vector2f(32,32);
+    public static Vector2f OBJECTSIZE = new Vector2f(32,32);
+
 
     public static void addGameObjectToSystems()
     {
@@ -21,11 +24,11 @@ public class Blueprint
     {
 
         GameObject g = new GameObject(EntityID.PLAYER.name);
-        g.addComponent(new Size(blockSize));
+        g.addComponent(new Size(OBJECTSIZE));
         g.addComponent(new Position(position));
 
         g.addComponent(new TextureComponent(EntityID.PLAYER.textureID));
-        g.addComponent(new Movement(10));
+        g.addComponent(new Movement(1));
         g.addComponent(new Collider());
 
         return g;
@@ -34,7 +37,7 @@ public class Blueprint
     {
         GameObject g = new GameObject(EntityID.PLAYER.name);
         g.addComponent(new Position(position));
-        g.addComponent(new Size(blockSize));
+        g.addComponent(new Size(OBJECTSIZE));
         g.addComponent(new Collider());
         return g;
     }
@@ -42,7 +45,7 @@ public class Blueprint
     {
         GameObject g = new GameObject(EntityID.CHEST.name);
         g.addComponent(new Position(position));
-        g.addComponent(new Size(blockSize));
+        g.addComponent(new Size(OBJECTSIZE));
         g.addComponent(new TextureComponent(EntityID.CHEST.textureID));
 
         return g;
@@ -51,7 +54,7 @@ public class Blueprint
     {
         GameObject g = new GameObject(EntityID.BLOCK.name);
         g.addComponent(new Position(position));
-        g.addComponent(new Size(blockSize));
+        g.addComponent(new Size(BLOCKSIZE));
         g.addComponent(new TextureComponent(EntityID.BLOCK.textureID));
         g.getComponent(TextureComponent.class).tileMapLocation = blockID;
         g.getComponent(TextureComponent.class).layer= 0;

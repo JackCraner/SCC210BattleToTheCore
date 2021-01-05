@@ -14,7 +14,7 @@ public class SystemManager
 
     ArrayList<Class<? extends Component>> componentArray = new ArrayList<>(Arrays.asList(Position.class, Size.class, TextureComponent.class, Movement.class, Collider.class));
     HashMap<Class,ArrayList<Component>> fullComponentArray = new HashMap<>();
-    ArrayList<GameSystem> systemArray = new ArrayList<>(Arrays.asList(MovementGameSystem.getSystemInstance(),PhysicsSystem.getSystemInstance(),RendererGameSystem.getSystemInstance()));
+    ArrayList<GameSystem> systemArray = new ArrayList<>(Arrays.asList(MovementGameSystem.getSystemInstance(), PhysicsGameSystem.getSystemInstance(),RendererGameSystem.getSystemInstance()));
 
 
     private static SystemManager systemManager = new SystemManager();
