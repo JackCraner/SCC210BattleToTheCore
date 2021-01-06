@@ -16,9 +16,16 @@ import org.jsfml.window.Keyboard;
 import org.jsfml.window.VideoMode;
 import org.jsfml.window.event.Event;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 
+/*
+Main Game/Engine Class
+
+Handles
+- Central Game Initalization
+- Central Game Loop
+- EntityManager
+- SystemManager
+ */
 public class Game
 {
 
@@ -32,8 +39,8 @@ public class Game
 
 
     private RenderWindow window;
-    FPSCounter testPerformance;
-    Clock systemClock = new Clock();
+    private FPSCounter testPerformance;
+    private Clock systemClock = new Clock();
 
     public static EntityManager ENTITYMANAGER = EntityManager.getEntityManagerInstance();
     private static SystemManager SYSTEMMANAGER =SystemManager.getSystemManagerInstance();
@@ -48,7 +55,14 @@ public class Game
 
     }
 
-
+    /**
+     * Starts the Game
+     * - Generates Background
+     * - Adds Player
+     *
+     *  TO Do
+     *  -Add GUI
+     */
     public void startGame()
     {
         window = new RenderWindow(new VideoMode(WINDOWSIZE,WINDOWSIZE), "Battle_To_The_Core");
@@ -66,6 +80,12 @@ public class Game
         runGame();
     }
 
+    /**
+     * Main Game loop section
+     *
+     * Gets all nearby objects from the QuadTree and gives them to the System manager
+     * SystemManager then updates Systems
+     */
     public void runGame()
     {
 

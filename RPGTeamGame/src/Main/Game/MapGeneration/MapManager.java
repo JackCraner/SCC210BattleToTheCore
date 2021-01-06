@@ -9,6 +9,12 @@ import org.jsfml.system.Vector2f;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * MAPMANAGER
+ *
+ * - Handles Creating the Map/Background
+ * - NOT PART OF ECS, But Generates Objects for ECS
+ */
 public class MapManager
 {
     private static MapManager mapInstance = new MapManager();
@@ -50,16 +56,6 @@ public class MapManager
         return backgroundList;
     }
 
-    public void generateOptimizedBackground()
-    {
-        CellularAutomata.getInstance().generateBinaryMapping();
-        byte[][] binaryMapping = CellularAutomata.getInstance().getBinaryMapping();
-
-
-
-
-
-    }
     public ArrayList<GameObject> generateMap()
     {
         ArrayList<GameObject> mapGameObjects = new ArrayList<>();

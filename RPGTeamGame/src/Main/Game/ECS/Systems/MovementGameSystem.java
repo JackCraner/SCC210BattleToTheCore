@@ -11,6 +11,12 @@ import org.jsfml.window.event.Event;
 
 import java.util.ArrayList;
 
+/**
+ * MOVEMENTGAMESYSTEM
+ *
+ * - handles movement of GameObjects
+ *
+ */
 public class MovementGameSystem extends GameSystem
 {
     private static MovementGameSystem systemInstance = new MovementGameSystem();
@@ -19,6 +25,10 @@ public class MovementGameSystem extends GameSystem
     {
         return systemInstance;
     }
+
+    /**
+     * SETS BITMASK
+     */
     private MovementGameSystem()
     {
         setBitMaskRequirement(EntityManager.getEntityManagerInstance().produceBitMask(Movement.class));

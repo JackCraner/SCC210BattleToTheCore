@@ -16,8 +16,8 @@ public class CellularAutomata
 
 
     //parameters of creation;
-    public static int CHUNKSIZEBLOCKSX = 300;
-    public static int CHUNKSIZEBLOCKSY = 300;
+    public static int CHUNKSIZEBLOCKSX = 1000;
+    public static int CHUNKSIZEBLOCKSY = 1000;
     public static int CHUNKSIZEPIXELSX = CHUNKSIZEBLOCKSX * (int)Blueprint.BLOCKSIZE.x;
     public static int CHUNKSIZEPIXELSY = CHUNKSIZEBLOCKSY * (int)Blueprint.BLOCKSIZE.y;
     public static byte WALLID = 0;

@@ -8,6 +8,22 @@ import java.util.ArrayList;
 
 public abstract class GameSystem
 {
+    //DESIGN PATTERN
+    /*
+        - GameSystems should always extend this abstract class
+        - GameSystems should always be SINGLETONS
+        - GameSystems should always SetBitMaskRequirements in its Private Constructor
+
+        -- Whenever a new GameSystem is made, add it to the GameSystemList in SYSTEMMANAGER
+
+        ---- Never make a new GameSystem with the same requirements as another GameSystem
+                   - For Example if you wanna make a System which only requires a Movement Components, well a system like that already
+                     exists (MovementGameSystem), so just combine the logic in there
+
+        ---- Avoid Using Inheritance when making GameSystems
+     */
+
+
     private int bitMaskRequirement =0;
 
     private ArrayList<GameObject> gameObjectList = new ArrayList<>();
@@ -16,6 +32,10 @@ public abstract class GameSystem
         return gameObjectList;
     }
 
+    /**
+     * Adds a GameObject to the system
+     * @param c the GameObject being added
+     */
     public void addGameObject(GameObject c)
     {
         gameObjectList.add(c);
@@ -28,25 +48,16 @@ public abstract class GameSystem
     @Override
     public String toString()
     {
-        /*
         String s;
         s = this.getClass().toString() + "\n";
-        ArrayList<Component[]> c = getComponentArrayList();
-        for (int i = 0; i< c.size();i++)
+        for (int i=0; i< gameObjectList.size();i++)
         {
-            s += ("Object " + i + " = " + getComponentArrayList().get(i)[0].getGameObject().toString() + "\n");
-            s += "\tComponents: \n";
-            for (int a = 0; a < systemComponentRequirements().size();a++)
-            {
-                s += "\t " + c.get(i)[a].toString() + "\n";
-            }
-            s += "\n";
+            s += ("Object " + i + " = " + gameObjectList.get(i).toString() + "\n");
+
         }
-        s += "Total Number of Objects: " + c.size() + "\n";
+        s += "Total Number of Objects: " +  gameObjectList.size() + "\n";
         return s;
 
-         */
-        return null;
     }
 
     public int getBitMaskRequirement() {
@@ -57,9 +68,15 @@ public abstract class GameSystem
         this.bitMaskRequirement = bitMaskRequirement;
     }
 
-
+    /**
+     * Called every Frame
+     */
     public abstract void update();
 
+    /**
+     * Called On Event
+     * @param event
+     */
     public abstract void update(Event event);
 
 

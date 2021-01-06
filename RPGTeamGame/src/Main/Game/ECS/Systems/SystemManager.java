@@ -4,6 +4,17 @@ import Main.Game.ECS.Entity.GameObject;
 
 import java.util.ArrayList;
 
+/**
+ * SYSTEMMANAGER
+ *
+ * -Handles all the Systems in the game
+ *  - Updating and Generating Events
+ * -Handles SystemEvents (TO DO)
+ *
+ * Whenever a new System is created
+ * It must be added to this class to work
+ *
+ */
 public class SystemManager
 {
     private static SystemManager managerInstance = new SystemManager();
@@ -12,6 +23,10 @@ public class SystemManager
     {
         return managerInstance;
     }
+
+    /**
+     * Add All systems here
+     */
     private SystemManager()
     {
         systemList.add(MovementGameSystem.getSystemInstance());
@@ -19,6 +34,11 @@ public class SystemManager
         systemList.add(RendererGameSystem.getSystemInstance());
 
     }
+
+    /**
+     * Adds a given GameObject to all the Systems in which it meets the requirements
+     * @param g The GameObject to be added to the systems
+     */
     public void addGameObjectTOSYSTEMS(GameObject g)
     {
         for (GameSystem s: systemList)
@@ -29,6 +49,11 @@ public class SystemManager
             }
         }
     }
+
+    /**
+     * Updates all Systems
+     * -- Called every frame
+     */
     public void updateSystems()
     {
         for(GameSystem s: systemList)
@@ -37,6 +62,10 @@ public class SystemManager
         }
         flushSystems();
     }
+
+    /**
+     * Empties all the ArrayLists in all the systems ready for next Frames data
+     */
     public void flushSystems()
     {
         for(GameSystem s: systemList)

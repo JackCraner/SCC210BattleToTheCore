@@ -9,8 +9,24 @@ import org.jsfml.system.Vector2i;
 
 import java.util.ArrayList;
 
-public class GameObject implements Drawable
+public class GameObject
 {
+    //DESIGN PATTERN
+    /*
+    - GameObject is like the chassis of a car
+    - Simply an ArrayList of Components
+    - The Components Inside a GameObject defines its scope and ability
+
+    Preferably only create GameObjects through the "Factory Pattern" aka Blueprint Class
+
+    If you wanna make a new Base GameObject, for example a Torch
+        - First go to Blueprint and make a new class called Torch with parameters
+        - Define the components the Torch should have
+        - Then add the new GameObject to the ENTITYMANAGER via this method
+     */
+
+
+
     private String name;
     private Vector2f position;
     private Vector2f size;
@@ -91,18 +107,6 @@ public class GameObject implements Drawable
         return bitmask;
     }
 
-    @Override
-    public void draw(RenderTarget renderTarget, RenderStates renderStates)
-    {
-        for(Component c: componentList)
-        {
-            if (c instanceof Drawable)
-            {
-                renderTarget.draw(((Drawable) c), renderStates);
-
-            }
-        }
-    }
 
     @Override
     public String toString() {
