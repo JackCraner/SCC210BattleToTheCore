@@ -3,6 +3,7 @@ package Main.Game.GUI;
 import Main.Game.Game;
 import org.jsfml.graphics.*;
 import org.jsfml.system.Vector2f;
+import org.w3c.dom.css.Rect;
 
 public class Inventory
 {
@@ -18,6 +19,7 @@ public class Inventory
     Vector2f SlotSize;                                      //The vector2f of the Inventory
     float SlotsEmpty;                                       //The number of lots free
     float SlotLength;                                       //The length of each slot
+
     /**
      * InventoryBar() constructor
      * This constructs the InventoryBar element with the current length and size of the window
@@ -31,8 +33,8 @@ public class Inventory
         this.SlotsEmpty = numOfSlots;
         this.numSlots = numOfSlots;
         this.Slot = new RectangleShape[numOfSlots];
-        SlotLength = (float)(Game.WINDOWSIZE - 900);
-        InventorySize = new Vector2f((float)(Game.WINDOWSIZE - 400), 90);   //length, width of bar
+        SlotLength = (float)(Game.getGame().getWindow().getSize().x - 900);
+        InventorySize = new Vector2f((float)(Game.getGame().getWindow().getSize().x - 400), 90);   //length, width of bar
         SlotSize = new Vector2f(SlotLength, 90);   //length, width of bar
         back = new RectangleShape(InventorySize);
         back.setFillColor(background);
@@ -55,9 +57,9 @@ public class Inventory
     {
         for (int i = 0; i < Slot.length; i++) {
             int temp = 200+((int)SlotLength*i);
-            Slot[i].setPosition(temp, Game.WINDOWSIZE - InventorySize.y - 30);
+            Slot[i].setPosition(temp, Game.getGame().getWindow().getSize().y - InventorySize.y - 30);
         }
-        back.setPosition(200, Game.WINDOWSIZE - InventorySize.y - 30);
+        back.setPosition(200, Game.getGame().getWindow().getSize().y - InventorySize.y - 30);
     }
 
     /**

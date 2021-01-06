@@ -29,6 +29,8 @@ public class GameObject
 
 
     private String name;
+
+
     private Vector2f position;
     private Vector2f size;
 

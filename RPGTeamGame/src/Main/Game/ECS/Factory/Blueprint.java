@@ -28,7 +28,7 @@ public class Blueprint
         g.addComponent(new Movement(1));
         g.addComponent(new Collider());
         g.addComponent(new Light());
-        g.addComponent(new Shoot());
+        //g.addComponent(new Shoot());
 
         return g;
 

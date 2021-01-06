@@ -6,7 +6,7 @@ import Main.Game.ECS.Entity.EntityManager;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.Blueprint;
 import Main.Game.ECS.Systems.*;
-import Main.Game.GUI.GUIManager;
+import Main.Game.GUI.GUIController;
 import Main.Game.MapGeneration.CellularA.CellularAutomata;
 import Main.Game.MapGeneration.MapManager;
 import org.jsfml.graphics.RenderWindow;
@@ -45,6 +45,8 @@ public class Game
     public static EntityManager ENTITYMANAGER = EntityManager.getEntityManagerInstance();
     private static SystemManager SYSTEMMANAGER =SystemManager.getSystemManagerInstance();
 
+    private static GUIController GUIMANAGER = GUIController.getGuicontroller();
+
     public static Game getGame()
     {
         return levelInstance;
@@ -75,7 +77,7 @@ public class Game
         ENTITYMANAGER.addGameObject(Blueprint.chest(new Vector2f(CellularAutomata.CHUNKSIZEPIXELSX/2+50,CellularAutomata.CHUNKSIZEPIXELSY/2+50)));
 
 
-
+        GUIMANAGER.initializeGUI();
 
         //TESTING
         testPerformance = new FPSCounter();
@@ -94,12 +96,13 @@ public class Game
     {
 
         int counter =0;
-        window.setFramerateLimit(200);
+
+        //window.setFramerateLimit(200);
         while(window.isOpen())
         {
             if(systemClock.getElapsedTime().asSeconds() >= 1.f)
             {
-                testPerformance.setFPS(counter);
+                GUIMANAGER.setFPS(counter);
                 counter = 0;
                 systemClock.restart();
             }
@@ -135,7 +138,7 @@ public class Game
 
             window.draw(testPerformance.getFpsCounter());
 
-            //window.draw(gui);
+            window.draw(GUIMANAGER);
             window.display();
         }
     }
