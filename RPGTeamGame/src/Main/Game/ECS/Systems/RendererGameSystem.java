@@ -22,7 +22,8 @@ public class RendererGameSystem  extends GameSystem
     private static RendererGameSystem systemInstance = new RendererGameSystem();
 
     private HashMap<Byte,Texture> textureMap = new HashMap<>();
-    private RenderTexture screenTexture = new RenderTexture();
+    public RenderTexture screenTexture = new RenderTexture();
+    private RenderStates rS;
     private Sprite screenSprite = new Sprite();
     private static int totalBlocks = CellularAutomata.CHUNKSIZEBLOCKSX * CellularAutomata.CHUNKSIZEBLOCKSY;
     private VertexArray backGround = new VertexArray(PrimitiveType.QUADS);
@@ -113,7 +114,8 @@ public class RendererGameSystem  extends GameSystem
         screenTexture.setView(Camera.cameraInstance().camerView);
         screenTexture.display();
         screenSprite.setTexture(screenTexture.getTexture());
-        Game.getGame().getWindow().draw(screenSprite);
+        rS = new RenderStates(LightingGameSystem.getLightingGameSystem().mapShader);
+        Game.getGame().getWindow().draw(screenSprite,rS);
 
         //Level.getLevel().getWindow().draw(backGround,new RenderStates(textureMap.get((byte) 0)));
         //Player is always index 0 on the list of Objects

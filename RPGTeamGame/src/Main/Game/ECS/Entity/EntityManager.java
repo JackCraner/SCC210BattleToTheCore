@@ -1,8 +1,6 @@
 package Main.Game.ECS.Entity;
 
-import Main.Game.ECS.Components.Collider;
-import Main.Game.ECS.Components.Movement;
-import Main.Game.ECS.Components.TextureComponent;
+import Main.Game.ECS.Components.*;
 import Main.Game.QuadTree.QTRoot;
 import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
@@ -29,7 +27,11 @@ import java.util.HashMap;
 public class EntityManager
 {
     private static EntityManager entityManagerInstance = new EntityManager();
+
+
     private static QTRoot quadTree = QTRoot.getQuadTree();
+
+
     public HashMap<Class<? extends Component>, Integer> componentBitMask = new HashMap<>();
 
     public static EntityManager getEntityManagerInstance() {
@@ -139,7 +141,8 @@ public class EntityManager
         componentBitMask.put(TextureComponent.class,Integer.parseInt("1", 2));
         componentBitMask.put(Collider.class,Integer.parseInt("10", 2));
         componentBitMask.put(Movement.class,Integer.parseInt("100", 2));
-
+        componentBitMask.put(Light.class,Integer.parseInt("1000", 2));
+        componentBitMask.put(Shoot.class,Integer.parseInt("10000", 2));
     }
 
     /**

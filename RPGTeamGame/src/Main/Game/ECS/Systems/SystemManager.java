@@ -32,6 +32,9 @@ public class SystemManager
         systemList.add(MovementGameSystem.getSystemInstance());
         systemList.add(PhysicsGameSystem.getSystemInstance());
         systemList.add(RendererGameSystem.getSystemInstance());
+        systemList.add(LightingGameSystem.getLightingGameSystem());
+        systemList.add(ShootGameSystem.getShootGameSystem());
+
 
     }
 

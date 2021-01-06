@@ -44,7 +44,7 @@ public class MapManager
 
                 if (binaryMapping[a][b] == CellularAutomata.WALLID)
                 {
-                    g.addComponent(new Collider());
+                   g.addComponent(new Collider());
 
                 }
                 backgroundList.add(g);

@@ -22,6 +22,7 @@ public class GameObject
     If you wanna make a new Base GameObject, for example a Torch
         - First go to Blueprint and make a new class called Torch with parameters
         - Define the components the Torch should have
+        - Next Add it to EntityID
         - Then add the new GameObject to the ENTITYMANAGER via this method
      */
 

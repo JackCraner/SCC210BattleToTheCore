@@ -12,6 +12,7 @@ public abstract class GameSystem
     /*
         - GameSystems should always extend this abstract class
         - GameSystems should always be SINGLETONS
+                -Constructor is private
         - GameSystems should always SetBitMaskRequirements in its Private Constructor
 
         -- Whenever a new GameSystem is made, add it to the GameSystemList in SYSTEMMANAGER
@@ -21,6 +22,12 @@ public abstract class GameSystem
                      exists (MovementGameSystem), so just combine the logic in there
 
         ---- Avoid Using Inheritance when making GameSystems
+
+        ---- SYSTEMS SHOULD ONLY MANIPULATE COMPONENTS WITHIN REQUIREMENTS
+
+
+
+
      */
 
 

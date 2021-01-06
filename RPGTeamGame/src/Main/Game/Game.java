@@ -67,8 +67,12 @@ public class Game
     {
         window = new RenderWindow(new VideoMode(WINDOWSIZE,WINDOWSIZE), "Battle_To_The_Core");
         ENTITYMANAGER.addGameObject(MapManager.getInstance().generateMap());
+
+
         ENTITYMANAGER.addGameObject(PLAYER);
 
+
+        ENTITYMANAGER.addGameObject(Blueprint.chest(new Vector2f(CellularAutomata.CHUNKSIZEPIXELSX/2+50,CellularAutomata.CHUNKSIZEPIXELSY/2+50)));
 
 
 
@@ -90,6 +94,7 @@ public class Game
     {
 
         int counter =0;
+        window.setFramerateLimit(200);
         while(window.isOpen())
         {
             if(systemClock.getElapsedTime().asSeconds() >= 1.f)

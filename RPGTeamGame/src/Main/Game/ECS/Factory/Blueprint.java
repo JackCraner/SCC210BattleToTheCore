@@ -24,13 +24,15 @@ public class Blueprint
     {
 
         GameObject g = new GameObject(EntityID.PLAYER.name, position,OBJECTSIZE);
-
-
         g.addComponent(new TextureComponent(EntityID.PLAYER.textureID));
         g.addComponent(new Movement(1));
         g.addComponent(new Collider());
+        g.addComponent(new Light());
+        g.addComponent(new Shoot());
 
         return g;
+
+
     }
     public static GameObject test(Vector2f position)
     {
