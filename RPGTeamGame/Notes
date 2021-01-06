@@ -70,8 +70,14 @@ info between systems
 
 
 
-BIG BRAIN
--- have a centeralized list of every component type which is fed to systems as pointers
--- so instead of each system having an arrayList of each component, have one arrayList for each component in SystemManager and give a pointer to required lists to individual systems
+------ Ask about Bitmasks
 
--- make removing entities wayyyyyy faster
+
+
+BUGLIST
+-- if the player is pushed out of renderDistance by a collision, its leaf isnt updated
+
+
+
+
+

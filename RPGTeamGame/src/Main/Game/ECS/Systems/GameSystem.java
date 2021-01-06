@@ -1,25 +1,34 @@
 package Main.Game.ECS.Systems;
 
 import Main.Game.ECS.Entity.Component;
+import Main.Game.ECS.Entity.GameObject;
 import org.jsfml.window.event.Event;
 
 import java.util.ArrayList;
 
 public abstract class GameSystem
 {
-    private ArrayList<Component[]> gameObjectList = new ArrayList<>();
+    private int bitMaskRequirement =0;
 
-    public ArrayList<Component[]> getComponentArrayList() {
+    private ArrayList<GameObject> gameObjectList = new ArrayList<>();
+
+    public ArrayList<GameObject> getGameObjectList() {
         return gameObjectList;
     }
-    public void addComponentArray(Component[] c)
+
+    public void addGameObject(GameObject c)
     {
         gameObjectList.add(c);
+    }
+    public void refreshGameObjects()
+    {
+        gameObjectList.clear();
     }
 
     @Override
     public String toString()
     {
+        /*
         String s;
         s = this.getClass().toString() + "\n";
         ArrayList<Component[]> c = getComponentArrayList();
@@ -35,9 +44,19 @@ public abstract class GameSystem
         }
         s += "Total Number of Objects: " + c.size() + "\n";
         return s;
+
+         */
+        return null;
     }
 
-    public abstract ArrayList<Class<? extends Component>> systemComponentRequirements();
+    public int getBitMaskRequirement() {
+        return bitMaskRequirement;
+    }
+
+    public void setBitMaskRequirement(int bitMaskRequirement) {
+        this.bitMaskRequirement = bitMaskRequirement;
+    }
+
 
     public abstract void update();
 

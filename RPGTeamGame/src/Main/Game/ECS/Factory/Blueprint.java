@@ -23,9 +23,8 @@ public class Blueprint
     public static GameObject player(Vector2f position)
     {
 
-        GameObject g = new GameObject(EntityID.PLAYER.name);
-        g.addComponent(new Size(OBJECTSIZE));
-        g.addComponent(new Position(position));
+        GameObject g = new GameObject(EntityID.PLAYER.name, position,OBJECTSIZE);
+
 
         g.addComponent(new TextureComponent(EntityID.PLAYER.textureID));
         g.addComponent(new Movement(1));
@@ -35,26 +34,20 @@ public class Blueprint
     }
     public static GameObject test(Vector2f position)
     {
-        GameObject g = new GameObject(EntityID.PLAYER.name);
-        g.addComponent(new Position(position));
-        g.addComponent(new Size(OBJECTSIZE));
+        GameObject g = new GameObject(EntityID.PLAYER.name, position, OBJECTSIZE);
         g.addComponent(new Collider());
         return g;
     }
     public static GameObject chest(Vector2f position)
     {
-        GameObject g = new GameObject(EntityID.CHEST.name);
-        g.addComponent(new Position(position));
-        g.addComponent(new Size(OBJECTSIZE));
+        GameObject g = new GameObject(EntityID.CHEST.name, position,OBJECTSIZE);
         g.addComponent(new TextureComponent(EntityID.CHEST.textureID));
 
         return g;
     }
     public static GameObject block(Vector2f position, byte blockID)
     {
-        GameObject g = new GameObject(EntityID.BLOCK.name);
-        g.addComponent(new Position(position));
-        g.addComponent(new Size(BLOCKSIZE));
+        GameObject g = new GameObject(EntityID.BLOCK.name, position, BLOCKSIZE);
         g.addComponent(new TextureComponent(EntityID.BLOCK.textureID));
         g.getComponent(TextureComponent.class).tileMapLocation = blockID;
         g.getComponent(TextureComponent.class).layer= 0;
@@ -62,27 +55,6 @@ public class Blueprint
     }
 
 
-    public static Component[] getCompatibleComponents(GameObject g, GameSystem s)
-    {
-        ArrayList<Component> c = new ArrayList<>();
-        for (Class<? extends  Component> sc: s.systemComponentRequirements())
-        {
-            boolean componentContained = false;
-            for(Component gc : g.getComponentList())
-            {
-                if (gc.getClass() == sc)
-                {
-                    c.add(gc);
-                    componentContained = true;
-                }
-            }
-            if (!componentContained)
-            {
-                return null;
-            }
-        }
-        return c.toArray(Component[]::new);
 
-    }
 
 }

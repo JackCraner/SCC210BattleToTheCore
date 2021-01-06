@@ -1,6 +1,8 @@
 package Main.Game;
 
+import Main.Game.ECS.Entity.Camera;
 import Main.Game.ECS.Entity.Component;
+import Main.Game.ECS.Entity.EntityManager;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.Blueprint;
 import Main.Game.ECS.Systems.*;
@@ -28,14 +30,13 @@ public class Game
     private static Game levelInstance = new Game();
     private boolean isRunning = false;
 
-    private ArrayList<GameObject> blockList = new ArrayList<>();
-    private ArrayList<GameObject> gameObjectList = new ArrayList<>();
-    private ArrayList<GameSystem> systemList = new ArrayList<>();
+
     private RenderWindow window;
-
-
     FPSCounter testPerformance;
     Clock systemClock = new Clock();
+
+    public static EntityManager ENTITYMANAGER = EntityManager.getEntityManagerInstance();
+    private static SystemManager SYSTEMMANAGER =SystemManager.getSystemManagerInstance();
 
     public static Game getGame()
     {
@@ -50,67 +51,24 @@ public class Game
 
     public void startGame()
     {
-        long startTime;
-        long endTime;
-        window = new RenderWindow(new VideoMode(WINDOWSIZE,WINDOWSIZE), "Test");
+        window = new RenderWindow(new VideoMode(WINDOWSIZE,WINDOWSIZE), "Battle_To_The_Core");
+        ENTITYMANAGER.addGameObject(MapManager.getInstance().generateMap());
+        ENTITYMANAGER.addGameObject(PLAYER);
 
 
-
-
-
-        startTime = System.nanoTime();
-        gameObjectList.addAll(MapManager.getInstance().generateMap());
-        //seperate blocks and objects --
-        endTime = System.nanoTime();
-        System.out.println("Building Map");
-        System.out.println("Time Taken: " + (endTime-startTime) + "\n");
-
-
-        gameObjectList.add(PLAYER);
-        gameObjectList.add(Blueprint.player(new Vector2f(CellularAutomata.CHUNKSIZEPIXELSX/2+30,CellularAutomata.CHUNKSIZEPIXELSY/2+30)));
-        gameObjectList.add(Blueprint.chest(new Vector2f(200,200)));
-
-
-        systemList.add(MovementGameSystem.getSystemInstance());
-        systemList.add(PhysicsGameSystem.getSystemInstance());
-        systemList.add(RendererGameSystem.getSystemInstance());
-
-
-        startTime = System.nanoTime();
-
-        for (GameObject g : gameObjectList) {
-            for (GameSystem s: systemList)
-            {
-               Component[] c = Blueprint.getCompatibleComponents(g,s);
-                if (c !=null)
-                {
-                    s.addComponentArray(c);
-                }
-
-            }
-
-        }
-        endTime = System.nanoTime();
-        System.out.println("Adding Components to Systems");
-        System.out.println("Time Taken: " + (endTime-startTime));
-
-        for (GameSystem s: systemList)
-        {
-            //System.out.println(s.toString());
-        }
 
 
 
         //TESTING
         testPerformance = new FPSCounter();
-        SystemManager.getInstance().init();
+
         isRunning = true;
         runGame();
     }
 
     public void runGame()
     {
-        GUIManager gui = new GUIManager();
+
         int counter =0;
         while(window.isOpen())
         {
@@ -125,14 +83,6 @@ public class Game
             for (Event event : window.pollEvents())
             {
 
-                for (GameSystem s: systemList)
-                {
-
-                   // s.update(event);
-
-
-
-                }
             }
             if (Keyboard.isKeyPressed(Keyboard.Key.ESCAPE)) {
                 window.close();
@@ -153,18 +103,13 @@ public class Game
 
             window.clear();
 
-            long start = 0,end = 0;
-            for (GameSystem s: systemList)
-            {
-                start = System.nanoTime();
-                s.update();
-                end = System.nanoTime();
-                //System.out.println("System: " + s.getClass() + " took " + (end - start));
-
-
+            for (GameObject g : ENTITYMANAGER.getGameObjectInVicinity(PLAYER.getPosition(), Camera.cameraInstance().camerView.getSize().x/2)) {
+               SYSTEMMANAGER.addGameObjectTOSYSTEMS(g);
             }
+            SYSTEMMANAGER.updateSystems();
 
             window.draw(testPerformance.getFpsCounter());
+
             //window.draw(gui);
             window.display();
         }
@@ -176,7 +121,4 @@ public class Game
         return window;
     }
 
-    public ArrayList<GameObject> getGameObjectList() {
-        return gameObjectList;
-    }
 }

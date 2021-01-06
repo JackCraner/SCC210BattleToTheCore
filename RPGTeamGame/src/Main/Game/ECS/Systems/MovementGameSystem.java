@@ -2,7 +2,9 @@ package Main.Game.ECS.Systems;
 
 import Main.Game.ECS.Entity.Component;
 import Main.Game.ECS.Components.Movement;
-import Main.Game.ECS.Components.Position;
+import Main.Game.ECS.Entity.EntityManager;
+import Main.Game.ECS.Entity.GameObject;
+import Main.Game.Game;
 import org.jsfml.system.Vector2f;
 import org.jsfml.window.Keyboard;
 import org.jsfml.window.event.Event;
@@ -17,52 +19,43 @@ public class MovementGameSystem extends GameSystem
     {
         return systemInstance;
     }
-
-    @Override
-    public ArrayList<Class<? extends Component>> systemComponentRequirements() {
-        ArrayList<Class<? extends Component>> c = new ArrayList<>();
-
-
-
-        c.add(Position.class);
-        c.add(Movement.class);
-
-
-
-        //c.add(BoxCollider.class);
-        return c;
+    private MovementGameSystem()
+    {
+        setBitMaskRequirement(EntityManager.getEntityManagerInstance().produceBitMask(Movement.class));
     }
 
     @Override
     public void update()
     {
 
-        for(Component[] cA: getComponentArrayList())
+        for(GameObject g: getGameObjectList())
         {
-            Vector2f curPos =  ((Position) cA[0]).position;
+            Vector2f curPos =  g.getPosition();
+            float speed = g.getComponent(Movement.class).speed;
             if (Keyboard.isKeyPressed(Keyboard.Key.W))
             {
-                curPos = new Vector2f(curPos.x,curPos.y - ((Movement) cA[1]).speed);
+                curPos = new Vector2f(curPos.x,curPos.y -  speed );
             }
             if (Keyboard.isKeyPressed(Keyboard.Key.A))
             {
-                curPos = new Vector2f(curPos.x - ((Movement) cA[1]).speed,curPos.y);
+                curPos = new Vector2f(curPos.x - speed ,curPos.y);
             }
             if (Keyboard.isKeyPressed(Keyboard.Key.S))
             {
-                curPos = new Vector2f(curPos.x,curPos.y + ((Movement) cA[1]).speed);
+                curPos = new Vector2f(curPos.x,curPos.y +  speed );
             }
             if (Keyboard.isKeyPressed(Keyboard.Key.D))
             {
-                curPos = new Vector2f(curPos.x + ((Movement) cA[1]).speed,curPos.y);
+                curPos = new Vector2f(curPos.x +  speed ,curPos.y);
             }
             if (Keyboard.isKeyPressed(Keyboard.Key.SPACE))
             {
                 curPos = new Vector2f(curPos.x,curPos.y - 10);
             }
 
-            //curPos = new Vector2f(curPos.x , curPos.y + 1);
-            ((Position) cA[0]).position = curPos;
+            curPos = new Vector2f(curPos.x , curPos.y + 1);
+            Game.ENTITYMANAGER.updateLeaf(g,curPos);
+            g.setPosition(curPos);
 
 
 

@@ -2,10 +2,8 @@ package Main.Game.ECS.Systems;
 
 import Main.Game.ECS.Components.Collider;
 import Main.Game.ECS.Components.Movement;
-import Main.Game.ECS.Components.Position;
-import Main.Game.ECS.Components.Size;
-import Main.Game.ECS.Entity.Camera;
 import Main.Game.ECS.Entity.Component;
+import Main.Game.ECS.Entity.EntityManager;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.Game;
 import org.jsfml.graphics.FloatRect;
@@ -24,17 +22,10 @@ public class PhysicsGameSystem extends GameSystem
     public static PhysicsGameSystem getSystemInstance() {
         return systemInstance;
     }
-
-    @Override
-    public ArrayList<Class<? extends Component>> systemComponentRequirements() {
-        ArrayList<Class<? extends Component>> c = new ArrayList<>();
-        c.add(Position.class);
-        c.add(Size.class);
-        c.add(Collider.class);
-        //c.add(Movement.class);
-        return c;
+    private PhysicsGameSystem()
+    {
+        setBitMaskRequirement(EntityManager.getEntityManagerInstance().produceBitMask(Collider.class));
     }
-
     @Override
     public void update()
     {
@@ -42,16 +33,17 @@ public class PhysicsGameSystem extends GameSystem
         ArrayList<FloatRect> rigidBodies = new ArrayList<>();
         ArrayList<Integer> movingRigidBodies = new ArrayList<>();
         int index = 0;
-        for(Component[] cA: getComponentArrayList())
+        for(GameObject g: getGameObjectList())
         {
-            Vector2f pos = ((Position)cA[0]).position;
-            Vector2f size = ((Size)cA[1]).size;
-            float distanceBetween = (float)Math.pow( Math.pow(Game.PLAYER.getComponent(Position.class).position.x - pos.x,2) + Math.pow(Game.PLAYER.getComponent(Position.class).position.y - pos.y,2),0.5);
+            Vector2f size = g.getSize();
+            Vector2f pos = g.getPosition();
+
+
             FloatRect body = new FloatRect(pos.x, pos.y, size.x, size.y);
 
 
             rigidBodies.add(body);
-            if (cA[0].getGameObject().getComponent(Movement.class) != null)
+            if (g.getComponent(Movement.class) != null)
             {
                 movingRigidBodies.add(index);
             }
@@ -61,7 +53,7 @@ public class PhysicsGameSystem extends GameSystem
 
 
         }
-        System.out.println(rigidBodies.size());
+
         for(Integer i: movingRigidBodies)
         {
             for (int a = 0; a < rigidBodies.size();a++)
@@ -99,9 +91,9 @@ public class PhysicsGameSystem extends GameSystem
                             }
                         }
 
-                        Vector2f pos = ((Position)getComponentArrayList().get(i)[0]).position;
+                        Vector2f pos = getGameObjectList().get(i).getPosition();
                         pos = new Vector2f(pos.x + collisionVector.x, pos.y + collisionVector.y);
-                        ((Position)getComponentArrayList().get(i)[0]).position = pos;
+                        getGameObjectList().get(i).setPosition(pos);
 
 
                     }
