@@ -80,7 +80,7 @@ public class Game
         GUIMANAGER.initializeGUI();
 
         //TESTING
-        testPerformance = new FPSCounter();
+        //testPerformance = new FPSCounter();
 
         isRunning = true;
         runGame();
@@ -136,7 +136,7 @@ public class Game
             }
             SYSTEMMANAGER.updateSystems();
 
-            window.draw(testPerformance.getFpsCounter());
+            //window.draw(testPerformance.getFpsCounter());
 
             window.draw(GUIMANAGER);
             window.display();
