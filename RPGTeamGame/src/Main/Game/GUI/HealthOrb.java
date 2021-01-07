@@ -6,6 +6,11 @@ import org.jsfml.system.Vector2f;
 
 public class HealthOrb
 {
+    //Initialising HealthOrb as a singleton
+    private static HealthOrb healthorb = new HealthOrb();          //Static variable for healthorb
+    public static HealthOrb getHealthOrb(){
+        return healthorb;
+    }   //Method to return the variable
     //spacing and items should scale with viewSize
     //Static Colors = BLACK, BLUE, CYAN, GREEN, MAGENTA, RED, WHITE, YELLOW
     Color HP = new Color(254, 22, 22);         //The colour of the current Health
@@ -17,14 +22,14 @@ public class HealthOrb
     float currentHealth = 100;                          //The value of the current Health
 
     /**
-     * HealthOrb() constructor
+     * InitialiseHealthOrb()
      * This constructs the HealthOrb element with the current length and size of the window
      * The front and back element are set a size according to the window size
      * Both elements are set a color as well
      */
-    public HealthOrb()
+    public void InitialiseHealthOrb()
     {
-        HealthOrbSize = new Vector2f((float)(Game.getGame().getWindow().getSize().x-870), 130); //length, width of bar
+        HealthOrbSize = new Vector2f((float)(Game.getGame().getWindow().getSize().x- 870), 130); //length, width of bar
         front = new RectangleShape(HealthOrbSize);
         back = new RectangleShape(HealthOrbSize);
         front.setFillColor(HPLost);
@@ -37,8 +42,8 @@ public class HealthOrb
      */
     public void updateHealthOrbPosition()
     {
-        front.setPosition(50, Game.getGame().getWindow().getSize().y - HealthOrbSize.y - 30);
-        back.setPosition(50, Game.getGame().getWindow().getSize().y- HealthOrbSize.y - 30);
+        front.setPosition(50, (float)Game.getGame().getWindow().getSize().y - HealthOrbSize.y - 30);
+        back.setPosition(50, (float)Game.getGame().getWindow().getSize().y - HealthOrbSize.y - 30);
     }
 
     /**

@@ -3,10 +3,14 @@ package Main.Game.GUI;
 import Main.Game.Game;
 import org.jsfml.graphics.*;
 import org.jsfml.system.Vector2f;
-import org.w3c.dom.css.Rect;
 
 public class Inventory
 {
+    //Initialising Inventory as a singleton
+    private static Inventory inventory = new Inventory();           //Static variable for inventory
+    public static Inventory getInventory(){
+        return inventory;
+    }    //Method to return the variable
     //spacing and items should scale with viewSize
     //Static Colors = BLACK, BLUE, CYAN, GREEN, MAGENTA, RED, WHITE, YELLOW
     Color background = new Color(128, 128, 128);   //The colour of the Inventory
@@ -21,14 +25,14 @@ public class Inventory
     float SlotLength;                                       //The length of each slot
 
     /**
-     * InventoryBar() constructor
+     * InitialiseInventory()
      * This constructs the InventoryBar element with the current length and size of the window
      * The front and back element are set a size according to the window size
      * Both elements are set a color as well
      * Also the Inventory can have any number of slots
      * @param numOfSlots The amount of slots the inventory is going to have
      */
-    public Inventory(int numOfSlots)
+    public void InitialiseInventory(int numOfSlots)
     {
         this.SlotsEmpty = numOfSlots;
         this.numSlots = numOfSlots;

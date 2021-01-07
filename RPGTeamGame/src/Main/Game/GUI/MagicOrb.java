@@ -6,6 +6,11 @@ import org.jsfml.system.Vector2f;
 
 public class MagicOrb
 {
+    //Initialising MagicOrb as a singleton
+    private static MagicOrb magicorb = new MagicOrb();              //Static variable for magicorb
+    public static MagicOrb getMagicOrb(){
+        return magicorb;
+    }       //Method to return the variable
     //spacing and items should scale with viewSize
     //Static Colors = BLACK, BLUE, CYAN, GREEN, MAGENTA, RED, WHITE, YELLOW
     Color MP = new Color(10, 153, 249);         //The colour of the current Magic points
@@ -17,12 +22,12 @@ public class MagicOrb
     float currentMP = 100;                               //The value of the current Magic points
 
     /**
-     * MagicOrb() constructor
+     * InitialiseMagicOrb()
      * This constructs the MagicOrb element with the current length and size of the window
      * The front and back element are set a size according to the window size
      * Both elements are set a color as well
      */
-    public MagicOrb()
+    public void InitialiseMagicOrb()
     {
         MagicOrbSize = new Vector2f((float)(Game.getGame().getWindow().getSize().x-870), 130); //length, width of bar
         front = new RectangleShape(MagicOrbSize);
@@ -37,7 +42,7 @@ public class MagicOrb
      */
     public void updateMagicOrbPosition()
     {
-        front.setPosition(820, Game.getGame().getWindow().getSize().y- MagicOrbSize.y - 30);
+        front.setPosition(820, Game.getGame().getWindow().getSize().y - MagicOrbSize.y - 30);
         back.setPosition(820, Game.getGame().getWindow().getSize().y - MagicOrbSize.y - 30);
     }
 

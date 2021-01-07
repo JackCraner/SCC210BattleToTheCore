@@ -3,10 +3,14 @@ package Main.Game.GUI;
 import Main.Game.Game;
 import org.jsfml.graphics.*;
 import org.jsfml.system.Vector2f;
-import org.w3c.dom.css.Rect;
 
 public class XPBar
 {
+    //Initialising XPBar as a singleton
+    private static XPBar xpbar = new XPBar();           //Static variable for xpbar
+    public static XPBar getXPBar(){
+        return xpbar;
+    }    //Method to return the variable
     //spacing and items should scale with viewSize
     //Static Colors = BLACK, BLUE, CYAN, GREEN, MAGENTA, RED, WHITE, YELLOW
     Color XPColour = new Color(12, 254, 12);   //The colour of the XP gained
@@ -22,14 +26,14 @@ public class XPBar
     int TotalXPSlots;                                    //The number of slots in the XP bar
 
     /**
-     * XPBar() constructor
+     * InitialiseXPBar()
      * This constructs the XPBar element with the current length and size of the window
      * The front and back element are set a size according to the window size
      * Both elements are set a color as well
      * Each XPSlot is half the length of the inventory slot
      * @param numOfSlots The number of slots the inventory has
      */
-    public XPBar(int numOfSlots)
+    public void InitialiseXPBar(int numOfSlots)
     {
         this.TotalXPSlots = numOfSlots*2;
         this.XPSlot = new RectangleShape[TotalXPSlots];
