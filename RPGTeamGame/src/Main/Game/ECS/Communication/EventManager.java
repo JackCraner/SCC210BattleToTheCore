@@ -9,8 +9,8 @@ public class EventManager
 {
 
     private EventManager eventManagerInstance = new EventManager();
-    private HashMap<GameSystem, ArrayList<GameEvent>> publisherSubscriberMap = new HashMap<>();
-
+    private HashMap<GameSystem, ArrayList<Class<? extends GameEvent>>> publisherSubscriberMap = new HashMap<>();
+    private ArrayList<GameEvent> gameEventList = new ArrayList<>();
 
 
     public EventManager getEventManagerInstance() {

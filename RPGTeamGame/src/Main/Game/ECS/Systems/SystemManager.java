@@ -46,7 +46,7 @@ public class SystemManager
     {
         for (GameSystem s: systemList)
         {
-            if ((g.getBitmask() & s.getBitMaskRequirement()) != 0)
+            if ((g.getBitmask() & s.getBitMaskRequirement()) == s.getBitMaskRequirement())
             {
                 s.addGameObject(g);
             }
@@ -61,7 +61,9 @@ public class SystemManager
     {
         for(GameSystem s: systemList)
         {
+
             s.update();
+
         }
         flushSystems();
     }

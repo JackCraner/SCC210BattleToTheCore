@@ -41,6 +41,9 @@ REMEMBER WITH ECS
 -- Idea on Health, give some components a damage component. If an entity collides with a damage component collides with an entity with a health component
       -- Health -= damage;
 
+--------------------- OKAY COMPONENTS STORED INTO HASHMAPS
+-- AS component number increases the getComponent() will increase with O(n) but using a hashmap should keep searching for components O(1)
+--  HashMap<<? extends Component>, Component> example = new Hashmap<>();
 
 
 -- To Do List

@@ -2,9 +2,12 @@ package Main.Game.ECS.Systems;
 
 import Main.Game.ECS.Components.Collider;
 import Main.Game.ECS.Components.Movement;
+import Main.Game.ECS.Components.Position;
+import Main.Game.ECS.Components.Size;
 import Main.Game.ECS.Entity.Component;
 import Main.Game.ECS.Entity.EntityManager;
 import Main.Game.ECS.Entity.GameObject;
+import Main.Game.ECS.Factory.BitMasks;
 import Main.Game.Game;
 import org.jsfml.graphics.FloatRect;
 import org.jsfml.system.Vector2f;
@@ -24,7 +27,7 @@ public class PhysicsGameSystem extends GameSystem
     }
     private PhysicsGameSystem()
     {
-        setBitMaskRequirement(EntityManager.getEntityManagerInstance().produceBitMask(Collider.class));
+        setBitMaskRequirement(BitMasks.produceBitMask(Position.class, Size.class, Collider.class));
     }
     @Override
     public void update()
@@ -35,8 +38,8 @@ public class PhysicsGameSystem extends GameSystem
         int index = 0;
         for(GameObject g: getGameObjectList())
         {
-            Vector2f size = g.getSize();
-            Vector2f pos = g.getPosition();
+            Vector2f size = g.getComponent(Size.class).size;
+            Vector2f pos = g.getComponent(Position.class).position;
 
 
             FloatRect body = new FloatRect(pos.x, pos.y, size.x, size.y);
@@ -91,9 +94,9 @@ public class PhysicsGameSystem extends GameSystem
                             }
                         }
 
-                        Vector2f pos = getGameObjectList().get(i).getPosition();
+                        Vector2f pos = getGameObjectList().get(i).getComponent(Position.class).position;
                         pos = new Vector2f(pos.x + collisionVector.x, pos.y + collisionVector.y);
-                        getGameObjectList().get(i).setPosition(pos);
+                        getGameObjectList().get(i).getComponent(Position.class).position = pos;
 
 
                     }

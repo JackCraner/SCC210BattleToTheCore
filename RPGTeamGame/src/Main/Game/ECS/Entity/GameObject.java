@@ -1,6 +1,7 @@
 package Main.Game.ECS.Entity;
 
 import Main.Game.ECS.Components.Movement;
+import Main.Game.ECS.Factory.BitMasks;
 import org.jsfml.graphics.Drawable;
 import org.jsfml.graphics.RenderStates;
 import org.jsfml.graphics.RenderTarget;
@@ -29,11 +30,6 @@ public class GameObject
 
 
     private String name;
-
-
-    private Vector2f position;
-    private Vector2f size;
-
     private int bitmask = 0;
 
 
@@ -43,12 +39,12 @@ public class GameObject
 
     private ArrayList<Class<? extends Component>> componentTypeList = new ArrayList<>();
 
-    public GameObject(String name, Vector2f position, Vector2f size)
+    public GameObject(String name)
     {
         this.name = name;
-        this.position = position;
-        this.size = size;
+
     }
+
 
     public <T extends Component> T getComponent(Class<T> componentClass)
     {
@@ -79,32 +75,21 @@ public class GameObject
 
     public void addComponent(Component c)
     {
-        bitmask = bitmask | EntityManager.getEntityManagerInstance().componentBitMask.get(c.getClass());
+        bitmask = bitmask | BitMasks.getBitMask(c.getClass());
         this.componentList.add(c);
         this.componentTypeList.add(c.getClass());
-        c.setGameObject(this);
     }
 
     public String getName() {
         return name;
     }
 
-    public Vector2f getPosition() {
-        return position;
-    }
 
-    public Vector2f getSize() {
-        return size;
-    }
 
-    public void setSize(Vector2f size) {
-        this.size = size;
-    }
 
-    public void setPosition(Vector2f position)
-    {
-        this.position = position;
-    }
+
+
+
 
     public int getBitmask() {
         return bitmask;

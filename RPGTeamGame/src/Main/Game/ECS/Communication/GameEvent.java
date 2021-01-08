@@ -1,4 +1,6 @@
 package Main.Game.ECS.Communication;
 
-public class GameEvent {
+public abstract class GameEvent
+{
+
 }

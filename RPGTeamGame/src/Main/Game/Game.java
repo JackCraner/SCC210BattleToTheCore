@@ -1,14 +1,14 @@
 package Main.Game;
 
-import Main.Game.ECS.Entity.Camera;
-import Main.Game.ECS.Entity.Component;
+import Main.Game.ECS.Components.Position;
 import Main.Game.ECS.Entity.EntityManager;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.Blueprint;
 import Main.Game.ECS.Systems.*;
 import Main.Game.GUI.GUIController;
 import Main.Game.MapGeneration.CellularA.CellularAutomata;
-import Main.Game.MapGeneration.MapManager;
+import Main.Game.MapGeneration.Map;
+import Main.Game.MapGeneration.MapBlueprint;
 import org.jsfml.graphics.RenderWindow;
 import org.jsfml.system.Clock;
 import org.jsfml.system.Vector2f;
@@ -39,7 +39,6 @@ public class Game
 
 
     private RenderWindow window;
-    private FPSCounter testPerformance;
     private Clock systemClock = new Clock();
 
     public static EntityManager ENTITYMANAGER = EntityManager.getEntityManagerInstance();
@@ -68,19 +67,14 @@ public class Game
     public void startGame()
     {
         window = new RenderWindow(new VideoMode(WINDOWSIZE,WINDOWSIZE), "Battle_To_The_Core");
-        ENTITYMANAGER.addGameObject(MapManager.getInstance().generateMap());
 
+        //ENTITYMANAGER.addGameObject(MapManager.getInstance().generateMap());
 
+        MapBlueprint mb = new MapBlueprint(Map.MAP1);
         ENTITYMANAGER.addGameObject(PLAYER);
-
-
-        ENTITYMANAGER.addGameObject(Blueprint.chest(new Vector2f(CellularAutomata.CHUNKSIZEPIXELSX/2+50,CellularAutomata.CHUNKSIZEPIXELSY/2+50)));
-
-
         GUIMANAGER.initializeGUI();
 
         //TESTING
-        testPerformance = new FPSCounter();
 
         isRunning = true;
         runGame();
@@ -98,6 +92,7 @@ public class Game
         int counter =0;
 
         //window.setFramerateLimit(200);
+
         while(window.isOpen())
         {
             if(systemClock.getElapsedTime().asSeconds() >= 1.f)
@@ -131,13 +126,10 @@ public class Game
 
             window.clear();
 
-            for (GameObject g : ENTITYMANAGER.getGameObjectInVicinity(PLAYER.getPosition(), Camera.cameraInstance().camerView.getSize().x/2)) {
+            for (GameObject g : ENTITYMANAGER.getGameObjectInVicinity(PLAYER.getComponent(Position.class).position, 530)) {
                SYSTEMMANAGER.addGameObjectTOSYSTEMS(g);
             }
             SYSTEMMANAGER.updateSystems();
-
-            window.draw(testPerformance.getFpsCounter());
-
             window.draw(GUIMANAGER);
             window.display();
         }

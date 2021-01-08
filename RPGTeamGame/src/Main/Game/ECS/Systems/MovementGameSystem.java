@@ -1,9 +1,11 @@
 package Main.Game.ECS.Systems;
 
+import Main.Game.ECS.Components.Position;
 import Main.Game.ECS.Entity.Component;
 import Main.Game.ECS.Components.Movement;
 import Main.Game.ECS.Entity.EntityManager;
 import Main.Game.ECS.Entity.GameObject;
+import Main.Game.ECS.Factory.BitMasks;
 import Main.Game.Game;
 import org.jsfml.system.Vector2f;
 import org.jsfml.window.Keyboard;
@@ -31,7 +33,7 @@ public class MovementGameSystem extends GameSystem
      */
     private MovementGameSystem()
     {
-        setBitMaskRequirement(EntityManager.getEntityManagerInstance().produceBitMask(Movement.class));
+        setBitMaskRequirement(BitMasks.produceBitMask(Position.class,Movement.class));
     }
 
     @Override
@@ -40,8 +42,9 @@ public class MovementGameSystem extends GameSystem
 
         for(GameObject g: getGameObjectList())
         {
-            Vector2f curPos =  g.getPosition();
+            Vector2f curPos =  g.getComponent(Position.class).position;
             float speed = g.getComponent(Movement.class).speed;
+
             if (Keyboard.isKeyPressed(Keyboard.Key.W))
             {
                 curPos = new Vector2f(curPos.x,curPos.y -  speed );
@@ -60,12 +63,12 @@ public class MovementGameSystem extends GameSystem
             }
             if (Keyboard.isKeyPressed(Keyboard.Key.SPACE))
             {
-                curPos = new Vector2f(curPos.x,curPos.y - 10);
+                curPos = new Vector2f(curPos.x,curPos.y - 1);
             }
 
             curPos = new Vector2f(curPos.x , curPos.y + 1);
             Game.ENTITYMANAGER.updateLeaf(g,curPos);
-            g.setPosition(curPos);
+            g.getComponent(Position.class).position = curPos;
 
 
 

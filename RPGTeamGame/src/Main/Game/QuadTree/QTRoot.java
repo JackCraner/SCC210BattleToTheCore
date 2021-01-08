@@ -9,7 +9,7 @@ public class QTRoot
 
     private static QTRoot QUADROOT = new QTRoot();
 
-    public  int LEAFSIZE = 512;      //16 blocks --- 16 * 32
+    public  int LEAFSIZE = 256;      //8 blocks --- 8 * 32
 
     public int NUMLEAFX = (int)Math.ceil(CellularAutomata.CHUNKSIZEPIXELSX / LEAFSIZE)+1;
     public int NUMLEAFY = (int)Math.ceil(CellularAutomata.CHUNKSIZEPIXELSY / LEAFSIZE)+1;

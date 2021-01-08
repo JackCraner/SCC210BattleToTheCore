@@ -10,20 +10,20 @@ public class TextureComponent extends Component
 
     public Byte tileMapLocation = -1;
     public Byte layer =1;
-    public Byte textureID;
+    public String textureString;
 
     public TextureComponent()
     {
 
     }
-    public TextureComponent(byte textureID)
+    public TextureComponent(String textureID)
     {
-        this.textureID = textureID;
+        this.textureString = textureID;
     }
 
-    public TextureComponent(byte textureID, Byte tileMapLocation)
+    public TextureComponent(String textureID, Byte tileMapLocation)
     {
-        this.textureID = textureID;
+        this.textureString= textureID;
         this.tileMapLocation = tileMapLocation;
     }
 

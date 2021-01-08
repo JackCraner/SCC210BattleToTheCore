@@ -1,12 +1,9 @@
 package Main.Game.ECS.Factory;
 
-import Main.Game.ECS.Entity.Component;
 import Main.Game.ECS.Components.*;
 import Main.Game.ECS.Entity.GameObject;
-import Main.Game.ECS.Systems.GameSystem;
 import org.jsfml.system.Vector2f;
-
-import java.util.ArrayList;
+import org.jsfml.system.Vector3f;
 
 public class Blueprint
 {
@@ -23,8 +20,10 @@ public class Blueprint
     public static GameObject player(Vector2f position)
     {
 
-        GameObject g = new GameObject(EntityID.PLAYER.name, position,OBJECTSIZE);
-        g.addComponent(new TextureComponent(EntityID.PLAYER.textureID));
+        GameObject g = new GameObject(Entity.PLAYER.name);
+        g.addComponent(new Position(position));
+        g.addComponent(new Size(OBJECTSIZE));
+        g.addComponent(new TextureComponent(Entity.PLAYER.textureString));
         g.addComponent(new Movement(1));
         g.addComponent(new Collider());
         g.addComponent(new Light());
@@ -36,24 +35,40 @@ public class Blueprint
     }
     public static GameObject test(Vector2f position)
     {
-        GameObject g = new GameObject(EntityID.PLAYER.name, position, OBJECTSIZE);
+        GameObject g = new GameObject(Entity.CHEST.name);
+        g.addComponent(new Position(position));
+        g.addComponent(new Size(OBJECTSIZE));
         g.addComponent(new Collider());
         return g;
     }
     public static GameObject chest(Vector2f position)
     {
-        GameObject g = new GameObject(EntityID.CHEST.name, position,OBJECTSIZE);
-        g.addComponent(new TextureComponent(EntityID.CHEST.textureID));
+        GameObject g = new GameObject(Entity.CHEST.name);
+        g.addComponent(new Position(position));
+        g.addComponent(new Size(OBJECTSIZE));
+        g.addComponent(new TextureComponent(Entity.CHEST.textureString));
 
         return g;
     }
     public static GameObject block(Vector2f position, byte blockID)
     {
-        GameObject g = new GameObject(EntityID.BLOCK.name, position, BLOCKSIZE);
-        g.addComponent(new TextureComponent(EntityID.BLOCK.textureID));
+        GameObject g = new GameObject(Entity.BLOCK.name);
+        g.addComponent(new Position(position));
+        g.addComponent(new Size(BLOCKSIZE));
+        g.addComponent(new TextureComponent(Entity.BLOCK.textureString));
         g.getComponent(TextureComponent.class).tileMapLocation = blockID;
         g.getComponent(TextureComponent.class).layer= 0;
         return g;
+    }
+    public static GameObject torch(Vector2f position)
+    {
+        GameObject g = new GameObject(Entity.TORCH.name);
+        g.addComponent(new Position(position));
+        g.addComponent(new Size(OBJECTSIZE));
+        g.addComponent(new TextureComponent(Entity.TORCH.textureString));
+        g.addComponent(new Light(0.3f,3f, new Vector3f(1f,0.8f,0.2f)));
+        return g;
+
     }
 
 

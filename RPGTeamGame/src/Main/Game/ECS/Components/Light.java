@@ -16,7 +16,12 @@ public class Light extends Component
         //playing with size = 0.3f is fun
         this.intensity = 4f;
         this.rgbData = new Vector3f(0.3f,0.3f,0.5f);
-
+    }
+    public Light(float size, float intensity, Vector3f rgbData)
+    {
+        this.size = size;
+        this.intensity = intensity;
+        this.rgbData = rgbData;
     }
 
 
