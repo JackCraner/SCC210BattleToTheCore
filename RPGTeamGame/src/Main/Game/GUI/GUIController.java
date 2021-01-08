@@ -26,6 +26,9 @@ public class GUIController implements Drawable
     MiniMap map;                    //Mini Map
     private GUIController()
     {
+
+
+
     }
 
     /**
@@ -48,7 +51,7 @@ public class GUIController implements Drawable
         xpB = new XPBar(iB.getTotalSlots());
         map = new MiniMap();
         hO.takeDamage(40);
-        xpB.AddXP(2);
+        xpB.AddXP(6);
         hO.updateHealthOrbPosition();
         mO.updateMagicOrbPosition();
         iB.updateInventoryPosition();

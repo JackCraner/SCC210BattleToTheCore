@@ -1,17 +1,14 @@
 package Main.Game.ECS.Systems;
 
+import Main.Game.ECS.Communication.Events.GameEvent;
 import Main.Game.ECS.Components.Collider;
 import Main.Game.ECS.Components.Movement;
 import Main.Game.ECS.Components.Position;
 import Main.Game.ECS.Components.Size;
-import Main.Game.ECS.Entity.Component;
-import Main.Game.ECS.Entity.EntityManager;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.BitMasks;
-import Main.Game.Game;
 import org.jsfml.graphics.FloatRect;
 import org.jsfml.system.Vector2f;
-import org.jsfml.window.event.Event;
 
 import java.util.ArrayList;
 
@@ -30,7 +27,7 @@ public class PhysicsGameSystem extends GameSystem
         setBitMaskRequirement(BitMasks.produceBitMask(Position.class, Size.class, Collider.class));
     }
     @Override
-    public void update()
+    public void update(ArrayList<GameEvent> gameEvents)
     {
 
         ArrayList<FloatRect> rigidBodies = new ArrayList<>();
@@ -116,8 +113,5 @@ public class PhysicsGameSystem extends GameSystem
     {
 
     }
-    @Override
-    public void update(Event event) {
 
-    }
 }

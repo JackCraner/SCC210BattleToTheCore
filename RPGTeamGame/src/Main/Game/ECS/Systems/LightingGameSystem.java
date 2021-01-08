@@ -1,26 +1,27 @@
 package Main.Game.ECS.Systems;
 
+import Main.Game.ECS.Communication.EventManager;
+import Main.Game.ECS.Communication.Events.GameEventTypes;
+import Main.Game.ECS.Communication.Events.GameEvent;
 import Main.Game.ECS.Components.Light;
 import Main.Game.ECS.Components.Position;
 import Main.Game.ECS.Entity.Camera;
-import Main.Game.ECS.Entity.EntityManager;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.BitMasks;
 import Main.Game.Game;
 import org.jsfml.graphics.Shader;
 import org.jsfml.graphics.Texture;
 import org.jsfml.system.Vector2f;
-import org.jsfml.window.event.Event;
 
 import java.io.File;
 import java.nio.file.Paths;
-import java.util.concurrent.RejectedExecutionException;
+import java.util.ArrayList;
 
 public class LightingGameSystem extends GameSystem
 {
     private static LightingGameSystem lightingGameSystem = new LightingGameSystem();
-    public Shader mapShader = new Shader();
-    private Texture t;
+    private Shader mapShader = new Shader();
+    private Texture t = new Texture();
     public static LightingGameSystem getLightingGameSystem() {
         return lightingGameSystem;
     }
@@ -39,9 +40,13 @@ public class LightingGameSystem extends GameSystem
     }
 
     @Override
-    public void update()
+    public void update(ArrayList<GameEvent> gameEvents)
     {
-        t = (Texture)RendererGameSystem.getSystemInstance().screenTexture.getTexture();
+
+       for (GameEvent ge: gameEvents)
+       {
+           t = ((Texture)ge.getData());
+       }
         int maxNumLights = 28;
         mapShader.setParameter("texture", t);   //gives main texture to shader
         mapShader.setParameter("resolution", 1000, 1000);
@@ -68,12 +73,9 @@ public class LightingGameSystem extends GameSystem
             mapShader.setParameter("lights[" + counter + "].intensity",0);
             mapShader.setParameter("lights[" + counter + "].rgbData", 0,0,0);
         }
-
+        EventManager.getEventManagerInstance().addEvent(new GameEvent(mapShader, GameEventTypes.ShaderEvent));
     }
 
-    @Override
-    public void update(Event event) {
-    }
 
     public Vector2f convertGlobalPositionToScreenPosition(Vector2f position)
     {

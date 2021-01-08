@@ -1,5 +1,7 @@
 package Main.Game.ECS.Systems;
 
+import Main.Game.ECS.Communication.EventManager;
+import Main.Game.ECS.Communication.Events.GameEvent;
 import Main.Game.ECS.Entity.GameObject;
 
 import java.util.ArrayList;
@@ -18,6 +20,7 @@ import java.util.ArrayList;
 public class SystemManager
 {
     private static SystemManager managerInstance = new SystemManager();
+    private static EventManager EVENTMANAGER = EventManager.getEventManagerInstance();
     private ArrayList<GameSystem> systemList = new ArrayList<>();
     public static SystemManager getSystemManagerInstance()
     {
@@ -61,8 +64,8 @@ public class SystemManager
     {
         for(GameSystem s: systemList)
         {
-
-            s.update();
+            ArrayList<GameEvent> events = EVENTMANAGER.getEvents(s.getClass());
+            s.update(events);
 
         }
         flushSystems();
@@ -77,7 +80,7 @@ public class SystemManager
         {
             s.refreshGameObjects();
         }
+        EVENTMANAGER.emptyEvents();
     }
-
 
 }

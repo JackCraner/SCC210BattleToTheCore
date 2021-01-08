@@ -1,19 +1,19 @@
 package Main.Game.ECS.Systems;
 
+import Main.Game.ECS.Communication.EventManager;
+import Main.Game.ECS.Communication.Events.GameEventTypes;
+import Main.Game.ECS.Communication.Events.GameEvent;
 import Main.Game.ECS.Components.Position;
 import Main.Game.ECS.Components.Size;
 import Main.Game.ECS.Entity.Camera;
 import Main.Game.ECS.Components.TextureComponent;
-import Main.Game.ECS.Entity.EntityManager;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.BitMasks;
 import Main.Game.ECS.Factory.Blueprint;
 import Main.Game.ECS.Factory.Entity;
 import Main.Game.Game;
-import Main.Game.MapGeneration.CellularA.CellularAutomata;
 import org.jsfml.graphics.*;
 import org.jsfml.system.Vector2f;
-import org.jsfml.window.event.Event;
 
 import java.io.File;
 import java.nio.file.Paths;
@@ -25,10 +25,9 @@ public class RendererGameSystem  extends GameSystem
     private static RendererGameSystem systemInstance = new RendererGameSystem();
 
     private HashMap<String,Texture> textureMap = new HashMap<>();
-    public RenderTexture screenTexture = new RenderTexture();
+    private RenderTexture screenTexture = new RenderTexture();
     private RenderStates rS;
     private Sprite screenSprite = new Sprite();
-    private static int totalBlocks = CellularAutomata.CHUNKSIZEBLOCKSX * CellularAutomata.CHUNKSIZEBLOCKSY;
     private VertexArray backGround = new VertexArray(PrimitiveType.QUADS);
 
     private RendererGameSystem()
@@ -56,7 +55,7 @@ public class RendererGameSystem  extends GameSystem
 
     }
     @Override
-    public void update()
+    public void update(ArrayList<GameEvent> gameEvents)
     {
 
         // currently we calculate and draw every frame
@@ -125,8 +124,19 @@ public class RendererGameSystem  extends GameSystem
         screenTexture.setView(Camera.cameraInstance().camerView);
         screenTexture.display();
         screenSprite.setTexture(screenTexture.getTexture());
-        rS = new RenderStates(LightingGameSystem.getLightingGameSystem().mapShader);
-        Game.getGame().getWindow().draw(screenSprite,rS);
+
+
+        EventManager.getEventManagerInstance().addEvent(new GameEvent<>(screenSprite.getTexture(), GameEventTypes.TextureEvent));
+        if (gameEvents.size() == 0)
+        {
+            Game.getGame().getWindow().draw(screenSprite);
+        }
+        else
+        {
+            rS = new RenderStates((Shader)gameEvents.get(0).getData());
+            Game.getGame().getWindow().draw(screenSprite,rS);
+        }
+
 
         //Level.getLevel().getWindow().draw(backGround,new RenderStates(textureMap.get((byte) 0)));
         //Player is always index 0 on the list of Objects
@@ -136,11 +146,6 @@ public class RendererGameSystem  extends GameSystem
     }
 
 
-    @Override
-    public void update(Event event)
-    {
-
-    }
 
 
     public static RendererGameSystem getSystemInstance() {
