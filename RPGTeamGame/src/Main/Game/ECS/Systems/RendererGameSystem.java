@@ -53,7 +53,7 @@ public class RendererGameSystem  extends GameSystem
 
         //System.out.println("Num Objects: " +getGameObjectList().size());
 
-        Layer graphicalLayer[] = new Layer[] {new Layer(), new Layer()};
+        Layer graphicalLayer[] = new Layer[] {new Layer(), new Layer(), new Layer()};
 
         backGround.clear();
 
@@ -63,7 +63,7 @@ public class RendererGameSystem  extends GameSystem
         TextureComponent t;
         for(GameObject g: getGameObjectList())
         {
-            curPos = g.getComponent(Position.class).position;
+            curPos = g.getComponent(Position.class).getPosition();
             size = g.getComponent(Size.class).size;
             t = g.getComponent(TextureComponent.class);
 
@@ -107,7 +107,7 @@ public class RendererGameSystem  extends GameSystem
             screenTexture.draw(l);
         }
 
-        Camera.cameraInstance().camerView.setCenter(Game.PLAYER.getComponent(Position.class).position);
+        Camera.cameraInstance().camerView.setCenter(Game.PLAYER.getComponent(Position.class).getPosition());
 
 
         screenTexture.setView(Camera.cameraInstance().camerView);

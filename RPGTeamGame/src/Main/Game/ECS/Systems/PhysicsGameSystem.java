@@ -35,7 +35,7 @@ public class PhysicsGameSystem extends GameSystem
         for(GameObject g: getGameObjectList())
         {
             Vector2f size = g.getComponent(Size.class).size;
-            Vector2f pos = g.getComponent(Position.class).position;
+            Vector2f pos = g.getComponent(Position.class).getPosition();
             Collider col = g.getComponent(Collider.class);
 
             FloatRect body = new FloatRect(pos.x, pos.y, size.x, size.y);
@@ -99,10 +99,9 @@ public class PhysicsGameSystem extends GameSystem
                                     }
                                 }
 
-                                Vector2f pos = getGameObjectList().get(i).getComponent(Position.class).position;
+                                Vector2f pos = getGameObjectList().get(i).getComponent(Position.class).getPosition();
                                 pos = new Vector2f(pos.x + collisionVector.x, pos.y + collisionVector.y);
-                                //Game.ENTITYMANAGER.updateLeaf(getGameObjectList().get(i),pos);
-                                getGameObjectList().get(i).getComponent(Position.class).position = pos;
+                                getGameObjectList().get(i).getComponent(Position.class).updatePosition(pos);
 
                             }
                         }

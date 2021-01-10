@@ -4,7 +4,7 @@ import Main.Game.ECS.Entity.Component;
 
 public class Damage extends Component
 {
-    float damage = 10;
+    private float damage = 10;
     public Damage(float damage)
     {
         this.damage = damage;
@@ -13,5 +13,13 @@ public class Damage extends Component
     {
         return damage;
     }
+    public void setDamage(float x)
+    {
+        this.damage = x;
+    }
 
+    @Override
+    public Component clone() {
+        return new Damage(damage);
+    }
 }

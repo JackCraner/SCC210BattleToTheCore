@@ -20,7 +20,7 @@ public class CombatGameSystem extends GameSystem
     }
     private CombatGameSystem()
     {
-        setBitMaskRequirement(BitMasks.produceBitMask(CollisionEvent.class, HealthBar.class));
+        setBitMaskRequirement(BitMasks.produceBitMask(HealthBar.class));
     }
     @Override
     public void update(ArrayList<GameEvent> gameEvents)
@@ -28,18 +28,26 @@ public class CombatGameSystem extends GameSystem
         for (GameObject g: getGameObjectList())
         {
             HealthBar hp = g.getComponent(HealthBar.class);
-            GameObject hitBY = g.getComponent(CollisionEvent.class).getG();
-
-            if ((hitBY.getBitmask() & BitMasks.produceBitMask(Damage.class)) != 0)
+            if ((g.getBitmask() & BitMasks.produceBitMask(CollisionEvent.class)) != 0)
             {
-                g.removeComponent(CollisionEvent.class);
-                hp.adjustHealth(-hitBY.getComponent(Damage.class).getDamage());
-                EntityManager.getEntityManagerInstance().removeGameObject(hitBY);
-                if (g.getName() == Entity.PLAYER.name)
+                GameObject hitBY = g.getComponent(CollisionEvent.class).getG();
+
+                if ((hitBY.getBitmask() & BitMasks.produceBitMask(Damage.class)) != 0)
                 {
-                    GUIManager.getGUIinstance().GUIUpdate(GUIComponentENUM.HEALTHBAR);
+                    g.removeComponent(CollisionEvent.class);
+                    hp.adjustHealth(-hitBY.getComponent(Damage.class).getDamage());
+                    hitBY.removeComponent(Damage.class);
+                    if (g.getName() == Entity.PLAYER.name)
+                    {
+                        GUIManager.getGUIinstance().GUIUpdate(GUIComponentENUM.HEALTHBAR);
+                    }
                 }
             }
+            if (hp.getCurrentHealth() <= 0)
+            {
+                EntityManager.getEntityManagerInstance().removeGameObject(g);
+            }
+
         }
     }
 }

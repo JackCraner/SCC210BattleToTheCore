@@ -13,10 +13,8 @@ public class Movement extends Component
     }
 
 
-
-
-
-
-
-
+    @Override
+    public Component clone() {
+        return new Movement(speed);
+    }
 }

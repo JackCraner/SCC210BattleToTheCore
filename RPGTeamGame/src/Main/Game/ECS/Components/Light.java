@@ -25,5 +25,8 @@ public class Light extends Component
     }
 
 
-
+    @Override
+    public Component clone() {
+        return new Light(size,intensity,rgbData);
+    }
 }

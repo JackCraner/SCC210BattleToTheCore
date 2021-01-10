@@ -12,6 +12,12 @@ public class ManaBar extends Component
             this.maxMana = maxMana;
         }
 
+        public ManaBar(float maxMana, float currentMana)
+        {
+            this.currentMana = currentMana;
+            this.maxMana = maxMana;
+        }
+
         public float getCurrentMana() {
             return currentMana;
         }
@@ -19,4 +25,9 @@ public class ManaBar extends Component
         public float getMaxMana() {
             return maxMana;
         }
+
+    @Override
+    public Component clone() {
+        return new ManaBar(maxMana, currentMana);
+    }
 }

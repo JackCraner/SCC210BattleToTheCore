@@ -18,6 +18,11 @@ public class Backpack extends Component
     {
         gameObjectsINBACKPACK.add(g);
     }
+    public Backpack(int size, ArrayList<GameObject> g)
+    {
+        this.maxNumObject = size;
+        gameObjectsINBACKPACK.addAll(g);
+    }
     public void addGameObject(GameObject g)
     {
 
@@ -33,4 +38,9 @@ public class Backpack extends Component
         return gameObjectsINBACKPACK;
     }
 
+    @Override
+    public Component clone()
+    {
+        return new Backpack(maxNumObject,(ArrayList<GameObject>)gameObjectsINBACKPACK.clone());
+    }
 }

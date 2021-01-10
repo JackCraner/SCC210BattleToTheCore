@@ -2,7 +2,7 @@ package Main.Game.ECS.Entity;
 
 public abstract class  Component
 {
-
+    public abstract Component clone();
 //DESIGN PATTERN
     /*
     - Components Should always extend this abstract class

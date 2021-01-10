@@ -1,6 +1,7 @@
 package Main.Game.ECS.Entity;
 
 import Main.Game.ECS.Components.Movement;
+import Main.Game.ECS.Components.Position;
 import Main.Game.ECS.Factory.BitMasks;
 import org.jsfml.graphics.Drawable;
 import org.jsfml.graphics.RenderStates;
@@ -10,7 +11,7 @@ import org.jsfml.system.Vector2i;
 
 import java.util.ArrayList;
 
-public class GameObject
+public class GameObject implements Cloneable
 {
     //DESIGN PATTERN
     /*
@@ -77,23 +78,34 @@ public class GameObject
         bitmask = bitmask | BitMasks.getBitMask(c.getClass());
         this.componentList.add(c);
     }
+    public void setComponentList(ArrayList<Component> c)
+    {
+        componentList = c;
+    }
 
     public String getName() {
         return name;
     }
 
 
-
-
-
-
-
-
     public int getBitmask() {
         return bitmask;
     }
 
+    public GameObject clone()
+    {
+        GameObject go = new GameObject(name);
+        for (Component c: componentList)
+        {
+            go.addComponent(c.clone());
+        }
+        if ((go.getBitmask() & BitMasks.produceBitMask(Position.class)) != 0)
+        {
+            go.getComponent(Position.class).setMe(go);
+        }
+       return go;
 
+    }
     @Override
     public String toString() {
         return name;

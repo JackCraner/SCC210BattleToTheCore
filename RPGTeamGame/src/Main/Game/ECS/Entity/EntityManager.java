@@ -54,7 +54,7 @@ public class EntityManager
     {
         if ((g.getBitmask() & BitMasks.produceBitMask(Position.class)) != 0)
         {
-            quadTree.addGameObject(g, convertGlobalPositionTOLEAF(g.getComponent(Position.class).position));
+            quadTree.addGameObject(g, convertGlobalPositionTOLEAF(g.getComponent(Position.class).getPosition()));
         }
         else
         {
@@ -65,7 +65,7 @@ public class EntityManager
     public void removeGameObject(GameObject g)
     {
         if ((g.getBitmask() & BitMasks.produceBitMask(Position.class)) != 0) {
-            quadTree.removeGameObject(g, convertGlobalPositionTOLEAF(g.getComponent(Position.class).position));
+            quadTree.removeGameObject(g, convertGlobalPositionTOLEAF(g.getComponent(Position.class).getPosition()));
         }
         else{
             System.out.println("Object has no Position :: Removing from QUADTREE FAILED");
@@ -83,7 +83,7 @@ public class EntityManager
         {
             if ((g.getBitmask() & BitMasks.produceBitMask(Position.class)) != 0)
             {
-                quadTree.addGameObject(g, convertGlobalPositionTOLEAF(g.getComponent(Position.class).position));
+                quadTree.addGameObject(g, convertGlobalPositionTOLEAF(g.getComponent(Position.class).getPosition()));
             }
             else
             {
@@ -148,9 +148,9 @@ public class EntityManager
     {
         if ((g.getBitmask() & BitMasks.produceBitMask(Position.class)) != 0)
         {
-            if (!(convertGlobalPositionTOLEAF(g.getComponent(Position.class).position).equals(convertGlobalPositionTOLEAF(newPosition))))
+            if (!(convertGlobalPositionTOLEAF(g.getComponent(Position.class).getPosition()).equals(convertGlobalPositionTOLEAF(newPosition))))
             {
-                quadTree.removeGameObject(g,convertGlobalPositionTOLEAF(g.getComponent(Position.class).position));
+                quadTree.removeGameObject(g,convertGlobalPositionTOLEAF(g.getComponent(Position.class).getPosition()));
                 quadTree.addGameObject(g,convertGlobalPositionTOLEAF(newPosition));
             }
         }

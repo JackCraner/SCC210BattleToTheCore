@@ -61,8 +61,8 @@ public class BackpackGameSystem extends GameSystem
 
                         if(mainHand.isReady())
                         {
-                            Vector2f pos = g.getComponent(Position.class).position;
-                            EntityManager.getEntityManagerInstance().addGameObject(mainHand.getSpawns(new Vector2f(pos.x + 60, pos.y +60)));
+                            Vector2f pos = g.getComponent(Position.class).getPosition();
+                            EntityManager.getEntityManagerInstance().addGameObject(mainHand.getSpawns(new Vector2f(pos.x+32, pos.y -32)));
                         }
 
                     }

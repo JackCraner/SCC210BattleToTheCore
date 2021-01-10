@@ -88,7 +88,7 @@ public class MapBlueprint
         {
             if(localEntities.get(i).getName() == name)
             {
-                Vector2f mapObjectPosition = localEntities.get(i).getComponent(Position.class).position;
+                Vector2f mapObjectPosition = localEntities.get(i).getComponent(Position.class).getPosition();
                 float x =(float)Math.pow((mapObjectPosition.x - position.x),2);
                 float y =(float)Math.pow((mapObjectPosition.y - position.y),2);
                 shortestDistance = Math.min((float)Math.pow(x + y, 0.5),shortestDistance);

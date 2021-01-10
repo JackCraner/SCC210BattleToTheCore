@@ -30,6 +30,16 @@ public class TextureComponent extends Component
         this.textureString= textureID;
         this.tileMapLocation = tileMapLocation;
     }
+    public TextureComponent(String textureID, Byte tileMapLocation, Byte layer)
+    {
+        this.textureString= textureID;
+        this.tileMapLocation = tileMapLocation;
+        this.layer = layer;
+    }
 
 
+    @Override
+    public Component clone() {
+        return new TextureComponent(textureString,tileMapLocation,layer);
+    }
 }

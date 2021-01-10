@@ -14,4 +14,9 @@ public class CollisionEvent extends Component
     public GameObject getG() {
         return g;
     }
+
+    @Override
+    public Component clone() {
+        return null;
+    }
 }

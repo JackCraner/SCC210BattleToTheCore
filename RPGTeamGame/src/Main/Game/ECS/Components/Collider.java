@@ -26,4 +26,9 @@ public class Collider extends Component
      this.physics = phyiscs;
      this.avoidPlayer = avoidPlayer;
     }
+
+    @Override
+    public Component clone() {
+        return new Collider(events,dynamic,physics,avoidPlayer);
+    }
 }

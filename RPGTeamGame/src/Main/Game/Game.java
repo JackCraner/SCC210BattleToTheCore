@@ -82,10 +82,11 @@ public class Game
 
         //ENTITYMANAGER.addGameObject(MapManager.getInstance().generateMap());
 
-        MapBlueprint mb = new MapBlueprint(Map.MAP1);
+        MapBlueprint mb = new MapBlueprint(300,Map.MAP1);
         ENTITYMANAGER.addGameObject(PLAYER);
-        ENTITYMANAGER.addGameObject(Blueprint.item(new Vector2f(PLAYER.getComponent(Position.class).position.x + 50,PLAYER.getComponent(Position.class).position.y + 50)));
-        ENTITYMANAGER.addGameObject(Blueprint.item(new Vector2f(PLAYER.getComponent(Position.class).position.x + 100,PLAYER.getComponent(Position.class).position.y + 100)));
+        ENTITYMANAGER.addGameObject(Blueprint.item(new Vector2f(PLAYER.getComponent(Position.class).getPosition().x + 50,PLAYER.getComponent(Position.class).getPosition().y + 50)));
+        ENTITYMANAGER.addGameObject(Blueprint.enemy(new Vector2f(PLAYER.getComponent(Position.class).getPosition().x + 100,PLAYER.getComponent(Position.class).getPosition().y + 100)));
+
         //TESTING
 
         try
@@ -150,7 +151,7 @@ public class Game
             window.clear();
             for (GameSystem system: SYSTEMMANAGER.getSystemList())
             {
-                for (GameObject g : ENTITYMANAGER.getGameObjectInVicinity(PLAYER.getComponent(Position.class).position, 530))
+                for (GameObject g : ENTITYMANAGER.getGameObjectInVicinity(PLAYER.getComponent(Position.class).getPosition(), 530))
                 {
                     SYSTEMMANAGER.addGOtoSYSTEM(g,system);
                 }

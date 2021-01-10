@@ -42,7 +42,7 @@ public class MovementGameSystem extends GameSystem
 
         for(GameObject g: getGameObjectList())
         {
-            Vector2f curPos =  g.getComponent(Position.class).position;
+            Vector2f curPos =  g.getComponent(Position.class).getPosition();
             float speed = g.getComponent(Movement.class).speed;
 
             if (Keyboard.isKeyPressed(Keyboard.Key.W))
@@ -65,8 +65,7 @@ public class MovementGameSystem extends GameSystem
             {
                 curPos = new Vector2f(curPos.x,curPos.y - 1);
             }
-            Game.ENTITYMANAGER.updateLeaf(g,curPos);
-            g.getComponent(Position.class).position = curPos;
+            g.getComponent(Position.class).updatePosition(curPos);
 
 
 

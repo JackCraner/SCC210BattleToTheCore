@@ -12,6 +12,11 @@ public class HealthBar extends Component
         this.maxHealth = maxHealth;
         this.currentHealth = maxHealth;
     }
+    public HealthBar(float maxHealth, float currentHealth)
+    {
+        this.maxHealth = maxHealth;
+        this.currentHealth = currentHealth;
+    }
 
     public float getCurrentHealth() {
         return currentHealth;
@@ -24,5 +29,10 @@ public class HealthBar extends Component
     public void adjustHealth(float x)
     {
         currentHealth +=x;
+    }
+
+    @Override
+    public Component clone() {
+        return new HealthBar(maxHealth,currentHealth);
     }
 }

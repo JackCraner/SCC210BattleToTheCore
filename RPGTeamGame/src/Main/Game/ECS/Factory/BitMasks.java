@@ -21,7 +21,6 @@ public class BitMasks
         COMPONENTBITMASKS.put(Collider.class,Integer.parseInt("1000", 2));
         COMPONENTBITMASKS.put(Movement.class,Integer.parseInt("10000", 2));
         COMPONENTBITMASKS.put(Light.class,Integer.parseInt("100000", 2));
-        COMPONENTBITMASKS.put(Shoot.class,Integer.parseInt("1000000", 2));
         COMPONENTBITMASKS.put(Backpack.class,Integer.parseInt("1000000", 2));
         COMPONENTBITMASKS.put(Pickup.class,Integer.parseInt("100000000", 2));
         COMPONENTBITMASKS.put(CollisionEvent.class,Integer.parseInt("1000000000", 2));
@@ -29,6 +28,7 @@ public class BitMasks
         COMPONENTBITMASKS.put(ManaBar.class,Integer.parseInt("100000000000", 2));
         COMPONENTBITMASKS.put(XPBar.class,Integer.parseInt("1000000000000", 2));
         COMPONENTBITMASKS.put(Damage.class,Integer.parseInt("10000000000000", 2));
+        COMPONENTBITMASKS.put(LifeSpan.class,Integer.parseInt("100000000000000", 2));
 
     }
 

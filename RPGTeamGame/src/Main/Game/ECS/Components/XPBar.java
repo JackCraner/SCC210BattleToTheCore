@@ -19,4 +19,9 @@ public class XPBar extends Component
     public float getMaxXP() {
         return maxXP;
     }
+
+    @Override
+    public Component clone() {
+        return new XPBar(maxXP);
+    }
 }

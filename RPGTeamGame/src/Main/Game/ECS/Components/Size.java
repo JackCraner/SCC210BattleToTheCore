@@ -12,5 +12,8 @@ public class Size extends Component
     }
 
 
-
+    @Override
+    public Component clone() {
+        return new Size(size) ;
+    }
 }

@@ -56,7 +56,7 @@ public class LightingGameSystem extends GameSystem
         for(GameObject g: getGameObjectList())
         {
 
-            mapShader.setParameter("lights[" + counter + "].position",convertGlobalPositionToScreenPosition(g.getComponent(Position.class).position));
+            mapShader.setParameter("lights[" + counter + "].position",convertGlobalPositionToScreenPosition(g.getComponent(Position.class).getPosition()));
             mapShader.setParameter("lights[" + counter + "].size",g.getComponent(Light.class).size);
             mapShader.setParameter("lights[" + counter + "].intensity", g.getComponent(Light.class).intensity);
             mapShader.setParameter("lights[" + counter + "].rgbData", g.getComponent(Light.class).rgbData);
@@ -81,7 +81,7 @@ public class LightingGameSystem extends GameSystem
     {
         float transform = Camera.cameraInstance().camerView.getSize().x/2;
         float extra = 250f;
-        Vector2f pos = Game.PLAYER.getComponent(Position.class).position;
+        Vector2f pos = Game.PLAYER.getComponent(Position.class).getPosition();
         Vector2f topLeft = new Vector2f(pos.x - transform, pos.y - transform);
         Vector2f bottomRight = new Vector2f(pos.x + transform, pos.y + transform);
         float lightPosY = 0 , lightPosX = 0;

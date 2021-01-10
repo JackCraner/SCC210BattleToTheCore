@@ -1,0 +1,3 @@
+WHEN USING THE JPROFILER
+--- I get millions of Vector2f, i dont know where, i think when making the vertex array
+--- half of cpu usage is Vector2f inits

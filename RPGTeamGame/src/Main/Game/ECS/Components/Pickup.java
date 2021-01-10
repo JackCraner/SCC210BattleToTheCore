@@ -36,10 +36,12 @@ public class Pickup extends Component
         this.cooldownTime = cooldownTime;
     }
 
-    public GameObject getSpawns(Vector2f position) {
+    public GameObject getSpawns(Vector2f position)
+    {
         cooldownValue = cooldownTime;
-        spawns.getComponent(Position.class).position = position;
-        return spawns;
+        GameObject newSpawn = spawns.clone();
+        newSpawn.addComponent(new Position(position,newSpawn));
+        return newSpawn;
     }
 
     public void reduceCoolDown()
@@ -53,5 +55,10 @@ public class Pickup extends Component
     public Boolean isReady()
     {
         return (cooldownValue ==0);
+    }
+
+    @Override
+    public Component clone() {
+        return new Pickup(spawns.clone(),cooldownTime);
     }
 }

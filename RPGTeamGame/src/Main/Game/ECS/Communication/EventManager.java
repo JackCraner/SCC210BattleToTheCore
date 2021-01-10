@@ -2,6 +2,7 @@ package Main.Game.ECS.Communication;
 
 import Main.Game.ECS.Communication.Events.GameEvent;
 import Main.Game.ECS.Communication.Events.GameEventTypes;
+import Main.Game.ECS.Components.Position;
 import Main.Game.ECS.Systems.*;
 
 import java.util.ArrayList;
@@ -19,7 +20,8 @@ public class EventManager
         publisherSubscriberMap.put(PhysicsGameSystem.class, gameEventArray());
         publisherSubscriberMap.put(BackpackGameSystem.class, gameEventArray());
         publisherSubscriberMap.put(CombatGameSystem.class, gameEventArray());
-        publisherSubscriberMap.put(ShootGameSystem.class, gameEventArray());
+        publisherSubscriberMap.put(LifeSpanGameSystem.class, gameEventArray());
+        publisherSubscriberMap.put(EventClearGameSystem.class, gameEventArray());
         publisherSubscriberMap.put(RendererGameSystem.class, gameEventArray(GameEventTypes.ShaderEvent));
         publisherSubscriberMap.put(LightingGameSystem.class, gameEventArray(GameEventTypes.TextureEvent));
 
