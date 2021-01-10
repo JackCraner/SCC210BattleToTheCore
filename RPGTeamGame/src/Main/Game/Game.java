@@ -1,20 +1,27 @@
 package Main.Game;
 
+import Main.Game.ECS.Components.HealthBar;
 import Main.Game.ECS.Components.Position;
 import Main.Game.ECS.Entity.EntityManager;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.Blueprint;
 import Main.Game.ECS.Systems.*;
-import Main.Game.GUI.GUIController;
+import Main.Game.GUI.GUIComponents.GUIComponentENUM;
+import Main.Game.GUI.GUIManager;
 import Main.Game.MapGeneration.CellularA.CellularAutomata;
 import Main.Game.MapGeneration.Map;
 import Main.Game.MapGeneration.MapBlueprint;
+import org.jsfml.graphics.Font;
 import org.jsfml.graphics.RenderWindow;
+import org.jsfml.graphics.Text;
 import org.jsfml.system.Clock;
 import org.jsfml.system.Vector2f;
 import org.jsfml.window.Keyboard;
 import org.jsfml.window.VideoMode;
 import org.jsfml.window.event.Event;
+
+import java.io.File;
+import java.nio.file.Paths;
 
 
 /*
@@ -44,12 +51,17 @@ public class Game
     public static EntityManager ENTITYMANAGER = EntityManager.getEntityManagerInstance();
     private static SystemManager SYSTEMMANAGER =SystemManager.getSystemManagerInstance();
 
-    private static GUIController GUIMANAGER = GUIController.getGuicontroller();
+    private static GUIManager GUIMANAGER = GUIManager.getGUIinstance();
 
     public static Game getGame()
     {
         return levelInstance;
     }
+
+
+    Text fpsCounter;                //Displays the number of frames per second
+    Font textFont = new Font();     //The font for Displaying text
+
 
     public void generateLevel()
     {
@@ -72,9 +84,20 @@ public class Game
 
         MapBlueprint mb = new MapBlueprint(Map.MAP1);
         ENTITYMANAGER.addGameObject(PLAYER);
-        GUIMANAGER.initializeGUI();
-
+        ENTITYMANAGER.addGameObject(Blueprint.item(new Vector2f(PLAYER.getComponent(Position.class).position.x + 50,PLAYER.getComponent(Position.class).position.y + 50)));
+        ENTITYMANAGER.addGameObject(Blueprint.item(new Vector2f(PLAYER.getComponent(Position.class).position.x + 100,PLAYER.getComponent(Position.class).position.y + 100)));
         //TESTING
+
+        try
+        {
+            textFont.loadFromFile(Paths.get("Assets" + File.separator + "Fonts" + File.separator+ "LEMONMILK-Regular.otf"));
+        }
+        catch (Exception e)
+        {
+            System.out.println("Font not found");
+        }
+        fpsCounter = new Text("HI", textFont, 100);     //Fps font and size
+        fpsCounter.setPosition(new Vector2f(Game.getGame().getWindow().getSize().x-970,30));
 
         isRunning = true;
         runGame();
@@ -97,7 +120,7 @@ public class Game
         {
             if(systemClock.getElapsedTime().asSeconds() >= 1.f)
             {
-                GUIMANAGER.setFPS(counter);
+                fpsCounter.setString(String.valueOf(counter));
                 counter = 0;
                 systemClock.restart();
             }
@@ -125,12 +148,18 @@ public class Game
 
 
             window.clear();
+            for (GameSystem system: SYSTEMMANAGER.getSystemList())
+            {
+                for (GameObject g : ENTITYMANAGER.getGameObjectInVicinity(PLAYER.getComponent(Position.class).position, 530))
+                {
+                    SYSTEMMANAGER.addGOtoSYSTEM(g,system);
+                }
+                SYSTEMMANAGER.updateSystem(system);
 
-            for (GameObject g : ENTITYMANAGER.getGameObjectInVicinity(PLAYER.getComponent(Position.class).position, 530)) {
-               SYSTEMMANAGER.addGameObjectTOSYSTEMS(g);
             }
-            SYSTEMMANAGER.updateSystems();
+            SYSTEMMANAGER.flushSystems();
             window.draw(GUIMANAGER);
+            window.draw(fpsCounter);
             window.display();
         }
     }

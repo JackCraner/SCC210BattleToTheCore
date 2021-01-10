@@ -1,6 +1,7 @@
 package Main.Game.ECS.Factory;
 
 import Main.Game.ECS.Components.*;
+import Main.Game.ECS.Components.Pickup;
 import Main.Game.ECS.Entity.Component;
 
 import java.util.HashMap;
@@ -21,6 +22,14 @@ public class BitMasks
         COMPONENTBITMASKS.put(Movement.class,Integer.parseInt("10000", 2));
         COMPONENTBITMASKS.put(Light.class,Integer.parseInt("100000", 2));
         COMPONENTBITMASKS.put(Shoot.class,Integer.parseInt("1000000", 2));
+        COMPONENTBITMASKS.put(Backpack.class,Integer.parseInt("1000000", 2));
+        COMPONENTBITMASKS.put(Pickup.class,Integer.parseInt("100000000", 2));
+        COMPONENTBITMASKS.put(CollisionEvent.class,Integer.parseInt("1000000000", 2));
+        COMPONENTBITMASKS.put(HealthBar.class,Integer.parseInt("10000000000", 2));
+        COMPONENTBITMASKS.put(ManaBar.class,Integer.parseInt("100000000000", 2));
+        COMPONENTBITMASKS.put(XPBar.class,Integer.parseInt("1000000000000", 2));
+        COMPONENTBITMASKS.put(Damage.class,Integer.parseInt("10000000000000", 2));
+
     }
 
     /**

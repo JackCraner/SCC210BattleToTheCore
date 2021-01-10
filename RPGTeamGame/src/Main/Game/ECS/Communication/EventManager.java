@@ -15,8 +15,10 @@ public class EventManager
     private static HashMap<Class<? extends GameSystem>, ArrayList<GameEventTypes>> publisherSubscriberMap = new HashMap<>();
     static{
         //What Messages the system should TAKE IN
-        publisherSubscriberMap.put(MovementGameSystem.class, gameEventArray(GameEventTypes.KeyPressEvent));
+        publisherSubscriberMap.put(MovementGameSystem.class, gameEventArray());
         publisherSubscriberMap.put(PhysicsGameSystem.class, gameEventArray());
+        publisherSubscriberMap.put(BackpackGameSystem.class, gameEventArray());
+        publisherSubscriberMap.put(CombatGameSystem.class, gameEventArray());
         publisherSubscriberMap.put(ShootGameSystem.class, gameEventArray());
         publisherSubscriberMap.put(RendererGameSystem.class, gameEventArray(GameEventTypes.ShaderEvent));
         publisherSubscriberMap.put(LightingGameSystem.class, gameEventArray(GameEventTypes.TextureEvent));

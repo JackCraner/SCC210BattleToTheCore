@@ -11,6 +11,7 @@ import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.BitMasks;
 import Main.Game.ECS.Factory.Blueprint;
 import Main.Game.ECS.Factory.Entity;
+import Main.Game.ECS.Factory.TextureMap;
 import Main.Game.Game;
 import org.jsfml.graphics.*;
 import org.jsfml.system.Vector2f;
@@ -24,7 +25,6 @@ public class RendererGameSystem  extends GameSystem
 {
     private static RendererGameSystem systemInstance = new RendererGameSystem();
 
-    private HashMap<String,Texture> textureMap = new HashMap<>();
     private RenderTexture screenTexture = new RenderTexture();
     private RenderStates rS;
     private Sprite screenSprite = new Sprite();
@@ -40,17 +40,6 @@ public class RendererGameSystem  extends GameSystem
         catch (Exception e)
         {
             System.out.println(e);
-        }
-
-        for(Entity entity: Entity.values()) {
-            Texture t = new Texture();
-            try
-            {
-                t.loadFromFile(Paths.get("Assets" + File.separator + "EntityTextures" + File.separator + entity.textureString));
-            } catch (Exception e) {
-                System.out.println(e);
-            }
-            textureMap.put(entity.textureString, t);
         }
 
     }
@@ -94,7 +83,7 @@ public class RendererGameSystem  extends GameSystem
                 RectangleShape s = new RectangleShape();
                 s.setPosition(curPos);
                 s.setSize(size);
-                s.setTexture(textureMap.get(t.textureString));
+                s.setTexture(TextureMap.TEXTUREMAP.get(t.textureString));
                 if (t.tileMapLocation >= 0)
                 {
                     s.setTextureRect(new IntRect(t.tileMapLocation * (int)size.x, 0,(int)size.x,(int)size.y));
@@ -112,7 +101,7 @@ public class RendererGameSystem  extends GameSystem
 
 
         screenTexture.clear();
-        screenTexture.draw(backGround,new RenderStates(textureMap.get(Entity.BLOCK.textureString)));
+        screenTexture.draw(backGround,new RenderStates(TextureMap.TEXTUREMAP.get(Entity.BLOCK.textureString)));
         for (Layer l: graphicalLayer)
         {
             screenTexture.draw(l);

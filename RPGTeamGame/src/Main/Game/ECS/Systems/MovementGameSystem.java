@@ -3,8 +3,10 @@ package Main.Game.ECS.Systems;
 import Main.Game.ECS.Communication.Events.GameEvent;
 import Main.Game.ECS.Components.Position;
 import Main.Game.ECS.Components.Movement;
+import Main.Game.ECS.Entity.EntityManager;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.BitMasks;
+import Main.Game.ECS.Factory.Blueprint;
 import Main.Game.Game;
 import org.jsfml.system.Vector2f;
 import org.jsfml.window.Keyboard;
@@ -63,8 +65,6 @@ public class MovementGameSystem extends GameSystem
             {
                 curPos = new Vector2f(curPos.x,curPos.y - 1);
             }
-
-            curPos = new Vector2f(curPos.x , curPos.y + 1);
             Game.ENTITYMANAGER.updateLeaf(g,curPos);
             g.getComponent(Position.class).position = curPos;
 

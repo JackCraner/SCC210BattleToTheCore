@@ -20,7 +20,11 @@ public class TextureComponent extends Component
     {
         this.textureString = textureID;
     }
-
+    public TextureComponent(Byte layer, String textureID)
+    {
+        this.textureString = textureID;
+        this.layer = layer;
+    }
     public TextureComponent(String textureID, Byte tileMapLocation)
     {
         this.textureString= textureID;

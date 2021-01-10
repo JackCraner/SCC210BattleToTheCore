@@ -34,9 +34,11 @@ public class SystemManager
     {
         systemList.add(MovementGameSystem.getSystemInstance());
         systemList.add(PhysicsGameSystem.getSystemInstance());
+        systemList.add(BackpackGameSystem.getSystemInstance());
+        systemList.add(CombatGameSystem.getSystemInstance());
         systemList.add(RendererGameSystem.getSystemInstance());
         systemList.add(LightingGameSystem.getLightingGameSystem());
-        systemList.add(ShootGameSystem.getShootGameSystem());
+       // systemList.add(ShootGameSystem.getShootGameSystem());
 
 
     }
@@ -56,6 +58,18 @@ public class SystemManager
         }
     }
 
+    public void addGOtoSYSTEM(GameObject g, GameSystem s)
+    {
+        if ((g.getBitmask() & s.getBitMaskRequirement()) == s.getBitMaskRequirement())
+        {
+            s.addGameObject(g);
+        }
+
+    }
+    public void updateSystem(GameSystem s)
+    {
+        s.update(EVENTMANAGER.getEvents(s.getClass()));
+    }
     /**
      * Updates all Systems
      * -- Called every frame
@@ -83,4 +97,8 @@ public class SystemManager
         EVENTMANAGER.emptyEvents();
     }
 
+    public ArrayList<GameSystem> getSystemList()
+    {
+        return systemList;
+    }
 }

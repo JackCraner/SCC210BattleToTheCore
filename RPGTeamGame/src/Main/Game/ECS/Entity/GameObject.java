@@ -36,9 +36,6 @@ public class GameObject
     private ArrayList<Component> componentList = new ArrayList<>();
 
 
-
-    private ArrayList<Class<? extends Component>> componentTypeList = new ArrayList<>();
-
     public GameObject(String name)
     {
         this.name = name;
@@ -65,9 +62,11 @@ public class GameObject
     {
         for (int i= 0; i<componentList.size();i++)
         {
-            if (componentClass.isAssignableFrom(componentClass.getClass()))
+
+            if (componentList.get(i).getClass().isAssignableFrom(componentClass))
             {
                 componentList.remove(i);
+                bitmask = bitmask & ~BitMasks.getBitMask(componentClass);
                 return;
             }
         }
@@ -77,7 +76,6 @@ public class GameObject
     {
         bitmask = bitmask | BitMasks.getBitMask(c.getClass());
         this.componentList.add(c);
-        this.componentTypeList.add(c.getClass());
     }
 
     public String getName() {
