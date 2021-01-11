@@ -15,10 +15,6 @@ public class Position extends Component
         this.position = position;
         this.me = me;
     }
-    public Position(Vector2f position)
-    {
-        this.position = position;
-    }
     public Vector2f getPosition()
     {
         return position;
@@ -35,6 +31,6 @@ public class Position extends Component
 
     @Override
     public Component clone() {
-        return new Position(position);
+        return new Position(position,me);       //infinite loop?
     }
 }

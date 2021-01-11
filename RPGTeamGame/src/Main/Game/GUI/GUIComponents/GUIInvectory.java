@@ -52,6 +52,10 @@ public class GUIInvectory extends GUIComponent<Backpack>
     @Override
     public void update()
     {
+        for(RectangleShape rec: inventoryRectangles)
+        {
+            rec.setTexture(null);
+        }
         for (int a = 0; a < getT().getObjectsINBACKPACK().size(); a++ )
         {
             inventoryGameObjects[a] = getT().getObjectsINBACKPACK().get(a);

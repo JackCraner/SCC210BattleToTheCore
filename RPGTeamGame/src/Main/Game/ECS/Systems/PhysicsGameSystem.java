@@ -2,13 +2,11 @@ package Main.Game.ECS.Systems;
 
 import Main.Game.ECS.Communication.Events.GameEvent;
 import Main.Game.ECS.Components.*;
+import Main.Game.ECS.Entity.EntityManager;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.BitMasks;
 import Main.Game.ECS.Factory.Entity;
-import Main.Game.Game;
-import org.jsfml.graphics.Color;
 import org.jsfml.graphics.FloatRect;
-import org.jsfml.graphics.RectangleShape;
 import org.jsfml.system.Vector2f;
 
 import java.util.ArrayList;
@@ -40,7 +38,6 @@ public class PhysicsGameSystem extends GameSystem
             TransformComponent t = g.getComponent(TransformComponent.class);
             Vector2f pos = g.getComponent(Position.class).getPosition();
             Collider col = g.getComponent(Collider.class);
-
             FloatRect body = new FloatRect(pos.x, pos.y, t.getSize().x, t.getSize().y);
 
             //TEST HITBOX
@@ -63,7 +60,14 @@ public class PhysicsGameSystem extends GameSystem
 
             index ++;
 
-
+            if (col.getAvoidTimer() >0)
+            {
+                col.reduceAvoidTime();
+                if (col.getAvoidTimer() ==0)
+                {
+                    col.avoidGameObject = null;
+                }
+            }
 
         }
 
@@ -76,15 +80,26 @@ public class PhysicsGameSystem extends GameSystem
                     FloatRect collision = rigidBodies.get(i).intersection(rigidBodies.get(a));
                     if (collision != null)
                     {
-                        Collider col = getGameObjectList().get(a).getComponent(Collider.class);
-                        if (!(col.avoidPlayer == true && getGameObjectList().get(i).getName() == Entity.PLAYER.name))
+                        Collider mainCollider = getGameObjectList().get(i).getComponent(Collider.class);
+                        Collider collidingWith = getGameObjectList().get(a).getComponent(Collider.class);
+
+                        if (!((collidingWith.avoidGameObject != null && getGameObjectList().get(i).getName() == collidingWith.avoidGameObject.getName())||(mainCollider.avoidGameObject != null && getGameObjectList().get(a).getName() == mainCollider.avoidGameObject.getName())))
                         {
-                            if (col.events == true)
+                            if (mainCollider.events == true && collidingWith.events == true)
                             {
-                                getGameObjectList().get(i).addComponent(new CollisionEvent(getGameObjectList().get(a)));
+                               if ((getGameObjectList().get(i).getBitmask() & BitMasks.produceBitMask(CollisionEvent.class)) == 0)
+                               {
+                                    getGameObjectList().get(i).addComponent(new CollisionEvent(getGameObjectList().get(a))); //only 1 collisionEvent per frame
+                               }
+
                             }
-                            if(col.physics == true)
+
+                            if(mainCollider.physics == true && collidingWith.physics == true)
                             {
+                                if (mainCollider.dieOnPhysics == true)
+                                {
+                                    EntityManager.getEntityManagerInstance().removeGameObject(getGameObjectList().get(i));
+                                }
                                 Vector2f delta = Vector2f.sub(getCenter(rigidBodies.get(a)), getCenter(rigidBodies.get(i)));
                                 float intersectX = Math.abs(delta.x) - ((rigidBodies.get(a).width/2) + (rigidBodies.get(i).width/2));
                                 float intersectY = Math.abs(delta.y) - ((rigidBodies.get(a).height/2) + (rigidBodies.get(i).height/2));

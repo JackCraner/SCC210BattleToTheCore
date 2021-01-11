@@ -5,6 +5,7 @@ import Main.Game.ECS.Components.ItemComponents.Damage;
 import Main.Game.ECS.Components.ItemComponents.LifeSpan;
 import Main.Game.ECS.Components.Pickup;
 import Main.Game.ECS.Entity.GameObject;
+import Main.Game.Game;
 import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector3f;
 
@@ -29,7 +30,7 @@ public class Blueprint
         g.addComponent(new TextureComponent((byte)3,Entity.PLAYER.textureString));
         g.addComponent(new Movement(MovementTYPES.CONTROLLED, 1));
         g.addComponent(new Light());
-        g.addComponent(new Collider(true,true,true,true));
+        g.addComponent(new Collider(true,true,true,g));
         g.addComponent(new Backpack(6));
         g.addComponent(new HealthBar(100));
         g.addComponent(new ManaBar(100));
@@ -73,9 +74,21 @@ public class Blueprint
         g.addComponent(new TransformComponent(OBJECTSIZE));
         g.addComponent(new TextureComponent(Entity.TORCH.textureString));
         g.addComponent(new Light(0.3f,3f, new Vector3f(1f,0.8f,0.2f)));
+        g.addComponent(new Collider(true,false,false));
+        g.addComponent(new Pickup(null,200));
         return g;
 
     }
+    public static GameObject torchItem()
+    {
+        GameObject g = new GameObject(Entity.TORCH.name);
+        g.addComponent(new TransformComponent(OBJECTSIZE));
+        g.addComponent(new TextureComponent(Entity.TORCH.textureString));
+        g.addComponent(new Light(0.3f,3f, new Vector3f(1f,0.8f,0.2f)));
+        g.addComponent(new Collider(true,false,false));
+        return g;
+    }
+
     public static GameObject itemFrameWork(Vector2f position, GameObject itemsUse)
     {
         GameObject g = new GameObject(Entity.SWORD.name);
@@ -84,7 +97,7 @@ public class Blueprint
         g.addComponent(new TextureComponent(Entity.SWORD.textureString));
         g.addComponent(new Pickup(itemsUse,150));
         //g.addComponent(new Damage(10));
-        g.addComponent(new Collider(true,false,false,false));
+        g.addComponent(new Collider(true,false,false));
         return g;
 
     }
@@ -96,7 +109,7 @@ public class Blueprint
         g.addComponent(new TextureComponent(Entity.SWORD.textureString));
         g.addComponent(new Pickup(swordSwoosh(),150));
         //g.addComponent(new Damage(10));
-        g.addComponent(new Collider(true,false,false,false));
+        g.addComponent(new Collider(true,false,false));
         return g;
 
     }
@@ -107,7 +120,7 @@ public class Blueprint
         g.addComponent(new TextureComponent(Entity.SWORDSWOOSH.textureString));
         g.addComponent(new Damage(10));
         g.addComponent(new LifeSpan(100));
-        g.addComponent(new Collider(true,false,false,true));
+        g.addComponent(new Collider(true,false,false));
         return g;
     }
     public static GameObject fireBall()
@@ -117,9 +130,9 @@ public class Blueprint
         g.addComponent(new TextureComponent(Entity.FIREBALL.textureString));
         g.addComponent(new Damage(10));
         g.addComponent(new Light(0.1f,10f, new Vector3f(1f,0.8f,0.2f)));
-        g.addComponent(new Movement(MovementTYPES.LINEAR, 1));
+        g.addComponent(new Movement(MovementTYPES.LINEAR, 3));
         g.addComponent(new LifeSpan(1000));
-        g.addComponent(new Collider(true,true,false,true));
+        g.addComponent(new Collider(true,true,true,true));
         return g;
     }
     public static GameObject wand(Vector2f position)
@@ -141,8 +154,9 @@ public class Blueprint
         g.addComponent(new TransformComponent(OBJECTSIZE));
         g.addComponent(new TextureComponent((byte)2,Entity.ENEMY.textureString));
         g.addComponent(new HealthBar(100));
-        g.addComponent(new Collider(true,true,false,false));
+        g.addComponent(new Collider(true,true,true,false));
         g.addComponent(new Backpack(6));
+        g.addComponent(new Movement(MovementTYPES.AI,0));
         return g;
     }
 

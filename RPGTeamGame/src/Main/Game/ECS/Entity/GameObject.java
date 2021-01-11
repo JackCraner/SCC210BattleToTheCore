@@ -75,8 +75,16 @@ public class GameObject implements Cloneable
 
     public void addComponent(Component c)
     {
-        bitmask = bitmask | BitMasks.getBitMask(c.getClass());
-        this.componentList.add(c);
+        if ((bitmask & BitMasks.getBitMask(c.getClass())) == 0)
+        {
+            bitmask = bitmask | BitMasks.getBitMask(c.getClass());
+            this.componentList.add(c);
+        }
+        else
+        {
+            System.out.println("ERROR with GameObject " + name + " :: Two components of same type");
+        }
+
     }
     public void setComponentList(ArrayList<Component> c)
     {

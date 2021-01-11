@@ -26,7 +26,7 @@ public class Pickup extends Component
      */
     //give it a Use case whether it is a sword swing or eat of an apple
 
-
+    private GameObject attachedTo = null;
     private GameObject spawns;
     private int cooldownTime;
     private int cooldownValue = 0;
@@ -43,7 +43,19 @@ public class Pickup extends Component
         newSpawn.addComponent(new Position(position,newSpawn));
         return newSpawn;
     }
+    public Boolean doesSpawn()
+    {
+        return spawns != null;
+    }
+    public void attach(GameObject g)
+    {
+        attachedTo =g;
+        if (doesSpawn())
+        {
+            spawns.getComponent(Collider.class).avoidGameObject = g;
+        }
 
+    }
     public void reduceCoolDown()
     {
         if (cooldownValue >0)

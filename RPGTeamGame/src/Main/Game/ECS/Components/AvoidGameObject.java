@@ -29,7 +29,7 @@ public class AvoidGameObject extends Component
             timer--;
         }
     }
-    
+
     @Override
     public Component clone() {
         if (timer == -1)
