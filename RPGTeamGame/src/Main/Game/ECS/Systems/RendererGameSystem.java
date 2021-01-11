@@ -4,7 +4,7 @@ import Main.Game.ECS.Communication.EventManager;
 import Main.Game.ECS.Communication.Events.GameEventTypes;
 import Main.Game.ECS.Communication.Events.GameEvent;
 import Main.Game.ECS.Components.Position;
-import Main.Game.ECS.Components.Size;
+import Main.Game.ECS.Components.TransformComponent;
 import Main.Game.ECS.Entity.Camera;
 import Main.Game.ECS.Components.TextureComponent;
 import Main.Game.ECS.Entity.GameObject;
@@ -16,15 +16,13 @@ import Main.Game.Game;
 import org.jsfml.graphics.*;
 import org.jsfml.system.Vector2f;
 
-import java.io.File;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class RendererGameSystem  extends GameSystem
 {
     private static RendererGameSystem systemInstance = new RendererGameSystem();
 
+    private Layer[] graphicLayers = {new Layer(),new Layer(), new Layer()};
     private RenderTexture screenTexture = new RenderTexture();
     private RenderStates rS;
     private Sprite screenSprite = new Sprite();
@@ -32,7 +30,7 @@ public class RendererGameSystem  extends GameSystem
 
     private RendererGameSystem()
     {
-        setBitMaskRequirement(BitMasks.produceBitMask(TextureComponent.class, Position.class, Size.class));
+        setBitMaskRequirement(BitMasks.produceBitMask(TextureComponent.class, Position.class, TransformComponent.class));
         try
         {
             screenTexture.create(Game.WINDOWSIZE, Game.WINDOWSIZE);
@@ -51,29 +49,26 @@ public class RendererGameSystem  extends GameSystem
         // need an event that something has moved (MovementSystem) to order this system to calculate the frame and draw
         // otherwise we just draw (big performance boost)
 
-        //System.out.println("Num Objects: " +getGameObjectList().size());
-
-        Layer graphicalLayer[] = new Layer[] {new Layer(), new Layer(), new Layer()};
-
+        //System.out.println("Num Objects: " +getGameObjectList().transform.getSize()());
         backGround.clear();
 
         //buildVertexArray();
         Vector2f curPos;
-        Vector2f size;
-        TextureComponent t;
+        TransformComponent transform;
+        TextureComponent texture;
         for(GameObject g: getGameObjectList())
         {
             curPos = g.getComponent(Position.class).getPosition();
-            size = g.getComponent(Size.class).size;
-            t = g.getComponent(TextureComponent.class);
+            transform = g.getComponent(TransformComponent.class);
+            texture = g.getComponent(TextureComponent.class);
 
-            if (t.layer - 1 < 0)
+            if (texture.layer - 1 < 0)
             {
 
-                backGround.add(new Vertex(curPos, new Vector2f(Blueprint.TEXTURESIZE.x * t.tileMapLocation, 0)));
-                backGround.add(new Vertex(new Vector2f(curPos.x, curPos.y + size.y), new Vector2f(Blueprint.TEXTURESIZE.x * t.tileMapLocation + Blueprint.TEXTURESIZE.x, 0)));
-                backGround.add(new Vertex(new Vector2f(curPos.x + size.x, curPos.y + size.y), new Vector2f(Blueprint.TEXTURESIZE.x * t.tileMapLocation + Blueprint.TEXTURESIZE.x, +Blueprint.TEXTURESIZE.x)));
-                backGround.add(new Vertex(new Vector2f(curPos.x + size.x, curPos.y), new Vector2f(Blueprint.TEXTURESIZE.x * t.tileMapLocation, +Blueprint.TEXTURESIZE.x)));
+                backGround.add(new Vertex(curPos, new Vector2f(Blueprint.TEXTURESIZE.x * texture.tileMapLocation, 0)));
+                backGround.add(new Vertex(new Vector2f(curPos.x, curPos.y + transform.getSize().y), new Vector2f(Blueprint.TEXTURESIZE.x * texture.tileMapLocation + Blueprint.TEXTURESIZE.x, 0)));
+                backGround.add(new Vertex(new Vector2f(curPos.x + transform.getSize().x, curPos.y + transform.getSize().y), new Vector2f(Blueprint.TEXTURESIZE.x * texture.tileMapLocation + Blueprint.TEXTURESIZE.x, +Blueprint.TEXTURESIZE.x)));
+                backGround.add(new Vertex(new Vector2f(curPos.x + transform.getSize().x, curPos.y), new Vector2f(Blueprint.TEXTURESIZE.x * texture.tileMapLocation, +Blueprint.TEXTURESIZE.x)));
 
 
 
@@ -81,15 +76,16 @@ public class RendererGameSystem  extends GameSystem
             else
             {
                 RectangleShape s = new RectangleShape();
-                s.setPosition(curPos);
-                s.setSize(size);
-                s.setTexture(TextureMap.TEXTUREMAP.get(t.textureString));
-                if (t.tileMapLocation >= 0)
+                s.setPosition(new Vector2f(curPos.x, curPos.y));
+                s.setSize(transform.getSize());
+                s.setRotation(transform.getRotation());
+                s.setTexture(TextureMap.TEXTUREMAP.get(texture.textureString));
+                if (texture.tileMapLocation >= 0)
                 {
-                    s.setTextureRect(new IntRect(t.tileMapLocation * (int)size.x, 0,(int)size.x,(int)size.y));
+                    s.setTextureRect(new IntRect(texture.tileMapLocation * (int)transform.getSize().x, 0,(int)transform.getSize().x,(int)transform.getSize().y));
                 }
 
-                graphicalLayer[t.layer - 1].addDrawable(s);
+                graphicLayers[texture.layer - 1].addDrawable(s);
             }
 
         }
@@ -102,9 +98,9 @@ public class RendererGameSystem  extends GameSystem
 
         screenTexture.clear();
         screenTexture.draw(backGround,new RenderStates(TextureMap.TEXTUREMAP.get(Entity.BLOCK.textureString)));
-        for (Layer l: graphicalLayer)
+        for (Layer layer: graphicLayers)
         {
-            screenTexture.draw(l);
+            screenTexture.draw(layer);
         }
 
         Camera.cameraInstance().camerView.setCenter(Game.PLAYER.getComponent(Position.class).getPosition());
@@ -146,16 +142,12 @@ public class RendererGameSystem  extends GameSystem
 
 class Layer implements Drawable
 {
-    ArrayList<Drawable> drawablesInLayer = new ArrayList<>();
+    ArrayList<RectangleShape> drawablesInLayer = new ArrayList<>();
     public Layer()
     {
 
     }
-
-    public ArrayList<Drawable> getDrawablesInLayer() {
-        return drawablesInLayer;
-    }
-    public void addDrawable(Drawable d)
+    public void addDrawable(RectangleShape d)
     {
         drawablesInLayer.add(d);
     }
@@ -163,10 +155,15 @@ class Layer implements Drawable
     @Override
     public void draw(RenderTarget renderTarget, RenderStates renderStates)
     {
-        for(Drawable d: drawablesInLayer)
+        for(RectangleShape d: drawablesInLayer)
         {
-            renderTarget.draw(d,renderStates);
+            Transform t = new Transform();
+            t = Transform.rotate(t,d.getRotation(),d.getPosition().x + d.getSize().x/2,d.getPosition().y+d.getSize().y/2);
+            d.setRotation(0);
+            RenderStates r = new RenderStates(renderStates,t);
+            renderTarget.draw(d,r);
         }
+        drawablesInLayer.clear();
     }
 }
 

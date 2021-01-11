@@ -1,19 +1,16 @@
 package Main.Game;
 
-import Main.Game.ECS.Components.HealthBar;
 import Main.Game.ECS.Components.Position;
+import Main.Game.ECS.Entity.Camera;
 import Main.Game.ECS.Entity.EntityManager;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.Blueprint;
 import Main.Game.ECS.Systems.*;
-import Main.Game.GUI.GUIComponents.GUIComponentENUM;
 import Main.Game.GUI.GUIManager;
 import Main.Game.MapGeneration.CellularA.CellularAutomata;
 import Main.Game.MapGeneration.Map;
 import Main.Game.MapGeneration.MapBlueprint;
-import org.jsfml.graphics.Font;
-import org.jsfml.graphics.RenderWindow;
-import org.jsfml.graphics.Text;
+import org.jsfml.graphics.*;
 import org.jsfml.system.Clock;
 import org.jsfml.system.Vector2f;
 import org.jsfml.window.Keyboard;
@@ -58,10 +55,10 @@ public class Game
         return levelInstance;
     }
 
-
+    //CHEATING
     Text fpsCounter;                //Displays the number of frames per second
     Font textFont = new Font();     //The font for Displaying text
-
+    //public RenderTexture hitboxs = new RenderTexture();
 
     public void generateLevel()
     {
@@ -84,7 +81,8 @@ public class Game
 
         MapBlueprint mb = new MapBlueprint(300,Map.MAP1);
         ENTITYMANAGER.addGameObject(PLAYER);
-        ENTITYMANAGER.addGameObject(Blueprint.item(new Vector2f(PLAYER.getComponent(Position.class).getPosition().x + 50,PLAYER.getComponent(Position.class).getPosition().y + 50)));
+        ENTITYMANAGER.addGameObject(Blueprint.sword(new Vector2f(PLAYER.getComponent(Position.class).getPosition().x + 50,PLAYER.getComponent(Position.class).getPosition().y + 50)));
+        ENTITYMANAGER.addGameObject(Blueprint.wand(new Vector2f(PLAYER.getComponent(Position.class).getPosition().x + 70,PLAYER.getComponent(Position.class).getPosition().y + 70)));
         ENTITYMANAGER.addGameObject(Blueprint.enemy(new Vector2f(PLAYER.getComponent(Position.class).getPosition().x + 100,PLAYER.getComponent(Position.class).getPosition().y + 100)));
 
         //TESTING
@@ -92,6 +90,7 @@ public class Game
         try
         {
             textFont.loadFromFile(Paths.get("Assets" + File.separator + "Fonts" + File.separator+ "LEMONMILK-Regular.otf"));
+            //hitboxs.create(1000,1000);
         }
         catch (Exception e)
         {
@@ -159,6 +158,12 @@ public class Game
 
             }
             SYSTEMMANAGER.flushSystems();
+            /*
+            hitboxs.display();
+            hitboxs.setView(Camera.cameraInstance().camerView);
+            window.draw(new Sprite(hitboxs.getTexture()));
+
+             */
             window.draw(GUIMANAGER);
             window.draw(fpsCounter);
             window.display();

@@ -1,13 +1,12 @@
 package Main.Game.ECS.Systems;
 
 import Main.Game.ECS.Communication.Events.GameEvent;
+import Main.Game.ECS.Components.MovementTYPES;
 import Main.Game.ECS.Components.Position;
 import Main.Game.ECS.Components.Movement;
-import Main.Game.ECS.Entity.EntityManager;
+import Main.Game.ECS.Components.TransformComponent;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.BitMasks;
-import Main.Game.ECS.Factory.Blueprint;
-import Main.Game.Game;
 import org.jsfml.system.Vector2f;
 import org.jsfml.window.Keyboard;
 
@@ -43,29 +42,48 @@ public class MovementGameSystem extends GameSystem
         for(GameObject g: getGameObjectList())
         {
             Vector2f curPos =  g.getComponent(Position.class).getPosition();
-            float speed = g.getComponent(Movement.class).speed;
+            Movement movement = g.getComponent(Movement.class);
+            Vector2f newPos = curPos;
+            if(movement.getType() == MovementTYPES.CONTROLLED)
+            {
+                if (Keyboard.isKeyPressed(Keyboard.Key.W))
+                {
+                    newPos = new Vector2f(newPos.x,newPos.y -  movement.getSpeed());
+                }
+                if (Keyboard.isKeyPressed(Keyboard.Key.A))
+                {
+                    newPos = new Vector2f(newPos.x - movement.getSpeed() ,newPos.y);
+                }
+                if (Keyboard.isKeyPressed(Keyboard.Key.S))
+                {
+                    newPos = new Vector2f(newPos.x,newPos.y +  movement.getSpeed() );
+                }
+                if (Keyboard.isKeyPressed(Keyboard.Key.D))
+                {
+                    newPos = new Vector2f(newPos.x +  movement.getSpeed() ,newPos.y);
+                }
+                if (Keyboard.isKeyPressed(Keyboard.Key.SPACE))
+                {
+                    newPos = new Vector2f(newPos.x,newPos.y - 1);
+                }
 
-            if (Keyboard.isKeyPressed(Keyboard.Key.W))
-            {
-                curPos = new Vector2f(curPos.x,curPos.y -  speed );
+
             }
-            if (Keyboard.isKeyPressed(Keyboard.Key.A))
+            if (movement.getType() == MovementTYPES.LINEAR)
             {
-                curPos = new Vector2f(curPos.x - speed ,curPos.y);
+
+                if ((g.getBitmask() & BitMasks.produceBitMask(TransformComponent.class)) !=0)
+                {
+                    TransformComponent t = g.getComponent(TransformComponent.class);
+                    newPos = new Vector2f(curPos.x + (float)Math.cos(Math.toRadians(t.getRotation())) * movement.getSpeed(), curPos.y + (float)Math.sin(Math.toRadians(t.getRotation())) * movement.getSpeed());
+                }
+
             }
-            if (Keyboard.isKeyPressed(Keyboard.Key.S))
+
+            if (newPos != curPos)
             {
-                curPos = new Vector2f(curPos.x,curPos.y +  speed );
+                g.getComponent(Position.class).updatePosition(newPos);
             }
-            if (Keyboard.isKeyPressed(Keyboard.Key.D))
-            {
-                curPos = new Vector2f(curPos.x +  speed ,curPos.y);
-            }
-            if (Keyboard.isKeyPressed(Keyboard.Key.SPACE))
-            {
-                curPos = new Vector2f(curPos.x,curPos.y - 1);
-            }
-            g.getComponent(Position.class).updatePosition(curPos);
 
 
 

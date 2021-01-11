@@ -6,8 +6,10 @@ public enum Entity
     PLAYER("Player", "Girl_1.png"),
     TORCH("Torch", "Torch.png"),
     CHEST("Chest", "Chest_1.png"),
-    ITEM("ITEM", "Katana_1.png"),
+    SWORD("ITEM", "Katana_1.png"),
     SWORDSWOOSH("Sword Swing", "SwordSwoosh.png"),
+    WAND("Staff","Demon_Staff_1.png"),
+    FIREBALL("Fire Ball", "FireBall.png"),
     ENEMY("Enemy", "SharkTexture.png");
 
     public final String name;

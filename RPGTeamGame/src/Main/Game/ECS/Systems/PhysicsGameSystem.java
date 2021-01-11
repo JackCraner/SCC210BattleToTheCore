@@ -6,7 +6,9 @@ import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.BitMasks;
 import Main.Game.ECS.Factory.Entity;
 import Main.Game.Game;
+import org.jsfml.graphics.Color;
 import org.jsfml.graphics.FloatRect;
+import org.jsfml.graphics.RectangleShape;
 import org.jsfml.system.Vector2f;
 
 import java.util.ArrayList;
@@ -23,7 +25,7 @@ public class PhysicsGameSystem extends GameSystem
     }
     private PhysicsGameSystem()
     {
-        setBitMaskRequirement(BitMasks.produceBitMask(Position.class, Size.class, Collider.class));
+        setBitMaskRequirement(BitMasks.produceBitMask(Position.class, TransformComponent.class, Collider.class));
     }
     @Override
     public void update(ArrayList<GameEvent> gameEvents)
@@ -32,14 +34,26 @@ public class PhysicsGameSystem extends GameSystem
         ArrayList<FloatRect> rigidBodies = new ArrayList<>();
         ArrayList<Integer> movingRigidBodies = new ArrayList<>();
         int index = 0;
+        //Game.getGame().hitboxs.clear(new Color(255,255,255,0));
         for(GameObject g: getGameObjectList())
         {
-            Vector2f size = g.getComponent(Size.class).size;
+            TransformComponent t = g.getComponent(TransformComponent.class);
             Vector2f pos = g.getComponent(Position.class).getPosition();
             Collider col = g.getComponent(Collider.class);
 
-            FloatRect body = new FloatRect(pos.x, pos.y, size.x, size.y);
+            FloatRect body = new FloatRect(pos.x, pos.y, t.getSize().x, t.getSize().y);
 
+            //TEST HITBOX
+            /*
+            RectangleShape hitbox = new RectangleShape();
+            hitbox.setPosition(pos);
+            hitbox.setSize(t.getSize());
+            hitbox.setOutlineThickness(2);
+            hitbox.setOutlineColor(Color.RED);
+            hitbox.setFillColor(new Color(255,255,255,0));
+            Game.getGame().hitboxs.draw(hitbox);
+
+             */
 
             rigidBodies.add(body);
             if (col.dynamic == true)

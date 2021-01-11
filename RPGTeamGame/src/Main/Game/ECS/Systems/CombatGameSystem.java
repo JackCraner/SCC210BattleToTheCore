@@ -2,6 +2,7 @@ package Main.Game.ECS.Systems;
 
 import Main.Game.ECS.Communication.Events.GameEvent;
 import Main.Game.ECS.Components.*;
+import Main.Game.ECS.Components.ItemComponents.Damage;
 import Main.Game.ECS.Entity.EntityManager;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.BitMasks;

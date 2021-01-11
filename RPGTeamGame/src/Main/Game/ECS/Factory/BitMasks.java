@@ -1,6 +1,8 @@
 package Main.Game.ECS.Factory;
 
 import Main.Game.ECS.Components.*;
+import Main.Game.ECS.Components.ItemComponents.Damage;
+import Main.Game.ECS.Components.ItemComponents.LifeSpan;
 import Main.Game.ECS.Components.Pickup;
 import Main.Game.ECS.Entity.Component;
 
@@ -16,7 +18,7 @@ public class BitMasks
     private static HashMap<Class<? extends Component>, Integer> COMPONENTBITMASKS = new HashMap<>();
     static{
         COMPONENTBITMASKS.put(Position.class,Integer.parseInt("1", 2));
-        COMPONENTBITMASKS.put(Size.class,Integer.parseInt("10", 2));
+        COMPONENTBITMASKS.put(TransformComponent.class,Integer.parseInt("10", 2));
         COMPONENTBITMASKS.put(TextureComponent.class,Integer.parseInt("100", 2));
         COMPONENTBITMASKS.put(Collider.class,Integer.parseInt("1000", 2));
         COMPONENTBITMASKS.put(Movement.class,Integer.parseInt("10000", 2));

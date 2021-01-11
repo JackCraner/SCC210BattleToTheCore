@@ -1,6 +1,8 @@
 package Main.Game.ECS.Factory;
 
 import Main.Game.ECS.Components.*;
+import Main.Game.ECS.Components.ItemComponents.Damage;
+import Main.Game.ECS.Components.ItemComponents.LifeSpan;
 import Main.Game.ECS.Components.Pickup;
 import Main.Game.ECS.Entity.GameObject;
 import org.jsfml.system.Vector2f;
@@ -23,9 +25,9 @@ public class Blueprint
 
         GameObject g = new GameObject(Entity.PLAYER.name);
         g.addComponent(new Position(position,g));
-        g.addComponent(new Size(OBJECTSIZE));
+        g.addComponent(new TransformComponent(OBJECTSIZE));
         g.addComponent(new TextureComponent((byte)3,Entity.PLAYER.textureString));
-        g.addComponent(new Movement(1));
+        g.addComponent(new Movement(MovementTYPES.CONTROLLED, 1));
         g.addComponent(new Light());
         g.addComponent(new Collider(true,true,true,true));
         g.addComponent(new Backpack(6));
@@ -42,14 +44,14 @@ public class Blueprint
     {
         GameObject g = new GameObject(Entity.CHEST.name);
         g.addComponent(new Position(position,g));
-        g.addComponent(new Size(OBJECTSIZE));
+        g.addComponent(new TransformComponent(OBJECTSIZE));
         return g;
     }
     public static GameObject chest(Vector2f position)
     {
         GameObject g = new GameObject(Entity.CHEST.name);
         g.addComponent(new Position(position,g));
-        g.addComponent(new Size(OBJECTSIZE));
+        g.addComponent(new TransformComponent(OBJECTSIZE));
         g.addComponent(new TextureComponent(Entity.CHEST.textureString));
 
         return g;
@@ -58,7 +60,7 @@ public class Blueprint
     {
         GameObject g = new GameObject(Entity.BLOCK.name);
         g.addComponent(new Position(position,g));
-        g.addComponent(new Size(BLOCKSIZE));
+        g.addComponent(new TransformComponent(BLOCKSIZE));
         g.addComponent(new TextureComponent(Entity.BLOCK.textureString));
         g.getComponent(TextureComponent.class).tileMapLocation = blockID;
         g.getComponent(TextureComponent.class).layer= 0;
@@ -68,18 +70,30 @@ public class Blueprint
     {
         GameObject g = new GameObject(Entity.TORCH.name);
         g.addComponent(new Position(position,g));
-        g.addComponent(new Size(OBJECTSIZE));
+        g.addComponent(new TransformComponent(OBJECTSIZE));
         g.addComponent(new TextureComponent(Entity.TORCH.textureString));
         g.addComponent(new Light(0.3f,3f, new Vector3f(1f,0.8f,0.2f)));
         return g;
 
     }
-    public static GameObject item(Vector2f position)
+    public static GameObject itemFrameWork(Vector2f position, GameObject itemsUse)
     {
-        GameObject g = new GameObject(Entity.ITEM.name);
+        GameObject g = new GameObject(Entity.SWORD.name);
         g.addComponent(new Position(position,g));
-        g.addComponent(new Size(ITEMSIZE));
-        g.addComponent(new TextureComponent(Entity.ITEM.textureString));
+        g.addComponent(new TransformComponent(ITEMSIZE));
+        g.addComponent(new TextureComponent(Entity.SWORD.textureString));
+        g.addComponent(new Pickup(itemsUse,150));
+        //g.addComponent(new Damage(10));
+        g.addComponent(new Collider(true,false,false,false));
+        return g;
+
+    }
+    public static GameObject sword(Vector2f position)
+    {
+        GameObject g = new GameObject(Entity.SWORD.name);
+        g.addComponent(new Position(position,g));
+        g.addComponent(new TransformComponent(ITEMSIZE));
+        g.addComponent(new TextureComponent(Entity.SWORD.textureString));
         g.addComponent(new Pickup(swordSwoosh(),150));
         //g.addComponent(new Damage(10));
         g.addComponent(new Collider(true,false,false,false));
@@ -89,21 +103,46 @@ public class Blueprint
     public static GameObject swordSwoosh()
     {
         GameObject g = new GameObject(Entity.SWORDSWOOSH.name);
-        g.addComponent(new Size(OBJECTSIZE));
+        g.addComponent(new TransformComponent(OBJECTSIZE));
         g.addComponent(new TextureComponent(Entity.SWORDSWOOSH.textureString));
         g.addComponent(new Damage(10));
         g.addComponent(new LifeSpan(100));
         g.addComponent(new Collider(true,false,false,true));
         return g;
     }
+    public static GameObject fireBall()
+    {
+        GameObject g = new GameObject(Entity.FIREBALL.name);
+        g.addComponent(new TransformComponent(OBJECTSIZE));
+        g.addComponent(new TextureComponent(Entity.FIREBALL.textureString));
+        g.addComponent(new Damage(10));
+        g.addComponent(new Light(0.1f,10f, new Vector3f(1f,0.8f,0.2f)));
+        g.addComponent(new Movement(MovementTYPES.LINEAR, 1));
+        g.addComponent(new LifeSpan(1000));
+        g.addComponent(new Collider(true,true,false,true));
+        return g;
+    }
+    public static GameObject wand(Vector2f position)
+    {
+        GameObject g = new GameObject(Entity.WAND.name);
+        g.addComponent(new Position(position,g));
+        g.addComponent(new TransformComponent(ITEMSIZE));
+        g.addComponent(new TextureComponent(Entity.WAND.textureString));
+        g.addComponent(new Pickup(fireBall(),100));
+        //g.addComponent(new Damage(10));
+        g.addComponent(new Collider(true,false,false,false));
+        return g;
+
+    }
     public static GameObject enemy(Vector2f position)
     {
         GameObject g = new GameObject(Entity.ENEMY.name);
         g.addComponent(new Position(position,g));
-        g.addComponent(new Size(OBJECTSIZE));
+        g.addComponent(new TransformComponent(OBJECTSIZE));
         g.addComponent(new TextureComponent((byte)2,Entity.ENEMY.textureString));
         g.addComponent(new HealthBar(100));
-        g.addComponent(new Collider(true,true,true,false));
+        g.addComponent(new Collider(true,true,false,false));
+        g.addComponent(new Backpack(6));
         return g;
     }
 

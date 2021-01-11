@@ -12,9 +12,9 @@ public class Light extends Component
     //public Vector2f position;    Later on we give the Light its on Position within the Sprite for more accurate light placement on objects
     public Light()
     {
-        this.size = 0.5f;
+        this.size = 0.3f;
         //playing with size = 0.3f is fun
-        this.intensity = 4f;
+        this.intensity = 2f;
         this.rgbData = new Vector3f(0.3f,0.3f,0.5f);
     }
     public Light(float size, float intensity, Vector3f rgbData)

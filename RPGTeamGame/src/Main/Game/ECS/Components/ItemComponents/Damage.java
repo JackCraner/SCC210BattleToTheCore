@@ -1,4 +1,4 @@
-package Main.Game.ECS.Components;
+package Main.Game.ECS.Components.ItemComponents;
 
 import Main.Game.ECS.Entity.Component;
 

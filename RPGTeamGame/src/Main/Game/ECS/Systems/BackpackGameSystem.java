@@ -3,14 +3,18 @@ package Main.Game.ECS.Systems;
 import Main.Game.ECS.Communication.Events.GameEvent;
 import Main.Game.ECS.Components.*;
 import Main.Game.ECS.Components.Pickup;
+import Main.Game.ECS.Entity.Camera;
 import Main.Game.ECS.Entity.EntityManager;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.BitMasks;
 import Main.Game.ECS.Factory.Entity;
 import Main.Game.GUI.GUIComponents.GUIComponentENUM;
 import Main.Game.GUI.GUIManager;
+import Main.Game.Game;
 import org.jsfml.system.Vector2f;
+import org.jsfml.system.Vector2i;
 import org.jsfml.window.Keyboard;
+import org.jsfml.window.Mouse;
 
 import java.util.ArrayList;
 
@@ -55,18 +59,32 @@ public class BackpackGameSystem extends GameSystem
                 }
                 if (backpack.getObjectsINBACKPACK().size() > 0)
                 {
-                    Pickup mainHand = backpack.getObjectsINBACKPACK().get(0).getComponent(Pickup.class);
-                    if (Keyboard.isKeyPressed(Keyboard.Key.E))
+                    GameObject mainHand = backpack.getObjectsINBACKPACK().get(0);
+                    Pickup mainHandEffect = mainHand.getComponent(Pickup.class);
+                    if (Mouse.isButtonPressed(Mouse.Button.RIGHT))
                     {
 
-                        if(mainHand.isReady())
+                        if(mainHandEffect.isReady())
                         {
                             Vector2f pos = g.getComponent(Position.class).getPosition();
-                            EntityManager.getEntityManagerInstance().addGameObject(mainHand.getSpawns(new Vector2f(pos.x+32, pos.y -32)));
+                            Vector2i mousePos = Mouse.getPosition(Game.getGame().getWindow());
+                            Vector2f camPos = new Vector2f(Camera.cameraInstance().camerView.getCenter().x - (Camera.cameraInstance().camerView.getSize().x/2),Camera.cameraInstance().camerView.getCenter().y - (Camera.cameraInstance().camerView.getSize().y/2));
+                            //find angle
+                            mousePos = new Vector2i((int)camPos.x + mousePos.x, (int)camPos.y + mousePos.y);
+                            float angle =   (float)((Math.atan2(mousePos.y - pos.y, mousePos.x- pos.x))*180/Math.PI);
+                            GameObject spawn = mainHandEffect.getSpawns(pos);
+                            spawn.getComponent(TransformComponent.class).setRotation(angle);
+                            EntityManager.getEntityManagerInstance().addGameObject(spawn);
                         }
 
                     }
-                    mainHand.reduceCoolDown();
+                    if(Keyboard.isKeyPressed(Keyboard.Key.E))
+                    {
+                        backpack.getObjectsINBACKPACK().remove(0);
+                        mainHand.addComponent(new Position(g.getComponent(Position.class).getPosition()));
+                        EntityManager.getEntityManagerInstance().addGameObject(mainHand);
+                    }
+                    mainHandEffect.reduceCoolDown();
                 }
 
 
