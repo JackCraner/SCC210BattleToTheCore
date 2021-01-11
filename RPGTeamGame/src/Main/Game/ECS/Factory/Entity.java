@@ -8,7 +8,7 @@ public enum Entity
     CHEST("Chest", "Chest_1.png"),
     SWORD("ITEM", "Katana_1.png"),
     SWORDSWOOSH("Sword Swing", "SwordSwoosh.png"),
-    WAND("Staff","Demon_Staff_1.png"),
+    WAND("Staff","Demon_Staff_2.png"),
     FIREBALL("Fire Ball", "FireBall.png"),
     ENEMY("Enemy", "SharkTexture.png");
 

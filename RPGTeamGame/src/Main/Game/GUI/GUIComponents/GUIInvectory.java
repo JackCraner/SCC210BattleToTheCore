@@ -6,10 +6,7 @@ import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.TextureMap;
 import Main.Game.GUI.GUIComponent;
 import Main.Game.Game;
-import org.jsfml.graphics.Color;
-import org.jsfml.graphics.RectangleShape;
-import org.jsfml.graphics.RenderStates;
-import org.jsfml.graphics.RenderTarget;
+import org.jsfml.graphics.*;
 import org.jsfml.system.Vector2f;
 
 public class GUIInvectory extends GUIComponent<Backpack>
@@ -69,7 +66,18 @@ public class GUIInvectory extends GUIComponent<Backpack>
         renderTarget.draw(back,renderStates);
         for (RectangleShape r: inventoryRectangles)
         {
-            renderTarget.draw(r,renderStates);
+            if (r.getTexture()!=null)
+            {
+                Transform t = new Transform();
+                t = Transform.rotate(t,-45,r.getPosition().x + r.getSize().x/2,r.getPosition().y+r.getSize().y/2);
+                RenderStates rs = new RenderStates(renderStates,t);
+                renderTarget.draw(r,rs);
+            }
+            else
+            {
+                renderTarget.draw(r,renderStates);
+            }
+
         }
     }
 }

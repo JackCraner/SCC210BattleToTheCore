@@ -3,6 +3,7 @@ package Main.Game.ECS.Systems;
 import Main.Game.ECS.Communication.EventManager;
 import Main.Game.ECS.Communication.Events.GameEventTypes;
 import Main.Game.ECS.Communication.Events.GameEvent;
+import Main.Game.ECS.Components.Backpack;
 import Main.Game.ECS.Components.Position;
 import Main.Game.ECS.Components.TransformComponent;
 import Main.Game.ECS.Entity.Camera;
@@ -86,6 +87,22 @@ public class RendererGameSystem  extends GameSystem
                 }
 
                 graphicLayers[texture.layer - 1].addDrawable(s);
+
+                if((g.getBitmask() & BitMasks.getBitMask(Backpack.class)) != 0 && g.getComponent(Backpack.class).getObjectsINBACKPACK().size() > 0)
+                {
+                    RectangleShape s1 = new RectangleShape();
+                    s1.setPosition(new Vector2f(curPos.x-10, curPos.y));
+                    s1.setSize(transform.getSize());
+                    s1.setRotation(g.getComponent(Backpack.class).getObjectsINBACKPACK().get(0).getComponent(TransformComponent.class).getRotation());
+                    TextureComponent mainHandTexture = g.getComponent(Backpack.class).getObjectsINBACKPACK().get(0).getComponent(TextureComponent.class);
+                    s1.setTexture(TextureMap.TEXTUREMAP.get(mainHandTexture.textureString));
+                    if (mainHandTexture.tileMapLocation >= 0)
+                    {
+                        s1.setTextureRect(new IntRect(mainHandTexture.tileMapLocation * (int)transform.getSize().x, 0,(int)transform.getSize().x,(int)transform.getSize().y));
+                    }
+
+                    graphicLayers[mainHandTexture.layer - 1].addDrawable(s1);
+                }
             }
 
         }
