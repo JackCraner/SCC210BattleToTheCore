@@ -17,6 +17,7 @@ import org.jsfml.system.Vector2f;
 import org.jsfml.window.Keyboard;
 import org.jsfml.window.VideoMode;
 import org.jsfml.window.event.Event;
+import org.jsfml.window.event.KeyEvent;
 
 import java.io.File;
 import java.nio.file.Paths;
@@ -125,30 +126,19 @@ public class Game
 
             for (Event event : window.pollEvents())
             {
-
+                if (event.type == Event.Type.KEY_PRESSED)
+                {
+                    if(((KeyEvent)event).key == Keyboard.Key.T)
+                    {
+                        isRunning = !isRunning;
+                    }
+                }
             }
             if (Keyboard.isKeyPressed(Keyboard.Key.ESCAPE)) {
                 window.close();
             }
 
-
-
-
             frameTime = frameTimer.restart().asSeconds();
-
-
-            window.clear();
-            for (GameSystem system: SYSTEMMANAGER.getSystemList())
-            {
-                for (GameObject g : ENTITYMANAGER.getGameObjectInVicinity(PLAYER.getComponent(Position.class).getPosition(), 530))
-                {
-                    SYSTEMMANAGER.addGOtoSYSTEM(g,system);
-                }
-                SYSTEMMANAGER.updateSystem(system,frameTime);
-
-            }
-            SYSTEMMANAGER.flushSystems();
-
             if (frameRateTimer.getElapsedTime().asSeconds() >= 1)
             {
                 fpsCounter.setString(String.valueOf(frameCounter));
@@ -156,6 +146,21 @@ public class Game
                 frameCounter =0;
             }
             frameCounter ++;
+            if(isRunning)
+            {
+                window.clear();
+                for (GameSystem system: SYSTEMMANAGER.getSystemList())
+                {
+                    for (GameObject g : ENTITYMANAGER.getGameObjectInVicinity(PLAYER.getComponent(Position.class).getPosition(), 530))
+                    {
+                        SYSTEMMANAGER.addGOtoSYSTEM(g,system);
+                    }
+                    SYSTEMMANAGER.updateSystem(system,frameTime);
+
+                }
+                SYSTEMMANAGER.flushSystems();
+
+
 
 
 
@@ -166,11 +171,19 @@ public class Game
 
 
  */
-            window.draw(GUIMANAGER);
-            window.draw(fpsCounter);
-            window.display();
+                window.draw(GUIMANAGER);
+                window.draw(fpsCounter);
+                window.display();
+            }
+
         }
+
+
+
+
+
     }
+
 
 
 
