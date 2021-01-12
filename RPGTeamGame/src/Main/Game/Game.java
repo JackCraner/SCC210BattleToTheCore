@@ -59,7 +59,7 @@ public class Game
     //CHEATING
     Text fpsCounter;                //Displays the number of frames per second
     Font textFont = new Font();     //The font for Displaying text
-    //public RenderTexture hitboxs = new RenderTexture();
+    public RenderTexture hitboxs = new RenderTexture();
 
     public void generateLevel()
     {
@@ -91,7 +91,7 @@ public class Game
         try
         {
             textFont.loadFromFile(Paths.get("Assets" + File.separator + "Fonts" + File.separator+ "LEMONMILK-Regular.otf"));
-            //hitboxs.create(1000,1000);
+            hitboxs.create(1000,1000);
         }
         catch (Exception e)
         {
@@ -163,8 +163,10 @@ public class Game
             hitboxs.display();
             hitboxs.setView(Camera.cameraInstance().camerView);
             window.draw(new Sprite(hitboxs.getTexture()));
-
+            
              */
+
+
             window.draw(GUIMANAGER);
             window.draw(fpsCounter);
             window.display();

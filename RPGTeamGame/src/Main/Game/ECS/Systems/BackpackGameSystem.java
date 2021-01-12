@@ -81,7 +81,7 @@ public class BackpackGameSystem extends GameSystem
                             EntityManager.getEntityManagerInstance().addGameObject(spawn);
                         }
                     }
-                    
+
 
                     if(Keyboard.isKeyPressed(Keyboard.Key.E) && backpack.getEmptyCooldown() == 0)
                     {

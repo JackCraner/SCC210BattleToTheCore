@@ -119,7 +119,8 @@ public class Blueprint
         g.addComponent(new TransformComponent(OBJECTSIZE));
         g.addComponent(new TextureComponent(Entity.SWORDSWOOSH.textureString));
         g.addComponent(new Damage(10));
-        g.addComponent(new LifeSpan(100));
+        g.addComponent(new LifeSpan(25));
+        g.addComponent(new Movement(MovementTYPES.LINEAR, 1f));
         g.addComponent(new Collider(true,false,false));
         return g;
     }

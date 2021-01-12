@@ -47,6 +47,15 @@ public class CombatGameSystem extends GameSystem
             if (hp.getCurrentHealth() <= 0)
             {
                 EntityManager.getEntityManagerInstance().removeGameObject(g);
+                if ((g.getBitmask() & BitMasks.getBitMask(Backpack.class)) != 0)
+                {
+                    Backpack b = g.getComponent(Backpack.class);
+                    for (GameObject g1: b.getObjectsINBACKPACK())
+                    {
+                        g1.addComponent(new Position(g.getComponent(Position.class).getPosition(),g1));
+                        EntityManager.getEntityManagerInstance().addGameObject(g1);
+                    }
+                }
             }
 
         }

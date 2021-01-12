@@ -6,7 +6,10 @@ import Main.Game.ECS.Entity.EntityManager;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.BitMasks;
 import Main.Game.ECS.Factory.Entity;
+import Main.Game.Game;
+import org.jsfml.graphics.Color;
 import org.jsfml.graphics.FloatRect;
+import org.jsfml.graphics.RectangleShape;
 import org.jsfml.system.Vector2f;
 
 import java.util.ArrayList;
@@ -51,6 +54,8 @@ public class PhysicsGameSystem extends GameSystem
             Game.getGame().hitboxs.draw(hitbox);
 
              */
+
+
 
             rigidBodies.add(body);
             if (col.dynamic == true)

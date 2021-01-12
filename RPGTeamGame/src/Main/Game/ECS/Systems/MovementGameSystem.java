@@ -53,6 +53,7 @@ public class MovementGameSystem extends GameSystem
                 if (Keyboard.isKeyPressed(Keyboard.Key.A))
                 {
                     newPos = new Vector2f(newPos.x - movement.getSpeed() ,newPos.y);
+                    movement.setIsFacingRight(false);
                 }
                 if (Keyboard.isKeyPressed(Keyboard.Key.S))
                 {
@@ -61,6 +62,7 @@ public class MovementGameSystem extends GameSystem
                 if (Keyboard.isKeyPressed(Keyboard.Key.D))
                 {
                     newPos = new Vector2f(newPos.x +  movement.getSpeed() ,newPos.y);
+                    movement.setIsFacingRight(true);
                 }
                 if (Keyboard.isKeyPressed(Keyboard.Key.SPACE))
                 {

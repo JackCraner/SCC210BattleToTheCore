@@ -6,11 +6,19 @@ public class Movement extends Component
 {
 
     private float speed = 1;
+    private boolean isFacingRight = false;
     private MovementTYPES type;
     public Movement(MovementTYPES type, float speed)
     {
         this.type = type;
         this.speed = speed;
+        isFacingRight = false;
+    }
+    public Movement(MovementTYPES type, float speed, Boolean isFacingRight)
+    {
+        this.type = type;
+        this.speed = speed;
+        this.isFacingRight = isFacingRight;
     }
 
     public float getSpeed() {
@@ -20,7 +28,14 @@ public class Movement extends Component
     {
         speed = x;
     }
-
+    public Boolean getIsFacingRight()
+    {
+        return isFacingRight;
+    }
+    public void setIsFacingRight(Boolean b)
+    {
+        isFacingRight = b;
+    }
     public MovementTYPES getType() {
         return type;
     }

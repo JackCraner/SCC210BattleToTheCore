@@ -3,11 +3,8 @@ package Main.Game.ECS.Systems;
 import Main.Game.ECS.Communication.EventManager;
 import Main.Game.ECS.Communication.Events.GameEventTypes;
 import Main.Game.ECS.Communication.Events.GameEvent;
-import Main.Game.ECS.Components.Backpack;
-import Main.Game.ECS.Components.Position;
-import Main.Game.ECS.Components.TransformComponent;
+import Main.Game.ECS.Components.*;
 import Main.Game.ECS.Entity.Camera;
-import Main.Game.ECS.Components.TextureComponent;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.BitMasks;
 import Main.Game.ECS.Factory.Blueprint;
@@ -80,6 +77,13 @@ public class RendererGameSystem  extends GameSystem
                 s.setPosition(new Vector2f(curPos.x, curPos.y));
                 s.setSize(transform.getSize());
                 s.setRotation(transform.getRotation());
+                if ((g.getBitmask() & BitMasks.getBitMask(Movement.class)) !=0)
+                {
+                    if(g.getComponent(Movement.class).getIsFacingRight())
+                    {
+                        s.setScale(-1,1);
+                    }
+                }
                 s.setTexture(TextureMap.TEXTUREMAP.get(texture.textureString));
                 if (texture.tileMapLocation >= 0)
                 {
@@ -91,7 +95,7 @@ public class RendererGameSystem  extends GameSystem
                 if((g.getBitmask() & BitMasks.getBitMask(Backpack.class)) != 0 && g.getComponent(Backpack.class).getObjectsINBACKPACK().size() > 0)
                 {
                     RectangleShape s1 = new RectangleShape();
-                    s1.setPosition(new Vector2f(curPos.x-10, curPos.y));
+                    s1.setPosition(new Vector2f(curPos.x-(g.getComponent(Movement.class).getIsFacingRight() ? -10:10), curPos.y));
                     s1.setSize(transform.getSize());
                     s1.setRotation(g.getComponent(Backpack.class).getObjectsINBACKPACK().get(0).getComponent(TransformComponent.class).getRotation());
                     TextureComponent mainHandTexture = g.getComponent(Backpack.class).getObjectsINBACKPACK().get(0).getComponent(TextureComponent.class);
@@ -176,7 +180,9 @@ class Layer implements Drawable
         {
             Transform t = new Transform();
             t = Transform.rotate(t,d.getRotation(),d.getPosition().x + d.getSize().x/2,d.getPosition().y+d.getSize().y/2);
+            t = Transform.scale(t,d.getScale(),new Vector2f(d.getPosition().x + d.getSize().x/2,d.getPosition().y+d.getSize().y/2));
             d.setRotation(0);
+            d.setScale(1,1);
             RenderStates r = new RenderStates(renderStates,t);
             renderTarget.draw(d,r);
         }
