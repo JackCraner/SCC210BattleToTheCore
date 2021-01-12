@@ -1,7 +1,6 @@
 package Main.Game.ECS.Systems;
 
-import Main.Game.ECS.Communication.EventManager;
-import Main.Game.ECS.Communication.Events.GameEvent;
+
 import Main.Game.ECS.Entity.GameObject;
 
 import java.util.ArrayList;
@@ -20,7 +19,6 @@ import java.util.ArrayList;
 public class SystemManager
 {
     private static SystemManager managerInstance = new SystemManager();
-    private static EventManager EVENTMANAGER = EventManager.getEventManagerInstance();
     private ArrayList<GameSystem> systemList = new ArrayList<>();
     public static SystemManager getSystemManagerInstance()
     {
@@ -39,7 +37,7 @@ public class SystemManager
         systemList.add(LifeSpanGameSystem.getSystemInstance());
         systemList.add(EventClearGameSystem.getSystemInstance());
         systemList.add(RendererGameSystem.getSystemInstance());
-        systemList.add(LightingGameSystem.getLightingGameSystem());
+       systemList.add(LightingGameSystem.getLightingGameSystem());
 
 
 
@@ -68,20 +66,20 @@ public class SystemManager
         }
 
     }
-    public void updateSystem(GameSystem s)
+    public void updateSystem(GameSystem s, float dt)
     {
-        s.update(EVENTMANAGER.getEvents(s.getClass()));
+        s.update(dt);
     }
     /**
      * Updates all Systems
      * -- Called every frame
      */
-    public void updateSystems()
+    public void updateSystems(float dt)
     {
         for(GameSystem s: systemList)
         {
-            ArrayList<GameEvent> events = EVENTMANAGER.getEvents(s.getClass());
-            s.update(events);
+
+            s.update(dt);
 
         }
         flushSystems();
@@ -96,7 +94,6 @@ public class SystemManager
         {
             s.refreshGameObjects();
         }
-        EVENTMANAGER.emptyEvents();
     }
 
     public ArrayList<GameSystem> getSystemList()

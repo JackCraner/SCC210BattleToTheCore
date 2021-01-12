@@ -28,9 +28,9 @@ public class Pickup extends Component
 
     private GameObject attachedTo = null;
     private GameObject spawns;
-    private int cooldownTime;
-    private int cooldownValue = 0;
-    public Pickup(GameObject spawns, int cooldownTime)
+    private float cooldownTime;
+    private float cooldownValue = 0;
+    public Pickup(GameObject spawns, float cooldownTime)
     {
         this.spawns = spawns;
         this.cooldownTime = cooldownTime;
@@ -56,17 +56,17 @@ public class Pickup extends Component
         }
 
     }
-    public void reduceCoolDown()
+    public void reduceCoolDown(float dt)
     {
         if (cooldownValue >0)
         {
-            cooldownValue --;
+            cooldownValue -= dt;
         }
     }
 
     public Boolean isReady()
     {
-        return (cooldownValue ==0);
+        return (cooldownValue <= 0);
     }
 
     @Override

@@ -1,6 +1,6 @@
 package Main.Game.ECS.Systems;
 
-import Main.Game.ECS.Communication.Events.GameEvent;
+
 import Main.Game.ECS.Components.*;
 import Main.Game.ECS.Components.Pickup;
 import Main.Game.ECS.Entity.Camera;
@@ -17,8 +17,6 @@ import org.jsfml.system.Vector2i;
 import org.jsfml.window.Keyboard;
 import org.jsfml.window.Mouse;
 
-import java.util.ArrayList;
-
 public class BackpackGameSystem extends GameSystem
 {
 
@@ -32,7 +30,7 @@ public class BackpackGameSystem extends GameSystem
         setBitMaskRequirement(BitMasks.produceBitMask(Backpack.class));
     }
     @Override
-    public void update(ArrayList<GameEvent> gameEvents)
+    public void update(float dt)
     {
 
            for (GameObject g: getGameObjectList())
@@ -83,23 +81,23 @@ public class BackpackGameSystem extends GameSystem
                     }
 
 
-                    if(Keyboard.isKeyPressed(Keyboard.Key.E) && backpack.getEmptyCooldown() == 0)
+                    if(Keyboard.isKeyPressed(Keyboard.Key.E) && backpack.getEmptyCooldown() <= 0)
                     {
                         backpack.getObjectsINBACKPACK().remove(0);
-                        backpack.setEmptyCooldown(200);
+                        backpack.setEmptyCooldown(0.4f);
                         mainHand.addComponent(new Position(g.getComponent(Position.class).getPosition(),mainHand));
-                        mainHand.getComponent(Collider.class).setAvoidTime(g,500);
+                        mainHand.getComponent(Collider.class).setAvoidTime(g,1.5f);
                         EntityManager.getEntityManagerInstance().addGameObject(mainHand);
                         if (g.getName() == Entity.PLAYER.name)
                         {
                             GUIManager.getGUIinstance().GUIUpdate(GUIComponentENUM.INVENTORY);
                         }
                     }
-                    mainHandEffect.reduceCoolDown();
+                    mainHandEffect.reduceCoolDown(dt);
                 }
                 if (backpack.getEmptyCooldown() >0)
                 {
-                    backpack.setEmptyCooldown(backpack.getEmptyCooldown() -1);
+                    backpack.setEmptyCooldown(backpack.getEmptyCooldown() - dt);
                 }
 
 

@@ -4,7 +4,7 @@ import Main.Game.ECS.Entity.Component;
 
 public class LifeSpan extends Component
 {
-    private float lifespanTotal;
+    private final float lifespanTotal;          //in seconds
     private float currentLifeSpan =0;
     public LifeSpan(float lifespanTotal)
     {
@@ -12,13 +12,13 @@ public class LifeSpan extends Component
     }
     public Boolean checkIfFinished()
     {
-        return (lifespanTotal == currentLifeSpan);
+        return (lifespanTotal < currentLifeSpan);
     }
-    public void countLifeSpan()
+    public void countLifeSpan(float dt)
     {
         if (lifespanTotal > currentLifeSpan)
         {
-            currentLifeSpan ++;
+            currentLifeSpan +=dt;
         }
     }
     @Override

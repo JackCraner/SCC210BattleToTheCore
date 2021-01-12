@@ -5,7 +5,7 @@ import Main.Game.ECS.Entity.Component;
 public class Movement extends Component
 {
 
-    private float speed = 1;
+    private float speed = 1;                //speed in pixels per second
     private boolean isFacingRight = false;
     private MovementTYPES type;
     public Movement(MovementTYPES type, float speed)

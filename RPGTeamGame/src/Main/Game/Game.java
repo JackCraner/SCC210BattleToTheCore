@@ -44,7 +44,7 @@ public class Game
 
 
     private RenderWindow window;
-    private Clock systemClock = new Clock();
+
 
     public static EntityManager ENTITYMANAGER = EntityManager.getEntityManagerInstance();
     private static SystemManager SYSTEMMANAGER =SystemManager.getSystemManagerInstance();
@@ -78,7 +78,7 @@ public class Game
     {
         window = new RenderWindow(new VideoMode(WINDOWSIZE,WINDOWSIZE), "Battle_To_The_Core");
 
-        //ENTITYMANAGER.addGameObject(MapManager.getInstance().generateMap());
+
 
         MapBlueprint mb = new MapBlueprint(300,Map.MAP1);
         ENTITYMANAGER.addGameObject(PLAYER);
@@ -91,7 +91,7 @@ public class Game
         try
         {
             textFont.loadFromFile(Paths.get("Assets" + File.separator + "Fonts" + File.separator+ "LEMONMILK-Regular.otf"));
-            hitboxs.create(1000,1000);
+            //hitboxs.create(1000,1000);
         }
         catch (Exception e)
         {
@@ -99,7 +99,7 @@ public class Game
         }
         fpsCounter = new Text("HI", textFont, 100);     //Fps font and size
         fpsCounter.setPosition(new Vector2f(Game.getGame().getWindow().getSize().x-970,30));
-
+        Camera.cameraInstance().camerView.setCenter(PLAYER.getComponent(Position.class).getPosition());
         isRunning = true;
         runGame();
     }
@@ -113,19 +113,15 @@ public class Game
     public void runGame()
     {
 
-        int counter =0;
+        window.setFramerateLimit(60);
+       // window.setVerticalSyncEnabled(true);
 
-        //window.setFramerateLimit(200);
-
+        Clock frameTimer = new Clock();
+        Clock frameRateTimer = new Clock();
+        int frameCounter =0;
+        float frameTime =0;
         while(window.isOpen())
         {
-            if(systemClock.getElapsedTime().asSeconds() >= 1.f)
-            {
-                fpsCounter.setString(String.valueOf(counter));
-                counter = 0;
-                systemClock.restart();
-            }
-            counter++;
 
             for (Event event : window.pollEvents())
             {
@@ -134,18 +130,11 @@ public class Game
             if (Keyboard.isKeyPressed(Keyboard.Key.ESCAPE)) {
                 window.close();
             }
-            if (Keyboard.isKeyPressed(Keyboard.Key.D)) {
 
-            }
-            if (Keyboard.isKeyPressed(Keyboard.Key.A)) {
 
-            }
-            if (Keyboard.isKeyPressed(Keyboard.Key.W)) {
 
-            }
-            if (Keyboard.isKeyPressed(Keyboard.Key.S)) {
 
-            }
+            frameTime = frameTimer.restart().asSeconds();
 
 
             window.clear();
@@ -155,18 +144,28 @@ public class Game
                 {
                     SYSTEMMANAGER.addGOtoSYSTEM(g,system);
                 }
-                SYSTEMMANAGER.updateSystem(system);
+                SYSTEMMANAGER.updateSystem(system,frameTime);
 
             }
             SYSTEMMANAGER.flushSystems();
-            /*
+
+            if (frameRateTimer.getElapsedTime().asSeconds() >= 1)
+            {
+                fpsCounter.setString(String.valueOf(frameCounter));
+                frameRateTimer.restart();
+                frameCounter =0;
+            }
+            frameCounter ++;
+
+
+
+/*
             hitboxs.display();
             hitboxs.setView(Camera.cameraInstance().camerView);
             window.draw(new Sprite(hitboxs.getTexture()));
-            
-             */
 
 
+ */
             window.draw(GUIMANAGER);
             window.draw(fpsCounter);
             window.display();

@@ -1,11 +1,8 @@
 package Main.Game.ECS.Systems;
 
-import Main.Game.ECS.Communication.Events.GameEvent;
 import Main.Game.ECS.Components.CollisionEvent;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.BitMasks;
-
-import java.util.ArrayList;
 
 public class EventClearGameSystem extends GameSystem
 {
@@ -21,7 +18,7 @@ public class EventClearGameSystem extends GameSystem
 
 
     @Override
-    public void update(ArrayList<GameEvent> gameEvents)
+    public void update(float dt)
     {
         for (GameObject g: getGameObjectList())
         {

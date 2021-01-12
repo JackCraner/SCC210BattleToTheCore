@@ -1,8 +1,5 @@
 package Main.Game.ECS.Systems;
 
-import Main.Game.ECS.Communication.EventManager;
-import Main.Game.ECS.Communication.Events.GameEventTypes;
-import Main.Game.ECS.Communication.Events.GameEvent;
 import Main.Game.ECS.Components.*;
 import Main.Game.ECS.Entity.Camera;
 import Main.Game.ECS.Entity.GameObject;
@@ -21,7 +18,7 @@ public class RendererGameSystem  extends GameSystem
     private static RendererGameSystem systemInstance = new RendererGameSystem();
 
     private Layer[] graphicLayers = {new Layer(),new Layer(), new Layer()};
-    private RenderTexture screenTexture = new RenderTexture();
+    public RenderTexture screenTexture = new RenderTexture();
     private RenderStates rS;
     private Sprite screenSprite = new Sprite();
     private VertexArray backGround = new VertexArray(PrimitiveType.QUADS);
@@ -32,6 +29,7 @@ public class RendererGameSystem  extends GameSystem
         try
         {
             screenTexture.create(Game.WINDOWSIZE, Game.WINDOWSIZE);
+            screenTexture.setView(Camera.cameraInstance().camerView);
         }
         catch (Exception e)
         {
@@ -40,7 +38,7 @@ public class RendererGameSystem  extends GameSystem
 
     }
     @Override
-    public void update(ArrayList<GameEvent> gameEvents)
+    public void update(float dt)
     {
 
         // currently we calculate and draw every frame
@@ -114,35 +112,23 @@ public class RendererGameSystem  extends GameSystem
 
 
 
+        Camera.cameraInstance().camerView.setCenter(Game.PLAYER.getComponent(Position.class).getPosition());
+        screenTexture.setView(Camera.cameraInstance().camerView);
 
 
-
-        screenTexture.clear();
         screenTexture.draw(backGround,new RenderStates(TextureMap.TEXTUREMAP.get(Entity.BLOCK.textureString)));
         for (Layer layer: graphicLayers)
         {
             screenTexture.draw(layer);
         }
 
-        Camera.cameraInstance().camerView.setCenter(Game.PLAYER.getComponent(Position.class).getPosition());
 
 
-        screenTexture.setView(Camera.cameraInstance().camerView);
+
         screenTexture.display();
         screenSprite.setTexture(screenTexture.getTexture());
-
-
-        EventManager.getEventManagerInstance().addEvent(new GameEvent<>(screenSprite.getTexture(), GameEventTypes.TextureEvent));
-        if (gameEvents.size() == 0)
-        {
-            Game.getGame().getWindow().draw(screenSprite);
-        }
-        else
-        {
-            rS = new RenderStates((Shader)gameEvents.get(0).getData());
-            Game.getGame().getWindow().draw(screenSprite,rS);
-        }
-
+        Game.getGame().getWindow().draw(screenSprite,new RenderStates(LightingGameSystem.getLightingGameSystem().mapShader));
+        screenTexture.clear();
 
         //Level.getLevel().getWindow().draw(backGround,new RenderStates(textureMap.get((byte) 0)));
         //Player is always index 0 on the list of Objects

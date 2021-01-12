@@ -1,12 +1,9 @@
 package Main.Game.ECS.Systems;
 
-import Main.Game.ECS.Communication.Events.GameEvent;
 import Main.Game.ECS.Components.ItemComponents.LifeSpan;
 import Main.Game.ECS.Entity.EntityManager;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.BitMasks;
-
-import java.util.ArrayList;
 
 public class LifeSpanGameSystem extends GameSystem
 {
@@ -20,7 +17,7 @@ public class LifeSpanGameSystem extends GameSystem
         setBitMaskRequirement(BitMasks.produceBitMask(LifeSpan.class));
     }
     @Override
-    public void update(ArrayList<GameEvent> gameEvents)
+    public void update(float dt)
     {
         for(GameObject g: getGameObjectList())
         {
@@ -32,7 +29,7 @@ public class LifeSpanGameSystem extends GameSystem
             }
             else
             {
-                l.countLifeSpan();
+                l.countLifeSpan(dt);
             }
         }
     }

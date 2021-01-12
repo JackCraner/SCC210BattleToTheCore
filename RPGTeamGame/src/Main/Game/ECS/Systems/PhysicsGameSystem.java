@@ -1,11 +1,10 @@
 package Main.Game.ECS.Systems;
 
-import Main.Game.ECS.Communication.Events.GameEvent;
+
 import Main.Game.ECS.Components.*;
 import Main.Game.ECS.Entity.EntityManager;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.BitMasks;
-import Main.Game.ECS.Factory.Entity;
 import Main.Game.Game;
 import org.jsfml.graphics.Color;
 import org.jsfml.graphics.FloatRect;
@@ -29,7 +28,7 @@ public class PhysicsGameSystem extends GameSystem
         setBitMaskRequirement(BitMasks.produceBitMask(Position.class, TransformComponent.class, Collider.class));
     }
     @Override
-    public void update(ArrayList<GameEvent> gameEvents)
+    public void update(float dt)
     {
 
         ArrayList<FloatRect> rigidBodies = new ArrayList<>();
@@ -53,7 +52,9 @@ public class PhysicsGameSystem extends GameSystem
             hitbox.setFillColor(new Color(255,255,255,0));
             Game.getGame().hitboxs.draw(hitbox);
 
+
              */
+
 
 
 
@@ -67,8 +68,8 @@ public class PhysicsGameSystem extends GameSystem
 
             if (col.getAvoidTimer() >0)
             {
-                col.reduceAvoidTime();
-                if (col.getAvoidTimer() ==0)
+                col.reduceAvoidTime(dt);
+                if (col.getAvoidTimer() < 0)
                 {
                     col.avoidGameObject = null;
                 }

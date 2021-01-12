@@ -28,7 +28,7 @@ public class Blueprint
         g.addComponent(new Position(position,g));
         g.addComponent(new TransformComponent(OBJECTSIZE));
         g.addComponent(new TextureComponent((byte)3,Entity.PLAYER.textureString));
-        g.addComponent(new Movement(MovementTYPES.CONTROLLED, 1));
+        g.addComponent(new Movement(MovementTYPES.CONTROLLED, 200));
         g.addComponent(new Light());
         g.addComponent(new Collider(true,true,true,g));
         g.addComponent(new Backpack(6));
@@ -107,7 +107,7 @@ public class Blueprint
         g.addComponent(new Position(position,g));
         g.addComponent(new TransformComponent(ITEMSIZE));
         g.addComponent(new TextureComponent(Entity.SWORD.textureString));
-        g.addComponent(new Pickup(swordSwoosh(),150));
+        g.addComponent(new Pickup(swordSwoosh(),0.4f));
         //g.addComponent(new Damage(10));
         g.addComponent(new Collider(true,false,false));
         return g;
@@ -119,8 +119,8 @@ public class Blueprint
         g.addComponent(new TransformComponent(OBJECTSIZE));
         g.addComponent(new TextureComponent(Entity.SWORDSWOOSH.textureString));
         g.addComponent(new Damage(10));
-        g.addComponent(new LifeSpan(25));
-        g.addComponent(new Movement(MovementTYPES.LINEAR, 1f));
+        g.addComponent(new LifeSpan(0.25f));
+        g.addComponent(new Movement(MovementTYPES.LINEAR, 100f));
         g.addComponent(new Collider(true,false,false));
         return g;
     }
@@ -131,8 +131,8 @@ public class Blueprint
         g.addComponent(new TextureComponent(Entity.FIREBALL.textureString));
         g.addComponent(new Damage(10));
         g.addComponent(new Light(0.1f,10f, new Vector3f(1f,0.8f,0.2f)));
-        g.addComponent(new Movement(MovementTYPES.LINEAR, 3));
-        g.addComponent(new LifeSpan(1000));
+        g.addComponent(new Movement(MovementTYPES.LINEAR, 500));
+        g.addComponent(new LifeSpan(2f));
         g.addComponent(new Collider(true,true,true,true));
         return g;
     }
@@ -142,7 +142,7 @@ public class Blueprint
         g.addComponent(new Position(position,g));
         g.addComponent(new TransformComponent(ITEMSIZE));
         g.addComponent(new TextureComponent(Entity.WAND.textureString));
-        g.addComponent(new Pickup(fireBall(),100));
+        g.addComponent(new Pickup(fireBall(),2));
         //g.addComponent(new Damage(10));
         g.addComponent(new Collider(true,false,false,false));
         return g;

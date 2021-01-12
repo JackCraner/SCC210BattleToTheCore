@@ -1,10 +1,8 @@
 package Main.Game.ECS.Systems;
 
-import Main.Game.ECS.Communication.Events.GameEvent;
+
 import Main.Game.ECS.Components.Effects;
 import Main.Game.ECS.Factory.BitMasks;
-
-import java.util.ArrayList;
 
 public class EffectModifierGameSystem extends GameSystem
 {
@@ -19,7 +17,7 @@ public class EffectModifierGameSystem extends GameSystem
         setBitMaskRequirement(BitMasks.produceBitMask(Effects.class));
     }
     @Override
-    public void update(ArrayList<GameEvent> gameEvents) {
+    public void update(float dt) {
 
     }
 }

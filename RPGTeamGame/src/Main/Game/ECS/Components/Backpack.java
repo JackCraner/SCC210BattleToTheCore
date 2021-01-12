@@ -11,7 +11,7 @@ public class Backpack extends Component
     private ArrayList<GameObject> gameObjectsINBACKPACK = new ArrayList<>();
     private int maxNumObject = 1;
 
-    private int emptyCooldown;
+    private float emptyCooldown;
 
 
     public Backpack(int size)
@@ -34,11 +34,11 @@ public class Backpack extends Component
 
     }
 
-    public int getEmptyCooldown() {
+    public float getEmptyCooldown() {
         return emptyCooldown;
     }
 
-    public void setEmptyCooldown(int emptyCooldown) {
+    public void setEmptyCooldown(float emptyCooldown) {
         this.emptyCooldown = emptyCooldown;
     }
 

@@ -53,14 +53,14 @@ public class Collider extends Component
         this.avoidGameObject = avoidPlayer;
         this.dieOnPhysics = dieOnPhysics;
     }
-    public void setAvoidTime(GameObject g, int x)
+    public void setAvoidTime(GameObject g, float x)
     {
         avoidGameObject = g;
         avoidTimer =x;
     }
-    public void reduceAvoidTime()
+    public void reduceAvoidTime(float dt)
     {
-        avoidTimer --;
+        avoidTimer -=dt;
     }
 
     public float getAvoidTimer() {

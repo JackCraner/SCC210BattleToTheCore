@@ -1,6 +1,6 @@
 package Main.Game.ECS.Systems;
 
-import Main.Game.ECS.Communication.Events.GameEvent;
+
 import Main.Game.ECS.Entity.GameObject;
 
 import java.util.ArrayList;
@@ -76,8 +76,9 @@ public abstract class GameSystem
 
     /**
      * Called every Frame
+     * @param dt
      */
-    public abstract void update(ArrayList<GameEvent> gameEvents);
+    public abstract void update(float dt);
 
 
 }
