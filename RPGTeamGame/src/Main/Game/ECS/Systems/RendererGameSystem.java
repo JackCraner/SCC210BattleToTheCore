@@ -128,7 +128,7 @@ public class RendererGameSystem  extends GameSystem
         screenTexture.display();
         screenSprite.setTexture(screenTexture.getTexture());
         Game.getGame().getWindow().draw(screenSprite,new RenderStates(LightingGameSystem.getLightingGameSystem().mapShader));
-        screenTexture.clear();
+        screenTexture.clear(new Color(43,39,39));
 
         //Level.getLevel().getWindow().draw(backGround,new RenderStates(textureMap.get((byte) 0)));
         //Player is always index 0 on the list of Objects

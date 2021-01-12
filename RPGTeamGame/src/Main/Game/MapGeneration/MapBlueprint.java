@@ -36,10 +36,10 @@ public class MapBlueprint
             {
 
                 Vector2f pos = new Vector2f(a * Blueprint.BLOCKSIZE.x, b*Blueprint.BLOCKSIZE.y);
-                GameObject g = Blueprint.block(pos,binaryToTextureID.get(binaryMapping[a][b]));            //too expensive
+
                 if (binaryMapping[a][b] == CellularAutomata.WALLID)
                 {
-                    g.addComponent(new Collider());
+                    EntityManager.getEntityManagerInstance().addGameObject( Blueprint.block(pos,binaryToTextureID.get(binaryMapping[a][b])));
 
                 }
                 else
@@ -63,7 +63,7 @@ public class MapBlueprint
 
 
 
-                EntityManager.getEntityManagerInstance().addGameObject(g);
+
 
 
             }

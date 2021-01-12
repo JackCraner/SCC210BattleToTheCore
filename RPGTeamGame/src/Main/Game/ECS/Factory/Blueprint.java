@@ -65,6 +65,7 @@ public class Blueprint
         g.addComponent(new TextureComponent(Entity.BLOCK.textureString));
         g.getComponent(TextureComponent.class).tileMapLocation = blockID;
         g.getComponent(TextureComponent.class).layer= 0;
+        g.addComponent(new Collider());
         return g;
     }
     public static GameObject torch(Vector2f position)

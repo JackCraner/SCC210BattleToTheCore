@@ -113,7 +113,7 @@ public class Game
     public void runGame()
     {
 
-        window.setFramerateLimit(60);
+        //window.setFramerateLimit(60);
        // window.setVerticalSyncEnabled(true);
 
         Clock frameTimer = new Clock();
