@@ -1,15 +1,10 @@
 package Main.Game.ECS.Systems;
 
-import Main.Game.ECS.Components.MovementTYPES;
-import Main.Game.ECS.Components.Position;
-import Main.Game.ECS.Components.Movement;
-import Main.Game.ECS.Components.TransformComponent;
-import Main.Game.ECS.Entity.Camera;
+import Main.Game.ECS.Components.*;
+import Main.Game.ECS.Components.ComponentENUMs.MovementTypes;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.BitMasks;
-import Main.Game.Game;
 import org.jsfml.system.Vector2f;
-import org.jsfml.window.Keyboard;
 
 /**
  * MOVEMENTGAMESYSTEM
@@ -47,34 +42,39 @@ public class MovementGameSystem extends GameSystem
             movement = g.getComponent(Movement.class);
             newPos = curPos;
             speed = movement.getSpeed() * dt;
-            if(movement.getType() == MovementTYPES.CONTROLLED)
+            if(movement.getType() == MovementTypes.CONTROLLED)
             {
-                if (Keyboard.isKeyPressed(Keyboard.Key.W))
+                if ((g.getBitmask() & BitMasks.getBitMask(Inputs.class)) !=0)
                 {
-                    newPos = new Vector2f(newPos.x,newPos.y -  speed);
+                    Inputs oInputs = g.getComponent(Inputs.class);
+                    if (oInputs.forward)
+                    {
+                        newPos = new Vector2f(newPos.x,newPos.y -  speed);
+                    }
+                    if (oInputs.left)
+                    {
+                        newPos = new Vector2f(newPos.x - speed ,newPos.y);
+                        movement.setIsFacingRight(false);
+                    }
+                    if (oInputs.backwards)
+                    {
+                        newPos = new Vector2f(newPos.x,newPos.y +  speed );
+                    }
+                    if (oInputs.right)
+                    {
+                        newPos = new Vector2f(newPos.x +  speed ,newPos.y);
+                        movement.setIsFacingRight(true);
+                    }
                 }
-                if (Keyboard.isKeyPressed(Keyboard.Key.A))
+                else
                 {
-                    newPos = new Vector2f(newPos.x - speed ,newPos.y);
-                    movement.setIsFacingRight(false);
+                    System.out.println("CONTROLLED Movement Object without an INPUT component");
                 }
-                if (Keyboard.isKeyPressed(Keyboard.Key.S))
-                {
-                    newPos = new Vector2f(newPos.x,newPos.y +  speed );
-                }
-                if (Keyboard.isKeyPressed(Keyboard.Key.D))
-                {
-                    newPos = new Vector2f(newPos.x +  speed ,newPos.y);
-                    movement.setIsFacingRight(true);
-                }
-                if (Keyboard.isKeyPressed(Keyboard.Key.SPACE))
-                {
-                    newPos = new Vector2f(newPos.x,newPos.y - 1);
-                }
+
 
 
             }
-            if (movement.getType() == MovementTYPES.LINEAR)
+            if (movement.getType() == MovementTypes.LINEAR)
             {
 
                 if ((g.getBitmask() & BitMasks.produceBitMask(TransformComponent.class)) !=0)

@@ -27,7 +27,7 @@ public class BackpackGameSystem extends GameSystem
     }
     private BackpackGameSystem()
     {
-        setBitMaskRequirement(BitMasks.produceBitMask(Backpack.class));
+        setBitMaskRequirement(BitMasks.produceBitMask(Backpack.class,Inputs.class));
     }
     @Override
     public void update(float dt)
@@ -36,14 +36,14 @@ public class BackpackGameSystem extends GameSystem
            for (GameObject g: getGameObjectList())
            {
                 Backpack backpack = g.getComponent(Backpack.class);
-                if ((g.getBitmask()  & BitMasks.produceBitMask(CollisionEvent.class) )!=0)
+                Inputs oInputs = g.getComponent(Inputs.class);
+                if ((g.getBitmask()  & BitMasks.getBitMask(CollisionEvent.class))!=0)
                 {
                     GameObject pickupObject = g.getComponent(CollisionEvent.class).getG();
-
-                    if ((pickupObject.getBitmask() & BitMasks.produceBitMask(Pickup.class)) != 0)
+                    if ((pickupObject.getBitmask() & BitMasks.getBitMask(Pickup.class)) != 0)
                     {
                         g.removeComponent(CollisionEvent.class);
-                        if (backpack.inventoryHasSpace() && Mouse.isButtonPressed(Mouse.Button.LEFT))   //Either remove pickup button or make item hitbox bigger
+                        if (backpack.inventoryHasSpace() &&oInputs.pickUP)   //Either remove pickup button or make item hitbox bigger
                         {
                             EntityManager.getEntityManagerInstance().removeGameObject(pickupObject);
                             pickupObject.removeComponent(Position.class);
@@ -73,7 +73,7 @@ public class BackpackGameSystem extends GameSystem
                             mousePos = new Vector2i((int)camPos.x + mousePos.x, (int)camPos.y + mousePos.y);
                             float angle =   (float)((Math.atan2(mousePos.y - pos.y, mousePos.x- pos.x))*180/Math.PI);
                             mainHand.getComponent(TransformComponent.class).setRotation(angle);
-                            if(mainHandEffect.isReady() && Mouse.isButtonPressed(Mouse.Button.RIGHT))
+                            if(mainHandEffect.isReady() && oInputs.use)
                             {
                                 pos = new Vector2f(pos.x + (float)(Math.cos(Math.toRadians(angle)) * Blueprint.OBJECTSIZE.x), pos.y + (float)(Math.sin(Math.toRadians(angle)) * Blueprint.OBJECTSIZE.y));
                                 GameObject spawn = mainHandEffect.getSpawns(pos);
@@ -85,7 +85,7 @@ public class BackpackGameSystem extends GameSystem
 
 
 
-                    if(Keyboard.isKeyPressed(Keyboard.Key.E) && backpack.getEmptyCooldown() <= 0 && backpack.getCanDropItems())
+                    if(oInputs.drop && backpack.getEmptyCooldown() <= 0 && backpack.getCanDropItems())
                     {
                         backpack.getObjectsINBACKPACK().remove(0);
                         backpack.setEmptyCooldown(0.4f);

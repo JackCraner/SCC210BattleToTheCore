@@ -1,5 +1,6 @@
 package Main.Game.ECS.Components;
 
+import Main.Game.ECS.Components.ComponentENUMs.MovementTypes;
 import Main.Game.ECS.Entity.Component;
 
 public class Movement extends Component
@@ -7,14 +8,14 @@ public class Movement extends Component
 
     private float speed = 1;                //speed in pixels per second
     private boolean isFacingRight = false;
-    private MovementTYPES type;
-    public Movement(MovementTYPES type, float speed)
+    private MovementTypes type;
+    public Movement(MovementTypes type, float speed)
     {
         this.type = type;
         this.speed = speed;
         isFacingRight = false;
     }
-    public Movement(MovementTYPES type, float speed, Boolean isFacingRight)
+    public Movement(MovementTypes type, float speed, Boolean isFacingRight)
     {
         this.type = type;
         this.speed = speed;
@@ -36,7 +37,7 @@ public class Movement extends Component
     {
         isFacingRight = b;
     }
-    public MovementTYPES getType() {
+    public MovementTypes getType() {
         return type;
     }
 

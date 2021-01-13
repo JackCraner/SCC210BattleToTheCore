@@ -31,6 +31,8 @@ public class BitMasks
         COMPONENTBITMASKS.put(XPBar.class,Integer.parseInt("1000000000000", 2));
         COMPONENTBITMASKS.put(Damage.class,Integer.parseInt("10000000000000", 2));
         COMPONENTBITMASKS.put(LifeSpan.class,Integer.parseInt("100000000000000", 2));
+        COMPONENTBITMASKS.put(Inputs.class,Integer.parseInt("1000000000000000", 2));
+
 
     }
 

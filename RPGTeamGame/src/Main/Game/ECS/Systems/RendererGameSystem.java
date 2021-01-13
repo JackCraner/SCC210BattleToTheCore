@@ -1,6 +1,7 @@
 package Main.Game.ECS.Systems;
 
 import Main.Game.ECS.Components.*;
+import Main.Game.ECS.Components.ComponentENUMs.TextureTypes;
 import Main.Game.ECS.Entity.Camera;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.BitMasks;
@@ -61,7 +62,7 @@ public class RendererGameSystem  extends GameSystem
             transform = g.getComponent(TransformComponent.class);
             texture = g.getComponent(TextureComponent.class);
 
-            if (texture.texturetype == TextureType.BLOCK)
+            if (texture.texturetype == TextureTypes.BLOCK)
             {
 
                 backGround.add(new Vertex(curPos, new Vector2f(Blueprint.TEXTURESIZE.x * texture.tileMapLocation, 0)));
@@ -72,7 +73,7 @@ public class RendererGameSystem  extends GameSystem
 
 
             }
-            if(texture.texturetype == TextureType.RECTANGLE)
+            if(texture.texturetype == TextureTypes.RECTANGLE)
             {
                 RectangleShape s = new RectangleShape();
                 s.setPosition(new Vector2f(curPos.x, curPos.y));
@@ -109,7 +110,7 @@ public class RendererGameSystem  extends GameSystem
                     graphicLayers[mainHandTexture.layer - 1].addRectangle(s1);
                 }
             }
-            if (texture.texturetype == TextureType.TEXT)
+            if (texture.texturetype == TextureTypes.TEXT)
             {
                 Text t = new Text(texture.textureString,font,(int)transform.getSize().x);
                 t.setColor(Color.YELLOW);

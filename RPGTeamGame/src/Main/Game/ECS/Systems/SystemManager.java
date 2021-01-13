@@ -30,6 +30,7 @@ public class SystemManager
      */
     private SystemManager()
     {
+        systemList.add(InputGameSystem.getSystemInstance());
         systemList.add(MovementGameSystem.getSystemInstance());
         systemList.add(PhysicsGameSystem.getSystemInstance());
         systemList.add(BackpackGameSystem.getSystemInstance());
