@@ -26,9 +26,6 @@ public class CellularAutomata
     private float initalEmptyFaceRate = 0.53f;    //0.54
     private int recursionDepth = 3;
 
-    
-
-
     int totalEmptySpace;
     byte[][] binaryMapping = new byte[CHUNKSIZEBLOCKSX][CHUNKSIZEBLOCKSY];
     private static CellularAutomata caInstance = new CellularAutomata();
@@ -39,14 +36,14 @@ public class CellularAutomata
     }
 
 
-    public byte[][] startMap()
+    public byte[][] startMap(Random randomNumberGenerator)
     {
         byte[][] binaryMapping = new byte[CHUNKSIZEBLOCKSX][CHUNKSIZEBLOCKSY];
         for (int a = 0; a <CHUNKSIZEBLOCKSX; a++)
         {
             for (int b = 0; b<CHUNKSIZEBLOCKSY; b++)
             {
-                if ((Math.random()) > initalEmptyFaceRate)
+                if (randomNumberGenerator.nextFloat() > initalEmptyFaceRate)
                 {
                     binaryMapping[a][b] =WALLID;
                 }
@@ -63,7 +60,7 @@ public class CellularAutomata
 
     }
 
-    public int checkNeighbours(byte[][] givenMap,int x, int y)
+    public static int checkNeighbours(byte[][] givenMap,int x, int y)
     {
 
         int spaceCount = 0;
@@ -120,11 +117,24 @@ public class CellularAutomata
 
     public void generateBinaryMapping()
     {
-        binaryMapping = floorFillController(updateMap(startMap(), recursionDepth));
+        Random r = new Random();
+        binaryMapping = floorFillController(updateMap(startMap(r), recursionDepth));
+        if (totalEmptySpace < CHUNKSIZEBLOCKSX * CHUNKSIZEBLOCKSY * initalEmptyFaceRate)
+        {
+            System.out.println("Map failed, trying again");
+            generateBinaryMapping();
+        }
+
+    }
+    public byte[][] generateBinaryMapping(Random randomNumberGenerator)
+    {
+
+        binaryMapping = floorFillController(updateMap(startMap(randomNumberGenerator), recursionDepth));
         if (totalEmptySpace < CHUNKSIZEBLOCKSX * CHUNKSIZEBLOCKSY * initalEmptyFaceRate)
         {
             generateBinaryMapping();
         }
+        return binaryMapping;
 
     }
 

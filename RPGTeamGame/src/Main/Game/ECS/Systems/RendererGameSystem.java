@@ -1,121 +1,146 @@
 package Main.Game.ECS.Systems;
 
+import Main.Game.ECS.Components.*;
+import Main.Game.ECS.Components.ComponentENUMs.TextureTypes;
 import Main.Game.ECS.Entity.Camera;
-import Main.Game.ECS.Entity.Component;
-import Main.Game.ECS.Components.TextureComponent;
-import Main.Game.ECS.Entity.EntityManager;
 import Main.Game.ECS.Entity.GameObject;
+import Main.Game.ECS.Factory.BitMasks;
 import Main.Game.ECS.Factory.Blueprint;
-import Main.Game.ECS.Factory.EntityID;
+import Main.Game.ECS.Factory.Entity;
+import Main.Game.ECS.Factory.TextureMap;
 import Main.Game.Game;
-import Main.Game.MapGeneration.CellularA.CellularAutomata;
 import org.jsfml.graphics.*;
 import org.jsfml.system.Vector2f;
-import org.jsfml.system.Vector2i;
-import org.jsfml.window.event.Event;
 
+import java.io.File;
+import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class RendererGameSystem  extends GameSystem
 {
     private static RendererGameSystem systemInstance = new RendererGameSystem();
 
-    private HashMap<Byte,Texture> textureMap = new HashMap<>();
+    private Layer[] graphicLayers = {new Layer(),new Layer(), new Layer()};
     public RenderTexture screenTexture = new RenderTexture();
     private RenderStates rS;
     private Sprite screenSprite = new Sprite();
-    private static int totalBlocks = CellularAutomata.CHUNKSIZEBLOCKSX * CellularAutomata.CHUNKSIZEBLOCKSY;
     private VertexArray backGround = new VertexArray(PrimitiveType.QUADS);
-    Vector2i renderDistanceinBlocks = new Vector2i((int)Math.ceil((Camera.cameraInstance().camerView.getSize().x/2)/Blueprint.BLOCKSIZE.x), (int)Math.ceil((Camera.cameraInstance().camerView.getSize().y/2)/Blueprint.BLOCKSIZE.y));
-
+    private Font font= new Font();
     private RendererGameSystem()
     {
-        setBitMaskRequirement(EntityManager.getEntityManagerInstance().produceBitMask(TextureComponent.class));
-        for(Byte a = 0; a < EntityID.ENTITYTextureStringLIST.length; a++)
-        {
-
-            textureMap.put(a, EntityID.getTexture(EntityID.ENTITYTextureStringLIST[a]));
-        }
+        setBitMaskRequirement(BitMasks.produceBitMask(TextureComponent.class, Position.class, TransformComponent.class));
         try
         {
-            screenTexture.create(Game.WINDOWSIZE,Game.WINDOWSIZE);
+            font.loadFromFile(Paths.get("Assets" + File.separator + "Fonts" + File.separator+ "LEMONMILK-Regular.otf"));
+            screenTexture.create(Game.WINDOWSIZE, Game.WINDOWSIZE);
+            screenTexture.setView(Camera.cameraInstance().camerView);
         }
-        catch(Exception e)
+        catch (Exception e)
         {
-            System.out.println(e);
+            System.out.println("Render System: " + e);
         }
 
     }
     @Override
-    public void update()
+    public void update(float dt)
     {
 
         // currently we calculate and draw every frame
         // need an event that something has moved (MovementSystem) to order this system to calculate the frame and draw
         // otherwise we just draw (big performance boost)
 
-       //System.out.println("Num Objects: " + getComponentArrayList().size());
-
-        Layer graphicalLayer[] = new Layer[] {new Layer(), new Layer(), new Layer()};
-
+        //System.out.println("Num Objects: " +getGameObjectList().transform.getSize()());
         backGround.clear();
 
+
         //buildVertexArray();
+        Vector2f curPos;
+        TransformComponent transform;
+        TextureComponent texture;
         for(GameObject g: getGameObjectList())
         {
-            Vector2f curPos = g.getPosition();
-            Vector2f size = g.getSize();
-            TextureComponent t = g.getComponent(TextureComponent.class);
+            curPos = g.getComponent(Position.class).getPosition();
+            transform = g.getComponent(TransformComponent.class);
+            texture = g.getComponent(TextureComponent.class);
 
-
-
-            float distanceBetween = Math.max(Math.abs(Game.PLAYER.getPosition().x - curPos.x), Math.abs(Game.PLAYER.getPosition().y - curPos.y));
-            if (distanceBetween < (Camera.cameraInstance().camerView.getSize().x/2) + 100)
+            if (texture.texturetype == TextureTypes.BLOCK)
             {
-                if (t.layer - 1 < 0)
+                //// SO MANY VECTORS :CCCCC
+                backGround.add(new Vertex(curPos, new Vector2f(Blueprint.TEXTURESIZE.x * texture.tileMapLocation, 0)));
+                backGround.add(new Vertex(new Vector2f(curPos.x, curPos.y + transform.getSize().y), new Vector2f(Blueprint.TEXTURESIZE.x * texture.tileMapLocation + Blueprint.TEXTURESIZE.x, 0)));
+                backGround.add(new Vertex(new Vector2f(curPos.x + transform.getSize().x, curPos.y + transform.getSize().y), new Vector2f(Blueprint.TEXTURESIZE.x * texture.tileMapLocation + Blueprint.TEXTURESIZE.x, +Blueprint.TEXTURESIZE.x)));
+                backGround.add(new Vertex(new Vector2f(curPos.x + transform.getSize().x, curPos.y), new Vector2f(Blueprint.TEXTURESIZE.x * texture.tileMapLocation, +Blueprint.TEXTURESIZE.x)));
+
+
+
+            }
+            if(texture.texturetype == TextureTypes.RECTANGLE)
+            {
+                RectangleShape s = new RectangleShape();
+                s.setPosition(new Vector2f(curPos.x, curPos.y));
+                s.setSize(transform.getSize());
+                s.setRotation(transform.getRotation());
+                if ((g.getBitmask() & BitMasks.getBitMask(Movement.class)) !=0)
                 {
-
-                    backGround.add(new Vertex(curPos, new Vector2f(Blueprint.TEXTURESIZE.x * t.tileMapLocation, 0)));
-                    backGround.add(new Vertex(new Vector2f(curPos.x, curPos.y + size.y), new Vector2f(Blueprint.TEXTURESIZE.x * t.tileMapLocation + Blueprint.TEXTURESIZE.x, 0)));
-                    backGround.add(new Vertex(new Vector2f(curPos.x + size.x, curPos.y + size.y), new Vector2f(Blueprint.TEXTURESIZE.x * t.tileMapLocation + Blueprint.TEXTURESIZE.x, +Blueprint.TEXTURESIZE.x)));
-                    backGround.add(new Vertex(new Vector2f(curPos.x + size.x, curPos.y), new Vector2f(Blueprint.TEXTURESIZE.x * t.tileMapLocation, +Blueprint.TEXTURESIZE.x)));
-
-
-
-                }
-                else
-                {
-                    RectangleShape s = new RectangleShape();
-                    s.setPosition(curPos);
-                    s.setSize(size);
-                    s.setTexture(textureMap.get(t.textureID));
-                    if (t.tileMapLocation >= 0)
+                    if(g.getComponent(Movement.class).getIsFacingRight())
                     {
-                        s.setTextureRect(new IntRect(t.tileMapLocation * (int)size.x, 0,(int)size.x,(int)size.y));
+                        s.setScale(-1,1);
+                    }
+                }
+                s.setTexture(TextureMap.TEXTUREMAP.get(texture.textureString));
+                if (texture.tileMapLocation >= 0)
+                {
+                    s.setTextureRect(new IntRect(texture.tileMapLocation * (int)transform.getSize().x, 0,(int)transform.getSize().x,(int)transform.getSize().y));
+                }
+
+                graphicLayers[texture.layer-1].addRectangle(s);
+
+                if((g.getBitmask() & BitMasks.getBitMask(Backpack.class)) != 0 && g.getComponent(Backpack.class).getObjectsINBACKPACK().size() > 0 && g.getComponent(Backpack.class).getCanUseItems())
+                {
+                    RectangleShape s1 = new RectangleShape();
+                    s1.setPosition(new Vector2f(curPos.x-(g.getComponent(Movement.class).getIsFacingRight() ? -10:10), curPos.y));
+                    s1.setSize(transform.getSize());
+                    s1.setRotation(g.getComponent(Backpack.class).getObjectsINBACKPACK().get(0).getComponent(TransformComponent.class).getRotation());
+                    TextureComponent mainHandTexture = g.getComponent(Backpack.class).getObjectsINBACKPACK().get(0).getComponent(TextureComponent.class);
+                    s1.setTexture(TextureMap.TEXTUREMAP.get(mainHandTexture.textureString));
+                    if (mainHandTexture.tileMapLocation >= 0)
+                    {
+                        s1.setTextureRect(new IntRect(mainHandTexture.tileMapLocation * (int)transform.getSize().x, 0,(int)transform.getSize().x,(int)transform.getSize().y));
                     }
 
-                    graphicalLayer[t.layer - 1].addDrawable(s);
+                    graphicLayers[mainHandTexture.layer - 1].addRectangle(s1);
                 }
-
+            }
+            if (texture.texturetype == TextureTypes.TEXT)
+            {
+                Text t = new Text(texture.textureString,font,(int)transform.getSize().x);
+                t.setColor(Color.YELLOW);
+                t.setPosition(new Vector2f(curPos.x, curPos.y));
+                graphicLayers[texture.layer - 1].addText(t);
             }
 
         }
 
 
 
-        screenTexture.clear(Color.WHITE);
-        screenTexture.draw(backGround,new RenderStates(textureMap.get((byte) 0)));
-        for (Layer l: graphicalLayer)
-        {
-            screenTexture.draw(l);
-        }
-        Camera.cameraInstance().camerView.setCenter(Game.PLAYER.getPosition());
+
+        Camera.cameraInstance().camerView.setCenter(Game.PLAYER.getComponent(Position.class).getPosition());
         screenTexture.setView(Camera.cameraInstance().camerView);
+
+
+        screenTexture.draw(backGround,new RenderStates(TextureMap.TEXTUREMAP.get(Entity.BLOCK.textureString)));
+        for (Layer layer: graphicLayers)
+        {
+            screenTexture.draw(layer);
+        }
+
+
+
+
         screenTexture.display();
         screenSprite.setTexture(screenTexture.getTexture());
-        rS = new RenderStates(LightingGameSystem.getLightingGameSystem().mapShader);
-        Game.getGame().getWindow().draw(screenSprite,rS);
+        Game.getGame().getWindow().draw(screenSprite,new RenderStates(LightingGameSystem.getLightingGameSystem().mapShader));
+        screenTexture.clear(new Color(43,39,39));
 
         //Level.getLevel().getWindow().draw(backGround,new RenderStates(textureMap.get((byte) 0)));
         //Player is always index 0 on the list of Objects
@@ -123,40 +148,8 @@ public class RendererGameSystem  extends GameSystem
 
 
     }
-    public void buildVertexArray()
-    {
-        int rendersizeX = (int)(Camera.cameraInstance().camerView.getSize().x/Blueprint.BLOCKSIZE.x) + 3;
-        int rendersizeY =  (int)(Camera.cameraInstance().camerView.getSize().y/Blueprint.BLOCKSIZE.y) + 3;
 
 
-        // items in the componentArray of index 0 to CellularAutomata.CHUNKBLOCKX * CellularAutomata.CHUNKBLOCKY are blocks
-        backGround.clear();
-        ArrayList<GameObject> tempList = getGameObjectList();
-        Vector2i topLeftBlock = new Vector2i((int) (Game.PLAYER.getPosition().x / Blueprint.BLOCKSIZE.x) - renderDistanceinBlocks.x, (int) (Game.PLAYER.getPosition().y / Blueprint.BLOCKSIZE.y) - renderDistanceinBlocks.y);
-        int startPos = Math.max(topLeftBlock.x * CellularAutomata.CHUNKSIZEBLOCKSY + topLeftBlock.y, 0);
-        int endposX = Math.min(startPos + (rendersizeX * CellularAutomata.CHUNKSIZEBLOCKSY), CellularAutomata.CHUNKSIZEBLOCKSX * (CellularAutomata.CHUNKSIZEBLOCKSY-1) +1);
-        for (int a = startPos; a < endposX; a += CellularAutomata.CHUNKSIZEBLOCKSY)
-        {
-            for (int b = a; b < a + rendersizeY; b++) {
-
-                Vector2f curPos = tempList.get(b).getPosition();
-                Vector2f size = tempList.get(b).getSize();
-                TextureComponent t = tempList.get(b).getComponent(TextureComponent.class);
-                backGround.add(new Vertex(curPos, new Vector2f(Blueprint.TEXTURESIZE.x * t.tileMapLocation, 0)));
-                backGround.add(new Vertex(new Vector2f(curPos.x, curPos.y + size.y), new Vector2f(Blueprint.TEXTURESIZE.x * t.tileMapLocation + Blueprint.TEXTURESIZE.x, 0)));
-                backGround.add(new Vertex(new Vector2f(curPos.x + size.x, curPos.y + size.y), new Vector2f(Blueprint.TEXTURESIZE.x * t.tileMapLocation + Blueprint.TEXTURESIZE.x, +Blueprint.TEXTURESIZE.x)));
-                backGround.add(new Vertex(new Vector2f(curPos.x + size.x, curPos.y), new Vector2f(Blueprint.TEXTURESIZE.x * t.tileMapLocation, +Blueprint.TEXTURESIZE.x)));
-
-            }
-        }
-
-    }
-
-    @Override
-    public void update(Event event)
-    {
-
-    }
 
 
     public static RendererGameSystem getSystemInstance() {
@@ -168,27 +161,39 @@ public class RendererGameSystem  extends GameSystem
 
 class Layer implements Drawable
 {
-    ArrayList<Drawable> drawablesInLayer = new ArrayList<>();
+    ArrayList<RectangleShape> drawablesInLayer = new ArrayList<>();
+    ArrayList<Text> textInLayer = new ArrayList<>();
     public Layer()
     {
 
     }
-
-    public ArrayList<Drawable> getDrawablesInLayer() {
-        return drawablesInLayer;
-    }
-    public void addDrawable(Drawable d)
+    public void addRectangle(RectangleShape d)
     {
         drawablesInLayer.add(d);
     }
-
+    public void addText(Text t)
+    {
+        textInLayer.add(t);
+    }
     @Override
     public void draw(RenderTarget renderTarget, RenderStates renderStates)
     {
-        for(Drawable d: drawablesInLayer)
+        for(RectangleShape d: drawablesInLayer)
         {
-            renderTarget.draw(d,renderStates);
+            Transform t = new Transform();
+            t = Transform.rotate(t,d.getRotation(),d.getPosition().x + d.getSize().x/2,d.getPosition().y+d.getSize().y/2);
+            t = Transform.scale(t,d.getScale(),new Vector2f(d.getPosition().x + d.getSize().x/2,d.getPosition().y+d.getSize().y/2));
+            d.setRotation(0);
+            d.setScale(1,1);
+            RenderStates r = new RenderStates(renderStates,t);
+            renderTarget.draw(d,r);
         }
+        for (Text t: textInLayer)
+        {
+            renderTarget.draw(t);
+        }
+        drawablesInLayer.clear();
+        textInLayer.clear();
     }
 }
 

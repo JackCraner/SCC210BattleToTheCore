@@ -1,5 +1,6 @@
 package Main.Game.ECS.Systems;
 
+
 import Main.Game.ECS.Entity.GameObject;
 
 import java.util.ArrayList;
@@ -29,11 +30,16 @@ public class SystemManager
      */
     private SystemManager()
     {
+        systemList.add(InputGameSystem.getSystemInstance());
         systemList.add(MovementGameSystem.getSystemInstance());
         systemList.add(PhysicsGameSystem.getSystemInstance());
+        systemList.add(BackpackGameSystem.getSystemInstance());
+        systemList.add(CombatGameSystem.getSystemInstance());
+        systemList.add(LifeSpanGameSystem.getSystemInstance());
+        systemList.add(EventClearGameSystem.getSystemInstance());
         systemList.add(RendererGameSystem.getSystemInstance());
-        systemList.add(LightingGameSystem.getLightingGameSystem());
-        systemList.add(ShootGameSystem.getShootGameSystem());
+       systemList.add(LightingGameSystem.getLightingGameSystem());
+
 
 
     }
@@ -46,22 +52,36 @@ public class SystemManager
     {
         for (GameSystem s: systemList)
         {
-            if ((g.getBitmask() & s.getBitMaskRequirement()) != 0)
+            if (((g.getBitmask() & s.getBitMaskRequirement()) == s.getBitMaskRequirement())&& (s.getBitMaskRequirement() != 0))
             {
                 s.addGameObject(g);
             }
         }
     }
 
+    public void addGOtoSYSTEM(GameObject g, GameSystem s)
+    {
+        if (((g.getBitmask() & s.getBitMaskRequirement()) == s.getBitMaskRequirement())&& (s.getBitMaskRequirement() != 0))
+        {
+            s.addGameObject(g);
+        }
+
+    }
+    public void updateSystem(GameSystem s, float dt)
+    {
+        s.update(dt);
+    }
     /**
      * Updates all Systems
      * -- Called every frame
      */
-    public void updateSystems()
+    public void updateSystems(float dt)
     {
         for(GameSystem s: systemList)
         {
-            s.update();
+
+            s.update(dt);
+
         }
         flushSystems();
     }
@@ -77,5 +97,8 @@ public class SystemManager
         }
     }
 
-
+    public ArrayList<GameSystem> getSystemList()
+    {
+        return systemList;
+    }
 }

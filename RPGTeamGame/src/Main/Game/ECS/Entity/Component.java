@@ -2,7 +2,7 @@ package Main.Game.ECS.Entity;
 
 public abstract class  Component
 {
-
+    public abstract Component clone();
 //DESIGN PATTERN
     /*
     - Components Should always extend this abstract class
@@ -19,17 +19,7 @@ public abstract class  Component
 
 
 
-    private GameObject gameObject = null;
 
-
-    public final void setGameObject(GameObject g)
-    {
-        gameObject = g;
-    }
-    public GameObject getGameObject()
-    {
-        return gameObject;
-    }
 
 
 }

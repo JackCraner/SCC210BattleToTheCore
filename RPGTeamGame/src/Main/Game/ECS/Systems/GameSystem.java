@@ -1,8 +1,7 @@
 package Main.Game.ECS.Systems;
 
-import Main.Game.ECS.Entity.Component;
+
 import Main.Game.ECS.Entity.GameObject;
-import org.jsfml.window.event.Event;
 
 import java.util.ArrayList;
 
@@ -77,14 +76,9 @@ public abstract class GameSystem
 
     /**
      * Called every Frame
+     * @param dt
      */
-    public abstract void update();
-
-    /**
-     * Called On Event
-     * @param event
-     */
-    public abstract void update(Event event);
+    public abstract void update(float dt);
 
 
 }

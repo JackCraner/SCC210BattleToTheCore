@@ -1,15 +1,10 @@
 package Main.Game.ECS.Systems;
 
-import Main.Game.ECS.Entity.Component;
-import Main.Game.ECS.Components.Movement;
-import Main.Game.ECS.Entity.EntityManager;
+import Main.Game.ECS.Components.*;
+import Main.Game.ECS.Components.ComponentENUMs.MovementTypes;
 import Main.Game.ECS.Entity.GameObject;
-import Main.Game.Game;
+import Main.Game.ECS.Factory.BitMasks;
 import org.jsfml.system.Vector2f;
-import org.jsfml.window.Keyboard;
-import org.jsfml.window.event.Event;
-
-import java.util.ArrayList;
 
 /**
  * MOVEMENTGAMESYSTEM
@@ -31,41 +26,70 @@ public class MovementGameSystem extends GameSystem
      */
     private MovementGameSystem()
     {
-        setBitMaskRequirement(EntityManager.getEntityManagerInstance().produceBitMask(Movement.class));
+        setBitMaskRequirement(BitMasks.produceBitMask(Position.class,Movement.class));
     }
 
     @Override
-    public void update()
+    public void update(float dt)
     {
-
+        Vector2f curPos;
+        Movement movement;
+        Vector2f newPos;
+        float speed;
         for(GameObject g: getGameObjectList())
         {
-            Vector2f curPos =  g.getPosition();
-            float speed = g.getComponent(Movement.class).speed;
-            if (Keyboard.isKeyPressed(Keyboard.Key.W))
+            curPos =  g.getComponent(Position.class).getPosition();
+            movement = g.getComponent(Movement.class);
+            newPos = curPos;
+            speed = movement.getSpeed() * dt;
+            if(movement.getType() == MovementTypes.CONTROLLED)
             {
-                curPos = new Vector2f(curPos.x,curPos.y -  speed );
+                if ((g.getBitmask() & BitMasks.getBitMask(Inputs.class)) !=0)
+                {
+                    Inputs oInputs = g.getComponent(Inputs.class);
+                    if (oInputs.forward)
+                    {
+                        newPos = new Vector2f(newPos.x,newPos.y -  speed);
+                    }
+                    if (oInputs.left)
+                    {
+                        newPos = new Vector2f(newPos.x - speed ,newPos.y);
+                        movement.setIsFacingRight(false);
+                    }
+                    if (oInputs.backwards)
+                    {
+                        newPos = new Vector2f(newPos.x,newPos.y +  speed );
+                    }
+                    if (oInputs.right)
+                    {
+                        newPos = new Vector2f(newPos.x +  speed ,newPos.y);
+                        movement.setIsFacingRight(true);
+                    }
+                }
+                else
+                {
+                    System.out.println("CONTROLLED Movement Object without an INPUT component");
+                }
+
+
+
             }
-            if (Keyboard.isKeyPressed(Keyboard.Key.A))
+            if (movement.getType() == MovementTypes.LINEAR)
             {
-                curPos = new Vector2f(curPos.x - speed ,curPos.y);
-            }
-            if (Keyboard.isKeyPressed(Keyboard.Key.S))
-            {
-                curPos = new Vector2f(curPos.x,curPos.y +  speed );
-            }
-            if (Keyboard.isKeyPressed(Keyboard.Key.D))
-            {
-                curPos = new Vector2f(curPos.x +  speed ,curPos.y);
-            }
-            if (Keyboard.isKeyPressed(Keyboard.Key.SPACE))
-            {
-                curPos = new Vector2f(curPos.x,curPos.y - 10);
+
+                if ((g.getBitmask() & BitMasks.produceBitMask(TransformComponent.class)) !=0)
+                {
+                    TransformComponent t = g.getComponent(TransformComponent.class);
+                    newPos = new Vector2f(curPos.x + (float)Math.cos(Math.toRadians(t.getRotation())) * speed, curPos.y + (float)Math.sin(Math.toRadians(t.getRotation())) * speed);
+                }
+
             }
 
-            curPos = new Vector2f(curPos.x , curPos.y + 1);
-            Game.ENTITYMANAGER.updateLeaf(g,curPos);
-            g.setPosition(curPos);
+            if (newPos != curPos)
+            {
+                g.getComponent(Position.class).updatePosition(newPos);
+
+            }
 
 
 
@@ -73,11 +97,6 @@ public class MovementGameSystem extends GameSystem
 
     }
 
-    @Override
-    public void update(Event event)
-    {
-
-    }
 
 
 }

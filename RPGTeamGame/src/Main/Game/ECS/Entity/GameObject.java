@@ -1,6 +1,8 @@
 package Main.Game.ECS.Entity;
 
 import Main.Game.ECS.Components.Movement;
+import Main.Game.ECS.Components.Position;
+import Main.Game.ECS.Factory.BitMasks;
 import org.jsfml.graphics.Drawable;
 import org.jsfml.graphics.RenderStates;
 import org.jsfml.graphics.RenderTarget;
@@ -9,7 +11,7 @@ import org.jsfml.system.Vector2i;
 
 import java.util.ArrayList;
 
-public class GameObject
+public class GameObject implements Cloneable
 {
     //DESIGN PATTERN
     /*
@@ -29,26 +31,18 @@ public class GameObject
 
 
     private String name;
-
-
-    private Vector2f position;
-    private Vector2f size;
-
     private int bitmask = 0;
 
 
     private ArrayList<Component> componentList = new ArrayList<>();
 
 
-
-    private ArrayList<Class<? extends Component>> componentTypeList = new ArrayList<>();
-
-    public GameObject(String name, Vector2f position, Vector2f size)
+    public GameObject(String name)
     {
         this.name = name;
-        this.position = position;
-        this.size = size;
+
     }
+
 
     public <T extends Component> T getComponent(Class<T> componentClass)
     {
@@ -69,9 +63,11 @@ public class GameObject
     {
         for (int i= 0; i<componentList.size();i++)
         {
-            if (componentClass.isAssignableFrom(componentClass.getClass()))
+
+            if (componentList.get(i).getClass().isAssignableFrom(componentClass))
             {
                 componentList.remove(i);
+                bitmask = bitmask & ~BitMasks.getBitMask(componentClass);
                 return;
             }
         }
@@ -79,38 +75,45 @@ public class GameObject
 
     public void addComponent(Component c)
     {
-        bitmask = bitmask | EntityManager.getEntityManagerInstance().componentBitMask.get(c.getClass());
-        this.componentList.add(c);
-        this.componentTypeList.add(c.getClass());
-        c.setGameObject(this);
+        if ((bitmask & BitMasks.getBitMask(c.getClass())) == 0)
+        {
+            bitmask = bitmask | BitMasks.getBitMask(c.getClass());
+            this.componentList.add(c);
+        }
+        else
+        {
+            System.out.println("ERROR with GameObject " + name + " :: Two components of same type");
+        }
+
+    }
+    public void setComponentList(ArrayList<Component> c)
+    {
+        componentList = c;
     }
 
     public String getName() {
         return name;
     }
 
-    public Vector2f getPosition() {
-        return position;
-    }
-
-    public Vector2f getSize() {
-        return size;
-    }
-
-    public void setSize(Vector2f size) {
-        this.size = size;
-    }
-
-    public void setPosition(Vector2f position)
-    {
-        this.position = position;
-    }
 
     public int getBitmask() {
         return bitmask;
     }
 
+    public GameObject clone()
+    {
+        GameObject go = new GameObject(name);
+        for (Component c: componentList)
+        {
+            go.addComponent(c.clone());
+        }
+        if ((go.getBitmask() & BitMasks.produceBitMask(Position.class)) != 0)
+        {
+            go.getComponent(Position.class).setMe(go);
+        }
+       return go;
 
+    }
     @Override
     public String toString() {
         return name;

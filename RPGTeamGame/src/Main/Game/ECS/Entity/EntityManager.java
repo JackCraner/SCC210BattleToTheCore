@@ -1,6 +1,7 @@
 package Main.Game.ECS.Entity;
 
 import Main.Game.ECS.Components.*;
+import Main.Game.ECS.Factory.BitMasks;
 import Main.Game.QuadTree.QTRoot;
 import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
@@ -28,11 +29,7 @@ public class EntityManager
 {
     private static EntityManager entityManagerInstance = new EntityManager();
 
-
     private static QTRoot quadTree = QTRoot.getQuadTree();
-
-
-    public HashMap<Class<? extends Component>, Integer> componentBitMask = new HashMap<>();
 
     public static EntityManager getEntityManagerInstance() {
         return entityManagerInstance;
@@ -55,8 +52,26 @@ public class EntityManager
      */
     public void addGameObject(GameObject g)
     {
-        quadTree.addGameObject(g, convertGlobalPositionTOLEAF(g.getPosition()));
+        if ((g.getBitmask() & BitMasks.produceBitMask(Position.class)) != 0)
+        {
+            quadTree.addGameObject(g, convertGlobalPositionTOLEAF(g.getComponent(Position.class).getPosition()));
+        }
+        else
+        {
+            System.out.println("Object has no Position :: Adding to QUADTREE FAILED");
+        }
+
     }
+    public void removeGameObject(GameObject g)
+    {
+        if ((g.getBitmask() & BitMasks.produceBitMask(Position.class)) != 0) {
+            quadTree.removeGameObject(g, convertGlobalPositionTOLEAF(g.getComponent(Position.class).getPosition()));
+        }
+        else{
+            System.out.println("Object has no Position :: Removing from QUADTREE FAILED");
+        }
+    }
+
 
     /**
      * Adds an Array of GameObjects to the quadTree
@@ -66,7 +81,14 @@ public class EntityManager
     {
         for (GameObject g:gArray)
         {
-            quadTree.addGameObject(g, convertGlobalPositionTOLEAF(g.getPosition()));
+            if ((g.getBitmask() & BitMasks.produceBitMask(Position.class)) != 0)
+            {
+                quadTree.addGameObject(g, convertGlobalPositionTOLEAF(g.getComponent(Position.class).getPosition()));
+            }
+            else
+            {
+                System.out.println("Object has no Position :: Adding array to QUADTREE FAILED");
+            }
         }
 
     }
@@ -124,58 +146,19 @@ public class EntityManager
      */
     public void updateLeaf(GameObject g, Vector2f newPosition)
     {
-        if (convertGlobalPositionTOLEAF(g.getPosition()) != convertGlobalPositionTOLEAF(newPosition))
+        if ((g.getBitmask() & BitMasks.produceBitMask(Position.class)) != 0)
         {
-            quadTree.removeGameObject(g,convertGlobalPositionTOLEAF(g.getPosition()));
-            quadTree.addGameObject(g,convertGlobalPositionTOLEAF(newPosition));
+            if (!(convertGlobalPositionTOLEAF(g.getComponent(Position.class).getPosition()).equals(convertGlobalPositionTOLEAF(newPosition))))
+            {
+                quadTree.removeGameObject(g,convertGlobalPositionTOLEAF(g.getComponent(Position.class).getPosition()));
+                quadTree.addGameObject(g,convertGlobalPositionTOLEAF(newPosition));
+            }
         }
-    }
-
-
-    /**
-     * Whenever a new Component Type is created
-     * Add it here with a unique bitMask (basically 10x the previous bitMask) eq: 1000, 10000, 100000
-     */
-    private EntityManager()
-    {
-        componentBitMask.put(TextureComponent.class,Integer.parseInt("1", 2));
-        componentBitMask.put(Collider.class,Integer.parseInt("10", 2));
-        componentBitMask.put(Movement.class,Integer.parseInt("100", 2));
-        componentBitMask.put(Light.class,Integer.parseInt("1000", 2));
-        componentBitMask.put(Shoot.class,Integer.parseInt("10000", 2));
-    }
-
-    /**
-     * Creates a BitMask for a GameObject or GameSystem given one or many Ints
-     * The BitMask works by using BitWise OR on all the numbers
-     * @param bitMasks  The One or Many Ints to combine into a bitmask
-     * @return the combined bitmask
-     */
-    public int produceBitMask(int... bitMasks)
-    {
-        int newMask = 0;
-        for (int i: bitMasks)
+        else
         {
-            newMask |= i;
+            System.out.println("Object has no Position :: Updating LEAF FAILED");
         }
-        return newMask;
-    }
 
-    /**
-     * Also Creates a BitMask for a GameObject or GameSystem but given one or many Components
-     * Uses the unique integer values found in the HashMap for each given component
-     *
-     * @param bitMasks The Components used to make the BitMask
-     * @return The BitMask
-     */
-    public int produceBitMask(Class<? extends Component>... bitMasks)
-    {
-        int newMask = 0;
-        for (Class<? extends  Component> c : bitMasks)
-        {
-            newMask |= componentBitMask.get(c);
-        }
-        return newMask;
     }
 
 
