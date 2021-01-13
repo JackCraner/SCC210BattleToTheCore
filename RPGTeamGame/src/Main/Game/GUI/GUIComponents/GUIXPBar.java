@@ -52,6 +52,9 @@ public class GUIXPBar extends GUIComponent<XPBar>
                 XPSlot[i].setFillColor(XPEmpty2);
             }
         }
+        for (int i = 0; i < XPSlot.length; i++){
+            XPSlot[i].setPosition(200+((int)XPSlotLength*i), Game.WINDOWSIZE - XPSlotSize.y - 135);
+        }
         back.setPosition(200, Game.WINDOWSIZE - XPBarBackSize.y - 135);
     }
 
@@ -63,10 +66,6 @@ public class GUIXPBar extends GUIComponent<XPBar>
     public void update()
     {
         currentXP = getT().getCurrentXP();
-        for (int i = 0; i < XPSlot.length; i++){
-            XPSlot[i].setPosition(200+((int)XPSlotLength*i), Game.getGame().getWindow().getSize().y - XPSlotSize.y - 135);
-        }
-        back.setPosition(200, Game.getGame().getWindow().getSize().y - XPBarBackSize.y - 135);
     }
 
     /**
