@@ -17,6 +17,10 @@ public class Inputs extends Component
     {
         this.inputType = inputType;
     }
+    public Boolean isMoving()
+    {
+        return (forward||backwards||left||right);
+    }
 
     @Override
     public Component clone() {

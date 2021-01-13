@@ -121,6 +121,7 @@ public class CellularAutomata
         binaryMapping = floorFillController(updateMap(startMap(r), recursionDepth));
         if (totalEmptySpace < CHUNKSIZEBLOCKSX * CHUNKSIZEBLOCKSY * initalEmptyFaceRate)
         {
+            System.out.println("Map failed, trying again");
             generateBinaryMapping();
         }
 

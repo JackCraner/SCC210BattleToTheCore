@@ -9,6 +9,9 @@ import org.jsfml.graphics.RenderStates;
 import org.jsfml.graphics.RenderTarget;
 import org.jsfml.system.Vector2f;
 
+/**
+ * The HealthBar GUI Component
+ */
 public class GUIHealthBar extends GUIComponent<HealthBar>
 {
     private Color HPBack = new Color(1, 1, 1);         //The colour of the current Health
@@ -20,6 +23,10 @@ public class GUIHealthBar extends GUIComponent<HealthBar>
     private float currentHealth = 100;                          //The value of the current Health
     private float topLeftY;
 
+    /**
+     * Defines the healthBars params
+     * @param s the given HealthBar component which is to define the GUIComponent
+     */
     public GUIHealthBar(HealthBar s)
     {
         super(s);
@@ -35,6 +42,9 @@ public class GUIHealthBar extends GUIComponent<HealthBar>
         back.setFillColor(HPBack);
     }
 
+    /**
+     * Updates the health value shown on the GUI
+     */
     @Override
     public void update()
     {
@@ -43,6 +53,11 @@ public class GUIHealthBar extends GUIComponent<HealthBar>
         front.setPosition(new Vector2f(front.getPosition().x,topLeftY + (healthOrbSize.y *(1-(currentHealth/totalHealth)))));
     }
 
+    /**
+     * draws the GUI Component
+     * @param renderTarget
+     * @param renderStates
+     */
     @Override
     public void draw(RenderTarget renderTarget, RenderStates renderStates)
     {

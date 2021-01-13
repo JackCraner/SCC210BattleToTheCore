@@ -17,21 +17,23 @@ public class BitMasks
     }
     private static HashMap<Class<? extends Component>, Integer> COMPONENTBITMASKS = new HashMap<>();
     static{
-        COMPONENTBITMASKS.put(Position.class,Integer.parseInt("1", 2));
-        COMPONENTBITMASKS.put(TransformComponent.class,Integer.parseInt("10", 2));
-        COMPONENTBITMASKS.put(TextureComponent.class,Integer.parseInt("100", 2));
-        COMPONENTBITMASKS.put(Collider.class,Integer.parseInt("1000", 2));
-        COMPONENTBITMASKS.put(Movement.class,Integer.parseInt("10000", 2));
-        COMPONENTBITMASKS.put(Light.class,Integer.parseInt("100000", 2));
-        COMPONENTBITMASKS.put(Backpack.class,Integer.parseInt("1000000", 2));
-        COMPONENTBITMASKS.put(Pickup.class,Integer.parseInt("100000000", 2));
-        COMPONENTBITMASKS.put(CollisionEvent.class,Integer.parseInt("1000000000", 2));
-        COMPONENTBITMASKS.put(HealthBar.class,Integer.parseInt("10000000000", 2));
-        COMPONENTBITMASKS.put(ManaBar.class,Integer.parseInt("100000000000", 2));
-        COMPONENTBITMASKS.put(XPBar.class,Integer.parseInt("1000000000000", 2));
-        COMPONENTBITMASKS.put(Damage.class,Integer.parseInt("10000000000000", 2));
-        COMPONENTBITMASKS.put(LifeSpan.class,Integer.parseInt("100000000000000", 2));
-        COMPONENTBITMASKS.put(Inputs.class,Integer.parseInt("1000000000000000", 2));
+        //max 31 components
+        COMPONENTBITMASKS.put(Position.class,Integer.parseInt("1", 2));     //1
+        COMPONENTBITMASKS.put(TransformComponent.class,Integer.parseInt("10", 2)); //2
+        COMPONENTBITMASKS.put(TextureComponent.class,Integer.parseInt("100", 2));  //3
+        COMPONENTBITMASKS.put(Collider.class,Integer.parseInt("1000", 2));  //4
+        COMPONENTBITMASKS.put(Movement.class,Integer.parseInt("10000", 2));   //5
+        COMPONENTBITMASKS.put(Light.class,Integer.parseInt("100000", 2));       //6
+        COMPONENTBITMASKS.put(Backpack.class,Integer.parseInt("1000000", 2));       //7
+        COMPONENTBITMASKS.put(Pickup.class,Integer.parseInt("100000000", 2));       //8
+        COMPONENTBITMASKS.put(CollisionEvent.class,Integer.parseInt("1000000000", 2));          //9
+        COMPONENTBITMASKS.put(HealthBar.class,Integer.parseInt("10000000000", 2));      //10
+        COMPONENTBITMASKS.put(ManaBar.class,Integer.parseInt("100000000000", 2));       //11
+        COMPONENTBITMASKS.put(XPBar.class,Integer.parseInt("1000000000000", 2));        //12
+        COMPONENTBITMASKS.put(Damage.class,Integer.parseInt("10000000000000", 2));      //13
+        COMPONENTBITMASKS.put(LifeSpan.class,Integer.parseInt("100000000000000", 2));       //14
+        COMPONENTBITMASKS.put(Inputs.class,Integer.parseInt("1000000000000000", 2));            //15
+        COMPONENTBITMASKS.put(Stats.class,Integer.parseInt("10000000000000000", 2));            //16
 
 
     }

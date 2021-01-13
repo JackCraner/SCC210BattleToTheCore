@@ -28,6 +28,7 @@ public class Blueprint
 
         GameObject g = new GameObject(Entity.PLAYER.name);
         g.addComponent(new Position(position,g));
+        g.addComponent(new Inputs(InputTypes.HUMAN));
         g.addComponent(new TransformComponent(OBJECTSIZE));
         g.addComponent(new TextureComponent(TextureTypes.RECTANGLE,(byte)3,Entity.PLAYER.textureString));
         g.addComponent(new Movement(MovementTypes.CONTROLLED, 200));
@@ -37,7 +38,7 @@ public class Blueprint
         g.addComponent(new HealthBar(100));
         g.addComponent(new ManaBar(100));
         g.addComponent(new XPBar(100));
-        g.addComponent(new Inputs(InputTypes.HUMAN));
+
         //g.addComponent(new Shoot());
 
         return g;

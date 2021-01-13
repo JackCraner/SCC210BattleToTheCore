@@ -52,6 +52,7 @@ public class RendererGameSystem  extends GameSystem
         //System.out.println("Num Objects: " +getGameObjectList().transform.getSize()());
         backGround.clear();
 
+
         //buildVertexArray();
         Vector2f curPos;
         TransformComponent transform;
@@ -64,7 +65,7 @@ public class RendererGameSystem  extends GameSystem
 
             if (texture.texturetype == TextureTypes.BLOCK)
             {
-
+                //// SO MANY VECTORS :CCCCC
                 backGround.add(new Vertex(curPos, new Vector2f(Blueprint.TEXTURESIZE.x * texture.tileMapLocation, 0)));
                 backGround.add(new Vertex(new Vector2f(curPos.x, curPos.y + transform.getSize().y), new Vector2f(Blueprint.TEXTURESIZE.x * texture.tileMapLocation + Blueprint.TEXTURESIZE.x, 0)));
                 backGround.add(new Vertex(new Vector2f(curPos.x + transform.getSize().x, curPos.y + transform.getSize().y), new Vector2f(Blueprint.TEXTURESIZE.x * texture.tileMapLocation + Blueprint.TEXTURESIZE.x, +Blueprint.TEXTURESIZE.x)));
