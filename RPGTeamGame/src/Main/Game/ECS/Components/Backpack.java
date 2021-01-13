@@ -10,22 +10,29 @@ public class Backpack extends Component
 {
     private ArrayList<GameObject> gameObjectsINBACKPACK = new ArrayList<>();
     private int maxNumObject = 1;
-
     private float emptyCooldown;
 
+    private final Boolean canUseItems;
+    private final Boolean canDropItems;
 
-    public Backpack(int size)
+    public Backpack(int size, Boolean canUseItems)
     {
         maxNumObject = size;
+        this.canUseItems = canUseItems;
+        this.canDropItems = canUseItems;
     }
-    public Backpack(GameObject g)
+    public Backpack(GameObject g, Boolean canUseItems)
     {
         gameObjectsINBACKPACK.add(g);
+        this.canUseItems = canUseItems;
+        this.canDropItems = canUseItems;
     }
-    public Backpack(int size, ArrayList<GameObject> g)
+    public Backpack(int size, ArrayList<GameObject> g, Boolean canUseItems)
     {
         this.maxNumObject = size;
         gameObjectsINBACKPACK.addAll(g);
+        this.canUseItems = canUseItems;
+        this.canDropItems = canUseItems;
     }
     public void addGameObject(GameObject g)
     {
@@ -33,6 +40,15 @@ public class Backpack extends Component
         gameObjectsINBACKPACK.add(g);
 
     }
+
+    public Boolean getCanUseItems() {
+        return canUseItems;
+    }
+    public Boolean getCanDropItems()
+    {
+        return canDropItems;
+    }
+
 
     public float getEmptyCooldown() {
         return emptyCooldown;
@@ -54,6 +70,6 @@ public class Backpack extends Component
     @Override
     public Component clone()
     {
-        return new Backpack(maxNumObject,(ArrayList<GameObject>)gameObjectsINBACKPACK.clone());
+        return new Backpack(maxNumObject,(ArrayList<GameObject>)gameObjectsINBACKPACK.clone(), canUseItems);
     }
 }

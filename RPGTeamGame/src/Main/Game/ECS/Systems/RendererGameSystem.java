@@ -11,6 +11,8 @@ import Main.Game.Game;
 import org.jsfml.graphics.*;
 import org.jsfml.system.Vector2f;
 
+import java.io.File;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 
 public class RendererGameSystem  extends GameSystem
@@ -22,18 +24,19 @@ public class RendererGameSystem  extends GameSystem
     private RenderStates rS;
     private Sprite screenSprite = new Sprite();
     private VertexArray backGround = new VertexArray(PrimitiveType.QUADS);
-
+    private Font font= new Font();
     private RendererGameSystem()
     {
         setBitMaskRequirement(BitMasks.produceBitMask(TextureComponent.class, Position.class, TransformComponent.class));
         try
         {
+            font.loadFromFile(Paths.get("Assets" + File.separator + "Fonts" + File.separator+ "LEMONMILK-Regular.otf"));
             screenTexture.create(Game.WINDOWSIZE, Game.WINDOWSIZE);
             screenTexture.setView(Camera.cameraInstance().camerView);
         }
         catch (Exception e)
         {
-            System.out.println(e);
+            System.out.println("Render System: " + e);
         }
 
     }
@@ -58,7 +61,7 @@ public class RendererGameSystem  extends GameSystem
             transform = g.getComponent(TransformComponent.class);
             texture = g.getComponent(TextureComponent.class);
 
-            if (texture.layer - 1 < 0)
+            if (texture.texturetype == TextureType.BLOCK)
             {
 
                 backGround.add(new Vertex(curPos, new Vector2f(Blueprint.TEXTURESIZE.x * texture.tileMapLocation, 0)));
@@ -69,7 +72,7 @@ public class RendererGameSystem  extends GameSystem
 
 
             }
-            else
+            if(texture.texturetype == TextureType.RECTANGLE)
             {
                 RectangleShape s = new RectangleShape();
                 s.setPosition(new Vector2f(curPos.x, curPos.y));
@@ -88,9 +91,9 @@ public class RendererGameSystem  extends GameSystem
                     s.setTextureRect(new IntRect(texture.tileMapLocation * (int)transform.getSize().x, 0,(int)transform.getSize().x,(int)transform.getSize().y));
                 }
 
-                graphicLayers[texture.layer - 1].addDrawable(s);
+                graphicLayers[texture.layer-1].addRectangle(s);
 
-                if((g.getBitmask() & BitMasks.getBitMask(Backpack.class)) != 0 && g.getComponent(Backpack.class).getObjectsINBACKPACK().size() > 0)
+                if((g.getBitmask() & BitMasks.getBitMask(Backpack.class)) != 0 && g.getComponent(Backpack.class).getObjectsINBACKPACK().size() > 0 && g.getComponent(Backpack.class).getCanUseItems())
                 {
                     RectangleShape s1 = new RectangleShape();
                     s1.setPosition(new Vector2f(curPos.x-(g.getComponent(Movement.class).getIsFacingRight() ? -10:10), curPos.y));
@@ -103,8 +106,15 @@ public class RendererGameSystem  extends GameSystem
                         s1.setTextureRect(new IntRect(mainHandTexture.tileMapLocation * (int)transform.getSize().x, 0,(int)transform.getSize().x,(int)transform.getSize().y));
                     }
 
-                    graphicLayers[mainHandTexture.layer - 1].addDrawable(s1);
+                    graphicLayers[mainHandTexture.layer - 1].addRectangle(s1);
                 }
+            }
+            if (texture.texturetype == TextureType.TEXT)
+            {
+                Text t = new Text(texture.textureString,font,(int)transform.getSize().x);
+                t.setColor(Color.YELLOW);
+                t.setPosition(new Vector2f(curPos.x, curPos.y));
+                graphicLayers[texture.layer - 1].addText(t);
             }
 
         }
@@ -150,15 +160,19 @@ public class RendererGameSystem  extends GameSystem
 class Layer implements Drawable
 {
     ArrayList<RectangleShape> drawablesInLayer = new ArrayList<>();
+    ArrayList<Text> textInLayer = new ArrayList<>();
     public Layer()
     {
 
     }
-    public void addDrawable(RectangleShape d)
+    public void addRectangle(RectangleShape d)
     {
         drawablesInLayer.add(d);
     }
-
+    public void addText(Text t)
+    {
+        textInLayer.add(t);
+    }
     @Override
     public void draw(RenderTarget renderTarget, RenderStates renderStates)
     {
@@ -172,7 +186,12 @@ class Layer implements Drawable
             RenderStates r = new RenderStates(renderStates,t);
             renderTarget.draw(d,r);
         }
+        for (Text t: textInLayer)
+        {
+            renderTarget.draw(t);
+        }
         drawablesInLayer.clear();
+        textInLayer.clear();
     }
 }
 

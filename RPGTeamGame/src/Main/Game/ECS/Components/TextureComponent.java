@@ -1,37 +1,36 @@
 package Main.Game.ECS.Components;
 
 import Main.Game.ECS.Entity.Component;
-import org.jsfml.graphics.*;
-import org.jsfml.system.Vector2f;
 
 public class TextureComponent extends Component
 {
 
-
+    public final TextureType texturetype;
     public Byte tileMapLocation = -1;
     public Byte layer =1;
     public String textureString;
 
-    public TextureComponent()
-    {
 
-    }
-    public TextureComponent(String textureID)
+    public TextureComponent(TextureType texturetype, String textureID)
     {
+        this.texturetype = texturetype;
         this.textureString = textureID;
     }
-    public TextureComponent(Byte layer, String textureID)
+    public TextureComponent(TextureType texturetype, Byte layer, String textureID)
     {
+        this.texturetype = texturetype;
         this.textureString = textureID;
         this.layer = layer;
     }
-    public TextureComponent(String textureID, Byte tileMapLocation)
+    public TextureComponent(TextureType texturetype, String textureID, Byte tileMapLocation)
     {
+        this.texturetype = texturetype;
         this.textureString= textureID;
         this.tileMapLocation = tileMapLocation;
     }
-    public TextureComponent(String textureID, Byte tileMapLocation, Byte layer)
+    public TextureComponent(TextureType texturetype, String textureID, Byte tileMapLocation, Byte layer)
     {
+        this.texturetype = texturetype;
         this.textureString= textureID;
         this.tileMapLocation = tileMapLocation;
         this.layer = layer;
@@ -40,6 +39,6 @@ public class TextureComponent extends Component
 
     @Override
     public Component clone() {
-        return new TextureComponent(textureString,tileMapLocation,layer);
+        return new TextureComponent(texturetype,textureString,tileMapLocation,layer);
     }
 }
