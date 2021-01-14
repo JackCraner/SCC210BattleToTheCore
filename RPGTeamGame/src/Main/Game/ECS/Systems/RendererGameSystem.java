@@ -13,14 +13,16 @@ import org.jsfml.graphics.*;
 import org.jsfml.system.Vector2f;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class RendererGameSystem  extends GameSystem
 {
     private static RendererGameSystem systemInstance = new RendererGameSystem();
 
-    private Layer[] graphicLayers = {new Layer(),new Layer(), new Layer()};
+    private Layer[] graphicLayers = {new Layer(),new Layer(), new Layer(), new Layer()};
     public RenderTexture screenTexture = new RenderTexture();
     private RenderStates rS;
     private Sprite screenSprite = new Sprite();
@@ -117,6 +119,23 @@ public class RendererGameSystem  extends GameSystem
                 t.setColor(Color.YELLOW);
                 t.setPosition(new Vector2f(curPos.x, curPos.y));
                 graphicLayers[texture.layer - 1].addText(t);
+            }
+            if(texture.texturetype == TextureTypes.PARTICLE)
+            {
+                RectangleShape s = new RectangleShape();
+                s.setPosition(curPos);
+                s.setSize(transform.getSize());
+                try {
+                    int[] rgbData =  Arrays.asList(texture.textureString.split(",")).stream().mapToInt(Integer::parseInt).toArray();
+                    s.setFillColor(new Color(rgbData[0],rgbData[1],rgbData[2]));
+                }
+                catch (Exception e)
+                {
+                    System.out.println("Color Not Found");
+                }
+                graphicLayers[texture.layer - 1].addRectangle(s);
+
+
             }
 
         }

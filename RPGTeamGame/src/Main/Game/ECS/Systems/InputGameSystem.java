@@ -66,6 +66,8 @@ public class InputGameSystem extends GameSystem
             }
             if (gameObjectInputs.inputType == InputTypes.AI)
             {
+                //AI
+
                 gameObjectInputs.right = true;
             }
 

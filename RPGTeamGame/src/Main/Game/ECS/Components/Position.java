@@ -22,6 +22,7 @@ public class Position extends Component
     {
         return position;
     }
+
     public void updatePosition(Vector2f position)
     {
         EntityManager.getEntityManagerInstance().updateLeaf(me,position);

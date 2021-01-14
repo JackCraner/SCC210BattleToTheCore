@@ -38,7 +38,8 @@ public class SystemManager
         systemList.add(LifeSpanGameSystem.getSystemInstance());
         systemList.add(EventClearGameSystem.getSystemInstance());
         systemList.add(RendererGameSystem.getSystemInstance());
-       systemList.add(LightingGameSystem.getLightingGameSystem());
+        systemList.add(LightingGameSystem.getLightingGameSystem());
+        systemList.add(ParticleGameSystem.getSystemInstance());
 
 
 

@@ -1,8 +1,9 @@
 package Main.Game.GUI;
 
 import Main.Game.ECS.Components.Backpack;
-import Main.Game.ECS.Components.HealthBar;
-import Main.Game.ECS.Components.ManaBar;
+import Main.Game.ECS.Components.StatComponents.Health;
+import Main.Game.ECS.Components.StatComponents.Mana;
+import Main.Game.ECS.Components.Stats;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.GUI.GUIComponents.GUIComponentENUM;
 import Main.Game.GUI.GUIComponents.GUIHealthBar;
@@ -36,8 +37,8 @@ public class GUIManager implements Drawable
         //If you want to add a new GUI Component, first add it to the ENUM, then make a new class for the new element which extends the abstract class
         //finally add a new instance of the new class with its paired enum to the hashmap
         guiComponentList.put(GUIComponentENUM.INVENTORY, new GUIInvectory(GUITarget.getComponent(Backpack.class)));
-        guiComponentList.put(GUIComponentENUM.HEALTHBAR,new GUIHealthBar(GUITarget.getComponent(HealthBar.class)));
-        guiComponentList.put(GUIComponentENUM.MANABAR,new GUIManaBar(GUITarget.getComponent(ManaBar.class)));
+        guiComponentList.put(GUIComponentENUM.HEALTHBAR,new GUIHealthBar(GUITarget.getComponent(Stats.class).getComponent(Health.class)));
+        guiComponentList.put(GUIComponentENUM.MANABAR,new GUIManaBar(GUITarget.getComponent(Stats.class).getComponent(Mana.class)));
     }
 
     private GUIManager()

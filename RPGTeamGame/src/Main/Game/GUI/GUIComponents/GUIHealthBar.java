@@ -1,6 +1,6 @@
 package Main.Game.GUI.GUIComponents;
 
-import Main.Game.ECS.Components.HealthBar;
+import Main.Game.ECS.Components.StatComponents.Health;
 import Main.Game.GUI.GUIComponent;
 import Main.Game.Game;
 import org.jsfml.graphics.Color;
@@ -12,7 +12,7 @@ import org.jsfml.system.Vector2f;
 /**
  * The HealthBar GUI Component
  */
-public class GUIHealthBar extends GUIComponent<HealthBar>
+public class GUIHealthBar extends GUIComponent<Health>
 {
     private Color HPBack = new Color(1, 1, 1);         //The colour of the current Health
     private Color HPFront = new Color(254, 22, 22);     //The colour of the Health Lost
@@ -27,7 +27,7 @@ public class GUIHealthBar extends GUIComponent<HealthBar>
      * Defines the healthBars params
      * @param s the given HealthBar component which is to define the GUIComponent
      */
-    public GUIHealthBar(HealthBar s)
+    public GUIHealthBar(Health s)
     {
         super(s);
         totalHealth = s.getMaxHealth();

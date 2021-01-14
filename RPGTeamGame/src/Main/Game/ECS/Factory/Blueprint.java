@@ -7,6 +7,9 @@ import Main.Game.ECS.Components.ComponentENUMs.TextureTypes;
 import Main.Game.ECS.Components.ItemComponents.Damage;
 import Main.Game.ECS.Components.ItemComponents.LifeSpan;
 import Main.Game.ECS.Components.Pickup;
+import Main.Game.ECS.Components.StatComponents.Armor;
+import Main.Game.ECS.Components.StatComponents.Health;
+import Main.Game.ECS.Components.StatComponents.Mana;
 import Main.Game.ECS.Entity.GameObject;
 import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector3f;
@@ -33,13 +36,14 @@ public class Blueprint
         g.addComponent(new TextureComponent(TextureTypes.RECTANGLE,(byte)3,Entity.PLAYER.textureString));
         g.addComponent(new Movement(MovementTypes.CONTROLLED, 200));
         g.addComponent(new Light());
+        g.addComponent(new Stats(
+                new Health(100),
+                new Mana(100)
+        ));
         g.addComponent(new Collider(true,true,true,g));
         g.addComponent(new Backpack(6,true));
-        g.addComponent(new HealthBar(100));
-        g.addComponent(new ManaBar(100));
         g.addComponent(new XPBar(100));
-
-        //g.addComponent(new Shoot());
+        g.addComponent(new Particles(0.05f));
 
         return g;
 
@@ -57,7 +61,9 @@ public class Blueprint
         GameObject g = new GameObject(Entity.CHEST.name);
         g.addComponent(new Backpack(1, false));
         g.getComponent(Backpack.class).addGameObject(wand());
-        g.addComponent(new HealthBar(20));
+        g.addComponent(new Stats(
+                new Health(20)
+        ));
         g.addComponent(new Position(position,g));
         g.addComponent(new TransformComponent(OBJECTSIZE));
         g.addComponent(new TextureComponent(TextureTypes.RECTANGLE,Entity.CHEST.textureString));
@@ -87,15 +93,6 @@ public class Blueprint
         g.addComponent(new Pickup(null,200));
         return g;
 
-    }
-    public static GameObject torchItem()
-    {
-        GameObject g = new GameObject(Entity.TORCH.name);
-        g.addComponent(new TransformComponent(OBJECTSIZE));
-        g.addComponent(new TextureComponent(TextureTypes.RECTANGLE,Entity.TORCH.textureString));
-        g.addComponent(new Light(0.3f,3f, new Vector3f(1f,0.8f,0.2f)));
-        g.addComponent(new Collider(true,false,false));
-        return g;
     }
 
     public static GameObject itemFrameWork(Vector2f position, GameObject itemsUse)
@@ -174,8 +171,11 @@ public class Blueprint
         g.addComponent(new Position(position,g));
         g.addComponent(new TransformComponent(OBJECTSIZE));
         g.addComponent(new TextureComponent(TextureTypes.RECTANGLE,(byte)2,Entity.ENEMY.textureString));
-        g.addComponent(new HealthBar(100));
         g.addComponent(new Collider(true,true,true,false));
+        g.addComponent(new Stats(
+                new Health(100),
+                new Armor(10)));
+
         g.addComponent(new Backpack(6,true));
         g.addComponent(new Movement(MovementTypes.CONTROLLED,30));
         g.addComponent(new Inputs(InputTypes.AI));
@@ -185,12 +185,13 @@ public class Blueprint
     {
         GameObject g = new GameObject(Entity.DamageText.name);
         g.addComponent(new Position(position,g));
-        g.addComponent(new TransformComponent(new Vector2f(12,12)));
+        g.addComponent(new TransformComponent(new Vector2f(20,20)));
         g.getComponent(TransformComponent.class).setRotation(-90);
-        g.addComponent(new TextureComponent(TextureTypes.TEXT,(byte)2,String.valueOf(dmg)));
+        g.addComponent(new TextureComponent(TextureTypes.TEXT,(byte)2,String.valueOf((int)dmg)));
         g.addComponent(new LifeSpan(1.5f));
         g.addComponent(new Movement(MovementTypes.LINEAR,30));
-        return g;
+        g.addComponent(new Light());
+       return  g;
     }
 
 
