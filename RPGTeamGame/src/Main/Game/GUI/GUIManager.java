@@ -4,11 +4,9 @@ import Main.Game.ECS.Components.Backpack;
 import Main.Game.ECS.Components.StatComponents.Health;
 import Main.Game.ECS.Components.StatComponents.Mana;
 import Main.Game.ECS.Components.Stats;
+import Main.Game.ECS.Components.XPBar;
 import Main.Game.ECS.Entity.GameObject;
-import Main.Game.GUI.GUIComponents.GUIComponentENUM;
-import Main.Game.GUI.GUIComponents.GUIHealthBar;
-import Main.Game.GUI.GUIComponents.GUIInvectory;
-import Main.Game.GUI.GUIComponents.GUIManaBar;
+import Main.Game.GUI.GUIComponents.*;
 import Main.Game.Game;
 import org.jsfml.graphics.Drawable;
 import org.jsfml.graphics.RenderStates;
@@ -39,6 +37,7 @@ public class GUIManager implements Drawable
         guiComponentList.put(GUIComponentENUM.INVENTORY, new GUIInvectory(GUITarget.getComponent(Backpack.class)));
         guiComponentList.put(GUIComponentENUM.HEALTHBAR,new GUIHealthBar(GUITarget.getComponent(Stats.class).getComponent(Health.class)));
         guiComponentList.put(GUIComponentENUM.MANABAR,new GUIManaBar(GUITarget.getComponent(Stats.class).getComponent(Mana.class)));
+        guiComponentList.put(GUIComponentENUM.XPBAR,new GUIXPBar(GUITarget.getComponent(XPBar.class)));
     }
 
     private GUIManager()
