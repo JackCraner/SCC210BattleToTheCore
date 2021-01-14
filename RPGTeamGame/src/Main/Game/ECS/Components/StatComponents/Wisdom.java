@@ -1,6 +1,6 @@
 package Main.Game.ECS.Components.StatComponents;
 
-public class Wisdom  extends StatComponent
+public class Wisdom implements StatComponent
 {
     private float wisdom;
 
@@ -15,5 +15,10 @@ public class Wisdom  extends StatComponent
 
     public void setWisdom(float wisdom) {
         this.wisdom = wisdom;
+    }
+
+    @Override
+    public void applyEffect(float percentage) {
+
     }
 }

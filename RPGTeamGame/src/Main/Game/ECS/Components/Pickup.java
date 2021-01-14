@@ -1,5 +1,6 @@
 package Main.Game.ECS.Components;
 
+import Main.Game.ECS.Components.ItemComponents.Damage;
 import Main.Game.ECS.Components.Items.ItemEffect;
 import Main.Game.ECS.Entity.Component;
 import Main.Game.ECS.Entity.GameObject;
@@ -52,7 +53,7 @@ public class Pickup extends Component
         attachedTo =g;
         if (doesSpawn())
         {
-            spawns.getComponent(Collider.class).avoidGameObject = g;
+            spawns.getComponent(Collider.class).setAvoidTime(g);
         }
 
     }

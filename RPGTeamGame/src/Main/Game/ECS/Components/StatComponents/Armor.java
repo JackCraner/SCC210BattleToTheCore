@@ -1,6 +1,6 @@
 package Main.Game.ECS.Components.StatComponents;
 
-public class Armor extends StatComponent
+public class Armor implements StatComponent
 {
     private float armorValue;
 
@@ -24,5 +24,10 @@ public class Armor extends StatComponent
 
     public void setArmorValue(float armorValue) {
         this.armorValue = armorValue;
+    }
+
+    @Override
+    public void applyEffect(float percentage) {
+        
     }
 }

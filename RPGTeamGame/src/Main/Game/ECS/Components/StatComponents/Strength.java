@@ -1,6 +1,6 @@
 package Main.Game.ECS.Components.StatComponents;
 
-public class Strength  extends StatComponent
+public class Strength  implements StatComponent
 {
     private float strength;
 
@@ -15,5 +15,10 @@ public class Strength  extends StatComponent
 
     public void setStrength(float strength) {
         this.strength = strength;
+    }
+
+    @Override
+    public void applyEffect(float percentage) {
+
     }
 }

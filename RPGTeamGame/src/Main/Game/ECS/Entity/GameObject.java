@@ -31,6 +31,7 @@ public class GameObject implements Cloneable
 
 
     private String name;
+    private int UID=0;
     private int bitmask = 0;
 
 
@@ -114,6 +115,15 @@ public class GameObject implements Cloneable
        return go;
 
     }
+
+    public int getUID() {
+        return UID;
+    }
+
+    public void setUID(int UID) {
+        this.UID = UID;
+    }
+
     @Override
     public String toString() {
         return name;

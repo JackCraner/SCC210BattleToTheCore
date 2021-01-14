@@ -1,6 +1,6 @@
 package Main.Game.ECS.Components.StatComponents;
 
-public class Mana extends StatComponent
+public class Mana implements StatComponent
 {
     private float currentMana;
     private float maxMana;
@@ -18,4 +18,8 @@ public class Mana extends StatComponent
         return maxMana;
     }
 
+    @Override
+    public void applyEffect(float percentage) {
+
+    }
 }

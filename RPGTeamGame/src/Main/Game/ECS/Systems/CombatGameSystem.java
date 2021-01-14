@@ -39,33 +39,35 @@ public class CombatGameSystem extends GameSystem
                 if ((g.getBitmask() & BitMasks.produceBitMask(CollisionEvent.class)) != 0)
                 {
                     GameObject hitBY = g.getComponent(CollisionEvent.class).getG();
-
-                    if ((hitBY.getBitmask() & BitMasks.produceBitMask(Damage.class)) != 0)
+                    if (!(hitBY.getComponent(Collider.class).checkGameObject(g)))
                     {
-                        g.removeComponent(CollisionEvent.class);
-                        float damageDealt;
-                        if(BitMasks.checkIfContainsStats(objectStats.getBitMask(), Armor.class))
+                        if ((hitBY.getBitmask() & BitMasks.produceBitMask(Damage.class)) != 0)
                         {
-                            damageDealt = (hitBY.getComponent(Damage.class).getDamage()*objectStats.getComponent(Armor.class).getArmorValue());
-                        }
-                        else
-                        {
-                            damageDealt = hitBY.getComponent(Damage.class).getDamage();
+                            g.removeComponent(CollisionEvent.class);
+                            float damageDealt;
+                            if(BitMasks.checkIfContainsStats(objectStats.getBitMask(), Armor.class))
+                            {
+                                damageDealt = (hitBY.getComponent(Damage.class).getDamage()*objectStats.getComponent(Armor.class).getArmorValue());
+                            }
+                            else
+                            {
+                                damageDealt = hitBY.getComponent(Damage.class).getDamage();
 
-                        }
+                            }
 
-                        //hit numbers
-                        hp.adjustHealth(-damageDealt);
-                        Vector2f textPos = g.getComponent(Position.class).getPosition();
-                        textPos = new Vector2f(textPos.x + new Random().nextInt(30)-15, textPos.y + 20);
-                        EntityManager.getEntityManagerInstance().addGameObject(Blueprint.damageNumber(textPos,damageDealt));
-                        //
-                        hitBY.removeComponent(Damage.class);
-                        if (g.getName() == Entity.PLAYER.name)
-                        {
-                            GUIManager.getGUIinstance().GUIUpdate(GUIComponentENUM.HEALTHBAR);
+                            //hit numbers
+                            hp.adjustHealth(-damageDealt);
+                            Vector2f textPos = g.getComponent(Position.class).getPosition();
+                            textPos = new Vector2f(textPos.x + new Random().nextInt(30)-15, textPos.y + 20);
+                            EntityManager.getEntityManagerInstance().addGameObject(Blueprint.damageNumber(textPos,damageDealt));
+                            hitBY.getComponent(Collider.class).setAvoidTime(g);
+                            if (g.getName() == Entity.PLAYER.name)
+                            {
+                                GUIManager.getGUIinstance().GUIUpdate(GUIComponentENUM.HEALTHBAR);
+                            }
                         }
                     }
+
                 }
                 if (hp.getCurrentHealth() <= 0)
                 {

@@ -6,6 +6,7 @@ import Main.Game.QuadTree.QTRoot;
 import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 
+import java.rmi.server.UID;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -28,8 +29,8 @@ import java.util.HashMap;
 public class EntityManager
 {
     private static EntityManager entityManagerInstance = new EntityManager();
-
     private static QTRoot quadTree = QTRoot.getQuadTree();
+    private int UIDCounter=1;
 
     public static EntityManager getEntityManagerInstance() {
         return entityManagerInstance;
@@ -50,11 +51,25 @@ public class EntityManager
      * Adds a GameObject to the quadTree
      * @param g the GameObject to be added
      */
-    public void addGameObject(GameObject g)
+    public void addGameObject(GameObject g,Vector2f pos)
     {
         if ((g.getBitmask() & BitMasks.produceBitMask(Position.class)) != 0)
         {
-            quadTree.addGameObject(g, convertGlobalPositionTOLEAF(g.getComponent(Position.class).getPosition()));
+            Vector2i objectPos = convertGlobalPositionTOLEAF(pos);
+            if(objectPos.x >= quadTree.NUMLEAFX || objectPos.x < 0|| objectPos.y >= quadTree.NUMLEAFY|| objectPos.y < 0)
+            {
+
+            }
+            else
+            {
+                if (g.getUID() == 0)
+                {
+                    g.setUID(UIDCounter);
+                    UIDCounter ++;
+                }
+                quadTree.addGameObject(g, objectPos);
+            }
+
         }
         else
         {
@@ -62,10 +77,25 @@ public class EntityManager
         }
 
     }
+    public void addGameObject(GameObject g)
+    {
+        addGameObject(g,g.getComponent(Position.class).getPosition());
+    }
+
     public void removeGameObject(GameObject g)
     {
-        if ((g.getBitmask() & BitMasks.produceBitMask(Position.class)) != 0) {
-            quadTree.removeGameObject(g, convertGlobalPositionTOLEAF(g.getComponent(Position.class).getPosition()));
+        if ((g.getBitmask() & BitMasks.produceBitMask(Position.class)) != 0)
+        {
+            Vector2i objectPos = convertGlobalPositionTOLEAF(g.getComponent(Position.class).getPosition());
+            if(objectPos.x >= quadTree.NUMLEAFX || objectPos.x < 0|| objectPos.y >= quadTree.NUMLEAFY|| objectPos.y < 0)
+            {
+
+            }
+            else
+            {
+                quadTree.removeGameObject(g,objectPos);
+            }
+
         }
         else{
             System.out.println("Object has no Position :: Removing from QUADTREE FAILED");
@@ -81,14 +111,7 @@ public class EntityManager
     {
         for (GameObject g:gArray)
         {
-            if ((g.getBitmask() & BitMasks.produceBitMask(Position.class)) != 0)
-            {
-                quadTree.addGameObject(g, convertGlobalPositionTOLEAF(g.getComponent(Position.class).getPosition()));
-            }
-            else
-            {
-                System.out.println("Object has no Position :: Adding array to QUADTREE FAILED");
-            }
+            addGameObject(g);
         }
 
     }
@@ -150,8 +173,8 @@ public class EntityManager
         {
             if (!(convertGlobalPositionTOLEAF(g.getComponent(Position.class).getPosition()).equals(convertGlobalPositionTOLEAF(newPosition))))
             {
-                quadTree.removeGameObject(g,convertGlobalPositionTOLEAF(g.getComponent(Position.class).getPosition()));
-                quadTree.addGameObject(g,convertGlobalPositionTOLEAF(newPosition));
+               removeGameObject(g);
+               addGameObject(g,newPosition);
             }
         }
         else

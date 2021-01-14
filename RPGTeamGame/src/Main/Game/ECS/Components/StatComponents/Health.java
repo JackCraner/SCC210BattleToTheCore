@@ -1,6 +1,6 @@
 package Main.Game.ECS.Components.StatComponents;
 
-public class Health extends StatComponent
+public class Health implements StatComponent
 {
     private float currentHealth;
     private float maxHealth;
@@ -23,4 +23,8 @@ public class Health extends StatComponent
         currentHealth +=x;
     }
 
+    @Override
+    public void applyEffect(float percentage) {
+
+    }
 }

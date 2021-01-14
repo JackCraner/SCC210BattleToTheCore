@@ -30,9 +30,9 @@ public class MapBlueprint
         binaryToTextureID.put(CellularAutomata.EMPTYID,mapID.emptyTextureID);
 
 
-        for(int a = 0; a < CellularAutomata.CHUNKSIZEBLOCKSX; a++)
+        for(int a = 1; a < CellularAutomata.CHUNKSIZEBLOCKSX; a++)
         {
-            for(int b =0; b< CellularAutomata.CHUNKSIZEBLOCKSY; b++)
+            for(int b =1; b< CellularAutomata.CHUNKSIZEBLOCKSY; b++)
             {
 
                 Vector2f pos = new Vector2f(a * Blueprint.BLOCKSIZE.x, b*Blueprint.BLOCKSIZE.y);
@@ -56,7 +56,7 @@ public class MapBlueprint
                     {
                         if ( rng.nextFloat() < generateProbability(mapID.chestSpawnRate, findDistance(pos, Entity.CHEST.name), mapID.chestMinDistance))
                         {
-                            EntityManager.getEntityManagerInstance().addGameObject(Blueprint.chest(pos));
+                            //EntityManager.getEntityManagerInstance().addGameObject(Blueprint.chest(pos));
                         }
                     }
                 }
@@ -68,6 +68,18 @@ public class MapBlueprint
 
             }
         }
+        //add outer wall
+        for(int a = 0; a < CellularAutomata.CHUNKSIZEBLOCKSX; a++)
+        {
+            EntityManager.getEntityManagerInstance().addGameObject( Blueprint.block(new Vector2f(a * Blueprint.BLOCKSIZE.x,0),binaryToTextureID.get(CellularAutomata.WALLID)));
+            EntityManager.getEntityManagerInstance().addGameObject( Blueprint.block(new Vector2f(a * Blueprint.BLOCKSIZE.x,CellularAutomata.CHUNKSIZEBLOCKSY * Blueprint.BLOCKSIZE.y),binaryToTextureID.get(CellularAutomata.WALLID)));
+        }
+        for(int b =0; b< CellularAutomata.CHUNKSIZEBLOCKSY; b++)
+        {
+            EntityManager.getEntityManagerInstance().addGameObject( Blueprint.block(new Vector2f(CellularAutomata.CHUNKSIZEBLOCKSX * Blueprint.BLOCKSIZE.x,b * Blueprint.BLOCKSIZE.y),binaryToTextureID.get(CellularAutomata.WALLID)));
+            EntityManager.getEntityManagerInstance().addGameObject( Blueprint.block(new Vector2f(0,b * Blueprint.BLOCKSIZE.y),binaryToTextureID.get(CellularAutomata.WALLID)));
+        }
+
         System.out.println(count);
     }
     public MapBlueprint(Map mapID)

@@ -1,8 +1,8 @@
 package Main.Game.ECS.Components.StatComponents;
 
-public class StatComponent
+public interface StatComponent
 {
-
+    public void applyEffect(float percentage);
 
 
 }

@@ -1,21 +1,22 @@
 package Main.Game.ECS.Components;
 
 import Main.Game.ECS.Components.ComponentENUMs.MovementTypes;
+import Main.Game.ECS.Components.StatComponents.Speed;
 import Main.Game.ECS.Entity.Component;
 
 public class Movement extends Component
 {
 
-    private float speed = 1;                //speed in pixels per second
+    private Speed speed;                //speed in pixels per second
     private boolean isFacingRight = false;
     private MovementTypes type;
-    public Movement(MovementTypes type, float speed)
+    public Movement(MovementTypes type, Speed speed)
     {
         this.type = type;
         this.speed = speed;
         isFacingRight = false;
     }
-    public Movement(MovementTypes type, float speed, Boolean isFacingRight)
+    public Movement(MovementTypes type, Speed speed, Boolean isFacingRight)
     {
         this.type = type;
         this.speed = speed;
@@ -23,12 +24,9 @@ public class Movement extends Component
     }
 
     public float getSpeed() {
-        return speed;
+        return speed.getSpeed();
     }
-    public void setSpeed(float x)
-    {
-        speed = x;
-    }
+
     public Boolean getIsFacingRight()
     {
         return isFacingRight;

@@ -35,7 +35,7 @@ public class BitMasks {
         COMPONENTBITMASKS.put(Inputs.class, Integer.parseInt("10000000000000", 2));            //13
         COMPONENTBITMASKS.put(Stats.class, Integer.parseInt("100000000000000", 2));            //14
         COMPONENTBITMASKS.put(Particles.class, Integer.parseInt("1000000000000000", 2));
-
+        COMPONENTBITMASKS.put(Effect.class, Integer.parseInt("10000000000000000", 2));
     }
 
     public static HashMap<Class<? extends StatComponent>, Integer> STATCOMPONENTBITMASK = new HashMap<>();
@@ -46,6 +46,7 @@ public class BitMasks {
         STATCOMPONENTBITMASK.put(Armor.class,Integer.parseInt("100", 2));
         STATCOMPONENTBITMASK.put(Strength.class,Integer.parseInt("1000", 2));
         STATCOMPONENTBITMASK.put(Wisdom.class,Integer.parseInt("10000", 2));
+        STATCOMPONENTBITMASK.put(Speed.class,Integer.parseInt("100000", 2));
     }
 
     /**

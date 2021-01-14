@@ -1,6 +1,7 @@
 package Main.Game.ECS.Systems;
 
 
+import Main.Game.ECS.Components.Effect;
 import Main.Game.ECS.Entity.GameObject;
 
 import java.util.ArrayList;
@@ -35,6 +36,7 @@ public class SystemManager
         systemList.add(PhysicsGameSystem.getSystemInstance());
         systemList.add(BackpackGameSystem.getSystemInstance());
         systemList.add(CombatGameSystem.getSystemInstance());
+        systemList.add(EffectModifierGameSystem.getSystemInstance());
         systemList.add(LifeSpanGameSystem.getSystemInstance());
         systemList.add(EventClearGameSystem.getSystemInstance());
         systemList.add(RendererGameSystem.getSystemInstance());
