@@ -23,27 +23,50 @@ public class GUIManager implements Drawable
 {
 
     public static GameObject GUITarget = Game.PLAYER;       //The GameObject the GUI is locked on, so will display information about this GAMEOBJECT;
+
+
+    private GUIModes mode;
+
+    private HashMap<GUIComponentENUM,GUIComponent> guiACTIVEComponentList = new HashMap<>();
+
+    private static HashMap<GUIComponentENUM,GUIComponent> guiGAMEComponentList = new HashMap<>();       //Hashmap (Speedy List) of all the GUI Components
+    static{
+        //If you want to add a new GUI Component, first add it to the ENUM, then make a new class for the new element which extends the abstract class
+        //finally add a new instance of the new class with its paired enum to the hashmap
+        guiGAMEComponentList.put(GUIComponentENUM.INVENTORY, new GUIInvectory(GUITarget.getComponent(Backpack.class)));
+        guiGAMEComponentList.put(GUIComponentENUM.HEALTHBAR,new GUIHealthBar(GUITarget.getComponent(Stats.class).getComponent(Health.class)));
+        guiGAMEComponentList.put(GUIComponentENUM.MANABAR,new GUIManaBar(GUITarget.getComponent(Stats.class).getComponent(Mana.class)));
+        guiGAMEComponentList.put(GUIComponentENUM.XPBAR,new GUIXPBar(GUITarget.getComponent(XPBar.class)));
+    }
+
+    private static HashMap<GUIComponentENUM, GUIComponent> guiMENUComponentList = new HashMap<>();
+    static{
+        guiMENUComponentList.put(GUIComponentENUM.HEALTHBAR,new GUIHealthBar(GUITarget.getComponent(Stats.class).getComponent(Health.class)));
+    }
+
+    private static HashMap<GUIModes,HashMap<GUIComponentENUM,GUIComponent>> guiModesHashMapHashMap = new HashMap<>();
+    static{
+        guiModesHashMapHashMap.put(GUIModes.GAME,guiGAMEComponentList);
+        guiModesHashMapHashMap.put(GUIModes.MENU,guiMENUComponentList);
+    }
+
+
     private static GUIManager GUIinstance = new GUIManager();       //Singleton pattern (use google for better understanding)
     public static GUIManager getGUIinstance() {
         return GUIinstance;
     }
 
 
-
-    private static HashMap<GUIComponentENUM,GUIComponent> guiComponentList = new HashMap<>();       //Hashmap (Speedy List) of all the GUI Components
-    static{
-        //If you want to add a new GUI Component, first add it to the ENUM, then make a new class for the new element which extends the abstract class
-        //finally add a new instance of the new class with its paired enum to the hashmap
-        guiComponentList.put(GUIComponentENUM.INVENTORY, new GUIInvectory(GUITarget.getComponent(Backpack.class)));
-        guiComponentList.put(GUIComponentENUM.HEALTHBAR,new GUIHealthBar(GUITarget.getComponent(Stats.class).getComponent(Health.class)));
-        guiComponentList.put(GUIComponentENUM.MANABAR,new GUIManaBar(GUITarget.getComponent(Stats.class).getComponent(Mana.class)));
-        guiComponentList.put(GUIComponentENUM.XPBAR,new GUIXPBar(GUITarget.getComponent(XPBar.class)));
-    }
-
     private GUIManager()
     {
+        guiACTIVEComponentList = guiGAMEComponentList;
+        //swapModes(GUIModes.GAME);
         //any code that needs to be run at the start is put here
         //this should stay empty unless absolutely necessary, Message me
+    }
+    public void swapModes(GUIModes mode)
+    {
+        guiACTIVEComponentList = guiModesHashMapHashMap.get(mode);
     }
 
     /**
@@ -55,7 +78,7 @@ public class GUIManager implements Drawable
         //This should be called in GameSystems if a GUI Component needs to be updated
         //for example in BackPackGameSystem, when the player picks up or drops an item, we call GUIUpdate(GUIComponentENUM.Inventory)
         //to update the inventory
-        guiComponentList.get(e).update();
+        guiACTIVEComponentList.get(e).update();
     }
 
 
@@ -65,7 +88,7 @@ public class GUIManager implements Drawable
         //draws all the GUI elements
         for (GUIComponentENUM g: GUIComponentENUM.values())
         {
-            renderTarget.draw(guiComponentList.get(g),renderStates);
+            renderTarget.draw(guiACTIVEComponentList.get(g),renderStates);
         }
     }
 }

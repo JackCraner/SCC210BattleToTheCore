@@ -25,7 +25,7 @@ public class RendererGameSystem  extends GameSystem
     private Layer[] graphicLayers = {new Layer(),new Layer(), new Layer(), new Layer()};
     public RenderTexture screenTexture = new RenderTexture();
     private RenderStates rS;
-    private Sprite screenSprite = new Sprite();
+    public Sprite screenSprite = new Sprite();
     private VertexArray backGround = new VertexArray(PrimitiveType.QUADS);
     private Font font= new Font();
     private RendererGameSystem()
@@ -52,13 +52,17 @@ public class RendererGameSystem  extends GameSystem
         // otherwise we just draw (big performance boost)
 
         //System.out.println("Num Objects: " +getGameObjectList().transform.getSize()());
-        backGround.clear();
 
 
         //buildVertexArray();
         Vector2f curPos;
         TransformComponent transform;
         TextureComponent texture;
+        if (Game.getGame().isRunning)
+        {
+            backGround.clear();
+            RendererGameSystem.getSystemInstance().screenTexture.clear(new Color(43,39,39));
+        }
         for(GameObject g: getGameObjectList())
         {
             curPos = g.getComponent(Position.class).getPosition();
@@ -158,8 +162,6 @@ public class RendererGameSystem  extends GameSystem
 
         screenTexture.display();
         screenSprite.setTexture(screenTexture.getTexture());
-        Game.getGame().getWindow().draw(screenSprite,new RenderStates(LightingGameSystem.getLightingGameSystem().mapShader));
-        screenTexture.clear(new Color(43,39,39));
 
         //Level.getLevel().getWindow().draw(backGround,new RenderStates(textureMap.get((byte) 0)));
         //Player is always index 0 on the list of Objects
@@ -211,8 +213,12 @@ class Layer implements Drawable
         {
             renderTarget.draw(t);
         }
-        drawablesInLayer.clear();
-        textInLayer.clear();
+        if (Game.getGame().isRunning)
+        {
+            drawablesInLayer.clear();
+            textInLayer.clear();
+        }
+
     }
 }
 

@@ -41,7 +41,7 @@ public class Game
     public static GameObject PLAYER = Blueprint.player(new Vector2f(CellularAutomata.CHUNKSIZEPIXELSX/2,CellularAutomata.CHUNKSIZEPIXELSY/2));
 
     private static Game levelInstance = new Game();
-    private boolean isRunning = false;
+    public boolean isRunning = false;
 
 
     private RenderWindow window;
@@ -81,7 +81,7 @@ public class Game
 
 
 
-        MapBlueprint mb = new MapBlueprint(300,Map.MAP1);
+        MapBlueprint mb = new MapBlueprint(4,Map.MAP2);
         ENTITYMANAGER.addGameObject(PLAYER);
         ENTITYMANAGER.addGameObject(Blueprint.sword(new Vector2f(PLAYER.getComponent(Position.class).getPosition().x + 50,PLAYER.getComponent(Position.class).getPosition().y + 50)));
         ENTITYMANAGER.addGameObject(Blueprint.wand(new Vector2f(PLAYER.getComponent(Position.class).getPosition().x + 70,PLAYER.getComponent(Position.class).getPosition().y + 70)));
@@ -133,6 +133,7 @@ public class Game
                     if(((KeyEvent)event).key == Keyboard.Key.T)
                     {
                         isRunning = !isRunning;
+
                     }
                 }
             }
@@ -148,9 +149,10 @@ public class Game
                 frameCounter =0;
             }
             frameCounter ++;
+            window.clear();
             if(isRunning)
             {
-                window.clear();
+
                 for (GameSystem system: SYSTEMMANAGER.getSystemList())
                 {
                     for (GameObject g : ENTITYMANAGER.getGameObjectInVicinity(PLAYER.getComponent(Position.class).getPosition(), 530))
@@ -172,10 +174,13 @@ public class Game
 
 
  */
-                window.draw(GUIMANAGER);
-                window.draw(fpsCounter);
-                window.display();
+
             }
+            window.draw(RendererGameSystem.getSystemInstance().screenSprite,new RenderStates(LightingGameSystem.getLightingGameSystem().mapShader));
+
+            window.draw(GUIMANAGER);
+            window.draw(fpsCounter);
+            window.display();
 
         }
 

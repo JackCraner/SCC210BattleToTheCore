@@ -51,7 +51,7 @@ public class Blueprint
         g.addComponent(new EffectComponent());
 
 
-       // g.getComponent(Stats.class).getComponent(Speed.class).addEffect(new Effects(2,5));
+        g.getComponent(Stats.class).getComponent(Speed.class).addEffect(new Effects(2,10));
         return g;
 
 
@@ -192,14 +192,31 @@ public class Blueprint
     public static GameObject damageNumber(Vector2f position, float dmg)
     {
         GameObject g = new GameObject(Entity.DamageText.name);
+
         g.addComponent(new Position(position,g));
         g.addComponent(new TransformComponent(new Vector2f(20,20)));
         g.getComponent(TransformComponent.class).setRotation(-90);
         g.addComponent(new TextureComponent(TextureTypes.TEXT,(byte)2,String.valueOf((int)dmg)));
         g.addComponent(new LifeSpan(1.5f));
         g.addComponent(new Movement(MovementTypes.LINEAR,new Speed(30)));
-        g.addComponent(new Light());
        return  g;
+    }
+    public static GameObject genObject(Entity e, Object... o)
+    {
+        for (Object o1:o)
+        {
+            //get entity parameters
+            //cast the o objects to the parameter types
+            //inject the parameters into the addComponents
+        }
+        return null;
+
+        //new data type called entityParameters<Entity>
+        /**
+         * entityParameters<PLAYER>
+         *     entityParameters(vectory, dmg)
+         * </PLAYER>
+         */
     }
 
 
