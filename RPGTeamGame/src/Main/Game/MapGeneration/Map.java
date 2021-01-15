@@ -1,5 +1,11 @@
 package Main.Game.MapGeneration;
 
+/**
+ * Different Level Values
+ *      Nothing to do with seed here
+ * Defines different parameters between levels
+ * For example, the final level will have less torches, thus making it more dark and scary so the TorchSpawnRate should be low
+ */
 public enum Map
 {
     MAP1(0.1f,200,0.1f,100,(byte)25,(byte)31),

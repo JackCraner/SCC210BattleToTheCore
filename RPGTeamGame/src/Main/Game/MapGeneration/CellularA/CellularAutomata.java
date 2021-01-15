@@ -10,24 +10,26 @@ import org.jsfml.system.Vector2i;
 import java.nio.channels.ScatteringByteChannel;
 import java.sql.SQLSyntaxErrorException;
 import java.util.*;
+//Creates the skeleton of the map using Cellular Automata
+//https://en.wikipedia.org/wiki/Cellular_automaton
 
 public class CellularAutomata
 {
 
 
     //parameters of creation;
-    public static int CHUNKSIZEBLOCKSX = 100;
-    public static int CHUNKSIZEBLOCKSY = 100;
-    public static int CHUNKSIZEPIXELSX = CHUNKSIZEBLOCKSX * (int)Blueprint.BLOCKSIZE.x;
-    public static int CHUNKSIZEPIXELSY = CHUNKSIZEBLOCKSY * (int)Blueprint.BLOCKSIZE.y;
-    public static byte WALLID = 0;
-    public static byte EMPTYID = 1;
+    public static int CHUNKSIZEBLOCKSX = 100;       // total number of blocks in the X direction
+    public static int CHUNKSIZEBLOCKSY = 100;       // total number of blocks in the Y direction
+    public static int CHUNKSIZEPIXELSX = CHUNKSIZEBLOCKSX * (int)Blueprint.BLOCKSIZE.x; //Number of pixels of the total map in the X
+    public static int CHUNKSIZEPIXELSY = CHUNKSIZEBLOCKSY * (int)Blueprint.BLOCKSIZE.y; // number of pixels of the total map in the Y
+    public static byte WALLID = 0;  //ID of wall blocks
+    public static byte EMPTYID = 1; //ID of empty blocks
 
     private float initalEmptyFaceRate = 0.53f;    //0.54
-    private int recursionDepth = 3;
+    private int recursionDepth = 3; //Depth of the cellular Automata
 
-    int totalEmptySpace;
-    byte[][] binaryMapping = new byte[CHUNKSIZEBLOCKSX][CHUNKSIZEBLOCKSY];
+    int totalEmptySpace;        //number number of empty blocks
+    byte[][] binaryMapping = new byte[CHUNKSIZEBLOCKSX][CHUNKSIZEBLOCKSY];  //2D array of 1s and 0s to define Wall and Empty block locations
     private static CellularAutomata caInstance = new CellularAutomata();
 
     public static CellularAutomata getInstance()
@@ -35,9 +37,14 @@ public class CellularAutomata
         return caInstance;
     }
 
-
+    /**
+     * Generates a random 2D array of 1s and 0s of size CHUNKSIZEBLOCKSX and CHUNKSIZEBLOCKSY
+     * @param randomNumberGenerator Random number generater seed (defines the seed of the map)
+     * @return  The 2D array
+     */
     public byte[][] startMap(Random randomNumberGenerator)
     {
+
         byte[][] binaryMapping = new byte[CHUNKSIZEBLOCKSX][CHUNKSIZEBLOCKSY];
         for (int a = 0; a <CHUNKSIZEBLOCKSX; a++)
         {
@@ -60,6 +67,13 @@ public class CellularAutomata
 
     }
 
+    /**
+     * Returns the number of empty blocks around a given point X,Y
+     * @param givenMap  The Binary map to check on
+     * @param x The X value of the point in the map
+     * @param y The Y value of the point in the map
+     * @return The number of empty blocks around the point (0 - 8)
+     */
     public static int checkNeighbours(byte[][] givenMap,int x, int y)
     {
 
@@ -85,6 +99,13 @@ public class CellularAutomata
 
 
     }
+
+    /**
+     * Recursively iterates over the map, performing Cellular Automata
+     * @param tempMap  The map it iterates over
+     * @param depth The recursion depth
+     * @return  The final map output after the Cellular Automata is applied
+     */
     public byte[][] updateMap(byte[][] tempMap, int depth)
     {
 
@@ -115,6 +136,10 @@ public class CellularAutomata
 
     }
 
+    /**
+     * Generates a Binary map and sets it to binaryMapping
+     * -- Checks to ensure the mapping has atleast enough percentage of empty space or the map is regenerated recursively
+     */
     public void generateBinaryMapping()
     {
         Random r = new Random();
@@ -126,6 +151,12 @@ public class CellularAutomata
         }
 
     }
+
+    /**
+     * Generates a binary cellular automata 2D array
+     * @param randomNumberGenerator map seed
+     * @return 2D array of bytes
+     */
     public byte[][] generateBinaryMapping(Random randomNumberGenerator)
     {
 
@@ -139,7 +170,12 @@ public class CellularAutomata
     }
 
 
-
+    /**
+     * A flood fill algorithm is used to ensure the whole cave system is connected and reachable
+     * -- It will remove all small disconnected cave parts and only return the main core cave
+     * @param mappingCopy Copy of the 2D cellular automata array
+     * @return  a new 2D array of bytes with only one cave
+     */
     public byte[][] floorFillController(byte[][] mappingCopy)
     {
 
@@ -175,6 +211,15 @@ public class CellularAutomata
         return mappingCopy;
 
     }
+
+    /**
+     * The flood fill is Queue-Based instead of Recursion based because on large maps, StackOverFlows can occur on the recursive call stack
+     * @param x The X position of the location being checked
+     * @param y The Y position of the location being checked
+     * @param fillID Each distinct cave is given a unique FillID
+     * @param mapping   The binary cellular automata mapping being checked
+     * @return The Size of the current FillID cave
+     */
     public int floodFll(int x, int y, byte fillID, byte[][] mapping)
     {
 
@@ -215,6 +260,10 @@ public class CellularAutomata
 
     }
 
+    /**
+     * gets the current Cellular Automata Binary Mapping
+     * @return The 2D array of bytes
+     */
     public byte[][] getBinaryMapping() {
         return binaryMapping;
     }

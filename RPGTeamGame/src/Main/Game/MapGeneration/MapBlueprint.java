@@ -13,12 +13,27 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
+/**
+ * Factory Pattern
+ * Takes a MapID and a seed to generate a map
+ *  - if given no seed, it will randomly generate and store a seed
+ */
 public class MapBlueprint
 {
     private Random rng = new Random();
     private Map mapID;
     private byte[][] binaryMapping;
 
+    /**
+     * Generates the map by first calling the Cellular Automata instance to generate the skeleton of the map
+     * Then Generates GameObjects based off the skeleton
+     *  - Wall blocks where the skeleton defines
+     *  - chest blocks randomly in empty space at a ratio given by the Map Enum
+     *  - Torches randomly in empty space as well at a ratio given by the Map Enum
+     * @param seed The Map Seed
+     * @param mapID The Map enum Id
+     *              Two maps with the same Seed and MapID wil always look Identical
+     */
     public MapBlueprint(int seed, Map mapID)
     {
         int count = 0;
@@ -82,6 +97,11 @@ public class MapBlueprint
 
         System.out.println(count);
     }
+
+    /**
+     * Generates a map from a randomly generated seed given a MapID
+     * @param mapID the Map Enum ID
+     */
     public MapBlueprint(Map mapID)
     {
         this(new Random().nextInt(), mapID);
@@ -92,6 +112,17 @@ public class MapBlueprint
 
     }
 
+    /**
+     * To Ensure no chests or torches spawn next to each other and spawn at nice distances
+     * the probability a Fixture GameObject spawns is a function of bias probability based of parameters of
+     * distance from next nearest similar Fixture and the spawnRate for the fixture in the mapID
+     *
+     * -- Meaning a torch/ chest should never spawn next to each other
+     * -- Meaning a torch/ chest should always spawn at least X distance apart (No void spaces)
+     * @param position Position being checked
+     * @param name  Name of the fixture being checked
+     * @return Distance from the next nearest fixture of the same name
+     */
     public float findDistance(Vector2f position, String name)
     {
         float shortestDistance = 1000000;
@@ -111,6 +142,14 @@ public class MapBlueprint
         return shortestDistance;
 
     }
+
+    /**
+     * Function of bias probability given the parameters
+     * @param exponent value within the MapID
+     * @param distance distance found from FindDistance()
+     * @param minDistance the minimum spawn distance
+     * @return the probability value between 0 and 1
+     */
     public float generateProbability(float exponent, float distance, float minDistance)
     {
 

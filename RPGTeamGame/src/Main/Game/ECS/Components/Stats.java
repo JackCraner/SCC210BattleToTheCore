@@ -1,5 +1,6 @@
 package Main.Game.ECS.Components;
 
+import Main.DataTypes.Effects;
 import Main.Game.ECS.Components.StatComponents.StatComponent;
 import Main.Game.ECS.Entity.Component;
 import Main.Game.ECS.Factory.BitMasks;
@@ -10,6 +11,7 @@ public class Stats extends Component
 {
     int bitMask;
     ArrayList<StatComponent> statComponentArrayList = new ArrayList<>();
+
     public Stats(StatComponent... stats)
     {
         for (StatComponent stat: stats)
