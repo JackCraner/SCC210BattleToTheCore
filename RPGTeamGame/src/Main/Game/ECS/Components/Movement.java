@@ -24,7 +24,7 @@ public class Movement extends Component
     }
 
     public float getSpeed() {
-        return speed.getSpeed();
+        return speed.getStats();
     }
 
     public Boolean getIsFacingRight()

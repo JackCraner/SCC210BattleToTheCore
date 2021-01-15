@@ -1,24 +1,12 @@
 package Main.Game.ECS.Components.StatComponents;
 
-public class Speed implements StatComponent
-{
-    float speed;
+public class Speed extends StatComponent {
+
     public Speed(float speed)
     {
-        this.speed = speed;
+        setActiveValue(speed);
+        setMaxValue(speed);
     }
 
-    public float getSpeed() {
-        return speed;
-    }
 
-    public void setSpeed(float speed) {
-        this.speed = speed;
-    }
-
-    @Override
-    public void applyEffect(float percentage)
-    {
-        speed *= percentage;
-    }
 }

@@ -1,7 +1,6 @@
 package Main.Game.ECS.Systems;
 
 
-import Main.Game.ECS.Components.Effect;
 import Main.Game.ECS.Entity.GameObject;
 
 import java.util.ArrayList;

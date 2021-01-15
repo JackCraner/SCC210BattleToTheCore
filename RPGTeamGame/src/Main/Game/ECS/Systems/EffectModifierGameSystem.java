@@ -1,7 +1,8 @@
 package Main.Game.ECS.Systems;
 
 
-import Main.Game.ECS.Components.Effect;
+import Main.Game.ECS.Components.EffectComponent;
+import Main.Game.ECS.Components.Particles;
 import Main.Game.ECS.Components.StatComponents.StatComponent;
 import Main.Game.ECS.Components.Stats;
 import Main.Game.ECS.Entity.GameObject;
@@ -17,7 +18,7 @@ public class EffectModifierGameSystem extends GameSystem
 
     private EffectModifierGameSystem()
     {
-        setBitMaskRequirement(BitMasks.produceBitMask(Stats.class,Effect.class));
+        setBitMaskRequirement(BitMasks.produceBitMask(Stats.class, EffectComponent.class));
     }
 
 
@@ -29,13 +30,22 @@ public class EffectModifierGameSystem extends GameSystem
     {
         for (GameObject g:getGameObjectList())
         {
-            Effect effectOnObject = g.getComponent(Effect.class);
-            Stats statsOnObject = g.getComponent(Stats.class);
-            if (BitMasks.checkIfContainsStats(statsOnObject.getBitMask(), effectOnObject.getEffectType()))
+            Stats objectStats = g.getComponent(Stats.class);
+            boolean objectHasEffects = false;
+            for(StatComponent statComp: objectStats.getStatComponentArrayList())
             {
-                StatComponent someStat = statsOnObject.getComponent(effectOnObject.getEffectType());
-                someStat.applyEffect(effectOnObject.getEffectStrength());
-                g.removeComponent(Effect.class);
+                if (statComp.updateEffects(dt))
+                {
+                    objectHasEffects = true;
+                }
+            }
+            if (!objectHasEffects)
+            {
+                if (BitMasks.checkIfContains(g.getBitmask(),Particles.class))
+                {
+                    g.removeComponent(Particles.class);
+                }
+
             }
         }
     }

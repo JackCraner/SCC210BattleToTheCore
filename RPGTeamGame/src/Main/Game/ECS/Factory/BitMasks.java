@@ -35,7 +35,7 @@ public class BitMasks {
         COMPONENTBITMASKS.put(Inputs.class, Integer.parseInt("10000000000000", 2));            //13
         COMPONENTBITMASKS.put(Stats.class, Integer.parseInt("100000000000000", 2));            //14
         COMPONENTBITMASKS.put(Particles.class, Integer.parseInt("1000000000000000", 2));
-        COMPONENTBITMASKS.put(Effect.class, Integer.parseInt("10000000000000000", 2));
+        COMPONENTBITMASKS.put(EffectComponent.class, Integer.parseInt("10000000000000000", 2));
     }
 
     public static HashMap<Class<? extends StatComponent>, Integer> STATCOMPONENTBITMASK = new HashMap<>();

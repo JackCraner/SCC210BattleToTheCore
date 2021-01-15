@@ -1,30 +1,19 @@
 package Main.Game.ECS.Components.StatComponents;
 
-public class Health implements StatComponent
-{
-    private float currentHealth;
-    private float maxHealth;
+public class Health extends StatComponent {
+
 
     public Health(float health)
     {
-        currentHealth = health;
-        maxHealth = health;
+        setActiveValue(health);
+        setMaxValue(health);
     }
-    public float getCurrentHealth() {
-        return currentHealth;
-    }
-
-    public float getMaxHealth() {
-        return maxHealth;
-    }
-
     public void adjustHealth(float x)
     {
-        currentHealth +=x;
+        setActiveValue(getActiveValue() + x);
     }
-
-    @Override
-    public void applyEffect(float percentage) {
-
+    public float getMaxHealth()
+    {
+        return getMaxValue();
     }
 }

@@ -1,25 +1,18 @@
 package Main.Game.ECS.Components.StatComponents;
 
-public class Mana implements StatComponent
+public class Mana extends StatComponent
 {
-    private float currentMana;
-    private float maxMana;
-
     public Mana(float mana)
     {
-        this.currentMana = mana;
-        this.maxMana = mana;
+        setActiveValue(mana);
+        setMaxValue(mana);
     }
-    public float getCurrentMana() {
-        return currentMana;
+    public void adjustMana(float x)
+    {
+        setActiveValue(getActiveValue() +x);
     }
-
-    public float getMaxMana() {
-        return maxMana;
-    }
-
-    @Override
-    public void applyEffect(float percentage) {
-
+    public float getMaxMana()
+    {
+        return getMaxValue();
     }
 }

@@ -47,7 +47,7 @@ public class CombatGameSystem extends GameSystem
                             float damageDealt;
                             if(BitMasks.checkIfContainsStats(objectStats.getBitMask(), Armor.class))
                             {
-                                damageDealt = (hitBY.getComponent(Damage.class).getDamage()*objectStats.getComponent(Armor.class).getArmorValue());
+                                damageDealt = (hitBY.getComponent(Damage.class).getDamage()*objectStats.getComponent(Armor.class).getStats());
                             }
                             else
                             {
@@ -69,7 +69,7 @@ public class CombatGameSystem extends GameSystem
                     }
 
                 }
-                if (hp.getCurrentHealth() <= 0)
+                if (hp.getStats() <= 0)
                 {
                     EntityManager.getEntityManagerInstance().removeGameObject(g);
                     if ((g.getBitmask() & BitMasks.getBitMask(Backpack.class)) != 0)

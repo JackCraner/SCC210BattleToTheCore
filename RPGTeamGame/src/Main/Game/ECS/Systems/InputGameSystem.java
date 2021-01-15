@@ -68,7 +68,6 @@ public class InputGameSystem extends GameSystem
             {
                 //AI
 
-                gameObjectInputs.right = true;
             }
 
         }

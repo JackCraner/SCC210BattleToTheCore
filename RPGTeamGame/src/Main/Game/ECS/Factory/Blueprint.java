@@ -1,5 +1,6 @@
 package Main.Game.ECS.Factory;
 
+import Main.DataTypes.Effects;
 import Main.Game.ECS.Components.*;
 import Main.Game.ECS.Components.ComponentENUMs.InputTypes;
 import Main.Game.ECS.Components.ComponentENUMs.MovementTypes;
@@ -47,8 +48,10 @@ public class Blueprint
         g.addComponent(new Backpack(6,true));
         g.addComponent(new XPBar(100));
         g.addComponent(new Particles(0.05f));
-        //g.addComponent(new Effect(Speed.class,4));
+        g.addComponent(new EffectComponent());
 
+
+       // g.getComponent(Stats.class).getComponent(Speed.class).addEffect(new Effects(2,5));
         return g;
 
 

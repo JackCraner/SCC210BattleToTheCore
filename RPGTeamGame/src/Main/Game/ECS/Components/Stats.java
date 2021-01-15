@@ -20,6 +20,10 @@ public class Stats extends Component
         }
     }
 
+    public ArrayList<StatComponent> getStatComponentArrayList() {
+        return statComponentArrayList;
+    }
+
     public <T extends StatComponent> T getComponent(Class<T> componentClass)
     {
         for (StatComponent c: statComponentArrayList)

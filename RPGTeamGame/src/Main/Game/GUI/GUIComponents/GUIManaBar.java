@@ -38,7 +38,7 @@ public class GUIManaBar extends GUIComponent<Mana>
     @Override
     public void update()
     {
-        currentMana = getT().getCurrentMana();
+        currentMana = getT().getStats();
         front.setPosition(new Vector2f(front.getPosition().x,topLeftY + (manaOrbSize.y *(1-(currentMana/totalMana)))));
     }
 
