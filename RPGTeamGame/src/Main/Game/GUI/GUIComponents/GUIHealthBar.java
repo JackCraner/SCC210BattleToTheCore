@@ -48,7 +48,7 @@ public class GUIHealthBar extends GUIComponent<Health>
     @Override
     public void update()
     {
-        currentHealth = getT().getStats();
+        currentHealth = getT().getStat();
         front.setSize(new Vector2f(healthOrbSize.x,healthOrbSize.y* (currentHealth/totalHealth)));
         front.setPosition(new Vector2f(front.getPosition().x,topLeftY + (healthOrbSize.y *(1-(currentHealth/totalHealth)))));
     }

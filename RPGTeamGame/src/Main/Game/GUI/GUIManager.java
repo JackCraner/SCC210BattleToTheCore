@@ -3,7 +3,6 @@ package Main.Game.GUI;
 import Main.Game.ECS.Components.Backpack;
 import Main.Game.ECS.Components.StatComponents.Health;
 import Main.Game.ECS.Components.StatComponents.Mana;
-import Main.Game.ECS.Components.Stats;
 import Main.Game.ECS.Components.XPBar;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.GUI.GUIComponents.*;
@@ -32,14 +31,14 @@ public class GUIManager implements Drawable
         //If you want to add a new GUI Component, first add it to the ENUM, then make a new class for the new element which extends the abstract class
         //finally add a new instance of the new class with its paired enum to the hashmap
         guiGAMEComponentList.put(GUIInvectory.class, new GUIInvectory(GUITarget.getComponent(Backpack.class)));
-        guiGAMEComponentList.put(GUIHealthBar.class,new GUIHealthBar(GUITarget.getComponent(Stats.class).getComponent(Health.class)));
-        guiGAMEComponentList.put(GUIManaBar.class,new GUIManaBar(GUITarget.getComponent(Stats.class).getComponent(Mana.class)));
+        guiGAMEComponentList.put(GUIHealthBar.class,new GUIHealthBar(GUITarget.getComponent(Health.class)));
+        guiGAMEComponentList.put(GUIManaBar.class,new GUIManaBar(GUITarget.getComponent(Mana.class)));
         guiGAMEComponentList.put(GUIXPBar.class,new GUIXPBar(GUITarget.getComponent(XPBar.class)));
     }
 
     private static HashMap<Class<? extends GUIComponent>, GUIComponent> guiMENUComponentList = new HashMap<>();
     static{
-        guiMENUComponentList.put(GUIHealthBar.class,new GUIHealthBar(GUITarget.getComponent(Stats.class).getComponent(Health.class)));
+        guiMENUComponentList.put(GUIHealthBar.class,new GUIHealthBar(GUITarget.getComponent(Health.class)));
     }
 
     private static HashMap<GUIModeEnum,HashMap<Class<? extends GUIComponent>,GUIComponent>> guiModesHashMapHashMap = new HashMap<>();

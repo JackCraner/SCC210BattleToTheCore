@@ -1,12 +1,16 @@
 package Main.Game.ECS.Systems;
 
 
+import Main.DataTypes.Effects;
 import Main.Game.ECS.Components.EffectComponent;
 import Main.Game.ECS.Components.Particles;
-import Main.Game.ECS.Components.StatComponents.StatComponent;
-import Main.Game.ECS.Components.Stats;
+import Main.Game.ECS.Components.StatComponents.IsStat;
+import Main.Game.ECS.Components.StatComponents.Speed;
+import Main.Game.ECS.Entity.Component;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.BitMasks;
+
+import java.util.Iterator;
 
 public class EffectModifierGameSystem extends GameSystem
 {
@@ -18,7 +22,7 @@ public class EffectModifierGameSystem extends GameSystem
 
     private EffectModifierGameSystem()
     {
-        setBitMaskRequirement(BitMasks.produceBitMask(Stats.class, EffectComponent.class));
+        setBitMaskRequirement(BitMasks.produceBitMask(EffectComponent.class));
     }
 
 
@@ -28,25 +32,57 @@ public class EffectModifierGameSystem extends GameSystem
     @Override
     public void update(float dt)
     {
+
         for (GameObject g:getGameObjectList())
         {
-            Stats objectStats = g.getComponent(Stats.class);
-            boolean objectHasEffects = false;
-            for(StatComponent statComp: objectStats.getStatComponentArrayList())
+            EffectComponent objectEffects = g.getComponent(EffectComponent.class);
+            if (objectEffects.getNewEffects().size() > 0)
             {
-                if (statComp.updateEffects(dt))
+                if (!BitMasks.checkIfContains(g.getBitmask(),Particles.class))
                 {
-                    objectHasEffects = true;
+                    g.addComponent(new Particles(0.05f));
                 }
+                Iterator<Effects> newEffectItr = objectEffects.getNewEffects().iterator();
+                while (newEffectItr.hasNext())
+                {
+                    Effects e = newEffectItr.next();
+                    IsStat c = (IsStat)g.getComponent(e.getType());
+                    c.setStat(c.getStat()+ ((c.getBase() * e.getPercentageModifier())));
+                    objectEffects.getEffectsArrayList().add(e);
+                    newEffectItr.remove();
+                }
+
             }
-            if (!objectHasEffects)
+            if (objectEffects.getEffectsArrayList().size()>0)
+            {
+                Iterator<Effects>  currentEffectItr = objectEffects.getEffectsArrayList().iterator();
+                while ( currentEffectItr.hasNext())
+                {
+                    Effects e =  currentEffectItr.next();
+                    e.effectClock(dt);
+                    if (!e.effectActive())
+                    {
+                        IsStat c = (IsStat)g.getComponent(e.getType());
+                        c.setStat(c.getStat()- ((c.getBase() * e.getPercentageModifier())));
+                        currentEffectItr.remove();
+
+                    }
+
+                }
+
+
+
+            }
+            else
             {
                 if (BitMasks.checkIfContains(g.getBitmask(),Particles.class))
                 {
                     g.removeComponent(Particles.class);
                 }
-
             }
+
         }
+
+
     }
 }

@@ -1,8 +1,6 @@
 package Main.Game.ECS.Systems;
 
 import Main.Game.ECS.Components.Level;
-import Main.Game.ECS.Components.StatComponents.StatComponent;
-import Main.Game.ECS.Components.Stats;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.BitMasks;
 
@@ -29,6 +27,7 @@ public class LevelGameSystem extends GameSystem
             if (objectLevel.getCurrentLevel() > xpNeededToLevel)
             {
                 objectLevel.levelUP();
+                /*
                 if (BitMasks.checkIfContains(g.getBitmask(), Stats.class))
                 {
                     Stats objectStats = g.getComponent(Stats.class);
@@ -37,6 +36,8 @@ public class LevelGameSystem extends GameSystem
                         objectStatComponents.levelUpStat(10);
                     }
                 }
+
+                 */
             }
         }
 

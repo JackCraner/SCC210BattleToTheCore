@@ -2,6 +2,7 @@ package Main.Game.ECS.Systems;
 
 import Main.Game.ECS.Components.*;
 import Main.Game.ECS.Components.ComponentENUMs.TextureTypes;
+import Main.Game.ECS.Components.StatComponents.Speed;
 import Main.Game.ECS.Entity.Camera;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.BitMasks;
@@ -11,6 +12,8 @@ import Main.Game.ECS.Factory.TextureMap;
 import Main.Game.Game;
 import org.jsfml.graphics.*;
 import org.jsfml.system.Vector2f;
+import org.jsfml.system.Vector2i;
+import org.jsfml.window.Mouse;
 
 import java.io.File;
 import java.lang.reflect.Field;
@@ -48,7 +51,7 @@ public class RendererGameSystem  extends GameSystem
     {
 
         // currently we calculate and draw every frame
-        // need an event that something has moved (MovementSystem) to order this system to calculate the frame and draw
+        // need an event that something has moved (SpeedSystem) to order this system to calculate the frame and draw
         // otherwise we just draw (big performance boost)
 
         //System.out.println("Num Objects: " +getGameObjectList().transform.getSize()());
@@ -86,14 +89,13 @@ public class RendererGameSystem  extends GameSystem
                 s.setPosition(new Vector2f(curPos.x, curPos.y));
                 s.setSize(transform.getSize());
                 s.setRotation(transform.getRotation());
-                if ((g.getBitmask() & BitMasks.getBitMask(Movement.class)) !=0)
-                {
-                    if(g.getComponent(Movement.class).getIsFacingRight())
-                    {
-                        s.setScale(-1,1);
-                    }
-                }
+                s.setScale(transform.getScale().x,transform.getScale().y);
                 s.setTexture(TextureMap.TEXTUREMAP.get(texture.textureString));
+                if (BitMasks.checkIfContains(g.getBitmask(),Animation.class))
+                {
+                    Animation anim = g.getComponent(Animation.class);
+                    texture.tileMapLocation = (byte)(anim.spriteSheetAnimation + anim.spriteSheetDirection);
+                }
                 if (texture.tileMapLocation >= 0)
                 {
                     s.setTextureRect(new IntRect(texture.tileMapLocation * (int)transform.getSize().x, 0,(int)transform.getSize().x,(int)transform.getSize().y));
@@ -104,7 +106,7 @@ public class RendererGameSystem  extends GameSystem
                 if((g.getBitmask() & BitMasks.getBitMask(Backpack.class)) != 0 && g.getComponent(Backpack.class).getObjectsINBACKPACK().size() > 0 && g.getComponent(Backpack.class).getCanUseItems())
                 {
                     RectangleShape s1 = new RectangleShape();
-                    s1.setPosition(new Vector2f(curPos.x-(g.getComponent(Movement.class).getIsFacingRight() ? -10:10), curPos.y));
+                    s1.setPosition(new Vector2f(curPos.x-(transform.isFacingRight()? -10:10), curPos.y));
                     s1.setSize(transform.getSize());
                     s1.setRotation(g.getComponent(Backpack.class).getObjectsINBACKPACK().get(0).getComponent(TransformComponent.class).getRotation());
                     TextureComponent mainHandTexture = g.getComponent(Backpack.class).getObjectsINBACKPACK().get(0).getComponent(TextureComponent.class);
@@ -177,8 +179,9 @@ public class RendererGameSystem  extends GameSystem
         return systemInstance;
     }
 
-
 }
+
+
 
 class Layer implements Drawable
 {

@@ -1,20 +1,23 @@
 package Main.DataTypes;
 
-import Main.Game.ECS.Components.StatComponents.StatComponent;
+import Main.Game.ECS.Components.StatComponents.IsStat;
+import Main.Game.ECS.Entity.Component;
 
-public class Effects<T extends StatComponent>
+public class Effects
 {
-    float percentageModifier;
-    float duration;
-    boolean hasDuration;
-
-    public Effects(float percentageModifier)
+    private float percentageModifier;
+    private float duration;
+    private boolean hasDuration;
+    private Class<? extends Component> type;
+    public Effects(Class<? extends Component> type,float percentageModifier)
     {
+        this.type = type;
         this.percentageModifier = percentageModifier;
         this.hasDuration = false;
     }
-    public Effects(float percentageModifier, float duration)
+    public Effects(Class<? extends Component> type,float percentageModifier, float duration)
     {
+        this.type = type;
         this.percentageModifier = percentageModifier;
         this.duration = duration;
         this.hasDuration = true;
@@ -36,5 +39,7 @@ public class Effects<T extends StatComponent>
         return percentageModifier;
     }
 
-
+    public Class<? extends Component> getType() {
+        return type;
+    }
 }

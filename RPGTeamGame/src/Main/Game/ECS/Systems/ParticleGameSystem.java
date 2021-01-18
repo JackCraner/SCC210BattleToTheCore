@@ -61,7 +61,7 @@ class ParticleAtom
     public ParticleAtom(Vector2f position, int angle, Vector2f size)
     {
         Vector3i colorData = new Vector3i(255,50,50);
-        g.addComponent(new Movement(MovementTypes.LINEAR, new Speed(100)));
+        g.addComponent(new Speed(MovementTypes.LINEAR, 100));
         g.addComponent(new Position(new Vector2f(position.x + size.x/2, position.y+size.y/2) ,g));
         g.addComponent(new TransformComponent(new Vector2f(3,3),angle));
         g.addComponent(new LifeSpan(0.15f));

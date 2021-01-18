@@ -1,8 +1,5 @@
 package Main.Game.GUI;
 
-import Main.Game.ECS.Components.StatComponents.StatComponent;
-import Main.Game.ECS.Components.Stats;
-import Main.Game.ECS.Entity.Component;
 import org.jsfml.graphics.Drawable;
 
 /**

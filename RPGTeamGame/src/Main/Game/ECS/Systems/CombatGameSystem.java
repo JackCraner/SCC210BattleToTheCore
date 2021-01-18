@@ -25,79 +25,59 @@ public class CombatGameSystem extends GameSystem
     }
     private CombatGameSystem()
     {
-        setBitMaskRequirement(BitMasks.produceBitMask(Stats.class));
+        setBitMaskRequirement(BitMasks.produceBitMask(Health.class));
     }
     @Override
     public void update(float dt)
     {
-        for (GameObject g: getGameObjectList())
-        {
-            Stats objectStats = g.getComponent(Stats.class);
-            if (BitMasks.checkIfContainsStats(objectStats.getBitMask(),Health.class))
-            {
-                Health hp = objectStats.getComponent(Health.class);
-                if ((g.getBitmask() & BitMasks.produceBitMask(CollisionEvent.class)) != 0)
-                {
-                    GameObject hitBY = g.getComponent(CollisionEvent.class).getG();
-                    if (!(hitBY.getComponent(Collider.class).checkGameObject(g)))
-                    {
-                        if ((hitBY.getBitmask() & BitMasks.produceBitMask(Damage.class)) != 0)
-                        {
-                            g.removeComponent(CollisionEvent.class);
-                            float damageDealt;
-                            if(BitMasks.checkIfContainsStats(objectStats.getBitMask(), Armor.class))
-                            {
-                                damageDealt = (hitBY.getComponent(Damage.class).getDamage()*objectStats.getComponent(Armor.class).getStats());
-                            }
-                            else
-                            {
-                                damageDealt = hitBY.getComponent(Damage.class).getDamage();
+        for (GameObject g: getGameObjectList()) {
+            Health objectHealth = g.getComponent(Health.class);
+            if ((g.getBitmask() & BitMasks.produceBitMask(CollisionEvent.class)) != 0) {
+                GameObject hitBY = g.getComponent(CollisionEvent.class).getG();
+                if (!(hitBY.getComponent(Collider.class).checkGameObject(g))) {
+                    if ((hitBY.getBitmask() & BitMasks.produceBitMask(Damage.class)) != 0) {
+                        g.removeComponent(CollisionEvent.class);
+                        float damageDealt;
+                        if (BitMasks.checkIfContains(g.getBitmask(), Armor.class)) {
+                            damageDealt = (hitBY.getComponent(Damage.class).getDamage() * g.getComponent(Armor.class).getStat());
+                        } else {
+                            damageDealt = hitBY.getComponent(Damage.class).getDamage();
 
-                            }
-
-                            //hit numbers
-                            hp.adjustHealth(-damageDealt);
-                            Vector2f textPos = g.getComponent(Position.class).getPosition();
-                            textPos = new Vector2f(textPos.x + new Random().nextInt(30)-15, textPos.y + 20);
-                            EntityManager.getEntityManagerInstance().addGameObject(Blueprint.damageNumber(textPos,damageDealt));
-                            hitBY.getComponent(Collider.class).setAvoidTime(g);
-                            if (g.getName() == Entity.PLAYER.name)
-                            {
-                                GUIManager.getGUIinstance().GUIUpdate(GUIHealthBar.class);
-                            }
                         }
-                    }
 
-                }
-                if (hp.getStats() <= 0)
-                {
-                    EntityManager.getEntityManagerInstance().removeGameObject(g);
-                    if ((g.getBitmask() & BitMasks.getBitMask(Backpack.class)) != 0)
-                    {
-                        Backpack b = g.getComponent(Backpack.class);
-                        Vector2f pos = g.getComponent(Position.class).getPosition();
-                        Vector2f size = g.getComponent(TransformComponent.class).getSize();
-                        pos = new Vector2f(pos.x + size.x/2, pos.y + size.y/2);
-                        for (GameObject g1: b.getObjectsINBACKPACK())
-                        {
-                            g1.addComponent(new Position(pos,g1));
-                            EntityManager.getEntityManagerInstance().addGameObject(g1);
-                        }
-                    }
-                    if (BitMasks.checkIfContains(g.getBitmask(),Level.class))
-                    {
-                        Level objectLevel = g.getComponent(Level.class);
-                        Position objectPosition = g.getComponent(Position.class);
-                        for (int i =0; i < objectLevel.getCurrentLevel();i++)
-                        {
-                            EntityManager.getEntityManagerInstance().addGameObject(Blueprint.xpOrb(objectPosition.getPosition()));
+                        //hit numbers
+                        objectHealth.adjustHealth(-damageDealt);
+                        Vector2f textPos = g.getComponent(Position.class).getPosition();
+                        textPos = new Vector2f(textPos.x + new Random().nextInt(30) - 15, textPos.y + 20);
+                        EntityManager.getEntityManagerInstance().addGameObject(Blueprint.damageNumber(textPos, damageDealt));
+                        hitBY.getComponent(Collider.class).setAvoidTime(g);
+                        if (g.getName() == Entity.PLAYER.name) {
+                            GUIManager.getGUIinstance().GUIUpdate(GUIHealthBar.class);
                         }
                     }
                 }
 
             }
-
-
+            if (objectHealth.getStat() <= 0) {
+                EntityManager.getEntityManagerInstance().removeGameObject(g);
+                if ((g.getBitmask() & BitMasks.getBitMask(Backpack.class)) != 0) {
+                    Backpack b = g.getComponent(Backpack.class);
+                    Vector2f pos = g.getComponent(Position.class).getPosition();
+                    Vector2f size = g.getComponent(TransformComponent.class).getSize();
+                    pos = new Vector2f(pos.x + size.x / 2, pos.y + size.y / 2);
+                    for (GameObject g1 : b.getObjectsINBACKPACK()) {
+                        g1.addComponent(new Position(pos, g1));
+                        EntityManager.getEntityManagerInstance().addGameObject(g1);
+                    }
+                }
+                if (BitMasks.checkIfContains(g.getBitmask(), Level.class)) {
+                    Level objectLevel = g.getComponent(Level.class);
+                    Position objectPosition = g.getComponent(Position.class);
+                    for (int i = 0; i < objectLevel.getCurrentLevel(); i++) {
+                        EntityManager.getEntityManagerInstance().addGameObject(Blueprint.xpOrb(objectPosition.getPosition()));
+                    }
+                }
+            }
         }
     }
 }

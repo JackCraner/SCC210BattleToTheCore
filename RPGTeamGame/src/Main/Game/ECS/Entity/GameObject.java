@@ -1,13 +1,7 @@
 package Main.Game.ECS.Entity;
 
-import Main.Game.ECS.Components.Movement;
 import Main.Game.ECS.Components.Position;
 import Main.Game.ECS.Factory.BitMasks;
-import org.jsfml.graphics.Drawable;
-import org.jsfml.graphics.RenderStates;
-import org.jsfml.graphics.RenderTarget;
-import org.jsfml.system.Vector2f;
-import org.jsfml.system.Vector2i;
 
 import java.util.ArrayList;
 

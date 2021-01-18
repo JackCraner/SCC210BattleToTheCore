@@ -24,7 +24,7 @@ public class BitMasks {
         COMPONENTBITMASKS.put(TransformComponent.class, Integer.parseInt("10", 2)); //2
         COMPONENTBITMASKS.put(TextureComponent.class, Integer.parseInt("100", 2));  //3
         COMPONENTBITMASKS.put(Collider.class, Integer.parseInt("1000", 2));  //4
-        COMPONENTBITMASKS.put(Movement.class, Integer.parseInt("10000", 2));   //5
+        COMPONENTBITMASKS.put(Speed.class, Integer.parseInt("10000", 2));   //5
         COMPONENTBITMASKS.put(Light.class, Integer.parseInt("100000", 2));       //6
         COMPONENTBITMASKS.put(Backpack.class, Integer.parseInt("1000000", 2));       //7
         COMPONENTBITMASKS.put(Pickup.class, Integer.parseInt("10000000", 2));       //8
@@ -33,21 +33,15 @@ public class BitMasks {
         COMPONENTBITMASKS.put(Damage.class, Integer.parseInt("100000000000", 2));      //11
         COMPONENTBITMASKS.put(LifeSpan.class, Integer.parseInt("1000000000000", 2));       //12
         COMPONENTBITMASKS.put(Inputs.class, Integer.parseInt("10000000000000", 2));            //13
-        COMPONENTBITMASKS.put(Stats.class, Integer.parseInt("100000000000000", 2));            //14
-        COMPONENTBITMASKS.put(Particles.class, Integer.parseInt("1000000000000000", 2));
-        COMPONENTBITMASKS.put(EffectComponent.class, Integer.parseInt("10000000000000000", 2));
-        COMPONENTBITMASKS.put(Level.class, Integer.parseInt("100000000000000000", 2));
-    }
-
-    public static HashMap<Class<? extends StatComponent>, Integer> STATCOMPONENTBITMASK = new HashMap<>();
-
-    static {
-        STATCOMPONENTBITMASK.put(Health.class, Integer.parseInt("1", 2));
-        STATCOMPONENTBITMASK.put(Mana.class, Integer.parseInt("10", 2));
-        STATCOMPONENTBITMASK.put(Armor.class,Integer.parseInt("100", 2));
-        STATCOMPONENTBITMASK.put(Strength.class,Integer.parseInt("1000", 2));
-        STATCOMPONENTBITMASK.put(Wisdom.class,Integer.parseInt("10000", 2));
-        STATCOMPONENTBITMASK.put(Speed.class,Integer.parseInt("100000", 2));
+        COMPONENTBITMASKS.put(Particles.class, Integer.parseInt("100000000000000", 2));
+        COMPONENTBITMASKS.put(EffectComponent.class, Integer.parseInt("1000000000000000", 2));
+        COMPONENTBITMASKS.put(Level.class, Integer.parseInt("10000000000000000", 2));
+        COMPONENTBITMASKS.put(Armor.class, Integer.parseInt("100000000000000000", 2));
+        COMPONENTBITMASKS.put(Health.class, Integer.parseInt("1000000000000000000", 2));
+        COMPONENTBITMASKS.put(Mana.class, Integer.parseInt("10000000000000000000", 2));
+        COMPONENTBITMASKS.put(Strength.class, Integer.parseInt("100000000000000000000", 2));
+        COMPONENTBITMASKS.put(Wisdom.class, Integer.parseInt("1000000000000000000000", 2));//21
+        COMPONENTBITMASKS.put(Animation.class, Integer.parseInt("10000000000000000000000", 2));//22
     }
 
     /**
@@ -80,29 +74,15 @@ public class BitMasks {
         return newMask;
     }
 
-    public static int produceBitMaskStats(Class<? extends StatComponent>... bitMasks) {
-        int newMask = 0;
-        for (Class<? extends StatComponent> c : bitMasks) {
-            newMask |= STATCOMPONENTBITMASK.get(c);
-        }
-        return newMask;
-    }
 
     public static int getBitMask(Class<? extends Component> c) {
         return COMPONENTBITMASKS.get(c);
     }
 
-    public static int getBitMaskStats(Class<? extends StatComponent> c) {
-        return STATCOMPONENTBITMASK.get(c);
-    }
 
     public static boolean checkIfContains(int bitMask, Class<? extends Component> c) {
         return ((bitMask & COMPONENTBITMASKS.get(c)) != 0);
     }
 
-    public static boolean checkIfContainsStats(int bitMask, Class<? extends StatComponent> c)
-    {
-        return ((bitMask & STATCOMPONENTBITMASK.get(c)) != 0);
-    }
 
 }

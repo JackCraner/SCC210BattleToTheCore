@@ -1,12 +1,44 @@
 package Main.Game.ECS.Components.StatComponents;
 
-public class Speed extends StatComponent {
+import Main.Game.ECS.Components.ComponentENUMs.MovementTypes;
+import Main.Game.ECS.Entity.Component;
 
-    public Speed(float speed)
+public class Speed extends Component implements IsStat{
+
+    float speed;
+    float baseSpeed;
+    private MovementTypes type;
+
+
+    public Speed(MovementTypes type, float speed)
     {
-        setActiveValue(speed);
-        setMaxValue(speed);
+        this.speed = speed;
+        this.type = type;
+        this.baseSpeed = speed;
     }
 
 
+    @Override
+    public Component clone() {
+        return new Speed(type,speed);
+    }
+
+    @Override
+    public float getStat() {
+        return speed;
+    }
+
+    @Override
+    public void setStat(float value) {
+        speed = value;
+    }
+
+    @Override
+    public float getBase() {
+        return baseSpeed;
+    }
+
+    public MovementTypes getType() {
+        return type;
+    }
 }
