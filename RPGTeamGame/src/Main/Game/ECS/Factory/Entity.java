@@ -11,6 +11,7 @@ public enum Entity
     WAND("Staff","Demon_Staff_2.png"),
     FIREBALL("Fire Ball", "FireBall.png"),
     ENEMY("Enemy", "SharkTexture.png"),
+    XPORB("XP","XP_1.png"),
     DamageText("Text", "Text");
 
     public final String name;

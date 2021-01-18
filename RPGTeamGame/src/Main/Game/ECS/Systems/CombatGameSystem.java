@@ -10,7 +10,7 @@ import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.BitMasks;
 import Main.Game.ECS.Factory.Blueprint;
 import Main.Game.ECS.Factory.Entity;
-import Main.Game.GUI.GUIComponents.GUIComponentENUM;
+import Main.Game.GUI.GUIComponents.GUIHealthBar;
 import Main.Game.GUI.GUIManager;
 import org.jsfml.system.Vector2f;
 
@@ -63,7 +63,7 @@ public class CombatGameSystem extends GameSystem
                             hitBY.getComponent(Collider.class).setAvoidTime(g);
                             if (g.getName() == Entity.PLAYER.name)
                             {
-                                GUIManager.getGUIinstance().GUIUpdate(GUIComponentENUM.HEALTHBAR);
+                                GUIManager.getGUIinstance().GUIUpdate(GUIHealthBar.class);
                             }
                         }
                     }
@@ -82,6 +82,15 @@ public class CombatGameSystem extends GameSystem
                         {
                             g1.addComponent(new Position(pos,g1));
                             EntityManager.getEntityManagerInstance().addGameObject(g1);
+                        }
+                    }
+                    if (BitMasks.checkIfContains(g.getBitmask(),Level.class))
+                    {
+                        Level objectLevel = g.getComponent(Level.class);
+                        Position objectPosition = g.getComponent(Position.class);
+                        for (int i =0; i < objectLevel.getCurrentLevel();i++)
+                        {
+                            EntityManager.getEntityManagerInstance().addGameObject(Blueprint.xpOrb(objectPosition.getPosition()));
                         }
                     }
                 }

@@ -9,12 +9,11 @@ import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.BitMasks;
 import Main.Game.ECS.Factory.Blueprint;
 import Main.Game.ECS.Factory.Entity;
-import Main.Game.GUI.GUIComponents.GUIComponentENUM;
+import Main.Game.GUI.GUIComponents.GUIInvectory;
 import Main.Game.GUI.GUIManager;
 import Main.Game.Game;
 import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
-import org.jsfml.window.Keyboard;
 import org.jsfml.window.Mouse;
 
 public class BackpackGameSystem extends GameSystem
@@ -52,7 +51,7 @@ public class BackpackGameSystem extends GameSystem
                             backpack.addGameObject(pickupObject);
                             if (g.getName() == Entity.PLAYER.name)
                             {
-                                GUIManager.getGUIinstance().GUIUpdate(GUIComponentENUM.INVENTORY);
+                                GUIManager.getGUIinstance().GUIUpdate(GUIInvectory.class);
                             }
                         }
 
@@ -94,7 +93,7 @@ public class BackpackGameSystem extends GameSystem
                         EntityManager.getEntityManagerInstance().addGameObject(mainHand);
                         if (g.getName() == Entity.PLAYER.name)
                         {
-                            GUIManager.getGUIinstance().GUIUpdate(GUIComponentENUM.INVENTORY);
+                            GUIManager.getGUIinstance().GUIUpdate(GUIInvectory.class);
                         }
                     }
                     mainHandEffect.reduceCoolDown(dt);

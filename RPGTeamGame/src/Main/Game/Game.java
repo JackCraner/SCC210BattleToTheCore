@@ -7,6 +7,7 @@ import Main.Game.ECS.Entity.EntityManager;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.Blueprint;
 import Main.Game.ECS.Systems.*;
+import Main.Game.GUI.GUIComponents.GUIModeEnum;
 import Main.Game.GUI.GUIManager;
 import Main.Game.MapGeneration.CellularA.CellularAutomata;
 import Main.Game.MapGeneration.Map;
@@ -133,6 +134,15 @@ public class Game
                     if(((KeyEvent)event).key == Keyboard.Key.T)
                     {
                         isRunning = !isRunning;
+                        if (isRunning)
+                        {
+                            GUIMANAGER.swapModes(GUIModeEnum.GAME);
+                        }
+                        else
+                        {
+                            GUIMANAGER.swapModes(GUIModeEnum.MENU);
+                        }
+
 
                     }
                 }

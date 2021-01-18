@@ -53,6 +53,12 @@ public abstract class StatComponent
     {
         return applyEffects(activeValue);
     }
+    public void levelUpStat(float x)
+    {
+        setMaxValue(getMaxValue() + x);
+        setActiveValue(getMaxValue());
+    }
+
 
     public boolean updateEffects(float dt)
     {

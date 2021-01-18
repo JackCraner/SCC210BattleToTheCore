@@ -47,7 +47,7 @@ public class Blueprint
         g.addComponent(new Collider(true,true,true));
         g.addComponent(new Backpack(6,true));
         g.addComponent(new XPBar(100));
-        g.addComponent(new Particles(0.05f));
+        //g.addComponent(new Particles(0.05f));
         g.addComponent(new EffectComponent());
 
 
@@ -187,6 +187,7 @@ public class Blueprint
         g.addComponent(new Backpack(6,true));
         //g.addComponent(new Movement(MovementTypes.CONTROLLED,s));
         g.addComponent(new Inputs(InputTypes.AI));
+        g.addComponent(new Level(1));
         return g;
     }
     public static GameObject damageNumber(Vector2f position, float dmg)
@@ -200,6 +201,18 @@ public class Blueprint
         g.addComponent(new LifeSpan(1.5f));
         g.addComponent(new Movement(MovementTypes.LINEAR,new Speed(30)));
        return  g;
+    }
+    public static GameObject xpOrb(Vector2f position)
+    {
+        GameObject g = new GameObject(Entity.DamageText.name);
+
+        g.addComponent(new Position(position,g));
+        g.addComponent(new TransformComponent(new Vector2f(20,20)));
+        //g.addComponent(new TextureComponent(TextureTypes.RECTANGLE,(byte)2,Entity.XPORB.textureString));
+        g.addComponent(new LifeSpan(10f));
+        g.addComponent(new Particles(0.1f));
+
+        return  g;
     }
     public static GameObject genObject(Entity e, Object... o)
     {

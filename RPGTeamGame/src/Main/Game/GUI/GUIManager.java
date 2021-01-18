@@ -25,29 +25,27 @@ public class GUIManager implements Drawable
     public static GameObject GUITarget = Game.PLAYER;       //The GameObject the GUI is locked on, so will display information about this GAMEOBJECT;
 
 
-    private GUIModes mode;
+    private HashMap<Class<? extends GUIComponent>,GUIComponent> guiACTIVEComponentList = new HashMap<>();
 
-    private HashMap<GUIComponentENUM,GUIComponent> guiACTIVEComponentList = new HashMap<>();
-
-    private static HashMap<GUIComponentENUM,GUIComponent> guiGAMEComponentList = new HashMap<>();       //Hashmap (Speedy List) of all the GUI Components
+    private static HashMap<Class<? extends GUIComponent>,GUIComponent> guiGAMEComponentList = new HashMap<>();       //Hashmap (Speedy List) of all the GUI Components
     static{
         //If you want to add a new GUI Component, first add it to the ENUM, then make a new class for the new element which extends the abstract class
         //finally add a new instance of the new class with its paired enum to the hashmap
-        guiGAMEComponentList.put(GUIComponentENUM.INVENTORY, new GUIInvectory(GUITarget.getComponent(Backpack.class)));
-        guiGAMEComponentList.put(GUIComponentENUM.HEALTHBAR,new GUIHealthBar(GUITarget.getComponent(Stats.class).getComponent(Health.class)));
-        guiGAMEComponentList.put(GUIComponentENUM.MANABAR,new GUIManaBar(GUITarget.getComponent(Stats.class).getComponent(Mana.class)));
-        guiGAMEComponentList.put(GUIComponentENUM.XPBAR,new GUIXPBar(GUITarget.getComponent(XPBar.class)));
+        guiGAMEComponentList.put(GUIInvectory.class, new GUIInvectory(GUITarget.getComponent(Backpack.class)));
+        guiGAMEComponentList.put(GUIHealthBar.class,new GUIHealthBar(GUITarget.getComponent(Stats.class).getComponent(Health.class)));
+        guiGAMEComponentList.put(GUIManaBar.class,new GUIManaBar(GUITarget.getComponent(Stats.class).getComponent(Mana.class)));
+        guiGAMEComponentList.put(GUIXPBar.class,new GUIXPBar(GUITarget.getComponent(XPBar.class)));
     }
 
-    private static HashMap<GUIComponentENUM, GUIComponent> guiMENUComponentList = new HashMap<>();
+    private static HashMap<Class<? extends GUIComponent>, GUIComponent> guiMENUComponentList = new HashMap<>();
     static{
-        guiMENUComponentList.put(GUIComponentENUM.HEALTHBAR,new GUIHealthBar(GUITarget.getComponent(Stats.class).getComponent(Health.class)));
+        guiMENUComponentList.put(GUIHealthBar.class,new GUIHealthBar(GUITarget.getComponent(Stats.class).getComponent(Health.class)));
     }
 
-    private static HashMap<GUIModes,HashMap<GUIComponentENUM,GUIComponent>> guiModesHashMapHashMap = new HashMap<>();
+    private static HashMap<GUIModeEnum,HashMap<Class<? extends GUIComponent>,GUIComponent>> guiModesHashMapHashMap = new HashMap<>();
     static{
-        guiModesHashMapHashMap.put(GUIModes.GAME,guiGAMEComponentList);
-        guiModesHashMapHashMap.put(GUIModes.MENU,guiMENUComponentList);
+        guiModesHashMapHashMap.put(GUIModeEnum.GAME,guiGAMEComponentList);
+        guiModesHashMapHashMap.put(GUIModeEnum.MENU,guiMENUComponentList);
     }
 
 
@@ -59,12 +57,13 @@ public class GUIManager implements Drawable
 
     private GUIManager()
     {
+
         guiACTIVEComponentList = guiGAMEComponentList;
         //swapModes(GUIModes.GAME);
         //any code that needs to be run at the start is put here
         //this should stay empty unless absolutely necessary, Message me
     }
-    public void swapModes(GUIModes mode)
+    public void swapModes(GUIModeEnum mode)
     {
         guiACTIVEComponentList = guiModesHashMapHashMap.get(mode);
     }
@@ -73,7 +72,7 @@ public class GUIManager implements Drawable
      * Updates the Single GUI Component given by e
      * @param e the GUI Enum of the component we want to update
      */
-    public void GUIUpdate(GUIComponentENUM e)
+    public void GUIUpdate(Class<? extends GUIComponent> e)
     {
         //This should be called in GameSystems if a GUI Component needs to be updated
         //for example in BackPackGameSystem, when the player picks up or drops an item, we call GUIUpdate(GUIComponentENUM.Inventory)
@@ -86,9 +85,10 @@ public class GUIManager implements Drawable
     public void draw(RenderTarget renderTarget, RenderStates renderStates)
     {
         //draws all the GUI elements
-        for (GUIComponentENUM g: GUIComponentENUM.values())
+
+        for (GUIComponent g: guiACTIVEComponentList.values())
         {
-            renderTarget.draw(guiACTIVEComponentList.get(g),renderStates);
+            renderTarget.draw(g,renderStates);
         }
     }
 }
