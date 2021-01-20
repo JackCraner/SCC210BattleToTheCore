@@ -113,6 +113,7 @@ public class StartMenu {
                 if (checkButtons() == 1)
                 {
                     onMenu = false;
+                    window.close();
                 }
             }
             if (Mouse.isButtonPressed(Mouse.Button.LEFT))
