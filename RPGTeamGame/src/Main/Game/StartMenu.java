@@ -1,13 +1,13 @@
 package Main.Game;
 
 
-
 import org.jsfml.graphics.RenderWindow;
 import org.jsfml.graphics.Sprite;
 import org.jsfml.graphics.Texture;
 import org.jsfml.system.Vector2f;
 import org.jsfml.window.Keyboard;
 import org.jsfml.window.Mouse;
+import org.jsfml.window.VideoMode;
 import org.jsfml.window.event.Event;
 
 import java.io.File;
@@ -42,7 +42,7 @@ public class StartMenu {
         }
         backgroundSprite.setTexture(backgroundTexture);
         backgroundSprite.setScale(1,1.5f);
-        backgroundSprite.setPosition(0,0);
+        //backgroundSprite.setPosition(0,0);
     }
     public void generateButtons()
     {
@@ -56,8 +56,7 @@ public class StartMenu {
             System.out.println(e);
         }
 
-
-        buttonArray.add(new Button(1,new Vector2f(350, 400), 300, 100));
+        buttonArray.add(new Button(1,new Vector2f(150, 400), 300, 100));
         buttonArray.get(0).setTexture(playTexture);
 
         Texture quitTexture = new Texture();
@@ -70,20 +69,47 @@ public class StartMenu {
             System.out.println(e);
         }
 
-        buttonArray.add(new Button(2,new Vector2f(350,600),300,100));
+        buttonArray.add(new Button(2,new Vector2f(150,550),300,100));
         buttonArray.get(1).setTexture(quitTexture);
-        Texture opsTexture = new Texture();
+
+        Texture helpTexture = new Texture();
             try
         {
-            opsTexture.loadFromFile(Paths.get("Assets"+ File.separator + "Menu"+ File.separator + "Options.png"));
+            helpTexture.loadFromFile(Paths.get("Assets"+ File.separator + "Menu"+ File.separator + "Help.png"));
         }
             catch(Exception e)
         {
             System.out.println(e);
         }
 
-        buttonArray.add(new Button(3,new Vector2f(350,800),300,100));
-        buttonArray.get(2).setTexture(opsTexture);
+        buttonArray.add(new Button(3,new Vector2f(550,550),300,100));
+        buttonArray.get(2).setTexture(helpTexture);
+
+        Texture credTexture = new Texture();
+        try
+        {
+            credTexture.loadFromFile(Paths.get("Assets"+ File.separator + "Menu"+ File.separator + "Credits.png"));
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+        }
+
+        buttonArray.add(new Button(4,new Vector2f(350,850),300,100));
+        buttonArray.get(3).setTexture(credTexture);
+
+        Texture conTexture = new Texture();
+        try
+        {
+            conTexture.loadFromFile(Paths.get("Assets"+ File.separator + "Menu"+ File.separator + "Continue.png"));
+        }
+        catch(Exception e)
+        {
+            System.out.println(e);
+        }
+
+        buttonArray.add(new Button(5,new Vector2f(550, 400), 300, 100));
+        buttonArray.get(4).setTexture(conTexture);
     }
     public int checkButtons()
     {
@@ -128,6 +154,16 @@ public class StartMenu {
                 if (checkButtons() == 3)
                 {
                     window.close();
+                    Help help = new Help();
+
+                }
+            }
+            if (Mouse.isButtonPressed(Mouse.Button.LEFT))
+            {
+                if (checkButtons() == 4)
+                {
+                    window.close();
+                    Credits creds = new Credits();
                 }
             }
             window.clear();
