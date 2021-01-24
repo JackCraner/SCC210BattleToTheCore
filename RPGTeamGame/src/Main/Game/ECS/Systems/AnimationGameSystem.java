@@ -1,12 +1,15 @@
 package Main.Game.ECS.Systems;
 
-import Main.Game.ECS.Components.*;
+import Main.Game.ECS.Components.StandardComponents.Animation;
+import Main.Game.ECS.Components.StandardComponents.Inputs;
+import Main.Game.ECS.Components.StandardComponents.Position;
+import Main.Game.ECS.Components.StandardComponents.TransformComponent;
+import Main.Game.ECS.Components.StatComponents.Armor;
 import Main.Game.ECS.Components.StatComponents.Speed;
 import Main.Game.ECS.Entity.Camera;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.BitMasks;
 import Main.Game.Game;
-import org.jsfml.graphics.RectangleShape;
 import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 import org.jsfml.window.Mouse;
@@ -22,7 +25,7 @@ public class AnimationGameSystem extends GameSystem
     }
     private AnimationGameSystem()
     {
-        setBitMaskRequirement(BitMasks.produceBitMask(Position.class,TransformComponent.class, Animation.class));
+        setBitMaskRequirement(BitMasks.produceBitMask(Position.class, TransformComponent.class, Animation.class));
     }
 
     @Override
@@ -87,12 +90,26 @@ public class AnimationGameSystem extends GameSystem
                     anim.spriteSheetAnimation =1;
                 }
             }
+            if (BitMasks.checkIfContains(g.getBitmask(), Armor.class))
+            {
+                Armor a = g.getComponent(Armor.class);
+                if(a.getHelmet() != null)
+                {
+                    GameObject o = a.getHelmet();
+                    Animation animArmor = o.getComponent(Animation.class);
+                    animArmor.spriteSheetDirection = anim.spriteSheetDirection;
+                    animArmor.spriteSheetAnimation = anim.spriteSheetAnimation;
+                }
+
+
+            }
 
 
         }
 
 
     }
+
     public static int oscillate(int input, int min, int max)
     {
         int range = max - min ;

@@ -2,11 +2,11 @@ package Main.Game.ECS.Systems;
 
 
 import Main.DataTypes.Effects;
-import Main.Game.ECS.Components.EffectComponent;
-import Main.Game.ECS.Components.Particles;
+import Main.Game.ECS.Components.SpecialComponents.CollisionEvent;
+import Main.Game.ECS.Components.StatComponents.EffectComponent;
+import Main.Game.ECS.Components.ItemComponents.GivenEffect;
+import Main.Game.ECS.Components.SpecialComponents.Particles;
 import Main.Game.ECS.Components.StatComponents.IsStat;
-import Main.Game.ECS.Components.StatComponents.Speed;
-import Main.Game.ECS.Entity.Component;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.BitMasks;
 
@@ -36,6 +36,21 @@ public class EffectModifierGameSystem extends GameSystem
         for (GameObject g:getGameObjectList())
         {
             EffectComponent objectEffects = g.getComponent(EffectComponent.class);
+            if (g.getComponent(CollisionEvent.class) != null)
+            {
+                CollisionEvent c = g.getComponent(CollisionEvent.class);
+                if (BitMasks.checkIfContains(c.getG().getBitmask(), GivenEffect.class))
+                {
+                    Effects e =c.getG().getComponent(GivenEffect.class).getEffectToGiven();
+                    if(BitMasks.checkIfContains(g.getBitmask(), e.getType()))
+                    {
+                        objectEffects.addEffect(c.getG().getComponent(GivenEffect.class).getEffectToGiven());
+                    }
+
+                }
+            }
+
+
             if (objectEffects.getNewEffects().size() > 0)
             {
                 if (!BitMasks.checkIfContains(g.getBitmask(),Particles.class))
@@ -53,6 +68,8 @@ public class EffectModifierGameSystem extends GameSystem
                 }
 
             }
+
+
             if (objectEffects.getEffectsArrayList().size()>0)
             {
                 Iterator<Effects>  currentEffectItr = objectEffects.getEffectsArrayList().iterator();

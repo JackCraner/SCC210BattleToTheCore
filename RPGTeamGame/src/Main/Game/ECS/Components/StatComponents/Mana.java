@@ -1,6 +1,6 @@
 package Main.Game.ECS.Components.StatComponents;
 
-import Main.Game.ECS.Entity.Component;
+import Main.Game.ECS.Components.Component;
 
 public class Mana extends Component implements IsStat
 {

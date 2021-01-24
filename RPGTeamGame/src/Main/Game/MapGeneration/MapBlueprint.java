@@ -1,8 +1,9 @@
 package Main.Game.MapGeneration;
 
-import Main.Game.ECS.Components.Collider;
-import Main.Game.ECS.Components.Position;
-import Main.Game.ECS.Entity.EntityManager;
+import Main.Game.ECS.Components.StandardComponents.Position;
+import Main.Game.ECS.Components.StandardComponents.TextureComponent;
+import Main.Game.ECS.Components.StandardComponents.TransformComponent;
+import Main.Game.Managers.EntityManager;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.Blueprint;
 import Main.Game.ECS.Factory.Entity;
@@ -54,25 +55,33 @@ public class MapBlueprint
 
                 if (binaryMapping[a][b] == CellularAutomata.WALLID)
                 {
-                    EntityManager.getEntityManagerInstance().addGameObject( Blueprint.block(pos,binaryToTextureID.get(binaryMapping[a][b])));
+                   // EntityManager.getEntityManagerInstance().addGameObject( Blueprint.block(pos,(byte)20));
+                    GameObject g = Blueprint.block(pos,(byte)0);
+                    findWallAngle(binaryMapping,a,b,g);
+                    EntityManager.getEntityManagerInstance().addGameObject(g);
+
+
+
+
+
 
                 }
                 else
                 {
-                    if (CellularAutomata.checkNeighbours(binaryMapping,a,b) == 9)
+                    if (CellularAutomata.checkNeighbours8(binaryMapping,a,b) == 9)
                     {
                         if ( rng.nextFloat() < generateProbability(mapID.torchSpawnRate, findDistance(pos, Entity.TORCH.name), mapID.torchMinDistance))
                         {
-                            EntityManager.getEntityManagerInstance().addGameObject(Blueprint.torch(pos));
+                            //EntityManager.getEntityManagerInstance().addGameObject(Blueprint.torch(pos));
                             count ++;
                         }
                     }
                     if(b < CellularAutomata.CHUNKSIZEBLOCKSY - 1 && b > 0 && binaryMapping[a][b + 1] == CellularAutomata.WALLID&& binaryMapping[a][b -1] == CellularAutomata.EMPTYID)
                     {
-                        if ( rng.nextFloat() < generateProbability(mapID.chestSpawnRate, findDistance(pos, Entity.CHEST.name), mapID.chestMinDistance))
-                        {
-                            //EntityManager.getEntityManagerInstance().addGameObject(Blueprint.chest(pos));
-                        }
+                        //if ( rng.nextFloat() < generateProbability(mapID.chestSpawnRate, findDistance(pos, Entity.CHEST.name), mapID.chestMinDistance))
+                        //{
+                        //    EntityManager.getEntityManagerInstance().addGameObject(Blueprint.chest(pos));
+                       // }
                     }
                 }
 
@@ -86,13 +95,13 @@ public class MapBlueprint
         //add outer wall
         for(int a = 0; a < CellularAutomata.CHUNKSIZEBLOCKSX; a++)
         {
-            EntityManager.getEntityManagerInstance().addGameObject( Blueprint.block(new Vector2f(a * Blueprint.BLOCKSIZE.x,0),binaryToTextureID.get(CellularAutomata.WALLID)));
-            EntityManager.getEntityManagerInstance().addGameObject( Blueprint.block(new Vector2f(a * Blueprint.BLOCKSIZE.x,CellularAutomata.CHUNKSIZEBLOCKSY * Blueprint.BLOCKSIZE.y),binaryToTextureID.get(CellularAutomata.WALLID)));
+            EntityManager.getEntityManagerInstance().addGameObject( Blueprint.block(new Vector2f(a * Blueprint.BLOCKSIZE.x,0), (byte) 3,95));
+            EntityManager.getEntityManagerInstance().addGameObject( Blueprint.block(new Vector2f(a * Blueprint.BLOCKSIZE.x,CellularAutomata.CHUNKSIZEBLOCKSY * Blueprint.BLOCKSIZE.y),(byte) 3,185));
         }
         for(int b =0; b< CellularAutomata.CHUNKSIZEBLOCKSY; b++)
         {
-            EntityManager.getEntityManagerInstance().addGameObject( Blueprint.block(new Vector2f(CellularAutomata.CHUNKSIZEBLOCKSX * Blueprint.BLOCKSIZE.x,b * Blueprint.BLOCKSIZE.y),binaryToTextureID.get(CellularAutomata.WALLID)));
-            EntityManager.getEntityManagerInstance().addGameObject( Blueprint.block(new Vector2f(0,b * Blueprint.BLOCKSIZE.y),binaryToTextureID.get(CellularAutomata.WALLID)));
+            EntityManager.getEntityManagerInstance().addGameObject( Blueprint.block(new Vector2f(CellularAutomata.CHUNKSIZEBLOCKSX * Blueprint.BLOCKSIZE.x,b * Blueprint.BLOCKSIZE.y),(byte) 5, 95));
+            EntityManager.getEntityManagerInstance().addGameObject( Blueprint.block(new Vector2f(0,b * Blueprint.BLOCKSIZE.y),(byte) 1, 95));
         }
 
         System.out.println(count);
@@ -154,6 +163,130 @@ public class MapBlueprint
     {
 
         return (float)(Math.pow((1 + (exponent/10000)), (distance -minDistance))-1);
+    }
+
+    public void findWallAngle(byte[][] binaryMapping, int x, int y, GameObject g)
+    {
+        //Tile rules
+        byte tilemapLocation=0;
+        float rotation =0;
+        try
+        {
+            if (binaryMapping[x][y+1] == CellularAutomata.EMPTYID)
+            {
+                tilemapLocation =6;
+                Vector2f pos = new Vector2f(x * Blueprint.BLOCKSIZE.x, y*Blueprint.BLOCKSIZE.y);
+                if ( rng.nextFloat() < generateProbability(mapID.torchSpawnRate, findDistance(pos, Entity.TORCH.name), mapID.torchMinDistance))
+                {
+                    EntityManager.getEntityManagerInstance().addGameObject(Blueprint.torch(pos));
+                }
+                if ( rng.nextFloat() < generateProbability(mapID.chestSpawnRate, findDistance(pos, Entity.CHEST.name), mapID.chestMinDistance))
+                {
+                    EntityManager.getEntityManagerInstance().addGameObject(Blueprint.chest(new Vector2f(pos.x, pos.y + Blueprint.BLOCKSIZE.y)));
+                }
+
+                rotation = 95;
+            }
+
+            else if(binaryMapping[x-1][y] == CellularAutomata.EMPTYID && binaryMapping[x][y-1] == CellularAutomata.EMPTYID)
+            {
+                tilemapLocation=2;
+                rotation = 95;
+            }
+            else if(binaryMapping[x-1][y] == CellularAutomata.EMPTYID)
+            {
+                tilemapLocation=1;
+                rotation=95;
+            }
+            else if(binaryMapping[x][y-1] == CellularAutomata.EMPTYID && binaryMapping[x+1][y] == CellularAutomata.EMPTYID)
+            {
+                tilemapLocation=4;
+                rotation=95;
+            }
+            else if (binaryMapping[x+1][y+1] == CellularAutomata.EMPTYID)
+            {
+                tilemapLocation=5;
+                rotation = 95;
+            }
+            else if (binaryMapping[x-1][y+1] == CellularAutomata.EMPTYID)
+            {
+                tilemapLocation=1;
+                rotation = 95;
+            }
+
+            else if(binaryMapping[x+1][y] == CellularAutomata.EMPTYID)
+            {
+                tilemapLocation=5;
+                rotation = 95;
+            }
+            else if(CellularAutomata.checkNeighbours4(binaryMapping,x,y) != 0)
+            {
+                tilemapLocation=1;
+            }
+        }
+        catch(Exception e)
+        {
+
+        }
+        /*
+        try
+        {
+            if ((binaryMapping[x + 1][y] == CellularAutomata.EMPTYID) && (binaryMapping[x-1][y] == CellularAutomata.EMPTYID) && binaryMapping[x][y+1] == CellularAutomata.EMPTYID && binaryMapping[x][y-1] == CellularAutomata.EMPTYID)
+            {
+                //wrong
+                //tilemapLocation = 8;
+            }
+            else if ((binaryMapping[x + 1][y] == CellularAutomata.EMPTYID) && (binaryMapping[x-1][y] == CellularAutomata.EMPTYID) && binaryMapping[x][y+1] == CellularAutomata.EMPTYID)
+            {
+                //wrong
+                //tilemapLocation = 8;
+            }
+            else if(binaryMapping[x][y+1] == CellularAutomata.EMPTYID&&binaryMapping[x+1][y+1] == CellularAutomata.WALLID)
+            {
+                tilemapLocation = 0;
+                rotation = 180;
+            }
+
+            else if(binaryMapping[x][y+1] == CellularAutomata.EMPTYID &&binaryMapping[x+1][y+1] == CellularAutomata.WALLID )
+            {
+                tilemapLocation = 0;
+                rotation =90;
+            }
+
+
+            else if(binaryMapping[x][y+1] == CellularAutomata.EMPTYID)
+            {
+                tilemapLocation = 8;
+                rotation = 95;
+            }
+            else if (binaryMapping[x][y-1] == CellularAutomata.EMPTYID)
+            {
+                tilemapLocation = 0;
+                rotation = 180;
+            }
+            else if (binaryMapping[x -1][y] == CellularAutomata.EMPTYID)
+            {
+                tilemapLocation = 4;
+                rotation = 95;//rotation = 270;
+            }
+            else if (binaryMapping[x +1][y] == CellularAutomata.EMPTYID)
+            {
+                tilemapLocation = 4;
+                rotation = 185;//rotation = 270;
+            }
+
+
+        }
+        catch (Exception e)
+        {
+
+        }
+        //rotation = 180;
+
+         */
+        g.getComponent(TransformComponent.class).setRotation(rotation);
+        g.getComponent(TextureComponent.class).tileMapLocation = tilemapLocation;
+
     }
 
 

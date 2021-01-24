@@ -1,7 +1,9 @@
 package Main.Game.ECS.Systems;
 
-import Main.Game.ECS.Components.*;
 import Main.Game.ECS.Components.ComponentENUMs.MovementTypes;
+import Main.Game.ECS.Components.StandardComponents.Inputs;
+import Main.Game.ECS.Components.StandardComponents.Position;
+import Main.Game.ECS.Components.StandardComponents.TransformComponent;
 import Main.Game.ECS.Components.StatComponents.Speed;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.BitMasks;
@@ -46,6 +48,7 @@ public class MovementGameSystem extends GameSystem
             //System.out.println(movement.getStat() + "   " + g.getName());
             if(movement.getType() == MovementTypes.CONTROLLED)
             {
+
                 if ((g.getBitmask() & BitMasks.getBitMask(Inputs.class)) !=0)
                 {
                     Inputs oInputs = g.getComponent(Inputs.class);

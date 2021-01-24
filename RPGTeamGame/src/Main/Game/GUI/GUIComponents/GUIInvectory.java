@@ -1,7 +1,7 @@
 package Main.Game.GUI.GUIComponents;
 
-import Main.Game.ECS.Components.Backpack;
-import Main.Game.ECS.Components.TextureComponent;
+import Main.Game.ECS.Components.SpecialComponents.Backpack;
+import Main.Game.ECS.Components.StandardComponents.TextureComponent;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.TextureMap;
 import Main.Game.GUI.GUIComponent;

@@ -1,6 +1,6 @@
 package Main.Game.ECS.Systems;
 
-import Main.Game.ECS.Components.CollisionEvent;
+import Main.Game.ECS.Components.SpecialComponents.CollisionEvent;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.BitMasks;
 

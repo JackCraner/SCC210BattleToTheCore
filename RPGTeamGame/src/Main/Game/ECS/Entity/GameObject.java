@@ -1,6 +1,7 @@
 package Main.Game.ECS.Entity;
 
-import Main.Game.ECS.Components.Position;
+import Main.Game.ECS.Components.Component;
+import Main.Game.ECS.Components.StandardComponents.Position;
 import Main.Game.ECS.Factory.BitMasks;
 
 import java.util.ArrayList;

@@ -1,6 +1,6 @@
 package Main.Game.ECS.Systems;
 
-import Main.Game.ECS.Components.Level;
+import Main.Game.ECS.Components.StatComponents.Level;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.BitMasks;
 

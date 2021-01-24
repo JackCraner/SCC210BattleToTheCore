@@ -1,11 +1,15 @@
 package Main.Game.ECS.Components.StatComponents;
 
-import Main.Game.ECS.Entity.Component;
+import Main.Game.ECS.Components.Component;
+import Main.Game.ECS.Entity.GameObject;
 
 
 public class Armor extends Component implements IsStat {
     float baseArmor;
     float armorValue;
+    GameObject helmet;
+    GameObject chest;
+    GameObject legs;
 
     public Armor(float armorValue) {
 
@@ -18,6 +22,14 @@ public class Armor extends Component implements IsStat {
             this.baseArmor = 100;
         }
 
+    }
+
+    public GameObject getHelmet() {
+        return helmet;
+    }
+
+    public void setHelmet(GameObject helmet) {
+        this.helmet = helmet;
     }
 
     @Override

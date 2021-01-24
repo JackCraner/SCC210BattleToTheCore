@@ -1,17 +1,22 @@
 package Main.Game.ECS.Systems;
 
 
-import Main.Game.ECS.Components.*;
 import Main.Game.ECS.Components.ItemComponents.Damage;
+import Main.Game.ECS.Components.SpecialComponents.Backpack;
+import Main.Game.ECS.Components.SpecialComponents.CollisionEvent;
+import Main.Game.ECS.Components.StandardComponents.Collider;
+import Main.Game.ECS.Components.StandardComponents.Position;
+import Main.Game.ECS.Components.StandardComponents.TransformComponent;
 import Main.Game.ECS.Components.StatComponents.Armor;
 import Main.Game.ECS.Components.StatComponents.Health;
-import Main.Game.ECS.Entity.EntityManager;
+import Main.Game.ECS.Components.StatComponents.Level;
+import Main.Game.Managers.EntityManager;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.BitMasks;
 import Main.Game.ECS.Factory.Blueprint;
 import Main.Game.ECS.Factory.Entity;
 import Main.Game.GUI.GUIComponents.GUIHealthBar;
-import Main.Game.GUI.GUIManager;
+import Main.Game.Managers.GUIManager;
 import org.jsfml.system.Vector2f;
 
 import java.util.Random;
@@ -36,7 +41,6 @@ public class CombatGameSystem extends GameSystem
                 GameObject hitBY = g.getComponent(CollisionEvent.class).getG();
                 if (!(hitBY.getComponent(Collider.class).checkGameObject(g))) {
                     if ((hitBY.getBitmask() & BitMasks.produceBitMask(Damage.class)) != 0) {
-                        g.removeComponent(CollisionEvent.class);
                         float damageDealt;
                         if (BitMasks.checkIfContains(g.getBitmask(), Armor.class)) {
                             damageDealt = (hitBY.getComponent(Damage.class).getDamage() * g.getComponent(Armor.class).getStat());

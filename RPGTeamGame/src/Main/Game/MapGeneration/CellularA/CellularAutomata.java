@@ -2,13 +2,9 @@ package Main.Game.MapGeneration.CellularA;
 
 
 
-import Main.Game.ECS.Entity.Camera;
 import Main.Game.ECS.Factory.Blueprint;
-import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 
-import java.nio.channels.ScatteringByteChannel;
-import java.sql.SQLSyntaxErrorException;
 import java.util.*;
 //Creates the skeleton of the map using Cellular Automata
 //https://en.wikipedia.org/wiki/Cellular_automaton
@@ -74,7 +70,7 @@ public class CellularAutomata
      * @param y The Y value of the point in the map
      * @return The number of empty blocks around the point (0 - 8)
      */
-    public static int checkNeighbours(byte[][] givenMap,int x, int y)
+    public static int checkNeighbours8(byte[][] givenMap, int x, int y)
     {
 
         int spaceCount = 0;
@@ -99,6 +95,30 @@ public class CellularAutomata
 
 
     }
+    public static int checkNeighbours4(byte[][] givenMap, int x,int y)
+    {
+        int spaceCount = 0;
+
+        int xStart = Math.max(x-1, 0);
+        int xEnd = Math.min(x+1,CHUNKSIZEBLOCKSX -1);
+
+        int yStart = Math.max(y-1, 0);
+        int yEnd = Math.min(y+1,CHUNKSIZEBLOCKSY -1);
+
+        for (int a = xStart; a <= xEnd ;a++)
+        {
+            if(givenMap[a][y] == EMPTYID) spaceCount++;
+        }
+        for (int b = yStart; b<= yEnd; b++)
+        {
+
+            if (givenMap[x][b] == EMPTYID) spaceCount++;
+
+        }
+        return spaceCount;
+
+    }
+
 
     /**
      * Recursively iterates over the map, performing Cellular Automata
@@ -114,7 +134,7 @@ public class CellularAutomata
         {
             for (int b = 0; b< CHUNKSIZEBLOCKSY; b++)
             {
-                if (checkNeighbours(tempMap, a, b) >= 5)
+                if (checkNeighbours8(tempMap, a, b) >= 5)
                 {
                     tempMap[a][b] = EMPTYID;
                 }

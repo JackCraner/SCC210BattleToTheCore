@@ -1,20 +1,21 @@
 package Main.Game.ECS.Systems;
 
-import Main.Game.ECS.Components.*;
 import Main.Game.ECS.Components.ComponentENUMs.MovementTypes;
 import Main.Game.ECS.Components.ComponentENUMs.TextureTypes;
 import Main.Game.ECS.Components.ItemComponents.LifeSpan;
+import Main.Game.ECS.Components.SpecialComponents.Light;
+import Main.Game.ECS.Components.SpecialComponents.Particles;
+import Main.Game.ECS.Components.StandardComponents.Position;
+import Main.Game.ECS.Components.StandardComponents.TextureComponent;
+import Main.Game.ECS.Components.StandardComponents.TransformComponent;
 import Main.Game.ECS.Components.StatComponents.Speed;
-import Main.Game.ECS.Entity.EntityManager;
+import Main.Game.Managers.EntityManager;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.BitMasks;
-import Main.Game.ECS.Factory.Entity;
-import Main.Game.Game;
 import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector3f;
 import org.jsfml.system.Vector3i;
 
-import javax.xml.crypto.dsig.Transform;
 import java.util.Random;
 
 public class ParticleGameSystem extends GameSystem
@@ -35,7 +36,7 @@ public class ParticleGameSystem extends GameSystem
     {
         for (GameObject g: getGameObjectList())
         {
-            if (BitMasks.checkIfContains(g.getBitmask(),Position.class))
+            if (BitMasks.checkIfContains(g.getBitmask(), Position.class))
             {
                 Particles particle = g.getComponent(Particles.class);
                 if (particle.getSpawnTime() > particle.getSpawnCooldown())

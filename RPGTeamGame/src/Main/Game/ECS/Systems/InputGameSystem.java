@@ -1,11 +1,9 @@
 package Main.Game.ECS.Systems;
 
 import Main.Game.ECS.Components.ComponentENUMs.InputTypes;
-import Main.Game.ECS.Components.Inputs;
+import Main.Game.ECS.Components.StandardComponents.Inputs;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.BitMasks;
-import Main.Game.Game;
-import org.jsfml.system.Vector2f;
 import org.jsfml.window.Keyboard;
 import org.jsfml.window.Mouse;
 
@@ -25,6 +23,7 @@ public class InputGameSystem extends GameSystem
     {
         for(GameObject g: getGameObjectList())
         {
+
             Inputs gameObjectInputs = g.getComponent(Inputs.class);
             gameObjectInputs.backwards = false;
             gameObjectInputs.drop = false;

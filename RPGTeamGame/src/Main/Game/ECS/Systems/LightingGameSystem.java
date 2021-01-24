@@ -1,7 +1,7 @@
 package Main.Game.ECS.Systems;
 
-import Main.Game.ECS.Components.Light;
-import Main.Game.ECS.Components.Position;
+import Main.Game.ECS.Components.SpecialComponents.Light;
+import Main.Game.ECS.Components.StandardComponents.Position;
 import Main.Game.ECS.Entity.Camera;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.BitMasks;

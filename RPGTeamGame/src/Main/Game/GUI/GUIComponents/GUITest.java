@@ -1,6 +1,6 @@
 package Main.Game.GUI.GUIComponents;
 
-import Main.Game.ECS.Components.Backpack;
+import Main.Game.ECS.Components.SpecialComponents.Backpack;
 import Main.Game.GUI.GUIComponent;
 import org.jsfml.graphics.RenderStates;
 import org.jsfml.graphics.RenderTarget;

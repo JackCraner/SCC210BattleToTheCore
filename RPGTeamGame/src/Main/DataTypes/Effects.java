@@ -1,7 +1,6 @@
 package Main.DataTypes;
 
-import Main.Game.ECS.Components.StatComponents.IsStat;
-import Main.Game.ECS.Entity.Component;
+import Main.Game.ECS.Components.Component;
 
 public class Effects
 {
@@ -41,5 +40,10 @@ public class Effects
 
     public Class<? extends Component> getType() {
         return type;
+    }
+
+    public Effects clone()
+    {
+        return new Effects(type,percentageModifier,duration);
     }
 }

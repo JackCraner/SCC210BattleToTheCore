@@ -1,14 +1,15 @@
 package Main.Game;
 
-import Main.Game.ECS.Components.Backpack;
-import Main.Game.ECS.Components.Position;
+import Main.Game.ECS.Components.StandardComponents.Position;
+import Main.Game.ECS.Components.StatComponents.Armor;
 import Main.Game.ECS.Entity.Camera;
-import Main.Game.ECS.Entity.EntityManager;
+import Main.Game.Managers.EntityManager;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.Blueprint;
 import Main.Game.ECS.Systems.*;
 import Main.Game.GUI.GUIComponents.GUIModeEnum;
-import Main.Game.GUI.GUIManager;
+import Main.Game.Managers.GUIManager;
+import Main.Game.Managers.SystemManager;
 import Main.Game.MapGeneration.CellularA.CellularAutomata;
 import Main.Game.MapGeneration.Map;
 import Main.Game.MapGeneration.MapBlueprint;
@@ -52,7 +53,6 @@ public class Game
     private static SystemManager SYSTEMMANAGER =SystemManager.getSystemManagerInstance();
 
     private static GUIManager GUIMANAGER = GUIManager.getGUIinstance();
-
     public static Game getGame()
     {
         return levelInstance;
@@ -80,8 +80,6 @@ public class Game
     {
         window = new RenderWindow(new VideoMode(WINDOWSIZE,WINDOWSIZE), "Battle_To_The_Core");
 
-
-
         MapBlueprint mb = new MapBlueprint(4,Map.MAP2);
         ENTITYMANAGER.addGameObject(PLAYER);
         ENTITYMANAGER.addGameObject(Blueprint.sword(new Vector2f(PLAYER.getComponent(Position.class).getPosition().x + 50,PLAYER.getComponent(Position.class).getPosition().y + 50)));
@@ -89,7 +87,9 @@ public class Game
         ENTITYMANAGER.addGameObject(Blueprint.enemy(new Vector2f(PLAYER.getComponent(Position.class).getPosition().x + 100,PLAYER.getComponent(Position.class).getPosition().y + 100)));
         ENTITYMANAGER.addGameObject(Blueprint.enemy(new Vector2f(PLAYER.getComponent(Position.class).getPosition().x + 150,PLAYER.getComponent(Position.class).getPosition().y + 100)));
         ENTITYMANAGER.addGameObject(Blueprint.enemy(new Vector2f(PLAYER.getComponent(Position.class).getPosition().x + 200,PLAYER.getComponent(Position.class).getPosition().y + 100)));
+        //ENTITYMANAGER.addGameObject(Blueprint.helmet(new Vector2f(PLAYER.getComponent(Position.class).getPosition().x + 280,PLAYER.getComponent(Position.class).getPosition().y + 100)));
 
+        PLAYER.getComponent(Armor.class).setHelmet(Blueprint.helmet(new Vector2f(PLAYER.getComponent(Position.class).getPosition().x + 280,PLAYER.getComponent(Position.class).getPosition().y + 100)));
         //TESTING
 
         try
@@ -141,6 +141,7 @@ public class Game
                         else
                         {
                             GUIMANAGER.swapModes(GUIModeEnum.MENU);
+                            GUIMANAGER.GUIUpdateALL();
                         }
 
 
@@ -187,6 +188,8 @@ public class Game
 
             }
             window.draw(RendererGameSystem.getSystemInstance().screenSprite,new RenderStates(LightingGameSystem.getLightingGameSystem().mapShader));
+            //window.draw(RendererGameSystem.getSystemInstance().screenSprite);
+
 
             window.draw(GUIMANAGER);
             window.draw(fpsCounter);
