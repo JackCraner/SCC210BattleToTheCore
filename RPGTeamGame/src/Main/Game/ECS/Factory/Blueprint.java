@@ -236,6 +236,15 @@ public class Blueprint
         g.addComponent(new Animation(0.2f));
         return g;
     }
+    public static GameObject trapdoor(Vector2f position)
+    {
+        GameObject g = new GameObject(Entity.TRAPDOOR.name);
+        g.addComponent(new Position(position,g));
+        g.addComponent(new TransformComponent(ITEMSIZE));
+        g.addComponent(new TextureComponent(TextureTypes.RECTANGLE,(byte)3,Entity.TRAPDOOR.textureString));
+        g.addComponent(new Collider(true,false,false,false));
+        return g;
+    }
     public static GameObject genObject(Entity e, Object... o)
     {
         for (Object o1:o)

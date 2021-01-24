@@ -14,8 +14,8 @@ public class CellularAutomata
 
 
     //parameters of creation;
-    public static int CHUNKSIZEBLOCKSX = 500;       // total number of blocks in the X direction
-    public static int CHUNKSIZEBLOCKSY = 500;       // total number of blocks in the Y direction
+    public static int CHUNKSIZEBLOCKSX = 100;       // total number of blocks in the X direction
+    public static int CHUNKSIZEBLOCKSY = 100;       // total number of blocks in the Y direction
     public static int CHUNKSIZEPIXELSX = CHUNKSIZEBLOCKSX * (int)Blueprint.BLOCKSIZE.x; //Number of pixels of the total map in the X
     public static int CHUNKSIZEPIXELSY = CHUNKSIZEBLOCKSY * (int)Blueprint.BLOCKSIZE.y; // number of pixels of the total map in the Y
     public static byte WALLID = 0;  //ID of wall blocks

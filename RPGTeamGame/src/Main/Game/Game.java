@@ -187,8 +187,8 @@ public class Game
  */
 
             }
-            window.draw(RendererGameSystem.getSystemInstance().screenSprite,new RenderStates(LightingGameSystem.getLightingGameSystem().mapShader));
-            //window.draw(RendererGameSystem.getSystemInstance().screenSprite);
+            //window.draw(RendererGameSystem.getSystemInstance().screenSprite,new RenderStates(LightingGameSystem.getLightingGameSystem().mapShader));
+            window.draw(RendererGameSystem.getSystemInstance().screenSprite);
 
 
             window.draw(GUIMANAGER);

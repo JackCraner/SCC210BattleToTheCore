@@ -13,7 +13,8 @@ public enum Entity
     ENEMY("Enemy", "SharkTexture.png"),
     XPORB("XP","XP_1.png"),
     DamageText("Text", "Text"),
-    HELMET("Helmet","ChestPiece_2.png");
+    HELMET("Helmet","ChestPiece_2.png"),
+    TRAPDOOR("Door","door.png");
 
     public final String name;
     public final String textureString;
