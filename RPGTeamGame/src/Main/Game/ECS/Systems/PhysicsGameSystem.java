@@ -78,6 +78,7 @@ public class PhysicsGameSystem extends GameSystem
                     FloatRect collision = rigidBodies.get(i).intersection(rigidBodies.get(a));
                     if (collision != null)
                     {
+
                         Collider mainCollider = getGameObjectList().get(i).getComponent(Collider.class);
                         Collider collidingWith = getGameObjectList().get(a).getComponent(Collider.class);
 
@@ -89,6 +90,11 @@ public class PhysicsGameSystem extends GameSystem
                                if ((getGameObjectList().get(i).getBitmask() & BitMasks.produceBitMask(CollisionEvent.class)) == 0)
                                {
                                     getGameObjectList().get(i).addComponent(new CollisionEvent(getGameObjectList().get(a))); //only 1 collisionEvent per frame
+
+                               }
+                               if ((getGameObjectList().get(a).getBitmask() & BitMasks.produceBitMask(CollisionEvent.class)) == 0)
+                               {
+                                   getGameObjectList().get(a).addComponent(new CollisionEvent(getGameObjectList().get(i)));
                                }
 
                             }
@@ -147,11 +153,6 @@ public class PhysicsGameSystem extends GameSystem
     public Vector2f getCenter(FloatRect r)
     {
         return new Vector2f(r.left + (r.width/2), r.top + (r.height/2));
-    }
-
-    public void generateWalls(ArrayList<GameObject> blockList)
-    {
-
     }
 
 }

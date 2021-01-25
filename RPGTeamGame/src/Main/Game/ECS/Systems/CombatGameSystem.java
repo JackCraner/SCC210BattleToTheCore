@@ -75,11 +75,15 @@ public class CombatGameSystem extends GameSystem
                     }
                 }
                 if (BitMasks.checkIfContains(g.getBitmask(), Level.class)) {
+                    /*
                     Level objectLevel = g.getComponent(Level.class);
                     Position objectPosition = g.getComponent(Position.class);
-                    for (int i = 0; i < objectLevel.getCurrentLevel(); i++) {
+                    for (int i = 0; i < objectLevel.getCurrentLevel(); i++)
+                    {
                         EntityManager.getEntityManagerInstance().addGameObject(Blueprint.xpOrb(objectPosition.getPosition()));
                     }
+
+                     */
                 }
             }
         }

@@ -180,6 +180,11 @@ public class EntityManager
 
     }
 
+    public void clearAllEntities()
+    {
+        quadTree.clearTree();
+    }
+
 
 
 

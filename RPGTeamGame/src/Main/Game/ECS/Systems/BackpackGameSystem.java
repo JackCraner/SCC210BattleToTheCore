@@ -64,9 +64,9 @@ public class BackpackGameSystem extends GameSystem
                 if (backpack.getObjectsINBACKPACK().size() > 0)
                 {
                     GameObject mainHand = backpack.getObjectsINBACKPACK().get(0);
-                    Pickup mainHandEffect = mainHand.getComponent(Pickup.class);
                     if (backpack.getCanUseItems())
                     {
+                        Pickup mainHandEffect = mainHand.getComponent(Pickup.class);
                         if(mainHandEffect.doesSpawn())
                         {
                             Vector2f pos = g.getComponent(Position.class).getPosition();
@@ -84,6 +84,7 @@ public class BackpackGameSystem extends GameSystem
                                 EntityManager.getEntityManagerInstance().addGameObject(spawn);
                             }
                         }
+                        mainHandEffect.reduceCoolDown(dt);
                     }
 
 
@@ -100,7 +101,7 @@ public class BackpackGameSystem extends GameSystem
                             GUIManager.getGUIinstance().GUIUpdate(GUIInvectory.class);
                         }
                     }
-                    mainHandEffect.reduceCoolDown(dt);
+
                 }
                 if (backpack.getEmptyCooldown() >0)
                 {

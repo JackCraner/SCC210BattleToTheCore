@@ -9,7 +9,7 @@ package Main.Game.MapGeneration;
 public enum Map
 {
     MAP1(0.1f,200,0.1f,100,(byte)3,(byte)31),
-    MAP2(0.5f,200,0.1f,100,(byte)3,(byte)31);
+    MAP2(5f,100,0.1f,100,(byte)3,(byte)31);
 
     public final float torchSpawnRate;
     public final float torchMinDistance;

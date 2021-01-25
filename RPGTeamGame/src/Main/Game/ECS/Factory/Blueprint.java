@@ -29,6 +29,10 @@ public class Blueprint
 
     }
 
+    public static Vector2f convertToGlobal(Vector2f binary)
+    {
+        return new Vector2f(binary.x * BLOCKSIZE.x, binary.y * BLOCKSIZE.y);
+    }
     public static GameObject player(Vector2f position)
     {
 
@@ -77,17 +81,7 @@ public class Blueprint
 
         return g;
     }
-    public static GameObject block(Vector2f position, byte blockID)
-    {
-        GameObject g = new GameObject(Entity.BLOCK.name);
-        g.addComponent(new Position(position,g));
-        g.addComponent(new TransformComponent(BLOCKSIZE));
-        g.addComponent(new TextureComponent(TextureTypes.BLOCK,Entity.BLOCK.textureString));
-        g.getComponent(TextureComponent.class).tileMapLocation = blockID;
-        g.getComponent(TextureComponent.class).layer= 0;
-        g.addComponent(new Collider());
-        return g;
-    }
+
     public static GameObject block(Vector2f position, byte blockID, float rotation)
     {
         GameObject g = new GameObject(Entity.BLOCK.name);
@@ -97,7 +91,8 @@ public class Blueprint
         g.addComponent(new TextureComponent(TextureTypes.BLOCK,Entity.BLOCK.textureString));
         g.getComponent(TextureComponent.class).tileMapLocation = blockID;
         g.getComponent(TextureComponent.class).layer= 0;
-        g.addComponent(new Collider());
+        //g.addComponent(new Health(5));
+        g.addComponent(new Collider(false,false,true));
         return g;
     }
     public static GameObject torch(Vector2f position)
@@ -201,6 +196,25 @@ public class Blueprint
         g.addComponent(new Level(1));
         return g;
     }
+    public static GameObject boss(Vector2f position)
+    {
+        GameObject g = new GameObject(Entity.ENEMY.name);
+        g.addComponent(new Position(position,g));
+        g.addComponent(new TransformComponent(OBJECTSIZE));
+        g.addComponent(new TextureComponent(TextureTypes.RECTANGLE,(byte)2,Entity.ENEMY.textureString));
+        g.addComponent(new Collider(true,true,false,false));
+        g.addComponent(new Health(100));
+        g.addComponent(new Armor(10));
+        g.addComponent(new Backpack(1,false));
+        GameObject a = trapdoor(position);
+        a.removeComponent(Position.class);
+        g.getComponent(Backpack.class).addGameObject(a);
+        g.addComponent(new EffectComponent());
+        g.addComponent(new Inputs(InputTypes.AI));
+        g.addComponent(new Speed(MovementTypes.CONTROLLED, 200));
+        g.addComponent(new Level(1));
+        return g;
+    }
     public static GameObject damageNumber(Vector2f position, float dmg)
     {
         GameObject g = new GameObject(Entity.DamageText.name);
@@ -241,8 +255,9 @@ public class Blueprint
         GameObject g = new GameObject(Entity.TRAPDOOR.name);
         g.addComponent(new Position(position,g));
         g.addComponent(new TransformComponent(ITEMSIZE));
-        g.addComponent(new TextureComponent(TextureTypes.RECTANGLE,(byte)3,Entity.TRAPDOOR.textureString));
+        g.addComponent(new TextureComponent(TextureTypes.RECTANGLE,(byte)2,Entity.TRAPDOOR.textureString));
         g.addComponent(new Collider(true,false,false,false));
+        g.addComponent(new Light(0.3f,3f, new Vector3f(1f,0.8f,1f)));
         return g;
     }
     public static GameObject genObject(Entity e, Object... o)

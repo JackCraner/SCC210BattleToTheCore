@@ -26,4 +26,8 @@ public class QTLeaf
     public ArrayList<GameObject> getObjectList() {
         return objectList;
     }
+    public void wipeLeaf()
+    {
+        objectList.clear();
+    }
 }

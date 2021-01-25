@@ -1,5 +1,6 @@
 package Main.Game;
 
+import Main.Game.ECS.Components.SpecialComponents.Light;
 import Main.Game.ECS.Components.StandardComponents.Position;
 import Main.Game.ECS.Components.StatComponents.Armor;
 import Main.Game.ECS.Entity.Camera;
@@ -9,10 +10,9 @@ import Main.Game.ECS.Factory.Blueprint;
 import Main.Game.ECS.Systems.*;
 import Main.Game.GUI.GUIComponents.GUIModeEnum;
 import Main.Game.Managers.GUIManager;
+import Main.Game.Managers.MapManager;
 import Main.Game.Managers.SystemManager;
 import Main.Game.MapGeneration.CellularA.CellularAutomata;
-import Main.Game.MapGeneration.Map;
-import Main.Game.MapGeneration.MapBlueprint;
 import org.jsfml.graphics.*;
 import org.jsfml.system.Clock;
 import org.jsfml.system.Vector2f;
@@ -40,7 +40,7 @@ public class Game
     public static int WINDOWSIZE = 1000;
 
 
-    public static GameObject PLAYER = Blueprint.player(new Vector2f(CellularAutomata.CHUNKSIZEPIXELSX/2,CellularAutomata.CHUNKSIZEPIXELSY/2));
+    public static GameObject PLAYER = Blueprint.player(new Vector2f(0,0));
 
     private static Game levelInstance = new Game();
     public boolean isRunning = false;
@@ -51,7 +51,7 @@ public class Game
 
     public static EntityManager ENTITYMANAGER = EntityManager.getEntityManagerInstance();
     private static SystemManager SYSTEMMANAGER =SystemManager.getSystemManagerInstance();
-
+    private static MapManager MAPMANAGER = MapManager.getManagerInstance();
     private static GUIManager GUIMANAGER = GUIManager.getGUIinstance();
     public static Game getGame()
     {
@@ -80,8 +80,9 @@ public class Game
     {
         window = new RenderWindow(new VideoMode(WINDOWSIZE,WINDOWSIZE), "Battle_To_The_Core");
 
-        MapBlueprint mb = new MapBlueprint(4,Map.MAP2);
-        ENTITYMANAGER.addGameObject(PLAYER);
+        //MapBlueprint mb = new MapBlueprint(4,Map.MAP2);
+        MAPMANAGER.setCurrentSeed(4);
+        newMap();
         ENTITYMANAGER.addGameObject(Blueprint.sword(new Vector2f(PLAYER.getComponent(Position.class).getPosition().x + 50,PLAYER.getComponent(Position.class).getPosition().y + 50)));
         ENTITYMANAGER.addGameObject(Blueprint.wand(new Vector2f(PLAYER.getComponent(Position.class).getPosition().x + 70,PLAYER.getComponent(Position.class).getPosition().y + 70)));
         ENTITYMANAGER.addGameObject(Blueprint.enemy(new Vector2f(PLAYER.getComponent(Position.class).getPosition().x + 100,PLAYER.getComponent(Position.class).getPosition().y + 100)));
@@ -103,7 +104,6 @@ public class Game
         }
         fpsCounter = new Text("HI", textFont, 100);     //Fps font and size
         fpsCounter.setPosition(new Vector2f(Game.getGame().getWindow().getSize().x-970,30));
-        Camera.cameraInstance().camerView.setCenter(PLAYER.getComponent(Position.class).getPosition());
         isRunning = true;
         runGame();
     }
@@ -146,6 +146,10 @@ public class Game
 
 
                     }
+                    if(((KeyEvent)event).key == Keyboard.Key.G)
+                    {
+                        newMap();
+                    }
                 }
             }
             if (Keyboard.isKeyPressed(Keyboard.Key.ESCAPE)) {
@@ -187,13 +191,15 @@ public class Game
  */
 
             }
-            //window.draw(RendererGameSystem.getSystemInstance().screenSprite,new RenderStates(LightingGameSystem.getLightingGameSystem().mapShader));
-            window.draw(RendererGameSystem.getSystemInstance().screenSprite);
+            window.draw(RendererGameSystem.getSystemInstance().screenSprite,new RenderStates(LightingGameSystem.getLightingGameSystem().mapShader));
+            //window.draw(RendererGameSystem.getSystemInstance().screenSprite);
 
 
             window.draw(GUIMANAGER);
             window.draw(fpsCounter);
             window.display();
+
+           // System.out.println(PLAYER.getComponent(Position.class).getPosition());
 
         }
 
@@ -201,6 +207,24 @@ public class Game
 
 
 
+    }
+    public void newMap()
+    {
+        ENTITYMANAGER.clearAllEntities();
+        ENTITYMANAGER.addGameObject(MAPMANAGER.updateMap());
+        ENTITYMANAGER.addGameObject(PLAYER);
+        PLAYER.getComponent(Position.class).updatePosition(MAPMANAGER.getPlayerPosition());
+        if (MAPMANAGER.getNextRoomIsMap())
+        {
+            PLAYER.getComponent(Light.class).size = 0.6f;
+            PLAYER.getComponent(Light.class).intensity = 5f;
+        }
+        else
+        {
+            PLAYER.getComponent(Light.class).size = 0.3f;
+            PLAYER.getComponent(Light.class).intensity = 3f;
+        }
+        Camera.cameraInstance().camerView.setCenter(PLAYER.getComponent(Position.class).getPosition());
     }
 
 
