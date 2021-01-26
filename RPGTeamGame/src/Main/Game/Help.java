@@ -18,17 +18,22 @@ public class Help {
     ArrayList<Button> buttonArray =  new ArrayList<>();
     Sprite backgroundSprite = new Sprite();
     Sprite textSprite = new Sprite();
+    boolean onHelp;
+
     public Help(){
         window = new RenderWindow(new VideoMode(1000,1000), "Help");
+        this.window = window;
         generateBackground();
         generateButtons();
         window.draw(backgroundSprite);
         window.draw(textSprite);
         window.display();
+        onHelp = true;
         runHelp();
     }
     public void generateBackground()
     {
+
         Texture backgroundTexture = new Texture();
         try
         {
@@ -78,6 +83,8 @@ public class Help {
         return 0;
     }
     public void runHelp(){
+        while(onHelp)
+        {
         for (Event event : window.pollEvents())
         {
 
@@ -86,9 +93,12 @@ public class Help {
         {
             if (checkButtons() == 1)
             {
+                System.out.println("tes");
+                onHelp = false;
                 window.close();
                 RenderWindow window = new RenderWindow(new VideoMode(1000,1000),"CoreControl");
                 StartMenu newStartMenu = new StartMenu(window);
+
 
             }
         }
@@ -100,6 +110,6 @@ public class Help {
             window.draw(b);
         }
         window.display();
+        }
     }
-
-    }
+}

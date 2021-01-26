@@ -18,6 +18,7 @@ public class Credits {
         Sprite backgroundSprite = new Sprite();
         Sprite textSprite = new Sprite();
         ArrayList<Button> buttonArray =  new ArrayList<>();
+        boolean onCreds;
         public Credits(){
             window = new RenderWindow(new VideoMode(1000,1000), "Credits");
             generateBackground();
@@ -25,6 +26,7 @@ public class Credits {
             window.draw(backgroundSprite);
             window.draw(textSprite);
             window.display();
+            onCreds = true;
             runcreds();
         }
         public void generateBackground()
@@ -78,28 +80,34 @@ public class Credits {
             return 0;
         }
         public void runcreds(){
-            for (Event event : window.pollEvents())
+            while(onCreds)
             {
-
-            }
-            if (Mouse.isButtonPressed(Mouse.Button.LEFT))
-            {
-                if (checkButtons() == 1)
+                for (Event event : window.pollEvents())
                 {
-                    window.close();
-                    RenderWindow window = new RenderWindow(new VideoMode(1000,1000),"CoreControl");
-                    StartMenu newStartMenu = new StartMenu(window);
 
                 }
+                if (Mouse.isButtonPressed(Mouse.Button.LEFT))
+                {
+                    if (checkButtons() == 1)
+                    {
+                        System.out.println("tes");
+                        onCreds = false;
+                        window.close();
+                        RenderWindow window = new RenderWindow(new VideoMode(1000,1000),"CoreControl");
+                        StartMenu newStartMenu = new StartMenu(window);
+
+
+                    }
+                }
+                window.clear();
+                window.draw(backgroundSprite);
+                window.draw(textSprite);
+                for (Button b: buttonArray)
+                {
+                    window.draw(b);
+                }
+                window.display();
             }
-            window.clear();
-            window.draw(backgroundSprite);
-            window.draw(textSprite);
-            for (Button b: buttonArray)
-            {
-                window.draw(b);
-            }
-            window.display();
         }
 
 
