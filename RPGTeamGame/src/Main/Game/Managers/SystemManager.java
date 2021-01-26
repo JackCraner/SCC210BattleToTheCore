@@ -43,7 +43,7 @@ public class SystemManager
         systemList.add(RendererGameSystem.getSystemInstance());
         systemList.add(LightingGameSystem.getLightingGameSystem());
         systemList.add(ParticleGameSystem.getSystemInstance());
-
+        systemList.add(SoundGameSystem.getSystemInstance());
 
 
     }

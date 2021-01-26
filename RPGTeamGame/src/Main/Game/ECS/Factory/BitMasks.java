@@ -4,10 +4,7 @@ import Main.Game.ECS.Components.ItemComponents.Damage;
 import Main.Game.ECS.Components.ItemComponents.GivenEffect;
 import Main.Game.ECS.Components.ItemComponents.LifeSpan;
 import Main.Game.ECS.Components.ItemComponents.Pickup;
-import Main.Game.ECS.Components.SpecialComponents.Backpack;
-import Main.Game.ECS.Components.SpecialComponents.CollisionEvent;
-import Main.Game.ECS.Components.SpecialComponents.Light;
-import Main.Game.ECS.Components.SpecialComponents.Particles;
+import Main.Game.ECS.Components.SpecialComponents.*;
 import Main.Game.ECS.Components.StandardComponents.*;
 import Main.Game.ECS.Components.StatComponents.*;
 import Main.Game.ECS.Components.Component;
@@ -48,6 +45,7 @@ public class BitMasks {
         COMPONENTBITMASKS.put(Wisdom.class, Integer.parseInt("1000000000000000000000", 2));//21
         COMPONENTBITMASKS.put(Animation.class, Integer.parseInt("10000000000000000000000", 2));//22
         COMPONENTBITMASKS.put(GivenEffect.class, Integer.parseInt("100000000000000000000000", 2));//23
+        COMPONENTBITMASKS.put(SoundEffect.class, Integer.parseInt("1000000000000000000000000", 2));//23
     }
 
     /**

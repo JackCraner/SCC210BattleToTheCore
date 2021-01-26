@@ -13,6 +13,9 @@ import Main.Game.Managers.GUIManager;
 import Main.Game.Managers.MapManager;
 import Main.Game.Managers.SystemManager;
 import Main.Game.MapGeneration.CellularA.CellularAutomata;
+import org.jsfml.audio.Music;
+import org.jsfml.audio.Sound;
+import org.jsfml.audio.SoundBuffer;
 import org.jsfml.graphics.*;
 import org.jsfml.system.Clock;
 import org.jsfml.system.Vector2f;
@@ -62,6 +65,12 @@ public class Game
     Text fpsCounter;                //Displays the number of frames per second
     Font textFont = new Font();     //The font for Displaying text
     public RenderTexture hitboxs = new RenderTexture();
+    Music m;
+
+
+    SoundBuffer sb = new SoundBuffer();
+
+
 
     public void generateLevel()
     {
@@ -92,16 +101,19 @@ public class Game
 
         PLAYER.getComponent(Armor.class).setHelmet(Blueprint.helmet(new Vector2f(PLAYER.getComponent(Position.class).getPosition().x + 280,PLAYER.getComponent(Position.class).getPosition().y + 100)));
         //TESTING
-
+        m = new Music();
         try
         {
+            sb.loadFromFile(Paths.get("Assets" + File.separator + "Sound" + File.separator+ "Fireball.wav"));
+            m.openFromFile(Paths.get("Assets" + File.separator + "Sound" + File.separator+ "cave_Background.ogg"));
             textFont.loadFromFile(Paths.get("Assets" + File.separator + "Fonts" + File.separator+ "LEMONMILK-Regular.otf"));
             //hitboxs.create(1000,1000);
         }
         catch (Exception e)
         {
-            System.out.println("Font not found");
+            System.out.println("Font not found: " + e);
         }
+        m.setLoop(true);
         fpsCounter = new Text("HI", textFont, 100);     //Fps font and size
         fpsCounter.setPosition(new Vector2f(Game.getGame().getWindow().getSize().x-970,30));
         isRunning = true;
@@ -124,6 +136,7 @@ public class Game
         Clock frameRateTimer = new Clock();
         int frameCounter =0;
         float frameTime =0;
+        m.play();
         while(window.isOpen())
         {
 
@@ -148,6 +161,10 @@ public class Game
                     }
                     if(((KeyEvent)event).key == Keyboard.Key.G)
                     {
+                        System.out.println("Play");
+                        Sound s = new Sound(sb);
+                        s.setVolume(99f);
+                        s.play();
                         newMap();
                     }
                 }

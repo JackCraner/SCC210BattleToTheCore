@@ -11,6 +11,7 @@ import Main.Game.ECS.Components.ItemComponents.Pickup;
 import Main.Game.ECS.Components.SpecialComponents.Backpack;
 import Main.Game.ECS.Components.SpecialComponents.Light;
 import Main.Game.ECS.Components.SpecialComponents.Particles;
+import Main.Game.ECS.Components.SpecialComponents.SoundEffect;
 import Main.Game.ECS.Components.StandardComponents.*;
 import Main.Game.ECS.Components.StatComponents.*;
 import Main.Game.ECS.Entity.GameObject;
@@ -155,6 +156,7 @@ public class Blueprint
         g.addComponent(new LifeSpan(2f));
         g.addComponent(new GivenEffect(new Effects(Speed.class,2f,1)));
         g.addComponent(new Collider(true,true,false,false));
+        g.addComponent(new SoundEffect());
         return g;
     }
     public static GameObject wand(Vector2f position)
