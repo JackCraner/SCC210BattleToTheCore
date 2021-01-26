@@ -22,7 +22,7 @@ public class Help {
 
     public Help(){
         window = new RenderWindow(new VideoMode(1000,1000), "Help");
-        this.window = window;
+        //this.window = window;
         generateBackground();
         generateButtons();
         window.draw(backgroundSprite);
@@ -93,7 +93,7 @@ public class Help {
         {
             if (checkButtons() == 1)
             {
-                System.out.println("tes");
+                //System.out.println("test");
                 onHelp = false;
                 window.close();
                 RenderWindow window = new RenderWindow(new VideoMode(1000,1000),"CoreControl");

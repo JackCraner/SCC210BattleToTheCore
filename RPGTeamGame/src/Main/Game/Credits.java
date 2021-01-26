@@ -90,7 +90,7 @@ public class Credits {
                 {
                     if (checkButtons() == 1)
                     {
-                        System.out.println("tes");
+
                         onCreds = false;
                         window.close();
                         RenderWindow window = new RenderWindow(new VideoMode(1000,1000),"CoreControl");

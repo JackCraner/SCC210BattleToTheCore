@@ -155,7 +155,7 @@ public class StartMenu {
                 {
                     window.close();
                     Help help = new Help();
-
+                    onMenu = false;
                 }
             }
             if (Mouse.isButtonPressed(Mouse.Button.LEFT))
@@ -164,6 +164,7 @@ public class StartMenu {
                 {
                     window.close();
                     Credits creds = new Credits();
+                    onMenu = false;
                 }
             }
             window.clear();
