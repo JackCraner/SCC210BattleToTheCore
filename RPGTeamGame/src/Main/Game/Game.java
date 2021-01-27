@@ -113,7 +113,7 @@ public class Game
         {
             System.out.println("Font not found: " + e);
         }
-        m.setLoop(true);
+        //m.setLoop(true);
         fpsCounter = new Text("HI", textFont, 100);     //Fps font and size
         fpsCounter.setPosition(new Vector2f(Game.getGame().getWindow().getSize().x-970,30));
         isRunning = true;
