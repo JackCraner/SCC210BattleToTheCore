@@ -4,8 +4,6 @@ import Main.Game.ECS.Components.ComponentENUMs.InputTypes;
 import Main.Game.ECS.Components.Inputs;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.BitMasks;
-import Main.Game.Game;
-import org.jsfml.system.Vector2f;
 import org.jsfml.window.Keyboard;
 import org.jsfml.window.Mouse;
 

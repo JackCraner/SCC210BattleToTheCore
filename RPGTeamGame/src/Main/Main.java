@@ -1,7 +1,7 @@
 package Main;
 
-import Main.Game.Game;
-import Main.Game.StartMenu;
+import Main.Game.Menu.Game;
+import Main.Game.Menu.StartMenu;
 import org.jsfml.graphics.RenderWindow;
 import org.jsfml.window.VideoMode;
 

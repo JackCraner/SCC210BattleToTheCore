@@ -1,13 +1,15 @@
-package Main.Game;
+package Main.Game.Menu;
 
 
+import Main.Game.Menu.Button;
+import Main.Game.Menu.Credits;
+import Main.Game.Menu.Help;
 import org.jsfml.graphics.RenderWindow;
 import org.jsfml.graphics.Sprite;
 import org.jsfml.graphics.Texture;
 import org.jsfml.system.Vector2f;
 import org.jsfml.window.Keyboard;
 import org.jsfml.window.Mouse;
-import org.jsfml.window.VideoMode;
 import org.jsfml.window.event.Event;
 
 import java.io.File;

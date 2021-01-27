@@ -3,10 +3,7 @@ package Main.Game.ECS.Components;
 import Main.Game.ECS.Entity.Component;
 import Main.Game.ECS.Entity.EntityManager;
 import Main.Game.ECS.Entity.GameObject;
-import Main.Game.Game;
 import org.jsfml.system.Vector2f;
-
-import java.util.ArrayList;
 
 public class Position extends Component
 {

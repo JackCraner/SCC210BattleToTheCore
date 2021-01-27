@@ -1,4 +1,4 @@
-package Main.Game;
+package Main.Game.Menu;
 
 import org.jsfml.graphics.RenderWindow;
 import org.jsfml.graphics.Sprite;

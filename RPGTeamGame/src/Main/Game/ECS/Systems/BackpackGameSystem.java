@@ -11,7 +11,7 @@ import Main.Game.ECS.Factory.Blueprint;
 import Main.Game.ECS.Factory.Entity;
 import Main.Game.GUI.GUIComponents.GUIInvectory;
 import Main.Game.GUI.GUIManager;
-import Main.Game.Game;
+import Main.Game.Menu.Game;
 import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 import org.jsfml.window.Mouse;

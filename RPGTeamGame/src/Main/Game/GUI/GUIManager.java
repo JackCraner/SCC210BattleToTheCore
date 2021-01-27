@@ -6,7 +6,7 @@ import Main.Game.ECS.Components.StatComponents.Mana;
 import Main.Game.ECS.Components.XPBar;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.GUI.GUIComponents.*;
-import Main.Game.Game;
+import Main.Game.Menu.Game;
 import org.jsfml.graphics.Drawable;
 import org.jsfml.graphics.RenderStates;
 import org.jsfml.graphics.RenderTarget;

@@ -8,13 +8,10 @@ import Main.Game.ECS.Components.StatComponents.Speed;
 import Main.Game.ECS.Entity.EntityManager;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.BitMasks;
-import Main.Game.ECS.Factory.Entity;
-import Main.Game.Game;
 import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector3f;
 import org.jsfml.system.Vector3i;
 
-import javax.xml.crypto.dsig.Transform;
 import java.util.Random;
 
 public class ParticleGameSystem extends GameSystem

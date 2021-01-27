@@ -1,4 +1,4 @@
-package Main.Game;
+package Main.Game.Menu;
 
 import org.jsfml.graphics.RectangleShape;
 import org.jsfml.system.Vector2f;

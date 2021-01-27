@@ -5,7 +5,7 @@ import Main.Game.ECS.Components.Position;
 import Main.Game.ECS.Entity.Camera;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.BitMasks;
-import Main.Game.Game;
+import Main.Game.Menu.Game;
 import org.jsfml.graphics.Shader;
 import org.jsfml.graphics.Texture;
 import org.jsfml.system.Vector2f;

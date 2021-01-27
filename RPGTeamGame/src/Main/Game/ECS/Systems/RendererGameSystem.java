@@ -2,21 +2,17 @@ package Main.Game.ECS.Systems;
 
 import Main.Game.ECS.Components.*;
 import Main.Game.ECS.Components.ComponentENUMs.TextureTypes;
-import Main.Game.ECS.Components.StatComponents.Speed;
 import Main.Game.ECS.Entity.Camera;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.BitMasks;
 import Main.Game.ECS.Factory.Blueprint;
 import Main.Game.ECS.Factory.Entity;
 import Main.Game.ECS.Factory.TextureMap;
-import Main.Game.Game;
+import Main.Game.Menu.Game;
 import org.jsfml.graphics.*;
 import org.jsfml.system.Vector2f;
-import org.jsfml.system.Vector2i;
-import org.jsfml.window.Mouse;
 
 import java.io.File;
-import java.lang.reflect.Field;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;

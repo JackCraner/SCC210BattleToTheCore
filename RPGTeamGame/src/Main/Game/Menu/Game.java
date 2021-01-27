@@ -1,6 +1,5 @@
-package Main.Game;
+package Main.Game.Menu;
 
-import Main.Game.ECS.Components.Backpack;
 import Main.Game.ECS.Components.Position;
 import Main.Game.ECS.Entity.Camera;
 import Main.Game.ECS.Entity.EntityManager;

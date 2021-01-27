@@ -5,7 +5,7 @@ import Main.Game.ECS.Components.TextureComponent;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.TextureMap;
 import Main.Game.GUI.GUIComponent;
-import Main.Game.Game;
+import Main.Game.Menu.Game;
 import org.jsfml.graphics.*;
 import org.jsfml.system.Vector2f;
 

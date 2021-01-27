@@ -2,7 +2,7 @@ package Main.Game.GUI.GUIComponents;
 
 import Main.Game.ECS.Components.StatComponents.Mana;
 import Main.Game.GUI.GUIComponent;
-import Main.Game.Game;
+import Main.Game.Menu.Game;
 import org.jsfml.graphics.Color;
 import org.jsfml.graphics.RectangleShape;
 import org.jsfml.graphics.RenderStates;
