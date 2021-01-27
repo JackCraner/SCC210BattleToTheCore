@@ -70,8 +70,7 @@ public class InputGameSystem extends GameSystem {
                 Vector2f playerPos = Game.PLAYER.getComponent(Position.class).getPosition();
                 Vector2f aiPos = g.getComponent(Position.class).getPosition();
                 float distanceFromPlayer = vectorToDistance(playerPos, aiPos);
-                boolean playerVisible = false;
-                if (distanceFromPlayer <= 100000) {
+                if (distanceFromPlayer <= 100000)//experiment this size currently whenever monster rendered will move {
                     if (!gameObjectInputs.attacking) //comment this to test raycast
                         gameObjectInputs.attacking =
                                 raycasting(aiPos, playerPos, (x, y) ->
@@ -81,7 +80,7 @@ public class InputGameSystem extends GameSystem {
                 }
                 // g.getComponent(Inputs.class).attacking = true;
                 if (gameObjectInputs.attacking) {
-                    if (distanceFromPlayer > 50) {
+                    if (distanceFromPlayer > 50)//experiment this size {
                         //add sub to stop jitter
                         if (playerPos.x > aiPos.x) {
                             gameObjectInputs.right = true;
