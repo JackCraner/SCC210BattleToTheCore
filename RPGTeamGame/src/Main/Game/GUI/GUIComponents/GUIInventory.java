@@ -1,7 +1,7 @@
 package Main.Game.GUI.GUIComponents;
 
-import Main.Game.ECS.Components.Backpack;
-import Main.Game.ECS.Components.TextureComponent;
+import Main.Game.ECS.Components.SpecialComponents.Backpack;
+import Main.Game.ECS.Components.StandardComponents.TextureComponent;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.TextureMap;
 import Main.Game.GUI.GUIComponent;
@@ -15,7 +15,7 @@ public class GUIInventory extends GUIComponent<Backpack>
     private Color slotColour1 = new Color(168, 168, 168);  //The colour of the Slots
     private Color slotColour2 = new Color(195, 195, 195);  //The colour of the Slots
     private RectangleShape back;                                    //The back element
-    private int numSlots = 6;                                       //The number of slots in the inventory
+    private int numSlots = 6;                                           //The number of slots in the inventory
     private GameObject[] inventoryGameObjects = new GameObject[numSlots];
     private RectangleShape[] inventoryRectangles = new RectangleShape[numSlots];
     private Vector2f inventorySize;                                 //The vector2f of the Inventory
