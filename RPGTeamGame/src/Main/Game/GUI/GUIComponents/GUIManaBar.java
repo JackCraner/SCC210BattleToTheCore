@@ -1,6 +1,6 @@
 package Main.Game.GUI.GUIComponents;
 
-import Main.Game.ECS.Components.ManaBar;
+import Main.Game.ECS.Components.StatComponents.Mana;
 import Main.Game.GUI.GUIComponent;
 import Main.Game.Game;
 import org.jsfml.graphics.Color;
@@ -9,7 +9,7 @@ import org.jsfml.graphics.RenderStates;
 import org.jsfml.graphics.RenderTarget;
 import org.jsfml.system.Vector2f;
 
-public class GUIManaBar extends GUIComponent<ManaBar>
+public class GUIManaBar extends GUIComponent<Mana>
 {
     private Color HP = new Color(10, 153, 249);         //The colour of the current Health
     private Color HPLost = new Color(3, 72, 117);     //The colour of the Health Lost
@@ -20,7 +20,7 @@ public class GUIManaBar extends GUIComponent<ManaBar>
     private float currentMana;                          //The value of the current Health
     private float topLeftY;
 
-    public GUIManaBar(ManaBar s)
+    public GUIManaBar(Mana s)
     {
         super(s);
         totalMana = s.getMaxMana();
@@ -38,7 +38,7 @@ public class GUIManaBar extends GUIComponent<ManaBar>
     @Override
     public void update()
     {
-        currentMana = getT().getCurrentMana();
+        currentMana = getT().getStat();
         front.setPosition(new Vector2f(front.getPosition().x,topLeftY + (manaOrbSize.y *(1-(currentMana/totalMana)))));
     }
 

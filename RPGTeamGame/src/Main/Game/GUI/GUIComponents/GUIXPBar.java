@@ -1,6 +1,6 @@
 package Main.Game.GUI.GUIComponents;
 
-import Main.Game.ECS.Components.XPBar;
+import Main.Game.ECS.Components.StatComponents.XPBar;
 import Main.Game.GUI.GUIComponent;
 import Main.Game.Game;
 import org.jsfml.graphics.Color;

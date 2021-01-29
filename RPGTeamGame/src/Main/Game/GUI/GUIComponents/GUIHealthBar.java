@@ -1,6 +1,6 @@
 package Main.Game.GUI.GUIComponents;
 
-import Main.Game.ECS.Components.HealthBar;
+import Main.Game.ECS.Components.StatComponents.Health;
 import Main.Game.GUI.GUIComponent;
 import Main.Game.Game;
 import org.jsfml.graphics.Color;
@@ -12,10 +12,10 @@ import org.jsfml.system.Vector2f;
 /**
  * The HealthBar GUI Component
  */
-public class GUIHealthBar extends GUIComponent<HealthBar>
+public class GUIHealthBar extends GUIComponent<Health>
 {
     private Color HPBack = new Color(1, 1, 1);         //The colour of the current Health
-    private Color HPFront = new Color(254, 22, 22);    //The colour of the Health Lost
+    private Color HPFront = new Color(254, 22, 22);     //The colour of the Health Lost
     private RectangleShape front;                               //The front element of the Health Orb
     private RectangleShape back;                                //The back element of the Health Orb
     private Vector2f healthOrbSize;                             //The vector2f of the Health Orb
@@ -27,7 +27,7 @@ public class GUIHealthBar extends GUIComponent<HealthBar>
      * Defines the healthBars params
      * @param s the given HealthBar component which is to define the GUIComponent
      */
-    public GUIHealthBar(HealthBar s)
+    public GUIHealthBar(Health s)
     {
         super(s);
         totalHealth = s.getMaxHealth();
@@ -48,7 +48,7 @@ public class GUIHealthBar extends GUIComponent<HealthBar>
     @Override
     public void update()
     {
-        currentHealth = getT().getCurrentHealth();
+        currentHealth = getT().getStat();
         front.setSize(new Vector2f(healthOrbSize.x,healthOrbSize.y* (currentHealth/totalHealth)));
         front.setPosition(new Vector2f(front.getPosition().x,topLeftY + (healthOrbSize.y *(1-(currentHealth/totalHealth)))));
     }
