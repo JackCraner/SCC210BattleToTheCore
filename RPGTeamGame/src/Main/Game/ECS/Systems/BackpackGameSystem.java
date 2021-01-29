@@ -1,20 +1,24 @@
 package Main.Game.ECS.Systems;
 
 
-import Main.Game.ECS.Components.*;
-import Main.Game.ECS.Components.Pickup;
+import Main.Game.ECS.Components.ItemComponents.Pickup;
+import Main.Game.ECS.Components.SpecialComponents.Backpack;
+import Main.Game.ECS.Components.SpecialComponents.CollisionEvent;
+import Main.Game.ECS.Components.StandardComponents.Collider;
+import Main.Game.ECS.Components.StandardComponents.Inputs;
+import Main.Game.ECS.Components.StandardComponents.Position;
+import Main.Game.ECS.Components.StandardComponents.TransformComponent;
 import Main.Game.ECS.Entity.Camera;
-import Main.Game.ECS.Entity.EntityManager;
+import Main.Game.Managers.EntityManager;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.BitMasks;
 import Main.Game.ECS.Factory.Blueprint;
 import Main.Game.ECS.Factory.Entity;
-import Main.Game.GUI.GUIComponents.GUIComponentENUM;
-import Main.Game.GUI.GUIManager;
+import Main.Game.GUI.GUIComponents.GUIInvectory;
+import Main.Game.Managers.GUIManager;
 import Main.Game.Game;
 import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
-import org.jsfml.window.Keyboard;
 import org.jsfml.window.Mouse;
 
 public class BackpackGameSystem extends GameSystem
@@ -27,7 +31,7 @@ public class BackpackGameSystem extends GameSystem
     }
     private BackpackGameSystem()
     {
-        setBitMaskRequirement(BitMasks.produceBitMask(Backpack.class,Inputs.class));
+        setBitMaskRequirement(BitMasks.produceBitMask(Backpack.class, Inputs.class));
     }
     @Override
     public void update(float dt)
@@ -47,12 +51,11 @@ public class BackpackGameSystem extends GameSystem
                         {
                             EntityManager.getEntityManagerInstance().removeGameObject(pickupObject);
                             pickupObject.removeComponent(Position.class);
-                            pickupObject.removeComponent(CollisionEvent.class);
                             pickupObject.getComponent(Pickup.class).attach(g);
                             backpack.addGameObject(pickupObject);
                             if (g.getName() == Entity.PLAYER.name)
                             {
-                                GUIManager.getGUIinstance().GUIUpdate(GUIComponentENUM.INVENTORY);
+                                GUIManager.getGUIinstance().GUIUpdate(GUIInvectory.class);
                             }
                         }
 
@@ -61,9 +64,9 @@ public class BackpackGameSystem extends GameSystem
                 if (backpack.getObjectsINBACKPACK().size() > 0)
                 {
                     GameObject mainHand = backpack.getObjectsINBACKPACK().get(0);
-                    Pickup mainHandEffect = mainHand.getComponent(Pickup.class);
                     if (backpack.getCanUseItems())
                     {
+                        Pickup mainHandEffect = mainHand.getComponent(Pickup.class);
                         if(mainHandEffect.doesSpawn())
                         {
                             Vector2f pos = g.getComponent(Position.class).getPosition();
@@ -81,6 +84,7 @@ public class BackpackGameSystem extends GameSystem
                                 EntityManager.getEntityManagerInstance().addGameObject(spawn);
                             }
                         }
+                        mainHandEffect.reduceCoolDown(dt);
                     }
 
 
@@ -94,10 +98,10 @@ public class BackpackGameSystem extends GameSystem
                         EntityManager.getEntityManagerInstance().addGameObject(mainHand);
                         if (g.getName() == Entity.PLAYER.name)
                         {
-                            GUIManager.getGUIinstance().GUIUpdate(GUIComponentENUM.INVENTORY);
+                            GUIManager.getGUIinstance().GUIUpdate(GUIInvectory.class);
                         }
                     }
-                    mainHandEffect.reduceCoolDown(dt);
+
                 }
                 if (backpack.getEmptyCooldown() >0)
                 {

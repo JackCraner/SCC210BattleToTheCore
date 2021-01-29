@@ -16,7 +16,7 @@ public class TextureMap
             {
                 t.loadFromFile(Paths.get("Assets" + File.separator + "EntityTextures" + File.separator + entity.textureString));
             } catch (Exception e) {
-                System.out.println(e);
+                System.out.println("TextureMap Load: " + e);
             }
             TEXTUREMAP.put(entity.textureString, t);
         }

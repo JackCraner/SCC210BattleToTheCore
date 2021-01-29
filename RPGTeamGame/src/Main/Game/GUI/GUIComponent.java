@@ -1,6 +1,5 @@
 package Main.Game.GUI;
 
-import Main.Game.ECS.Entity.Component;
 import org.jsfml.graphics.Drawable;
 
 /**
@@ -9,7 +8,7 @@ import org.jsfml.graphics.Drawable;
  * @param <T>  The Component (Game Component) the GUI element handles
  *           for example the GUIInventory will handle a backpack component
  */
-public abstract class GUIComponent<T extends Component> implements Drawable
+public abstract class GUIComponent<T> implements Drawable
 {
     private final T t;
     abstract public void update();

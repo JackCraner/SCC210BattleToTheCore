@@ -1,6 +1,6 @@
 package Main.Game.ECS.Components.ItemComponents;
 
-import Main.Game.ECS.Entity.Component;
+import Main.Game.ECS.Components.Component;
 
 public class LifeSpan extends Component
 {

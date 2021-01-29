@@ -1,6 +1,7 @@
 package Main.Game.QuadTree;
 
 import Main.Game.ECS.Entity.GameObject;
+import Main.Game.Managers.MapManager;
 import Main.Game.MapGeneration.CellularA.CellularAutomata;
 import org.jsfml.system.Vector2i;
 
@@ -11,8 +12,8 @@ public class QTRoot
 
     public  int LEAFSIZE = 256;      //8 blocks --- 8 * 32
 
-    public int NUMLEAFX = (int)Math.ceil(CellularAutomata.CHUNKSIZEPIXELSX / LEAFSIZE)+1;
-    public int NUMLEAFY = (int)Math.ceil(CellularAutomata.CHUNKSIZEPIXELSY / LEAFSIZE)+1;
+    public int NUMLEAFX = (int)Math.ceil(MapManager.getManagerInstance().MAPSIZEPIXELSX / LEAFSIZE)+1;
+    public int NUMLEAFY = (int)Math.ceil(MapManager.getManagerInstance().MAPSIZEPIXELSY / LEAFSIZE)+1;
 
 
     QTLeaf[][] quadTree = new QTLeaf[NUMLEAFX][NUMLEAFY];
@@ -46,5 +47,15 @@ public class QTRoot
     public void removeGameObject(GameObject g, Vector2i leafPosition)
     {
         quadTree[leafPosition.x][leafPosition.y].removeObjectFromLeaf(g);
+    }
+    public void clearTree()
+    {
+        for (int a = 0; a < NUMLEAFX; a++)
+        {
+            for (int b = 0; b < NUMLEAFY; b++)
+            {
+                quadTree[a][b].wipeLeaf();
+            }
+        }
     }
 }

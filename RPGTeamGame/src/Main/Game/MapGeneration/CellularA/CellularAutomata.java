@@ -2,32 +2,28 @@ package Main.Game.MapGeneration.CellularA;
 
 
 
-import Main.Game.ECS.Entity.Camera;
 import Main.Game.ECS.Factory.Blueprint;
-import org.jsfml.system.Vector2f;
 import org.jsfml.system.Vector2i;
 
-import java.nio.channels.ScatteringByteChannel;
-import java.sql.SQLSyntaxErrorException;
 import java.util.*;
+//Creates the skeleton of the map using Cellular Automata
+//https://en.wikipedia.org/wiki/Cellular_automaton
 
 public class CellularAutomata
 {
 
 
     //parameters of creation;
-    public static int CHUNKSIZEBLOCKSX = 100;
-    public static int CHUNKSIZEBLOCKSY = 100;
-    public static int CHUNKSIZEPIXELSX = CHUNKSIZEBLOCKSX * (int)Blueprint.BLOCKSIZE.x;
-    public static int CHUNKSIZEPIXELSY = CHUNKSIZEBLOCKSY * (int)Blueprint.BLOCKSIZE.y;
-    public static byte WALLID = 0;
-    public static byte EMPTYID = 1;
+    public static byte WALLID = 0;  //ID of wall blocks
+    public static byte EMPTYID = 1; //ID of empty blocks
 
     private float initalEmptyFaceRate = 0.53f;    //0.54
-    private int recursionDepth = 3;
+    private int recursionDepth = 3; //Depth of the cellular Automata
 
-    int totalEmptySpace;
-    byte[][] binaryMapping = new byte[CHUNKSIZEBLOCKSX][CHUNKSIZEBLOCKSY];
+    int totalEmptySpace;        //number number of empty blocks
+    
+    private int mapX,mapY;
+    private byte[][] binaryMapping;
     private static CellularAutomata caInstance = new CellularAutomata();
 
     public static CellularAutomata getInstance()
@@ -35,13 +31,18 @@ public class CellularAutomata
         return caInstance;
     }
 
-
+    /**
+     * Generates a random 2D array of 1s and 0s of size mapX and mapY
+     * @param randomNumberGenerator Random number generater seed (defines the seed of the map)
+     * @return  The 2D array
+     */
     public byte[][] startMap(Random randomNumberGenerator)
     {
-        byte[][] binaryMapping = new byte[CHUNKSIZEBLOCKSX][CHUNKSIZEBLOCKSY];
-        for (int a = 0; a <CHUNKSIZEBLOCKSX; a++)
+
+        byte[][] binaryMapping = new byte[mapX][mapY];
+        for (int a = 0; a <mapX; a++)
         {
-            for (int b = 0; b<CHUNKSIZEBLOCKSY; b++)
+            for (int b = 0; b<mapY; b++)
             {
                 if (randomNumberGenerator.nextFloat() > initalEmptyFaceRate)
                 {
@@ -60,16 +61,23 @@ public class CellularAutomata
 
     }
 
-    public static int checkNeighbours(byte[][] givenMap,int x, int y)
+    /**
+     * Returns the number of empty blocks around a given point X,Y
+     * @param givenMap  The Binary map to check on
+     * @param x The X value of the point in the map
+     * @param y The Y value of the point in the map
+     * @return The number of empty blocks around the point (0 - 8)
+     */
+    public static int checkNeighbours8(byte[][] givenMap, int x, int y, int mapsizeX, int mapsizeY)
     {
 
         int spaceCount = 0;
 
         int xStart = Math.max(x-1, 0);
-        int xEnd = Math.min(x+1,CHUNKSIZEBLOCKSX -1);
+        int xEnd = Math.min(x+1,mapsizeX -1);
 
         int yStart = Math.max(y-1, 0);
-        int yEnd = Math.min(y+1,CHUNKSIZEBLOCKSY -1);
+        int yEnd = Math.min(y+1,mapsizeX -1);
 
 
         for (int a = xStart; a <= xEnd; a++)
@@ -85,15 +93,46 @@ public class CellularAutomata
 
 
     }
+    public static int checkNeighbours4(byte[][] givenMap, int x,int y, int mapsizeX, int mapsizeY)
+    {
+        int spaceCount = 0;
+
+        int xStart = Math.max(x-1, 0);
+        int xEnd = Math.min(x+1,mapsizeX -1);
+
+        int yStart = Math.max(y-1, 0);
+        int yEnd = Math.min(y+1,mapsizeY -1);
+
+        for (int a = xStart; a <= xEnd ;a++)
+        {
+            if(givenMap[a][y] == EMPTYID) spaceCount++;
+        }
+        for (int b = yStart; b<= yEnd; b++)
+        {
+
+            if (givenMap[x][b] == EMPTYID) spaceCount++;
+
+        }
+        return spaceCount;
+
+    }
+
+
+    /**
+     * Recursively iterates over the map, performing Cellular Automata
+     * @param tempMap  The map it iterates over
+     * @param depth The recursion depth
+     * @return  The final map output after the Cellular Automata is applied
+     */
     public byte[][] updateMap(byte[][] tempMap, int depth)
     {
 
 
-        for (int a = 0; a < CHUNKSIZEBLOCKSX; a++)
+        for (int a = 0; a < mapX; a++)
         {
-            for (int b = 0; b< CHUNKSIZEBLOCKSY; b++)
+            for (int b = 0; b< mapY; b++)
             {
-                if (checkNeighbours(tempMap, a, b) >= 5)
+                if (checkNeighbours8(tempMap, a, b,mapX,mapY) >= 5)
                 {
                     tempMap[a][b] = EMPTYID;
                 }
@@ -115,38 +154,38 @@ public class CellularAutomata
 
     }
 
-    public void generateBinaryMapping()
+    /**
+     * Generates a binary cellular automata 2D array
+     * @param randomNumberGenerator map seed
+     * @return 2D array of bytes
+     */
+    public byte[][] generateBinaryMapping(Random randomNumberGenerator, int mapX, int mapY, float initalEmptyFaceRate)
     {
-        Random r = new Random();
-        binaryMapping = floorFillController(updateMap(startMap(r), recursionDepth));
-        if (totalEmptySpace < CHUNKSIZEBLOCKSX * CHUNKSIZEBLOCKSY * initalEmptyFaceRate)
-        {
-            System.out.println("Map failed, trying again");
-            generateBinaryMapping();
-        }
-
-    }
-    public byte[][] generateBinaryMapping(Random randomNumberGenerator)
-    {
-
+        setMapSize(mapX,mapY);
+        this.initalEmptyFaceRate = initalEmptyFaceRate;
         binaryMapping = floorFillController(updateMap(startMap(randomNumberGenerator), recursionDepth));
-        if (totalEmptySpace < CHUNKSIZEBLOCKSX * CHUNKSIZEBLOCKSY * initalEmptyFaceRate)
+        if (totalEmptySpace < mapX * mapY * initalEmptyFaceRate)
         {
-            generateBinaryMapping();
+            generateBinaryMapping(randomNumberGenerator, mapX,mapY, initalEmptyFaceRate);
         }
         return binaryMapping;
 
     }
 
 
-
+    /**
+     * A flood fill algorithm is used to ensure the whole cave system is connected and reachable
+     * -- It will remove all small disconnected cave parts and only return the main core cave
+     * @param mappingCopy Copy of the 2D cellular automata array
+     * @return  a new 2D array of bytes with only one cave
+     */
     public byte[][] floorFillController(byte[][] mappingCopy)
     {
 
         ArrayList<Integer> caveSizes = new ArrayList<>();
-        for(int a = 0; a <CHUNKSIZEBLOCKSX;a++)
+        for(int a = 0; a <mapX;a++)
         {
-            for(int b =0; b< CHUNKSIZEBLOCKSY; b++)
+            for(int b =0; b< mapY; b++)
             {
                 Integer caveS = floodFll(a,b, (byte)(caveSizes.size() + 2),mappingCopy);
                 if (caveS > 0)
@@ -158,9 +197,9 @@ public class CellularAutomata
         totalEmptySpace = Collections.max(caveSizes);
         Integer caveIndex = caveSizes.indexOf(totalEmptySpace) + 2;
 
-        for (int a = 0; a<CHUNKSIZEBLOCKSX;a++)
+        for (int a = 0; a<mapX;a++)
         {
-            for(int b = 0; b<CHUNKSIZEBLOCKSY; b++)
+            for(int b = 0; b<mapY; b++)
             {
                 if (mappingCopy[a][b] == caveIndex)
                 {
@@ -175,6 +214,15 @@ public class CellularAutomata
         return mappingCopy;
 
     }
+
+    /**
+     * The flood fill is Queue-Based instead of Recursion based because on large maps, StackOverFlows can occur on the recursive call stack
+     * @param x The X position of the location being checked
+     * @param y The Y position of the location being checked
+     * @param fillID Each distinct cave is given a unique FillID
+     * @param mapping   The binary cellular automata mapping being checked
+     * @return The Size of the current FillID cave
+     */
     public int floodFll(int x, int y, byte fillID, byte[][] mapping)
     {
 
@@ -214,8 +262,10 @@ public class CellularAutomata
         return size;
 
     }
-
-    public byte[][] getBinaryMapping() {
-        return binaryMapping;
+    
+    private void setMapSize(int x, int y)
+    {
+        this.mapX = x;
+        this.mapY =y;
     }
 }

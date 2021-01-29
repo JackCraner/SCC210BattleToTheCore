@@ -1,16 +1,21 @@
 package Main.Game;
 
-import Main.Game.ECS.Components.Backpack;
-import Main.Game.ECS.Components.Position;
+import Main.Game.ECS.Components.SpecialComponents.Light;
+import Main.Game.ECS.Components.StandardComponents.Position;
+import Main.Game.ECS.Components.StatComponents.Armor;
 import Main.Game.ECS.Entity.Camera;
-import Main.Game.ECS.Entity.EntityManager;
+import Main.Game.Managers.EntityManager;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.ECS.Factory.Blueprint;
 import Main.Game.ECS.Systems.*;
-import Main.Game.GUI.GUIManager;
+import Main.Game.GUI.GUIComponents.GUIModeEnum;
+import Main.Game.Managers.GUIManager;
+import Main.Game.Managers.MapManager;
+import Main.Game.Managers.SystemManager;
 import Main.Game.MapGeneration.CellularA.CellularAutomata;
-import Main.Game.MapGeneration.Map;
-import Main.Game.MapGeneration.MapBlueprint;
+import org.jsfml.audio.Music;
+import org.jsfml.audio.Sound;
+import org.jsfml.audio.SoundBuffer;
 import org.jsfml.graphics.*;
 import org.jsfml.system.Clock;
 import org.jsfml.system.Vector2f;
@@ -38,10 +43,10 @@ public class Game
     public static int WINDOWSIZE = 1000;
 
 
-    public static GameObject PLAYER = Blueprint.player(new Vector2f(CellularAutomata.CHUNKSIZEPIXELSX/2,CellularAutomata.CHUNKSIZEPIXELSY/2));
+    public static GameObject PLAYER = Blueprint.player(new Vector2f(0,0));
 
     private static Game levelInstance = new Game();
-    private boolean isRunning = false;
+    public boolean isRunning = false;
 
 
     private RenderWindow window;
@@ -49,9 +54,8 @@ public class Game
 
     public static EntityManager ENTITYMANAGER = EntityManager.getEntityManagerInstance();
     private static SystemManager SYSTEMMANAGER =SystemManager.getSystemManagerInstance();
-
+    private static MapManager MAPMANAGER = MapManager.getManagerInstance();
     private static GUIManager GUIMANAGER = GUIManager.getGUIinstance();
-
     public static Game getGame()
     {
         return levelInstance;
@@ -61,6 +65,12 @@ public class Game
     Text fpsCounter;                //Displays the number of frames per second
     Font textFont = new Font();     //The font for Displaying text
     public RenderTexture hitboxs = new RenderTexture();
+    Music m;
+
+
+    SoundBuffer sb = new SoundBuffer();
+
+
 
     public void generateLevel()
     {
@@ -79,28 +89,33 @@ public class Game
     {
         window = new RenderWindow(new VideoMode(WINDOWSIZE,WINDOWSIZE), "Battle_To_The_Core");
 
-
-
-        MapBlueprint mb = new MapBlueprint(300,Map.MAP1);
-        ENTITYMANAGER.addGameObject(PLAYER);
+        //MapBlueprint mb = new MapBlueprint(4,Map.MAP2);
+        MAPMANAGER.setCurrentSeed(4);
+        newMap();
         ENTITYMANAGER.addGameObject(Blueprint.sword(new Vector2f(PLAYER.getComponent(Position.class).getPosition().x + 50,PLAYER.getComponent(Position.class).getPosition().y + 50)));
         ENTITYMANAGER.addGameObject(Blueprint.wand(new Vector2f(PLAYER.getComponent(Position.class).getPosition().x + 70,PLAYER.getComponent(Position.class).getPosition().y + 70)));
         ENTITYMANAGER.addGameObject(Blueprint.enemy(new Vector2f(PLAYER.getComponent(Position.class).getPosition().x + 100,PLAYER.getComponent(Position.class).getPosition().y + 100)));
+        ENTITYMANAGER.addGameObject(Blueprint.enemy(new Vector2f(PLAYER.getComponent(Position.class).getPosition().x + 150,PLAYER.getComponent(Position.class).getPosition().y + 100)));
+        ENTITYMANAGER.addGameObject(Blueprint.enemy(new Vector2f(PLAYER.getComponent(Position.class).getPosition().x + 200,PLAYER.getComponent(Position.class).getPosition().y + 100)));
+        //ENTITYMANAGER.addGameObject(Blueprint.helmet(new Vector2f(PLAYER.getComponent(Position.class).getPosition().x + 280,PLAYER.getComponent(Position.class).getPosition().y + 100)));
 
+        PLAYER.getComponent(Armor.class).setHelmet(Blueprint.helmet(new Vector2f(PLAYER.getComponent(Position.class).getPosition().x + 280,PLAYER.getComponent(Position.class).getPosition().y + 100)));
         //TESTING
-
+        m = new Music();
         try
         {
+            sb.loadFromFile(Paths.get("Assets" + File.separator + "Sound" + File.separator+ "Fireball.wav"));
+            m.openFromFile(Paths.get("Assets" + File.separator + "Sound" + File.separator+ "cave_Background.ogg"));
             textFont.loadFromFile(Paths.get("Assets" + File.separator + "Fonts" + File.separator+ "LEMONMILK-Regular.otf"));
             //hitboxs.create(1000,1000);
         }
         catch (Exception e)
         {
-            System.out.println("Font not found");
+            System.out.println("Font not found: " + e);
         }
+        //m.setLoop(true);
         fpsCounter = new Text("HI", textFont, 100);     //Fps font and size
         fpsCounter.setPosition(new Vector2f(Game.getGame().getWindow().getSize().x-970,30));
-        Camera.cameraInstance().camerView.setCenter(PLAYER.getComponent(Position.class).getPosition());
         isRunning = true;
         runGame();
     }
@@ -121,6 +136,7 @@ public class Game
         Clock frameRateTimer = new Clock();
         int frameCounter =0;
         float frameTime =0;
+        m.play();
         while(window.isOpen())
         {
 
@@ -131,6 +147,25 @@ public class Game
                     if(((KeyEvent)event).key == Keyboard.Key.T)
                     {
                         isRunning = !isRunning;
+                        if (isRunning)
+                        {
+                            GUIMANAGER.swapModes(GUIModeEnum.GAME);
+                        }
+                        else
+                        {
+                            GUIMANAGER.swapModes(GUIModeEnum.MENU);
+                            GUIMANAGER.GUIUpdateALL();
+                        }
+
+
+                    }
+                    if(((KeyEvent)event).key == Keyboard.Key.G)
+                    {
+                        System.out.println("Play");
+                        Sound s = new Sound(sb);
+                        s.setVolume(99f);
+                        s.play();
+                        newMap();
                     }
                 }
             }
@@ -146,9 +181,10 @@ public class Game
                 frameCounter =0;
             }
             frameCounter ++;
+            window.clear();
             if(isRunning)
             {
-                window.clear();
+
                 for (GameSystem system: SYSTEMMANAGER.getSystemList())
                 {
                     for (GameObject g : ENTITYMANAGER.getGameObjectInVicinity(PLAYER.getComponent(Position.class).getPosition(), 530))
@@ -163,7 +199,6 @@ public class Game
 
 
 
-
 /*
             hitboxs.display();
             hitboxs.setView(Camera.cameraInstance().camerView);
@@ -171,10 +206,17 @@ public class Game
 
 
  */
-                window.draw(GUIMANAGER);
-                window.draw(fpsCounter);
-                window.display();
+
             }
+            window.draw(RendererGameSystem.getSystemInstance().screenSprite,new RenderStates(LightingGameSystem.getLightingGameSystem().mapShader));
+            //window.draw(RendererGameSystem.getSystemInstance().screenSprite);
+
+
+            window.draw(GUIMANAGER);
+            window.draw(fpsCounter);
+            window.display();
+
+           // System.out.println(PLAYER.getComponent(Position.class).getPosition());
 
         }
 
@@ -182,6 +224,24 @@ public class Game
 
 
 
+    }
+    public void newMap()
+    {
+        ENTITYMANAGER.clearAllEntities();
+        ENTITYMANAGER.addGameObject(MAPMANAGER.updateMap());
+        ENTITYMANAGER.addGameObject(PLAYER);
+        PLAYER.getComponent(Position.class).updatePosition(MAPMANAGER.getPlayerPosition());
+        if (MAPMANAGER.getNextRoomIsMap())
+        {
+            PLAYER.getComponent(Light.class).size = 0.6f;
+            PLAYER.getComponent(Light.class).intensity = 5f;
+        }
+        else
+        {
+            PLAYER.getComponent(Light.class).size = 0.3f;
+            PLAYER.getComponent(Light.class).intensity = 3f;
+        }
+        Camera.cameraInstance().camerView.setCenter(PLAYER.getComponent(Position.class).getPosition());
     }
 
 
