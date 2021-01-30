@@ -163,7 +163,7 @@ public class Game
                     {
                         System.out.println("Play");
                         Sound s = new Sound(sb);
-                        s.setVolume(99f);
+                        //s.setVolume(99f);
                         s.play();
                         newMap();
                     }

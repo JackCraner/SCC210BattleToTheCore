@@ -22,7 +22,7 @@ public class StartMenu {
     boolean onMenu;
 
     public StartMenu(RenderWindow window)
-    {
+    { 
         this.window = window;
         generateButtons();
         generateBackground();
