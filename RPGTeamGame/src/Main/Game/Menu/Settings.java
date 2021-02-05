@@ -44,14 +44,14 @@ public class Settings {
         Texture backgroundTexture = new Texture();
         try
         {
-            backgroundTexture.loadFromFile(Paths.get("Assets"+ File.separator + "Menu"+ File.separator + "MenuBackground.png"));
+            backgroundTexture.loadFromFile(Paths.get("Assets"+ File.separator + "Menu"+ File.separator + "MenuBackground.jpg"));
         }
         catch(Exception e)
         {
             System.out.println(e);
         }
         backgroundSprite.setTexture(backgroundTexture);
-        backgroundSprite.setScale(1,1.5f);
+        backgroundSprite.setScale(1,1f);
         //backgroundSprite.setPosition(0,0);
 
 

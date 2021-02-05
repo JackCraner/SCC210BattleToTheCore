@@ -34,15 +34,15 @@ public class StartMenu {
         Texture backgroundTexture = new Texture();
         try
         {
-            backgroundTexture.loadFromFile(Paths.get("Assets"+ File.separator + "Menu"+ File.separator + "MenuBackground.png"));
+            backgroundTexture.loadFromFile(Paths.get("Assets"+ File.separator + "Menu"+ File.separator + "MenuBackground.jpg"));
         }
         catch(Exception e)
         {
             System.out.println(e);
         }
         backgroundSprite.setTexture(backgroundTexture);
-        backgroundSprite.setScale(1,1.5f);
-        //backgroundSprite.setPosition(0,0);
+        backgroundSprite.setScale(1,1f);
+        //backgroundSprite.setPosition(10,10);
     }
     public void generateButtons()
     {
@@ -56,8 +56,9 @@ public class StartMenu {
             System.out.println(e);
         }
 
-        buttonArray.add(new Button(1,new Vector2f(150, 400), 300, 100));
+        buttonArray.add(new Button(1,new Vector2f(350, 50), 300, 100));
         buttonArray.get(0).setTexture(playTexture);
+
 
         Texture quitTexture = new Texture();
         try
@@ -69,7 +70,7 @@ public class StartMenu {
             System.out.println(e);
         }
 
-        buttonArray.add(new Button(2,new Vector2f(150,550),300,100));
+        buttonArray.add(new Button(2,new Vector2f(350,875),300,100));
         buttonArray.get(1).setTexture(quitTexture);
 
         Texture helpTexture = new Texture();
@@ -82,7 +83,7 @@ public class StartMenu {
             System.out.println(e);
         }
 
-        buttonArray.add(new Button(3,new Vector2f(550,550),300,100));
+        buttonArray.add(new Button(3,new Vector2f(525,800),300,100));
         buttonArray.get(2).setTexture(helpTexture);
 
         Texture credTexture = new Texture();
@@ -95,7 +96,7 @@ public class StartMenu {
             System.out.println(e);
         }
 
-        buttonArray.add(new Button(4,new Vector2f(550,700),300,100));
+        buttonArray.add(new Button(4,new Vector2f(150,800),300,100));
         buttonArray.get(3).setTexture(credTexture);
 
         Texture conTexture = new Texture();
@@ -108,7 +109,7 @@ public class StartMenu {
             System.out.println(e);
         }
 
-        buttonArray.add(new Button(5,new Vector2f(550, 400), 300, 100));
+        buttonArray.add(new Button(5,new Vector2f(350, 115), 300, 100));
         buttonArray.get(4).setTexture(conTexture);
 
         Texture settTexture = new Texture();
@@ -121,7 +122,7 @@ public class StartMenu {
             System.out.println(e);
         }
 
-        buttonArray.add(new Button(6,new Vector2f(150, 700), 300, 100));
+        buttonArray.add(new Button(6,new Vector2f(350, 800), 300, 100));
         buttonArray.get(5).setTexture(settTexture);
     }
     public int checkButtons()
@@ -140,10 +141,7 @@ public class StartMenu {
         while(onMenu)
         {
 
-            for (Event event : window.pollEvents())
-            {
 
-            }
             if (Keyboard.isKeyPressed(Keyboard.Key.ESCAPE)) {
                 onMenu = false;
             }
