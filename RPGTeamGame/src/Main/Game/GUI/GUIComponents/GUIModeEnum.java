@@ -5,6 +5,6 @@ import Main.Game.GUI.GUIComponent;
 import java.util.ArrayList;
 
 public enum GUIModeEnum {
-    GAME, MENU, SCREEN;
+    GAME, MENU, DSCREEN, ESCREEN;
 }
 
