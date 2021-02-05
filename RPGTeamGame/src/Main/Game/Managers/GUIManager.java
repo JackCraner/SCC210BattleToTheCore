@@ -4,6 +4,7 @@ import Main.Game.ECS.Components.SpecialComponents.Backpack;
 import Main.Game.ECS.Components.StatComponents.Health;
 import Main.Game.ECS.Components.StatComponents.Mana;
 import Main.Game.ECS.Components.StatComponents.XPBar;
+import Main.Game.ECS.Components.StatComponents.Level;
 import Main.Game.ECS.Entity.GameObject;
 import Main.Game.GUI.GUIComponent;
 import Main.Game.GUI.GUIComponents.*;
@@ -44,16 +45,17 @@ public class GUIManager implements Drawable
         guiMENUComponentList.put(GUIInventoryMenu.class,new GUIInventoryMenu(GUITarget.getComponent(Backpack.class)));
     }
 
-    private static HashMap<GUIModeEnum,HashMap<Class<? extends GUIComponent>,GUIComponent>> guiSCREENComponentList = new HashMap<>();
+    private static HashMap<Class<? extends GUIComponent>, GUIComponent> guiSCREENComponentList = new HashMap<>();
     static{
-        guiSCREENComponentList.put(GUIEndScreenMenu.class,new GUIEndScreen(GUITarget.getComponent(Health.class)));
+        guiSCREENComponentList.put(GUIDeadScreen.class,new GUIDeadScreen(GUITarget.getComponent(Health.class)));
+        //guiSCREENComponentList.put(GUIFinScreen.class,new GUIFinScreen(GUITarget.getComponent(Level.class)));
     }
 
     private static HashMap<GUIModeEnum,HashMap<Class<? extends GUIComponent>,GUIComponent>> guiModesHashMapHashMap = new HashMap<>();
     static{
         guiModesHashMapHashMap.put(GUIModeEnum.GAME,guiGAMEComponentList);
         guiModesHashMapHashMap.put(GUIModeEnum.MENU,guiMENUComponentList);
-        guiModesHashMapHashMap.put(GUIModeEnum.SCREEN,guiSCREENComponentList);
+        guiModesHashMapHashMap.put(GUIModeEnum.ESCREEN,guiSCREENComponentList);
     }
 
 

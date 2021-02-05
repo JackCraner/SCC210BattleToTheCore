@@ -4,7 +4,7 @@ import Main.Game.ECS.Components.Component;
 
 public class Level extends Component
 {
-    private float currentLevel;
+    float currentLevel;
     private float currentXP;
     public Level(float level)
     {
