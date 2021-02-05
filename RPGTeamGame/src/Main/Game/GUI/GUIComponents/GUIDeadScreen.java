@@ -20,7 +20,9 @@ public class GUIDeadScreen extends GUIComponent<Health>
     private float buttonLength;
     private Vector2f screenSize;
     private Vector2f buttonSize;
-    private Texture t = new Texture();
+    private Texture t1 = new Texture();
+    private Texture t2 = new Texture();
+    private Texture t3 = new Texture();
 
      /**
      * Defines the healthBars params
@@ -35,10 +37,28 @@ public class GUIDeadScreen extends GUIComponent<Health>
         buttonSize = new Vector2f(buttonLength, 90);
         back = new RectangleShape(screenSize);
         back.setFillColor(ScreenBack);
+        try
+        {
+            t1.loadFromFile(Paths.get("Assets" + File.separator + "Screens" + File.separator+ "GameOver.png"));
+            t2.loadFromFile(Paths.get("Assets" + File.separator + "Menu" + File.separator+ "Credits.png"));
+            t3.loadFromFile(Paths.get("Assets" + File.separator + "Menu" + File.separator+ "quit.png"));
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+        }
         for (int i = 0; i < buttons.length; i++){
             buttons[i] = new RectangleShape(screenSize);
-            if (i % 2 == 0){
+            if (i == 0){
                 buttons[i].setFillColor(ScreenFront);
+                buttons[i].setTexture(t2);
+            }
+            if (i == 0){
+                buttons[i].setFillColor(ScreenFront);
+            }
+            if (i == 2){
+                buttons[i].setFillColor(ScreenFront);
+                buttons[i].setTexture(t3);
             }
             else {
                 buttons[i].setFillColor(ScreenBack);
@@ -46,16 +66,8 @@ public class GUIDeadScreen extends GUIComponent<Health>
             buttons[i].setPosition(200 + (buttonLength * i), Game.WINDOWSIZE - buttonSize.y - 30);
         }
         back.setPosition(0, Game.WINDOWSIZE- screenSize.y);
+        back.setTexture(t1);
 
-        try
-        {
-            t.loadFromFile(Paths.get("Assets" + File.separator + "Screens" + File.separator+ "GameOver.png"));
-        }
-        catch (Exception e)
-        {
-            System.out.println(e);
-        }
-        back.setTexture(t);
     }
 
     /**
