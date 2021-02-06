@@ -3,6 +3,7 @@ package Main.Game.GUI.GUIComponents;
 import Main.Game.ECS.Components.StatComponents.Level;
 import Main.Game.ECS.Components.StandardComponents.TextureComponent;
 import Main.Game.GUI.GUIComponent;
+import Main.Game.Menu.Button;
 import org.jsfml.graphics.Font;
 import org.jsfml.graphics.RenderStates;
 import org.jsfml.graphics.RenderTarget;
@@ -14,11 +15,13 @@ import Main.Game.Menu.Credits;
 
 import java.io.File;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 public class GUIFinScreen extends GUIComponent<Level>
 {
     private Color ScreenBack = new Color(51, 51, 51);      //The colour of the current Health
-    private Color ScreenFront = new Color(10, 153, 249);    //The colour of the Health Lost
+    private Color ScreenFront = new Color(10, 153, 249);   //The colour of the Health Lost
+    private ArrayList<Button> buttonArray =  new ArrayList<>();     //Button arraylist
     private RectangleShape[] buttons = new RectangleShape[2];       //The button element of the screen
     private RectangleShape title;                                   //The title element of the screen
     private RectangleShape back;                                    //The back element of the screen
@@ -43,7 +46,7 @@ public class GUIFinScreen extends GUIComponent<Level>
         back = new RectangleShape(screenSize);
         try
         {
-            t1.loadFromFile(Paths.get("Assets" + File.separator + "Screens" + File.separator+ "GameOver.png"));
+            t1.loadFromFile(Paths.get("Assets" + File.separator + "Screens" + File.separator+ "TheEnd.png"));
             t2.loadFromFile(Paths.get("Assets" + File.separator + "Menu" + File.separator+ "Credits.png"));
             t3.loadFromFile(Paths.get("Assets" + File.separator + "Menu" + File.separator+ "quit.png"));
 

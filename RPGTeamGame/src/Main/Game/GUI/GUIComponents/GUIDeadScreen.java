@@ -3,12 +3,14 @@ package Main.Game.GUI.GUIComponents;
 import Main.Game.ECS.Components.StatComponents.Health;
 import Main.Game.ECS.Components.StandardComponents.TextureComponent;
 import Main.Game.GUI.GUIComponent;
+import Main.Game.Menu.Button;
 import Main.Game.Menu.Settings;
 import Main.Game.Game;
 import org.jsfml.graphics.*;
 import org.jsfml.system.Vector2f;
 import java.io.File;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 
 public class GUIDeadScreen extends GUIComponent<Health>
 {
@@ -16,6 +18,7 @@ public class GUIDeadScreen extends GUIComponent<Health>
     private Color ScreenFront = new Color(254, 22, 22);         //The colour of the buttons
     private RectangleShape front;                                        //The title element of the screen
     private int numButtons = 3;
+    private ArrayList<Button> buttonArray =  new ArrayList<>();          //Button arraylist
     private RectangleShape[] buttons = new RectangleShape[numButtons];   //The button element of the screen
     private RectangleShape back;                                         //The back element of the screen
     private RectangleShape load;                                         //The load element of the screen
@@ -26,6 +29,7 @@ public class GUIDeadScreen extends GUIComponent<Health>
     private Texture t2 = new Texture();
     private Texture t3 = new Texture();
     private Texture t4 = new Texture();
+
 
      /**
      * Defines the healthBars params
@@ -42,7 +46,7 @@ public class GUIDeadScreen extends GUIComponent<Health>
         try
         {
             t1.loadFromFile(Paths.get("Assets" + File.separator + "Screens" + File.separator+ "GameOver.png"));
-            //t2.loadFromFile(Paths.get("Assets" + File.separator + "Menu" + File.separator+ "load.png"));
+            t2.loadFromFile(Paths.get("Assets" + File.separator + "Menu" + File.separator+ "load.png"));
             t3.loadFromFile(Paths.get("Assets" + File.separator + "Menu" + File.separator+ "settings.png"));
             t4.loadFromFile(Paths.get("Assets" + File.separator + "Menu" + File.separator+ "quit.png"));
 
@@ -58,8 +62,8 @@ public class GUIDeadScreen extends GUIComponent<Health>
         buttons[1] = new RectangleShape(buttonSize);
         buttons[2] = new RectangleShape(buttonSize);
         buttons[0].setFillColor(ScreenFront);
-        //buttons[0].setTexture(t2);
-        buttons[0].setPosition(220, Game.WINDOWSIZE - buttonSize.y - 500);
+        buttons[0].setTexture(t2);
+        buttons[0].setPosition(200, Game.WINDOWSIZE - buttonSize.y - 500);
         buttons[1].setFillColor(ScreenFront);
         buttons[1].setTexture(t3);
         buttons[1].setPosition(200, Game.WINDOWSIZE - buttonSize.y - 300);
