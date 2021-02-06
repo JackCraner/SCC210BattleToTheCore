@@ -10,6 +10,7 @@ import org.jsfml.graphics.Text;
 import Main.Game.Game;
 import org.jsfml.graphics.*;
 import org.jsfml.system.Vector2f;
+import Main.Game.Menu.Credits;
 
 import java.io.File;
 import java.nio.file.Paths;
@@ -17,15 +18,17 @@ import java.nio.file.Paths;
 public class GUIFinScreen extends GUIComponent<Level>
 {
     private Color ScreenBack = new Color(51, 51, 51);      //The colour of the current Health
-    private Color ScreenFront = new Color(254, 22, 22);    //The colour of the Health Lost
-    private RectangleShape[] buttons = new RectangleShape[3];       //The front element of the screen
+    private Color ScreenFront = new Color(10, 153, 249);    //The colour of the Health Lost
+    private RectangleShape[] buttons = new RectangleShape[2];       //The button element of the screen
+    private RectangleShape title;                                   //The title element of the screen
     private RectangleShape back;                                    //The back element of the screen
     private RectangleShape load;                                    //The load element of the screen
     private float PlayerLevel;                                      //The value of the current Health
-    private float buttonLength;
     private Vector2f buttonSize;
     private Vector2f screenSize;
-    private Texture t = new Texture();
+    private Texture t1 = new Texture();                             //Element textures
+    private Texture t2 = new Texture();
+    private Texture t3 = new Texture();
      /**
      * Defines the healthBars params
      * @param s the given HealthBar component which is to define the GUIComponent
@@ -33,33 +36,36 @@ public class GUIFinScreen extends GUIComponent<Level>
     public GUIFinScreen(Level s)
     {
         super(s);
-        PlayerLevel = s.getCurrentLevel();
-        screenSize = new Vector2f((float)(Game.WINDOWSIZE), 0); //length, width of bar
-        buttonLength = (float)(Game.WINDOWSIZE - 900);
-        buttonSize = new Vector2f(buttonLength, 90);
+        //PlayerLevel = s.getCurrentLevel();
+        screenSize = new Vector2f((float)(Game.WINDOWSIZE), 1000); //length, width of bar
+        buttonSize = new Vector2f((float)(Game.WINDOWSIZE - 400), 200);
+        title = new RectangleShape(buttonSize);
         back = new RectangleShape(screenSize);
-        back.setFillColor(ScreenBack);
-        for (int i = 0; i < buttons.length; i++){
-            buttons[i] = new RectangleShape(screenSize);
-            if (i % 2 == 0){
-                buttons[i].setFillColor(ScreenFront);
-            }
-            else {
-                buttons[i].setFillColor(ScreenBack);
-            }
-            buttons[i].setPosition(200 + (buttonLength * i), Game.WINDOWSIZE - buttonSize.y - 30);
-        }
-        back.setPosition(0, Game.WINDOWSIZE- screenSize.y);
-
         try
         {
-            t.loadFromFile(Paths.get("Assets" + File.separator + "Screens" + File.separator+ "GameOver.png"));
+            //t1.loadFromFile(Paths.get("Assets" + File.separator + "Screens" + File.separator+ "TheEnd.png"));
+            t2.loadFromFile(Paths.get("Assets" + File.separator + "Menu" + File.separator+ "Credits.png"));
+            t3.loadFromFile(Paths.get("Assets" + File.separator + "Menu" + File.separator+ "quit.png"));
+
         }
         catch (Exception e)
         {
             System.out.println(e);
         }
-        back.setTexture(t);
+        title.setFillColor(ScreenFront);
+        title.setPosition(220, Game.WINDOWSIZE - buttonSize.y - 500);
+        //title.setTexture(t1);
+        buttons[0] = new RectangleShape(buttonSize);
+        buttons[1] = new RectangleShape(buttonSize);
+        buttons[0].setFillColor(ScreenFront);
+        buttons[0].setTexture(t2);
+        buttons[0].setPosition(220, Game.WINDOWSIZE - buttonSize.y - 300);
+        buttons[1].setFillColor(ScreenFront);
+        buttons[1].setTexture(t3);
+        buttons[1].setPosition(200, Game.WINDOWSIZE - buttonSize.y - 100);
+
+        back.setFillColor(ScreenBack);
+        back.setPosition(0, 0);
     }
 
     /**
@@ -68,11 +74,12 @@ public class GUIFinScreen extends GUIComponent<Level>
     @Override
     public void update()
     {
-        PlayerLevel = getT().getCurrentLevel();
+        //PlayerLevel = getT().getCurrentLevel();
         for (int i = 0; i < buttons.length; i++) {
-            buttons[i].setPosition(100, Game.WINDOWSIZE - buttonSize.y - 30);
+            buttons[i].setPosition(200, Game.WINDOWSIZE - buttonSize.y - 100);
         }
-        back.setPosition(200, Game.WINDOWSIZE - buttonSize.y - 30);
+        title.setPosition(220, Game.WINDOWSIZE - buttonSize.y - 500);
+        back.setPosition(0, 0);
     }
 
      /**
@@ -83,6 +90,7 @@ public class GUIFinScreen extends GUIComponent<Level>
     @Override
     public void draw(RenderTarget renderTarget, RenderStates renderStates)
     {
+        renderTarget.draw(title,renderStates);
         renderTarget.draw(back,renderStates);
         for (int i = 0; i < buttons.length; i++) {
             renderTarget.draw(buttons[i]);
