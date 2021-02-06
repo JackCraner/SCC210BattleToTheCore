@@ -52,8 +52,8 @@ public class GUIDeadScreen extends GUIComponent<Health>
             System.out.println(e);
         }
         front.setFillColor(ScreenFront);
-        front.setPosition(220, Game.WINDOWSIZE - buttonSize.y - 670);
-        //title.setTexture(t1);
+        front.setPosition(220, Game.WINDOWSIZE - buttonSize.y - 700);
+        front.setTexture(t1);
         buttons[0] = new RectangleShape(buttonSize);
         buttons[1] = new RectangleShape(buttonSize);
         buttons[2] = new RectangleShape(buttonSize);
@@ -92,12 +92,12 @@ public class GUIDeadScreen extends GUIComponent<Health>
     @Override
     public void draw(RenderTarget renderTarget, RenderStates renderStates)
     {
-        renderTarget.draw(front,renderStates);
+
         renderTarget.draw(back,renderStates);
         for (int i = 0; i < buttons.length; i++) {
             renderTarget.draw(buttons[i]);
         }
-
+        renderTarget.draw(front,renderStates);
     }
 }
 

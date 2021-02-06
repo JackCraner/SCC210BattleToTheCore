@@ -43,7 +43,7 @@ public class GUIFinScreen extends GUIComponent<Level>
         back = new RectangleShape(screenSize);
         try
         {
-            //t1.loadFromFile(Paths.get("Assets" + File.separator + "Screens" + File.separator+ "TheEnd.png"));
+            t1.loadFromFile(Paths.get("Assets" + File.separator + "Screens" + File.separator+ "GameOver.png"));
             t2.loadFromFile(Paths.get("Assets" + File.separator + "Menu" + File.separator+ "Credits.png"));
             t3.loadFromFile(Paths.get("Assets" + File.separator + "Menu" + File.separator+ "quit.png"));
 
@@ -53,16 +53,16 @@ public class GUIFinScreen extends GUIComponent<Level>
             System.out.println(e);
         }
         title.setFillColor(ScreenFront);
-        title.setPosition(220, Game.WINDOWSIZE - buttonSize.y - 500);
-        //title.setTexture(t1);
+        title.setPosition(220, Game.WINDOWSIZE - buttonSize.y - 700);
+        title.setTexture(t1);
         buttons[0] = new RectangleShape(buttonSize);
         buttons[1] = new RectangleShape(buttonSize);
         buttons[0].setFillColor(ScreenFront);
         buttons[0].setTexture(t2);
-        buttons[0].setPosition(220, Game.WINDOWSIZE - buttonSize.y - 300);
+        buttons[0].setPosition(220, Game.WINDOWSIZE - buttonSize.y - 500);
         buttons[1].setFillColor(ScreenFront);
         buttons[1].setTexture(t3);
-        buttons[1].setPosition(200, Game.WINDOWSIZE - buttonSize.y - 100);
+        buttons[1].setPosition(200, Game.WINDOWSIZE - buttonSize.y - 300);
 
         back.setFillColor(ScreenBack);
         back.setPosition(0, 0);
@@ -90,10 +90,10 @@ public class GUIFinScreen extends GUIComponent<Level>
     @Override
     public void draw(RenderTarget renderTarget, RenderStates renderStates)
     {
-        renderTarget.draw(title,renderStates);
         renderTarget.draw(back,renderStates);
         for (int i = 0; i < buttons.length; i++) {
             renderTarget.draw(buttons[i]);
         }
+        renderTarget.draw(title,renderStates);
     }
 }
