@@ -47,8 +47,8 @@ public class GUIManager implements Drawable
 
     private static HashMap<Class<? extends GUIComponent>, GUIComponent> guiSCREENComponentList = new HashMap<>();
     static{
-        //guiSCREENComponentList.put(GUIDeadScreen.class,new GUIDeadScreen(GUITarget.getComponent(Health.class)));
-        guiSCREENComponentList.put(GUIFinScreen.class,new GUIFinScreen(GUITarget.getComponent(Level.class)));
+        guiSCREENComponentList.put(GUIDeadScreen.class,new GUIDeadScreen(GUITarget.getComponent(Health.class)));
+        //guiSCREENComponentList.put(GUIFinScreen.class,new GUIFinScreen(GUITarget.getComponent(Level.class)));
     }
 
     private static HashMap<GUIModeEnum,HashMap<Class<? extends GUIComponent>,GUIComponent>> guiModesHashMapHashMap = new HashMap<>();
